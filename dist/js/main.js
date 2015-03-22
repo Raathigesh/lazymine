@@ -19798,7 +19798,8 @@ module.exports = App;
 
 },{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"react":150}],154:[function(require,module,exports){
 module.exports = {
-    SEARCH: 'SEARCH'
+    SEARCH: "SEARCH",
+    BASE_URL: "https://www.hostedredmine.com"
 };
 
 },{}],155:[function(require,module,exports){
@@ -19884,15 +19885,19 @@ React.render(React.createElement(APP, null), document.getElementById('main'));
 },{"./components/app":153,"react":150}],158:[function(require,module,exports){
 var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
+var serviceAccessor = require('./service-accessor.js');
+
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
+
 
 var CHANGE_EVENT = "Change";
 
 function _search(text){
     debugger
-   // TODO
-}
+    var accessor = new serviceAccessor(AppConstants.BASE_URL, "abc");
+    accessor.getAllIssues();
+};
 
 var appStore = merge(EventEmitter.prototype,{
     emitChange : function(){
@@ -19902,11 +19907,11 @@ var appStore = merge(EventEmitter.prototype,{
         this.on(CHANGE_EVENT, callback);
     },
     removeChangeListener: function(callback){
-        this.removeListener(CHANGE_EVENT, callback);
+        this.removeListener(CHANGE_EVENT, callback); 
     },
     dispatcherIndex:AppDispatcher.register(function(payload){  
         var action = payload.action;
-        
+           
         switch(action.actionType){
           case AppConstants.SEARCH:
             _search(payload.action.searchText);
@@ -19914,11 +19919,126 @@ var appStore = merge(EventEmitter.prototype,{
         }
         
         appStore.emitChange();
-
         return true;
-  })
+    })
 });
 
 module.exports = appStore;
 
-},{"../constants/app-constants.js":154,"../dispatchers/app-dispatcher.js":155,"events":2,"react/lib/merge":139}]},{},[157])
+},{"../constants/app-constants.js":154,"../dispatchers/app-dispatcher.js":155,"./service-accessor.js":160,"events":2,"react/lib/merge":139}],159:[function(require,module,exports){
+var httpHelper = (function () {
+    "use strict";
+    var getRequet = function (url, doneCallback, failCallback) {
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType : "application/json",
+                crossDomain: true,
+                dataType: 'jsonp',
+                async: true
+            }).done(function (data) {
+                doneCallback(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                failCallback(jqXHR, textStatus, errorThrown);
+            });
+        },
+        postRequet = function (url, data, doneCallback, failCallback) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                contentType : "application/json",
+                crossDomain: true,
+                dataType: 'jsonp',
+                async: true,
+                data: data
+            }).done(function (data) {
+                doneCallback(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                failCallback(jqXHR, textStatus, errorThrown);
+            });
+        };
+    return {
+        getRequet: getRequet,
+        postRequet: postRequet
+    };
+}());
+
+module.exports = httpHelper;
+
+},{}],160:[function(require,module,exports){
+var httpHelper = require('./http-Helper.js');
+var UrlBuilder = require('./url-builder.js');
+
+var ServiceAccessor = function (serviceBaseUrl, apiKey) {
+    "use strict";
+    this.serviceBaseUrl = serviceBaseUrl;
+    this.apiKey = apiKey;
+};
+
+ServiceAccessor.prototype = (function () {
+    "use strict";
+    var getIssuesDoneCallbackHandler = function (data) {
+            console.log(data);
+            var totalItemCount = data.total_count,
+                currentPage = data.offset,
+                pageSize = data.limit,
+                issues = data.issues;
+        },
+        getFailCallbackHandler = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        },
+        getAllIssues = function (issueCallback) {
+            debugger;
+            var urlBuilder = new UrlBuilder(this.serviceBaseUrl, 100, 1),
+                issuesUrl = urlBuilder.buildIssuesUrl();
+        
+            httpHelper.getRequet(issuesUrl, getFailCallbackHandler, getIssuesDoneCallbackHandler);
+        };
+    return {
+        getAllIssues: getAllIssues
+    };
+}());
+
+module.exports = ServiceAccessor;
+
+
+
+},{"./http-Helper.js":159,"./url-builder.js":161}],161:[function(require,module,exports){
+var UrlBase = {
+    Issues : "issues.json"
+};
+
+var UrlBuilder = function (serviceBaseUrl, pageSize, pageNumber) {
+    "use strict";
+    this.serviceBaseUrl = serviceBaseUrl;
+    this.pageSize = pageSize;
+    this.pageNumber = pageNumber;
+    
+};
+
+UrlBuilder.prototype = (function () {
+    "use strict";
+    var withPageSize = function (pageSize) {
+            this.pageSize = pageSize;
+            return this;
+        },
+        withPageNo = function (pageNumber) {
+            this.pageNumber = pageNumber;
+            return this;
+        },
+        buildUrl = function (requestBase) {
+            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.pageNumber, "?limit=", this.pageSize);
+        },
+        buildIssuesUrl = function () {
+            return buildUrl.call(this, UrlBase.Issues);
+        };
+    return {
+        withPageSize: withPageSize,
+        withPageNo: withPageNo,
+        buildIssuesUrl: buildIssuesUrl
+    };
+}());
+
+module.exports = UrlBuilder;
+
+},{}]},{},[157])
