@@ -5,10 +5,7 @@ var SearchBox = require('../components/app-SearchBox.js');
 
 var App = React.createClass({
     render: function () {
-        return (<div>
-                    <h1>Search</h1>
-                    <SearchBox/>
-               </div>) 
+        return (<SearchBox/>);
     }
 });
 
