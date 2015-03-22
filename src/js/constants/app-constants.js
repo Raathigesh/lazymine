@@ -1,3 +1,4 @@
 module.exports = {
-    SEARCH: 'SEARCH'
+    SEARCH: "SEARCH",
+    BASE_URL: "https://www.hostedredmine.com"
 };
