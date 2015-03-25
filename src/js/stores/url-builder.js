@@ -2,33 +2,37 @@ var UrlBase = {
     Issues : "issues.json"
 };
 
-var UrlBuilder = function (serviceBaseUrl, pageSize, pageNumber) {
+var UrlBuilder = function (serviceBaseUrl) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
-    this.pageSize = pageSize;
-    this.pageNumber = pageNumber;
-    
+    this.currentPageSize = 100.0;
+    this.offset = 0;
 };
 
 UrlBuilder.prototype = (function () {
     "use strict";
     var withPageSize = function (pageSize) {
-            this.pageSize = pageSize;
+            this.currentPageSize = pageSize;
             return this;
         },
-        withPageNo = function (pageNumber) {
-            this.pageNumber = pageNumber;
+        withOffset = function (offset) {
+            this.offset = offset;
+            return this;
+        },
+        withNextOffset = function () {
+            this.offset = this.offset + this.currentPageSize;
             return this;
         },
         buildUrl = function (requestBase) {
-            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.pageNumber, "?limit=", this.pageSize);
+            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.offset, "&limit=", this.currentPageSize);
         },
         buildIssuesUrl = function () {
             return buildUrl.call(this, UrlBase.Issues);
         };
     return {
         withPageSize: withPageSize,
-        withPageNo: withPageNo,
+        withOffset: withOffset,
+        withNextOffset: withNextOffset,
         buildIssuesUrl: buildIssuesUrl
     };
 }());
