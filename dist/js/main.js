@@ -19758,7 +19758,7 @@ var AppActions = {
 
 module.exports = AppActions;
 
-},{"../constants/app-constants.js":155,"../dispatchers/app-dispatcher.js":156}],152:[function(require,module,exports){
+},{"../constants/app-constants.js":157,"../dispatchers/app-dispatcher.js":158}],152:[function(require,module,exports){
 /*Modification of http://tonyspiro.com/dev/react-typeahead-search*/
 
 /** @jsx React.DOM */
@@ -19883,7 +19883,6 @@ var SearchList = React.createClass({displayName: "SearchList",
 
             default: return; // exit this handler for other keys
           }
-          e.preventDefault(); // prevent the default action (scroll / move caret)
     },
 
     // Initial states with no items
@@ -19930,7 +19929,7 @@ function highlight(data, search){
 module.exports = SearchList;
 
 
-},{"../actions/app-actions.js":151,"../components/app-SearchListItem.js":153,"../stores/app-store.js":159,"react":150}],153:[function(require,module,exports){
+},{"../actions/app-actions.js":151,"../components/app-SearchListItem.js":153,"../stores/app-store.js":161,"react":150}],153:[function(require,module,exports){
 /*Modification of http://tonyspiro.com/dev/react-typeahead-search*/
 /** @jsx React.DOM */
 var React = require('react');
@@ -19960,25 +19959,61 @@ module.exports = ListItem;
 },{"react":150}],154:[function(require,module,exports){
 /** @jsx React.DOM */
 var React = require('react');
+
+var Task = React.createClass({displayName: "Task",
+
+render : function(){
+  return (
+    React.createElement("div", null, "Task")
+  );
+}
+});
+
+module.exports = Task;
+
+
+},{"react":150}],155:[function(require,module,exports){
+/** @jsx React.DOM */
+var React = require('react');
+var Task = require('../components/app-Task.js');
+
+var TaskList = React.createClass({displayName: "TaskList",
+
+render : function(){
+  return (
+    React.createElement(Task, null)
+  );
+}
+});
+
+module.exports = TaskList;
+
+
+},{"../components/app-Task.js":154,"react":150}],156:[function(require,module,exports){
+/** @jsx React.DOM */
+var React = require('react');
 var AppActions = require('../actions/app-actions.js'); 
 var SearchBox = require('../components/app-SearchBox.js');
+var TaskList = require('../components/app-TaskList.js');
+
 
 var App = React.createClass({displayName: "App",
     render: function () {
-        return (React.createElement(SearchBox, null));
+        return (React.createElement("div", null, React.createElement(SearchBox, null), 
+                React.createElement(TaskList, null))); 
     }
 });
 
 module.exports = App;
 
 
-},{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"react":150}],155:[function(require,module,exports){
+},{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"../components/app-TaskList.js":155,"react":150}],157:[function(require,module,exports){
 module.exports = {
     SEARCH: "SEARCH",
     BASE_URL: "https://www.hostedredmine.com"
 };
 
-},{}],156:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 var Dispatcher = require('./dispatcher.js');
 var merge = require('react/lib/merge');
 
@@ -19993,7 +20028,7 @@ var AppDispatcher = merge(Dispatcher.prototype, {
 
 module.exports = AppDispatcher;
 
-},{"./dispatcher.js":157,"react/lib/merge":139}],157:[function(require,module,exports){
+},{"./dispatcher.js":159,"react/lib/merge":139}],159:[function(require,module,exports){
 var Promise = require('es6-promise').Promise;
 var merge = require('react/lib/merge');
 
@@ -20050,7 +20085,7 @@ Dispatcher.prototype = merge(Dispatcher.prototype, {
 
 module.exports = Dispatcher;
 
-},{"es6-promise":1,"react/lib/merge":139}],158:[function(require,module,exports){
+},{"es6-promise":1,"react/lib/merge":139}],160:[function(require,module,exports){
 /** @jsx React.DOM */
 var APP = require('./components/app');
 var React = require('react');
@@ -20058,7 +20093,7 @@ var React = require('react');
 
 React.render(React.createElement(APP, null), document.getElementById('main'));
 
-},{"./components/app":154,"react":150}],159:[function(require,module,exports){
+},{"./components/app":156,"react":150}],161:[function(require,module,exports){
 var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var serviceAccessor = require('./service-accessor.js');
@@ -20101,7 +20136,7 @@ var appStore = merge(EventEmitter.prototype,{
 
 module.exports = appStore;
 
-},{"../constants/app-constants.js":155,"../dispatchers/app-dispatcher.js":156,"./service-accessor.js":161,"events":2,"react/lib/merge":139}],160:[function(require,module,exports){
+},{"../constants/app-constants.js":157,"../dispatchers/app-dispatcher.js":158,"./service-accessor.js":163,"events":2,"react/lib/merge":139}],162:[function(require,module,exports){
 var httpHelper = (function () {
     "use strict";
     var getRequet = function (url, doneCallback, failCallback) {
@@ -20141,7 +20176,7 @@ var httpHelper = (function () {
 
 module.exports = httpHelper;
 
-},{}],161:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 var httpHelper = require('./http-Helper.js');
 var UrlBuilder = require('./url-builder.js');
 
@@ -20180,7 +20215,7 @@ module.exports = ServiceAccessor;
 
 
 
-},{"./http-Helper.js":160,"./url-builder.js":162}],162:[function(require,module,exports){
+},{"./http-Helper.js":162,"./url-builder.js":164}],164:[function(require,module,exports){
 var UrlBase = {
     Issues : "issues.json"
 };
@@ -20218,4 +20253,4 @@ UrlBuilder.prototype = (function () {
 
 module.exports = UrlBuilder;
 
-},{}]},{},[158])
+},{}]},{},[160])
