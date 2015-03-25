@@ -8,10 +8,15 @@ var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = "Change";
 
-function _search(text){
-    debugger
-    var accessor = new serviceAccessor(AppConstants.BASE_URL, "abc");
-    accessor.getAllIssues();
+function _search(text) {
+    var accessor = new serviceAccessor(AppConstants.BASE_URL, "ab821e33e7c2c67243ee7afee2055a81c64f459b"),
+        successCallback = function(data){
+            debugger;
+        },
+        failCallback = function(data){
+            debugger;
+        };
+    accessor.getAllIssues(successCallback, failCallback);
 };
 
 var appStore = merge(EventEmitter.prototype,{

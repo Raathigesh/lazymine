@@ -1,32 +1,30 @@
 var httpHelper = (function () {
     "use strict";
-    var getRequet = function (url, doneCallback, failCallback) {
-            $.ajax({
+    var getRequet = function (apiKey, url) {
+            return $.ajax({
                 type: "GET",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
-                async: true
-            }).done(function (data) {
-                doneCallback(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                failCallback(jqXHR, textStatus, errorThrown);
+                async: true,
+                headers: {
+                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
+                }
             });
         },
-        postRequet = function (url, data, doneCallback, failCallback) {
-            $.ajax({
+        postRequet = function (apiKey, url, data) {
+            return $.ajax({
                 type: "POST",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
                 async: true,
-                data: data
-            }).done(function (data) {
-                doneCallback(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                failCallback(jqXHR, textStatus, errorThrown);
+                data: data,
+                headers: {
+                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
+                }
             });
         };
     return {
