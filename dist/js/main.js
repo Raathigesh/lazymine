@@ -19799,7 +19799,7 @@ module.exports = App;
 },{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"react":150}],154:[function(require,module,exports){
 module.exports = {
     SEARCH: "SEARCH",
-    BASE_URL: "https://track.zone24x7.com:9000"
+    BASE_URL: "https://www.hostedredmine.com"
 };
 
 },{}],155:[function(require,module,exports){
@@ -19893,15 +19893,10 @@ var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = "Change";
 
-function _search(text) {
-    var accessor = new serviceAccessor(AppConstants.BASE_URL, "ab821e33e7c2c67243ee7afee2055a81c64f459b"),
-        successCallback = function(data){
-            debugger;
-        },
-        failCallback = function(data){
-            debugger;
-        };
-    accessor.getAllIssues(successCallback, failCallback);
+function _search(text){
+    debugger
+    var accessor = new serviceAccessor(AppConstants.BASE_URL, "abc");
+    accessor.getAllIssues();
 };
 
 var appStore = merge(EventEmitter.prototype,{
@@ -19933,31 +19928,33 @@ module.exports = appStore;
 },{"../constants/app-constants.js":154,"../dispatchers/app-dispatcher.js":155,"./service-accessor.js":160,"events":2,"react/lib/merge":139}],159:[function(require,module,exports){
 var httpHelper = (function () {
     "use strict";
-    var getRequet = function (apiKey, url) {
-            return $.ajax({
+    var getRequet = function (url, doneCallback, failCallback) {
+            $.ajax({
                 type: "GET",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
-                async: true,
-                headers: {
-                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
-                }
+                async: true
+            }).done(function (data) {
+                doneCallback(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                failCallback(jqXHR, textStatus, errorThrown);
             });
         },
-        postRequet = function (apiKey, url, data) {
-            return $.ajax({
+        postRequet = function (url, data, doneCallback, failCallback) {
+            $.ajax({
                 type: "POST",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
                 async: true,
-                data: data,
-                headers: {
-                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
-                }
+                data: data
+            }).done(function (data) {
+                doneCallback(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                failCallback(jqXHR, textStatus, errorThrown);
             });
         };
     return {
@@ -19976,45 +19973,26 @@ var ServiceAccessor = function (serviceBaseUrl, apiKey) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
     this.apiKey = apiKey;
-    this.pageSize  = 100.0;
 };
 
 ServiceAccessor.prototype = (function () {
     "use strict";
-    var issues = [],
-        getAllIssues = function (issueSuccessCallback, issueFailCallback) {
-            var urlBuilder = new UrlBuilder(this.serviceBaseUrl)
-                                    .withPageSize(this.pageSize),
-                promises = [],
-                index,
+    var getIssuesDoneCallbackHandler = function (data) {
+            console.log(data);
+            var totalItemCount = data.total_count,
+                currentPage = data.offset,
+                pageSize = data.limit,
+                issues = data.issues;
+        },
+        getFailCallbackHandler = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        },
+        getAllIssues = function (issueCallback) {
+            debugger;
+            var urlBuilder = new UrlBuilder(this.serviceBaseUrl, 100, 1),
                 issuesUrl = urlBuilder.buildIssuesUrl();
         
-            $.when(httpHelper.getRequet(this.apiKey, issuesUrl)).done(function (data) {
-                var totalRows = data.total_count,
-                    totalPageCount = Math.ceil(totalRows / this.pageSize);
-                
-                issues = data.issues;
-                if (totalPageCount > 1) {
-                    for (index = 2; index <= totalPageCount; index = index + 1) {
-                        issuesUrl = urlBuilder.withNextOffset().buildIssuesUrl();
-                        promises.push(httpHelper.getRequet(this.apiKey, issuesUrl));
-                    }
-                    
-                    $.when.apply($, promises).done(function () {
-                        for (index = 0; index < arguments.length; index = index + 1) {
-                            issues = issues.concat(arguments[index][0].issues);
-                        }
-                        
-                        issueSuccessCallback(issues);
-                    }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
-                        issueFailCallback(jqXHR, textStatus, errorThrown);
-                    }.bind(this));
-                } else {
-                    issueSuccessCallback(issues);
-                }
-            }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
-                issueFailCallback(jqXHR, textStatus, errorThrown);
-            }.bind(this));
+            httpHelper.getRequet(issuesUrl, getFailCallbackHandler, getIssuesDoneCallbackHandler);
         };
     return {
         getAllIssues: getAllIssues
@@ -20030,37 +20008,33 @@ var UrlBase = {
     Issues : "issues.json"
 };
 
-var UrlBuilder = function (serviceBaseUrl) {
+var UrlBuilder = function (serviceBaseUrl, pageSize, pageNumber) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
-    this.currentPageSize = 100.0;
-    this.offset = 0;
+    this.pageSize = pageSize;
+    this.pageNumber = pageNumber;
+    
 };
 
 UrlBuilder.prototype = (function () {
     "use strict";
     var withPageSize = function (pageSize) {
-            this.currentPageSize = pageSize;
+            this.pageSize = pageSize;
             return this;
         },
-        withOffset = function (offset) {
-            this.offset = offset;
-            return this;
-        },
-        withNextOffset = function () {
-            this.offset = this.offset + this.currentPageSize;
+        withPageNo = function (pageNumber) {
+            this.pageNumber = pageNumber;
             return this;
         },
         buildUrl = function (requestBase) {
-            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.offset, "&limit=", this.currentPageSize);
+            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.pageNumber, "?limit=", this.pageSize);
         },
         buildIssuesUrl = function () {
             return buildUrl.call(this, UrlBase.Issues);
         };
     return {
         withPageSize: withPageSize,
-        withOffset: withOffset,
-        withNextOffset: withNextOffset,
+        withPageNo: withPageNo,
         buildIssuesUrl: buildIssuesUrl
     };
 }());

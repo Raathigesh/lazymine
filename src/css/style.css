@@ -1,0 +1,51 @@
+body{
+  font-size: 15px;
+  background: grey;
+}
+
+/* Reset
+==================== */
+ul,li{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#search-results{
+    background: white;
+}
+
+#search-results.open ul {
+  padding: 10px;
+}
+
+.result {
+  color: #000000;
+  padding: 10px 20px;
+  display: block;
+}
+
+.result:hover {
+  background-color: #ececec;
+}
+
+.result.active {
+  background-color: #ececec;
+}
+
+.result .title{
+  margin-left: 20px;
+}
+
+#search {
+  width: 100%;
+  font-size: 26px;
+  padding: 10px;
+  border: none;
+}
+
+.description{
+  font-size: 13px;
+}
+
+
