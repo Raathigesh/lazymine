@@ -126,7 +126,6 @@ var SearchList = React.createClass({
 
             default: return; // exit this handler for other keys
           }
-          e.preventDefault(); // prevent the default action (scroll / move caret)
     },
 
     // Initial states with no items
