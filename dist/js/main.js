@@ -19758,28 +19758,210 @@ var AppActions = {
 
 module.exports = AppActions;
 
-},{"../constants/app-constants.js":154,"../dispatchers/app-dispatcher.js":155}],152:[function(require,module,exports){
+},{"../constants/app-constants.js":155,"../dispatchers/app-dispatcher.js":156}],152:[function(require,module,exports){
+/*Modification of http://tonyspiro.com/dev/react-typeahead-search*/
+
 /** @jsx React.DOM */
 var React = require('react');
 var AppStore = require('../stores/app-store.js');
 var AppActions = require('../actions/app-actions.js');
+var ListItem = require('../components/app-SearchListItem.js');
 
-var SearchBox = React.createClass({displayName: "SearchBox",
-    performSearch: function(event){
-        AppActions.search(event.target.value);
+// Sample items
+function GetItems() {
+    "use strict";
+    return {
+        data: {
+            "items": [
+                {
+                    "link": "http://github.com",
+                    "title": "Github",
+                    "icon": "fa-github",
+                    "content": "GitHub is the best place to build software together. Over 4 million people use GitHub to share code."
+                },
+                {
+                    "link": "http://stackoverflow.com",
+                    "title": "Stack Overflow",
+                    "icon": "fa-stack-overflow",
+                    "content": "Q & A for professional and enthusiast programmers."
+                },
+                {
+                    "link": "http://piedpiper.com",
+                    "title": "Pied Piper",
+                    "icon": "fa-pied-piper",
+                    "content": "Silicon Valley on HBO."
+                },
+                {
+                    "link": "http://slack.com",
+                    "title": "Slack",
+                    "icon": "fa-slack",
+                    "content": "Slack brings all your communication together in one place. It’s real-time messaging, archiving and search for modern teams."
+                },
+                {
+                    "link": "https://medium.com",
+                    "title": "Medium",
+                    "icon": "fa-medium",
+                    "content": "A magazine for a generation who grew up not caring about magazines."
+                },
+                {
+                    "link": "https://stripe.com",
+                    "icon": "fa-cc-stripe",
+                    "title": "Stripe",
+                    "content": "Stripe is a suite of APIs that powers commerce for businesses of all sizes."
+                }
+            ]
+        }
+    };
+}
+
+// Main search list component
+var SearchList = React.createClass({displayName: "SearchList",
+
+    // Filters items as user types
+    filter: function (event) {
+        "use strict";
+        AppActions.search();
+
+        var items = GetItems().data.items;
+
+        var newItems = [];
+        var q = event.target.value;
+
+        items.forEach(function(item, i){
+        var qLower = q.toLowerCase();
+        var titleLower = item.title.toLowerCase();
+        var contentLower = item.content.toLowerCase();
+        var formattedTitle = highlight(item.title, q);
+        var formattedContent = highlight(item.content, q);
+
+        item.formattedContent = formattedContent;
+        item.formattedTitle = formattedTitle;
+
+        // Add custom search criteria here
+        if(titleLower.indexOf(qLower)!==-1 ||
+          contentLower.indexOf(qLower)!==-1){
+          newItems.push(item);
+        }
+        });
+
+        // When query is empty, reset the results
+        if(!q) newItems = [];
+
+        // Set the new filtered items to state and let the react magic happen.
+        if (this.isMounted()){
+        this.setState({
+          data : {
+            items: newItems
+          }
+        });
+        }
     },
-    render: function(){          
-    return (
-        React.createElement("div", {class: "input-group"}, 
-            React.createElement("input", {type: "text", class: "form-control", placeholder: "Search", name: "q", onChange: this.performSearch})
-        ));
+
+    // Handle navigating through the result set using arraw keys
+    navigate: function(event){
+         switch(event.which) {
+            case 38: // up
+                var currentId = $('#search-results .result.active').attr('data-id');
+                var prevId = parseInt(currentId, 10) - 1;
+                $('#search-results .result').removeClass('active');
+                if(!$('#search-results #result-' + prevId).length) return false;
+                $('#search-results #result-' + prevId).addClass('active');
+                break;
+
+            case 40: // down
+                if(!$('#search-results .result.active').length){
+                  $('#search-results .result').first().addClass('active');
+                } else {
+                  var currentId = $('#search-results .result.active').attr('data-id');
+                  var nextId = parseInt(currentId, 10) + 1;
+                  if(!$('#search-results #result-' + nextId).length) return false;
+                  $('#search-results .result').removeClass('active');
+                  $('#search-results #result-' + nextId).addClass('active');
+                }
+                break;
+
+            case 13: // enter
+                var link = $('#search-results .result.active').attr('href');
+                window.open(link, '_blank');
+            break;
+
+            default: return; // exit this handler for other keys
+          }
+          e.preventDefault(); // prevent the default action (scroll / move caret)
+    },
+
+    // Initial states with no items
+    getInitialState: function() {
+     return {
+        data: {
+                "items": []
+            }
+      };
+    },
+
+    // React's magical render method
+    render: function() {
+        var rows;
+        var items = this.state.data.items;
+
+        rows = items.map(function(item, i) {
+          return(
+            React.createElement(ListItem, {item: item, id: i})
+          );
+        });
+
+        return (
+            React.createElement("div", null, 
+               React.createElement("input", {id: "search", type: "text", placeholder: "Start typing...", onChange: this.filter, onKeyDown: this.navigate}), 
+               React.createElement("div", {id: "search-results"}, 
+                React.createElement("ul", null, 
+                  rows
+                )
+              )
+            )
+        );
     }
 });
 
-module.exports = SearchBox;
+function preg_quote( str ) {
+  return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
+}
+
+function highlight(data, search){
+    return data.replace( new RegExp( "(" + preg_quote( search ) + ")" , 'gi' ), "<b>$1</b>" );
+}
+
+module.exports = SearchList;
 
 
-},{"../actions/app-actions.js":151,"../stores/app-store.js":158,"react":150}],153:[function(require,module,exports){
+},{"../actions/app-actions.js":151,"../components/app-SearchListItem.js":153,"../stores/app-store.js":159,"react":150}],153:[function(require,module,exports){
+/*Modification of http://tonyspiro.com/dev/react-typeahead-search*/
+/** @jsx React.DOM */
+var React = require('react');
+
+var ListItem = React.createClass({displayName: "ListItem",
+    render : function () {
+        "use strict";
+        var item = this.props.item;
+        var id = this.props.id;
+
+        return (
+            React.createElement("li", null, 
+              React.createElement("a", {target: "_blank", href: item.link, className: "result", id: "result-" + id, "data-id": id}, 
+                React.createElement("i", {className: "fa " + item.icon}), 
+                React.createElement("span", {className: "description", dangerouslySetInnerHTML: {__html: item.formattedTitle}}), 
+                React.createElement("br", null), 
+                React.createElement("span", {className: "description", dangerouslySetInnerHTML: {__html: item.formattedContent}})
+              )
+            )
+        );
+    }
+});
+
+module.exports = ListItem;
+
+
+},{"react":150}],154:[function(require,module,exports){
 /** @jsx React.DOM */
 var React = require('react');
 var AppActions = require('../actions/app-actions.js'); 
@@ -19787,22 +19969,20 @@ var SearchBox = require('../components/app-SearchBox.js');
 
 var App = React.createClass({displayName: "App",
     render: function () {
-        return (React.createElement("div", null, 
-                    React.createElement("h1", null, "Search"), 
-                    React.createElement(SearchBox, null)
-               )) 
+        return (React.createElement(SearchBox, null));
     }
 });
 
 module.exports = App;
 
-},{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"react":150}],154:[function(require,module,exports){
+
+},{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"react":150}],155:[function(require,module,exports){
 module.exports = {
     SEARCH: "SEARCH",
-    BASE_URL: "https://www.hostedredmine.com"
+    BASE_URL: "https://track.zone24x7.com:9000"
 };
 
-},{}],155:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 var Dispatcher = require('./dispatcher.js');
 var merge = require('react/lib/merge');
 
@@ -19817,7 +19997,7 @@ var AppDispatcher = merge(Dispatcher.prototype, {
 
 module.exports = AppDispatcher;
 
-},{"./dispatcher.js":156,"react/lib/merge":139}],156:[function(require,module,exports){
+},{"./dispatcher.js":157,"react/lib/merge":139}],157:[function(require,module,exports){
 var Promise = require('es6-promise').Promise;
 var merge = require('react/lib/merge');
 
@@ -19874,7 +20054,7 @@ Dispatcher.prototype = merge(Dispatcher.prototype, {
 
 module.exports = Dispatcher;
 
-},{"es6-promise":1,"react/lib/merge":139}],157:[function(require,module,exports){
+},{"es6-promise":1,"react/lib/merge":139}],158:[function(require,module,exports){
 /** @jsx React.DOM */
 var APP = require('./components/app');
 var React = require('react');
@@ -19882,10 +20062,10 @@ var React = require('react');
 
 React.render(React.createElement(APP, null), document.getElementById('main'));
 
-},{"./components/app":153,"react":150}],158:[function(require,module,exports){
+},{"./components/app":154,"react":150}],159:[function(require,module,exports){
 var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
-var serviceAccessor = require('./service-accessor.js');
+var ServiceAccessor = require('./service-accessor.js');
 
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
@@ -19893,28 +20073,75 @@ var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = "Change";
 
-function _search(text){
-    debugger
-    var accessor = new serviceAccessor(AppConstants.BASE_URL, "abc");
-    accessor.getAllIssues();
-};
+function _createTimeEntries() {
+    "use strict";
+    var accessor = new ServiceAccessor(AppConstants.BASE_URL, "e0abd8e540c8fb88f10250405c0639309d7cf4b5"),
+        successCallback = function (data) {
+            debugger;
+        },
+        failCallback = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        };
+    
+    var issues = [];
+    issues.push({
+      "time_entry": {
+        "issue_id": "27110",
+        "spent_on": "2015-03-26",
+        "hours": "0.5",
+        "activity_id": "12",
+        "comments": ""
+      }
+    });
+    
+    accessor.createTimeEntries(issues, successCallback, failCallback);
+}
 
-var appStore = merge(EventEmitter.prototype,{
-    emitChange : function(){
+function _getTimeEntryActivities() {
+    var accessor = new ServiceAccessor(AppConstants.BASE_URL, "e0abd8e540c8fb88f10250405c0639309d7cf4b5"),
+        successCallback = function (data) {
+            debugger;
+        },
+        failCallback = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        };
+    accessor.getTimeEntryActivities(successCallback, failCallback)
+}
+
+function _search(text) {
+    "use strict";
+    var accessor = new ServiceAccessor(AppConstants.BASE_URL, "e0abd8e540c8fb88f10250405c0639309d7cf4b5"),
+        successCallback = function (data) {
+            debugger;
+        },
+        failCallback = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        };
+    accessor.getAllIssues(successCallback, failCallback);
+}
+
+var appStore = merge(EventEmitter.prototype, {
+    emitChange : function () {
+        "use strict";
         this.emit(CHANGE_EVENT);
     },
-    addChangeListener: function(callback){
+    addChangeListener: function (callback) {
+        "use strict";
         this.on(CHANGE_EVENT, callback);
     },
-    removeChangeListener: function(callback){
-        this.removeListener(CHANGE_EVENT, callback); 
+    removeChangeListener: function (callback) {
+        "use strict";
+        this.removeListener(CHANGE_EVENT, callback);
     },
-    dispatcherIndex:AppDispatcher.register(function(payload){  
+    dispatcherIndex: AppDispatcher.register(function (payload) {
+        "use strict";
         var action = payload.action;
            
-        switch(action.actionType){
-          case AppConstants.SEARCH:
-            _search(payload.action.searchText);
+        switch (action.actionType) {
+        case AppConstants.SEARCH:
+            //_search(payload.action.searchText);
+            //_getTimeEntryActivities();
+                _createTimeEntries();
             break;
         }
         
@@ -19925,47 +20152,46 @@ var appStore = merge(EventEmitter.prototype,{
 
 module.exports = appStore;
 
-},{"../constants/app-constants.js":154,"../dispatchers/app-dispatcher.js":155,"./service-accessor.js":160,"events":2,"react/lib/merge":139}],159:[function(require,module,exports){
+},{"../constants/app-constants.js":155,"../dispatchers/app-dispatcher.js":156,"./service-accessor.js":161,"events":2,"react/lib/merge":139}],160:[function(require,module,exports){
 var httpHelper = (function () {
     "use strict";
-    var getRequet = function (url, doneCallback, failCallback) {
-            $.ajax({
+    var getRequest = function (apiKey, url) {
+            return $.ajax({
                 type: "GET",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
-                async: true
-            }).done(function (data) {
-                doneCallback(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                failCallback(jqXHR, textStatus, errorThrown);
+                async: true,
+                headers: {
+                    "X-Redmine-API-Key": apiKey
+                }
             });
         },
-        postRequet = function (url, data, doneCallback, failCallback) {
-            $.ajax({
+        postRequest = function (apiKey, url, data) {
+            debugger; 
+            return $.ajax({
                 type: "POST",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
                 async: true,
-                data: data
-            }).done(function (data) {
-                doneCallback(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                failCallback(jqXHR, textStatus, errorThrown);
+                data: JSON.stringify(data),
+                headers: {
+                    "X-Redmine-API-Key": apiKey
+                }
             });
         };
     return {
-        getRequet: getRequet,
-        postRequet: postRequet
+        getRequest: getRequest,
+        postRequest: postRequest
     };
 }());
 
 module.exports = httpHelper;
 
-},{}],160:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 var httpHelper = require('./http-Helper.js');
 var UrlBuilder = require('./url-builder.js');
 
@@ -19973,29 +20199,74 @@ var ServiceAccessor = function (serviceBaseUrl, apiKey) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
     this.apiKey = apiKey;
+    this.pageSize  = 100.0;
 };
 
 ServiceAccessor.prototype = (function () {
     "use strict";
-    var getIssuesDoneCallbackHandler = function (data) {
-            console.log(data);
-            var totalItemCount = data.total_count,
-                currentPage = data.offset,
-                pageSize = data.limit,
-                issues = data.issues;
-        },
-        getFailCallbackHandler = function (jqXHR, textStatus, errorThrown) {
-            debugger;
-        },
-        getAllIssues = function (issueCallback) {
-            debugger;
-            var urlBuilder = new UrlBuilder(this.serviceBaseUrl, 100, 1),
+    var issues = [],
+        getAllIssues = function (issueSuccessCallback, issueFailCallback) {
+            var promises = [],
+                index,
+                urlBuilder = new UrlBuilder(this.serviceBaseUrl)
+                                    .withPageSize(this.pageSize),
                 issuesUrl = urlBuilder.buildIssuesUrl();
         
-            httpHelper.getRequet(issuesUrl, getFailCallbackHandler, getIssuesDoneCallbackHandler);
+            $.when(httpHelper.getRequest(this.apiKey, issuesUrl)).done(function (data) {
+                var totalRows = data.total_count,
+                    totalPageCount = Math.ceil(totalRows / this.pageSize);
+                
+                issues = data.issues;
+                if (totalPageCount > 1) {
+                    for (index = 2; index <= totalPageCount; index = index + 1) {
+                        issuesUrl = urlBuilder.withNextOffset().buildIssuesUrl();
+                        promises.push(httpHelper.getRequest(this.apiKey, issuesUrl));
+                    }
+                    
+                    $.when.apply($, promises).done(function () {
+                        for (index = 0; index < arguments.length; index = index + 1) {
+                            issues = issues.concat(arguments[index][0].issues);
+                        }
+                        
+                        issueSuccessCallback(issues);
+                    }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
+                        issueFailCallback(jqXHR, textStatus, errorThrown);
+                    }.bind(this));
+                } else {
+                    issueSuccessCallback(issues);
+                }
+            }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
+                issueFailCallback(jqXHR, textStatus, errorThrown);
+            }.bind(this));
+        },
+        createTimeEntries = function (issues, timeEntrySuccessCallback, timeEntryFailCallback) {
+            var promises = [],
+                index = 0,
+                timeEntryUrl = new UrlBuilder(this.serviceBaseUrl).buildTimeEntryUrl();
+                        
+            for (index = 0; index < issues.length; index = index + 1) {
+                promises.push(httpHelper.postRequest(this.apiKey, timeEntryUrl, issues[0]));
+            }
+            
+            $.when.apply($, promises).done(function (data) {
+                debugger;
+                timeEntrySuccessCallback(true);
+            }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
+                timeEntryFailCallback(jqXHR, textStatus, errorThrown);
+            }.bind(this));
+        },
+        getTimeEntryActivities = function (activitySuccessCallback, activityFailCallback) {
+            var TimeEntryActivitiesUrl = new UrlBuilder(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
+            $.when(httpHelper.getRequest(this.apiKey, TimeEntryActivitiesUrl)).done(function (response) {
+                activitySuccessCallback(response);
+            }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
+                activityFailCallback(jqXHR, textStatus, errorThrown);
+            }.bind(this));
         };
     return {
-        getAllIssues: getAllIssues
+        getAllIssues: getAllIssues,
+        createTimeEntries: createTimeEntries,
+        getTimeEntryActivities: getTimeEntryActivities
     };
 }());
 
@@ -20003,42 +20274,52 @@ module.exports = ServiceAccessor;
 
 
 
-},{"./http-Helper.js":159,"./url-builder.js":161}],161:[function(require,module,exports){
+},{"./http-Helper.js":160,"./url-builder.js":162}],162:[function(require,module,exports){
 var UrlBase = {
-    Issues : "issues.json"
+    Issues : "/issues.json",
+    TimeEntries: "/time_entries.json",
+    TimeEntryActivities: "/enumerations/time_entry_activities.json"
 };
 
-var UrlBuilder = function (serviceBaseUrl, pageSize, pageNumber) {
+var UrlBuilder = function (serviceBaseUrl) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
-    this.pageSize = pageSize;
-    this.pageNumber = pageNumber;
-    
+    this.currentPageSize = 100.0;
+    this.offset = 0;
 };
 
 UrlBuilder.prototype = (function () {
     "use strict";
     var withPageSize = function (pageSize) {
-            this.pageSize = pageSize;
+            this.currentPageSize = pageSize;
             return this;
         },
-        withPageNo = function (pageNumber) {
-            this.pageNumber = pageNumber;
+        withOffset = function (offset) {
+            this.offset = offset;
             return this;
         },
-        buildUrl = function (requestBase) {
-            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.pageNumber, "?limit=", this.pageSize);
+        withNextOffset = function () {
+            this.offset = this.offset + this.currentPageSize;
+            return this;
         },
         buildIssuesUrl = function () {
-            return buildUrl.call(this, UrlBase.Issues);
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=2&offset=", this.offset, "&limit=", this.currentPageSize);
+        },
+        buildTimeEntryUrl = function () {
+            return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
+        },
+        buildTimeEntryActivitiesUrl = function () {
+            return this.serviceBaseUrl.concat(UrlBase.TimeEntryActivities);
         };
     return {
         withPageSize: withPageSize,
-        withPageNo: withPageNo,
-        buildIssuesUrl: buildIssuesUrl
+        withOffset: withOffset,
+        withNextOffset: withNextOffset,
+        buildTimeEntryUrl: buildTimeEntryUrl,
+        buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl
     };
 }());
 
 module.exports = UrlBuilder;
 
-},{}]},{},[157])
+},{}]},{},[158])

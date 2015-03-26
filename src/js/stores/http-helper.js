@@ -1,6 +1,6 @@
 var httpHelper = (function () {
     "use strict";
-    var getRequet = function (apiKey, url) {
+    var getRequest = function (apiKey, url) {
             return $.ajax({
                 type: "GET",
                 url: url,
@@ -9,11 +9,12 @@ var httpHelper = (function () {
                 dataType: 'jsonp',
                 async: true,
                 headers: {
-                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
+                    "X-Redmine-API-Key": apiKey
                 }
             });
         },
-        postRequet = function (apiKey, url, data) {
+        postRequest = function (apiKey, url, data) {
+            debugger; 
             return $.ajax({
                 type: "POST",
                 url: url,
@@ -21,15 +22,15 @@ var httpHelper = (function () {
                 crossDomain: true,
                 dataType: 'jsonp',
                 async: true,
-                data: data,
+                data: JSON.stringify(data),
                 headers: {
-                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
+                    "X-Redmine-API-Key": apiKey
                 }
             });
         };
     return {
-        getRequet: getRequet,
-        postRequet: postRequet
+        getRequest: getRequest,
+        postRequest: postRequest
     };
 }());
 

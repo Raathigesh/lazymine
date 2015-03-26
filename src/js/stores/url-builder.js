@@ -1,5 +1,7 @@
 var UrlBase = {
-    Issues : "issues.json"
+    Issues : "/issues.json",
+    TimeEntries: "/time_entries.json",
+    TimeEntryActivities: "/enumerations/time_entry_activities.json"
 };
 
 var UrlBuilder = function (serviceBaseUrl) {
@@ -23,17 +25,21 @@ UrlBuilder.prototype = (function () {
             this.offset = this.offset + this.currentPageSize;
             return this;
         },
-        buildUrl = function (requestBase) {
-            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.offset, "&limit=", this.currentPageSize);
-        },
         buildIssuesUrl = function () {
-            return buildUrl.call(this, UrlBase.Issues);
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=2&offset=", this.offset, "&limit=", this.currentPageSize);
+        },
+        buildTimeEntryUrl = function () {
+            return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
+        },
+        buildTimeEntryActivitiesUrl = function () {
+            return this.serviceBaseUrl.concat(UrlBase.TimeEntryActivities);
         };
     return {
         withPageSize: withPageSize,
         withOffset: withOffset,
         withNextOffset: withNextOffset,
-        buildIssuesUrl: buildIssuesUrl
+        buildTimeEntryUrl: buildTimeEntryUrl,
+        buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl
     };
 }());
 
