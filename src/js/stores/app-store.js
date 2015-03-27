@@ -7,11 +7,12 @@ var EventEmitter = require('events').EventEmitter;
 
 
 var CHANGE_EVENT = "Change";
+var DATA_EVENT = "DataFetched";
 
-function _search(text) {
+function _search(text) {    
     var accessor = new serviceAccessor(AppConstants.BASE_URL, "ab821e33e7c2c67243ee7afee2055a81c64f459b"),
         successCallback = function(data){
-            debugger;
+            appStore.emitData(data);
         },
         failCallback = function(data){
             debugger;
@@ -23,8 +24,14 @@ var appStore = merge(EventEmitter.prototype,{
     emitChange : function(){
         this.emit(CHANGE_EVENT);
     },
+    emitData : function(payload){
+         this.emit(DATA_EVENT, payload);
+    },
     addChangeListener: function(callback){
         this.on(CHANGE_EVENT, callback);
+    },
+    addDataListener: function(callback){
+        this.on(DATA_EVENT, callback);
     },
     removeChangeListener: function(callback){
         this.removeListener(CHANGE_EVENT, callback); 

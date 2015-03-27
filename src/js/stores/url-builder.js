@@ -24,7 +24,7 @@ UrlBuilder.prototype = (function () {
             return this;
         },
         buildUrl = function (requestBase) {
-            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.offset, "&limit=", this.currentPageSize);
+            return this.serviceBaseUrl.concat("/", requestBase, "?status_id=2&offset=", this.offset, "&limit=", this.currentPageSize);
         },
         buildIssuesUrl = function () {
             return buildUrl.call(this, UrlBase.Issues);

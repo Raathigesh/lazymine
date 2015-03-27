@@ -19767,133 +19767,99 @@ var AppStore = require('../stores/app-store.js');
 var AppActions = require('../actions/app-actions.js');
 var ListItem = require('../components/app-SearchListItem.js');
 
-// Sample items
-function GetItems(){
-       return {
-        data: {
-                "items": [
-                    {
-                        "link": "http://github.com",
-                        "title": "Github",
-                        "icon": "fa-github",
-                        "content": "GitHub is the best place to build software together. Over 4 million people use GitHub to share code."
-                    },
-                    {
-                        "link": "http://stackoverflow.com",
-                        "title": "Stack Overflow",
-                        "icon": "fa-stack-overflow",
-                        "content": "Q & A for professional and enthusiast programmers."
-                    },
-                    {
-                        "link": "http://piedpiper.com",
-                        "title": "Pied Piper",
-                        "icon": "fa-pied-piper",
-                        "content": "Silicon Valley on HBO."
-                    },
-                    {
-                        "link": "http://slack.com",
-                        "title": "Slack",
-                        "icon": "fa-slack",
-                        "content": "Slack brings all your communication together in one place. It’s real-time messaging, archiving and search for modern teams."
-                    },
-                    {
-                        "link": "https://medium.com",
-                        "title": "Medium",
-                        "icon": "fa-medium",
-                        "content": "A magazine for a generation who grew up not caring about magazines."
-                    },
-                    {
-                        "link": "https://stripe.com",
-                        "icon": "fa-cc-stripe",
-                        "title": "Stripe",
-                        "content": "Stripe is a suite of APIs that powers commerce for businesses of all sizes."
-                    }
-                ]
-            }
-      };
-}
-
 // Main search list component
 var SearchList = React.createClass({displayName: "SearchList",
+    dataItems: {},
+    _dataAvailable: function (data) {
+        this.dataItems = data;
+    },
+    componentWillMount: function () {
+        AppStore.addDataListener(this._dataAvailable);
+        AppActions.search();
+    },
 
     // Filters items as user types
-    filter: function(event){
-      var items = GetItems().data.items;
+    filter: function (event) {
+        var items = this.dataItems;
 
-      var newItems = [];
-      var q = event.target.value;
+        var newItems = [];
+        var q = event.target.value;
 
-      items.forEach(function(item, i){
-        var qLower = q.toLowerCase();
-        var titleLower = item.title.toLowerCase();
-        var contentLower = item.content.toLowerCase();
-        var formattedTitle = highlight(item.title, q);
-        var formattedContent = highlight(item.content, q);
+        for (i = 0; i < Object.keys(items).length; ++i) {
+            var item = items[i];
 
-        item.formattedContent = formattedContent;
-        item.formattedTitle = formattedTitle;
+            if (typeof item === "undefined")
+                return;
 
-        // Add custom search criteria here
-        if(titleLower.indexOf(qLower)!==-1 ||
-          contentLower.indexOf(qLower)!==-1){
-          newItems.push(item);
+            var qLower = q.toLowerCase();
+            var titleLower = item.subject.toLowerCase();
+            // var contentLower = item.content.toLowerCase();
+            var formattedTitle = highlight(item.subject, q);
+            // var formattedContent = highlight(item.subject, q);
+
+            // item.formattedContent = formattedContent;
+            item.formattedTitle = formattedTitle;
+
+            // Add custom search criteria here
+            if (titleLower.indexOf(qLower) !== -1) {
+                newItems.push(item);
+            }
         }
-      });
 
-      // When query is empty, reset the results
-      if(!q) newItems = [];
+        // When query is empty, reset the results
+        if (!q) newItems = [];
 
-      // Set the new filtered items to state and let the react magic happen.
-      if (this.isMounted()){
-        this.setState({
-          data : {
-            items: newItems
-          }
-        });
-      }
+        // Set the new filtered items to state and let the react magic happen.
+        if (this.isMounted()) {
+            this.setState({
+                data: {
+                    items: newItems
+                }
+            });
+        }
     },
 
     // Handle navigating through the result set using arraw keys
-    navigate: function(event){
-         switch(event.which) {
-            case 38: // up
-                var currentId = $('#search-results .result.active').attr('data-id');
-                var prevId = parseInt(currentId, 10) - 1;
-                $('#search-results .result').removeClass('active');
-                if(!$('#search-results #result-' + prevId).length) return false;
-                $('#search-results #result-' + prevId).addClass('active');
-                break;
-
-            case 40: // down
-                if(!$('#search-results .result.active').length){
-                  $('#search-results .result').first().addClass('active');
-                } else {
-                  var currentId = $('#search-results .result.active').attr('data-id');
-                  var nextId = parseInt(currentId, 10) + 1;
-                  if(!$('#search-results #result-' + nextId).length) return false;
-                  $('#search-results .result').removeClass('active');
-                  $('#search-results #result-' + nextId).addClass('active');
-                }
-                break;
-
-            case 13: // enter
-                var link = $('#search-results .result.active').attr('href');
-                window.open(link, '_blank');
+    navigate: function (event) {
+        switch (event.which) {
+        case 38: // up
+            var currentId = $('#search-results .result.active').attr('data-id');
+            var prevId = parseInt(currentId, 10) - 1;
+            $('#search-results .result').removeClass('active');
+            if (!$('#search-results #result-' + prevId).length) return false;
+            $('#search-results #result-' + prevId).addClass('active');
             break;
 
-            default: return; // exit this handler for other keys
-          }
+        case 40: // down
+            if (!$('#search-results .result.active').length) {
+                $('#search-results .result').first().addClass('active');
+            } else {
+                var currentId = $('#search-results .result.active').attr('data-id');
+                var nextId = parseInt(currentId, 10) + 1;
+                if (!$('#search-results #result-' + nextId).length) return false;
+                $('#search-results .result').removeClass('active');
+                $('#search-results #result-' + nextId).addClass('active');
+            }
+            break;
+
+        case 13: // enter
+            var link = $('#search-results .result.active').attr('href');
+            window.open(link, '_blank');
+            break;
+
+        default:
+            return; // exit this handler for other keys
+        }
     },
 
     // Initial states with no items
-    getInitialState: function() {
-     return {
-        data: {
+    getInitialState: function () {
+        return {
+            data: {
                 "items": []
             }
-      };
+        };
     },
-
     // React's magical render method
     render: function() {
         var rows;
@@ -19943,10 +19909,7 @@ render : function(){
   return (
     React.createElement("li", null, 
       React.createElement("a", {target: "_blank", href: item.link, className: "result", id: "result-" + id, "data-id": id}, 
-        React.createElement("i", {className: "fa " + item.icon}), 
-        React.createElement("span", {className: "description", dangerouslySetInnerHTML: {__html: item.formattedTitle}}), 
-        React.createElement("br", null), 
-        React.createElement("span", {className: "description", dangerouslySetInnerHTML: {__html: item.formattedContent}})
+        React.createElement("span", {className: "description", dangerouslySetInnerHTML: {__html: item.formattedTitle}})
       )
     )
   );
@@ -20010,7 +19973,7 @@ module.exports = App;
 },{"../actions/app-actions.js":151,"../components/app-SearchBox.js":152,"../components/app-TaskList.js":155,"react":150}],157:[function(require,module,exports){
 module.exports = {
     SEARCH: "SEARCH",
-    BASE_URL: "https://www.hostedredmine.com"
+    BASE_URL: "https://track.zone24x7.com:9000"
 };
 
 },{}],158:[function(require,module,exports){
@@ -20103,19 +20066,31 @@ var EventEmitter = require('events').EventEmitter;
 
 
 var CHANGE_EVENT = "Change";
+var DATA_EVENT = "DataFetched";
 
-function _search(text){
-    debugger
-    var accessor = new serviceAccessor(AppConstants.BASE_URL, "abc");
-    accessor.getAllIssues();
+function _search(text) {    
+    var accessor = new serviceAccessor(AppConstants.BASE_URL, "ab821e33e7c2c67243ee7afee2055a81c64f459b"),
+        successCallback = function(data){
+            appStore.emitData(data);
+        },
+        failCallback = function(data){
+            debugger;
+        };
+    accessor.getAllIssues(successCallback, failCallback);
 };
 
 var appStore = merge(EventEmitter.prototype,{
     emitChange : function(){
         this.emit(CHANGE_EVENT);
     },
+    emitData : function(payload){
+         this.emit(DATA_EVENT, payload);
+    },
     addChangeListener: function(callback){
         this.on(CHANGE_EVENT, callback);
+    },
+    addDataListener: function(callback){
+        this.on(DATA_EVENT, callback);
     },
     removeChangeListener: function(callback){
         this.removeListener(CHANGE_EVENT, callback); 
@@ -20139,33 +20114,31 @@ module.exports = appStore;
 },{"../constants/app-constants.js":157,"../dispatchers/app-dispatcher.js":158,"./service-accessor.js":163,"events":2,"react/lib/merge":139}],162:[function(require,module,exports){
 var httpHelper = (function () {
     "use strict";
-    var getRequet = function (url, doneCallback, failCallback) {
-            $.ajax({
+    var getRequet = function (apiKey, url) {
+            return $.ajax({
                 type: "GET",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
-                async: true
-            }).done(function (data) {
-                doneCallback(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                failCallback(jqXHR, textStatus, errorThrown);
+                async: true,
+                headers: {
+                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
+                }
             });
         },
-        postRequet = function (url, data, doneCallback, failCallback) {
-            $.ajax({
+        postRequet = function (apiKey, url, data) {
+            return $.ajax({
                 type: "POST",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
                 dataType: 'jsonp',
                 async: true,
-                data: data
-            }).done(function (data) {
-                doneCallback(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                failCallback(jqXHR, textStatus, errorThrown);
+                data: data,
+                headers: {
+                    "X-Redmine-API-Key": "e0abd8e540c8fb88f10250405c0639309d7cf4b5"
+                }
             });
         };
     return {
@@ -20184,27 +20157,45 @@ var ServiceAccessor = function (serviceBaseUrl, apiKey) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
     this.apiKey = apiKey;
+    this.pageSize  = 100.0;
 };
 
 ServiceAccessor.prototype = (function () {
     "use strict";
-    var getIssuesDoneCallbackHandler = function (data) {
-            console.log(data);
-            var totalItemCount = data.total_count,
-                currentPage = data.offset,
-                pageSize = data.limit,
-                issues = data.issues;
-        },
-        getFailCallbackHandler = function (jqXHR, textStatus, errorThrown) {
-            debugger;
-        },
-        getAllIssues = function (issueCallback) {
-            debugger;
-            issueCallbackHolder = issueCallback;
-            var urlBuilder = new UrlBuilder(this.serviceBaseUrl, 100, 1),
+    var issues = [],
+        getAllIssues = function (issueSuccessCallback, issueFailCallback) {
+            var urlBuilder = new UrlBuilder(this.serviceBaseUrl)
+                                    .withPageSize(this.pageSize),
+                promises = [],
+                index,
                 issuesUrl = urlBuilder.buildIssuesUrl();
         
-            httpHelper.getRequet(issuesUrl, getFailCallbackHandler, getIssuesDoneCallbackHandler);
+            $.when(httpHelper.getRequet(this.apiKey, issuesUrl)).done(function (data) {
+                var totalRows = data.total_count,
+                    totalPageCount = Math.ceil(totalRows / this.pageSize);
+                
+                issues = data.issues;
+                if (totalPageCount > 1) {
+                    for (index = 2; index <= totalPageCount; index = index + 1) {
+                        issuesUrl = urlBuilder.withNextOffset().buildIssuesUrl();
+                        promises.push(httpHelper.getRequet(this.apiKey, issuesUrl));
+                    }
+                    
+                    $.when.apply($, promises).done(function () {
+                        for (index = 0; index < arguments.length; index = index + 1) {
+                            issues = issues.concat(arguments[index][0].issues);
+                        }
+                        
+                        issueSuccessCallback(issues);
+                    }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
+                        issueFailCallback(jqXHR, textStatus, errorThrown);
+                    }.bind(this));
+                } else {
+                    issueSuccessCallback(issues);
+                }
+            }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
+                issueFailCallback(jqXHR, textStatus, errorThrown);
+            }.bind(this));
         };
     return {
         getAllIssues: getAllIssues
@@ -20220,33 +20211,37 @@ var UrlBase = {
     Issues : "issues.json"
 };
 
-var UrlBuilder = function (serviceBaseUrl, pageSize, pageNumber) {
+var UrlBuilder = function (serviceBaseUrl) {
     "use strict";
     this.serviceBaseUrl = serviceBaseUrl;
-    this.pageSize = pageSize;
-    this.pageNumber = pageNumber;
-    
+    this.currentPageSize = 100.0;
+    this.offset = 0;
 };
 
 UrlBuilder.prototype = (function () {
     "use strict";
     var withPageSize = function (pageSize) {
-            this.pageSize = pageSize;
+            this.currentPageSize = pageSize;
             return this;
         },
-        withPageNo = function (pageNumber) {
-            this.pageNumber = pageNumber;
+        withOffset = function (offset) {
+            this.offset = offset;
+            return this;
+        },
+        withNextOffset = function () {
+            this.offset = this.offset + this.currentPageSize;
             return this;
         },
         buildUrl = function (requestBase) {
-            return this.serviceBaseUrl.concat("/", requestBase, "?offset=", this.pageNumber, "?limit=", this.pageSize);
+            return this.serviceBaseUrl.concat("/", requestBase, "?status_id=2&offset=", this.offset, "&limit=", this.currentPageSize);
         },
         buildIssuesUrl = function () {
             return buildUrl.call(this, UrlBase.Issues);
         };
     return {
         withPageSize: withPageSize,
-        withPageNo: withPageNo,
+        withOffset: withOffset,
+        withNextOffset: withNextOffset,
         buildIssuesUrl: buildIssuesUrl
     };
 }());
