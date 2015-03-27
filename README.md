@@ -1,6 +1,8 @@
 # Lazymine
 Lazymine is a simple redmine client which focuses on providing pleasant user experience while entering time to Redmine.
 
+[![Build Status](https://travis-ci.org/Raathigesh/LazyMine.svg?branch=master)](https://travis-ci.org/Raathigesh/LazyMine)
+
 How to build?
 
 1. Install Node - https://nodejs.org/
