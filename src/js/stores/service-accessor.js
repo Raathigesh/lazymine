@@ -1,4 +1,4 @@
-/*var httpHelper = require('./http-Helper');*/
+var httpHelper = require('./http-helper');
 var UrlBuilder = require('./url-builder');
 
 var ServiceAccessor = function (serviceBaseUrl, apiKey) {
