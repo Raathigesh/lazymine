@@ -1,6 +1,6 @@
 var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
-var serviceAccessor = require('./service-accessor.js');
+var ServiceAccessor = require('./service-accessor.js');
 
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;
@@ -9,39 +9,76 @@ var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = "Change";
 var DATA_EVENT = "DataFetched";
 
-function _search(text) {    
-    var accessor = new serviceAccessor(AppConstants.BASE_URL, "ab821e33e7c2c67243ee7afee2055a81c64f459b"),
-        successCallback = function(data){
-            appStore.emitData(data);
+function _createTimeEntries() {
+    "use strict";
+    var accessor = new ServiceAccessor(AppConstants.BASE_URL, ""),
+        successCallback = function (data) {
+            debugger;
         },
-        failCallback = function(data){
+        failCallback = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        };
+    
+    var issues = [];
+    issues.push({
+      "time_entry": {
+        "issue_id": "27110",
+        "spent_on": "2015-03-26",
+        "hours": "0.5",
+        "activity_id": "12",
+        "comments": ""
+      }
+    });
+    
+    accessor.createTimeEntries(issues, successCallback, failCallback);
+}
+
+function _getTimeEntryActivities() {
+    var accessor = new ServiceAccessor(AppConstants.BASE_URL, "e0abd8e540c8fb88f10250405c0639309d7cf4b5"),
+        successCallback = function (data) {
+            debugger;
+        },
+        failCallback = function (jqXHR, textStatus, errorThrown) {
+            debugger;
+        };
+    accessor.getTimeEntryActivities(successCallback, failCallback)
+}
+
+function _search(text) {
+    "use strict";
+    var accessor = new ServiceAccessor(AppConstants.BASE_URL, "e0abd8e540c8fb88f10250405c0639309d7cf4b5"),
+        successCallback = function (data) {
+            debugger;
+        },
+        failCallback = function (jqXHR, textStatus, errorThrown) {
             debugger;
         };
     accessor.getAllIssues(successCallback, failCallback);
-};
+}
 
-var appStore = merge(EventEmitter.prototype,{
-    emitChange : function(){
+var appStore = merge(EventEmitter.prototype, {
+    emitChange : function () {
+        "use strict";
         this.emit(CHANGE_EVENT);
     },
-    emitData : function(payload){
-         this.emit(DATA_EVENT, payload);
-    },
-    addChangeListener: function(callback){
+
+    addChangeListener: function (callback) {
+        "use strict";
         this.on(CHANGE_EVENT, callback);
     },
-    addDataListener: function(callback){
-        this.on(DATA_EVENT, callback);
+    removeChangeListener: function (callback) {
+        "use strict";
+        this.removeListener(CHANGE_EVENT, callback);
     },
-    removeChangeListener: function(callback){
-        this.removeListener(CHANGE_EVENT, callback); 
-    },
-    dispatcherIndex:AppDispatcher.register(function(payload){  
+    dispatcherIndex: AppDispatcher.register(function (payload) {
+        "use strict";
         var action = payload.action;
            
-        switch(action.actionType){
-          case AppConstants.SEARCH:
-            _search(payload.action.searchText);
+        switch (action.actionType) {
+        case AppConstants.SEARCH:
+            //_search(payload.action.searchText);
+            //_getTimeEntryActivities();
+                _createTimeEntries();
             break;
         }
         

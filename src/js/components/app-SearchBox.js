@@ -6,6 +6,7 @@ var AppStore = require('../stores/app-store.js');
 var AppActions = require('../actions/app-actions.js');
 var ListItem = require('../components/app-SearchListItem.js');
 
+
 // Main search list component
 var SearchList = React.createClass({
     dataItems: {},
@@ -19,6 +20,7 @@ var SearchList = React.createClass({
 
     // Filters items as user types
     filter: function (event) {
+
         var items = this.dataItems;
 
         var newItems = [];

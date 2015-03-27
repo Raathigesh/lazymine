@@ -3,6 +3,10 @@
 var React = require('react');
 
 var ListItem = React.createClass({
+    render : function () {
+        "use strict";
+        var item = this.props.item;
+        var id = this.props.id;
 
 render : function(){
   var item = this.props.item;
