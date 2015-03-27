@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Task = require('../components/app-Task.js');
+var Task = require('../components/app-Task');
 
 var TaskList = React.createClass({
 

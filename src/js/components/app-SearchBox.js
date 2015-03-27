@@ -2,9 +2,9 @@
 
 /** @jsx React.DOM */
 var React = require('react');
-var AppStore = require('../stores/app-store.js');
-var AppActions = require('../actions/app-actions.js');
-var ListItem = require('../components/app-SearchListItem.js');
+var AppStore = require('../stores/app-store');
+var AppActions = require('../actions/app-actions');
+var ListItem = require('../components/app-SearchListItem');
 
 
 // Main search list component

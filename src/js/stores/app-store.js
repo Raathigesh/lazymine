@@ -1,6 +1,6 @@
-var AppConstants = require('../constants/app-constants.js');
-var AppDispatcher = require('../dispatchers/app-dispatcher.js');
-var ServiceAccessor = require('./service-accessor.js');
+var AppConstants = require('../constants/app-constants');
+var AppDispatcher = require('../dispatchers/app-dispatcher');
+var ServiceAccessor = require('./service-accessor');
 
 var merge = require('react/lib/merge');
 var EventEmitter = require('events').EventEmitter;

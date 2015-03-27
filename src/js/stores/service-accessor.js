@@ -1,5 +1,5 @@
-var httpHelper = require('./http-Helper.js');
-var UrlBuilder = require('./url-builder.js');
+var httpHelper = require('./http-Helper');
+var UrlBuilder = require('./url-builder');
 
 var ServiceAccessor = function (serviceBaseUrl, apiKey) {
     "use strict";
