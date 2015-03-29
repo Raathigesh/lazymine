@@ -4,7 +4,6 @@ html{
 
 body{
   font-size: 15px;
-  background: grey;
 }
 
 /* Reset
@@ -17,6 +16,9 @@ ul,li{
 
 #search-results{
     background: white;
+    position: absolute;
+    width: 100%;
+    z-index : 1000;
 }
 
 #search-results.open ul {
@@ -38,18 +40,29 @@ ul,li{
 }
 
 .result .title{
-  margin-left: 20px;
+  margin-left: 50px;
 }
 
 #search {
   width: 100%;
-  font-size: 26px;
+  height: 40px;
+  font-size: 20px;
   padding: 10px;
-  border: none;
+  border: 1px solid #cecece;
+  margin-top: 10px;
 }
 
 .description{
   font-size: 13px;
 }
 
+.task{
+  margin-top: 5px;
+  padding : 5px;
+  border: 1px solid #cecece;
+}
 
+.taskHeader{
+  font-size: 14px;
+  background-color: #da3232;
+}

@@ -9,55 +9,19 @@ var ListItem = require('../components/app-SearchListItem');
 
 // Main search list component
 var SearchList = React.createClass({
-    dataItems: {},
-    _dataAvailable: function (data) {
-        this.dataItems = data;
+    _change: function (data) {
+      this.setState({
+        "Items" :  data
+      });
     },
     componentWillMount: function () {
-        AppStore.addDataListener(this._dataAvailable);
-        AppActions.search();
+        AppStore.addChangeListener(this._change);
+        AppActions.fetchIssues();
     },
-
     // Filters items as user types
     filter: function (event) {
-
-        var items = this.dataItems;
-
-        var newItems = [];
         var q = event.target.value;
-
-        for (i = 0; i < Object.keys(items).length; ++i) {
-            var item = items[i];
-
-            if (typeof item === "undefined")
-                return;
-
-            var qLower = q.toLowerCase();
-            var titleLower = item.subject.toLowerCase();
-            // var contentLower = item.content.toLowerCase();
-            var formattedTitle = highlight(item.subject, q);
-            // var formattedContent = highlight(item.subject, q);
-
-            // item.formattedContent = formattedContent;
-            item.formattedTitle = formattedTitle;
-
-            // Add custom search criteria here
-            if (titleLower.indexOf(qLower) !== -1) {
-                newItems.push(item);
-            }
-        }
-
-        // When query is empty, reset the results
-        if (!q) newItems = [];
-
-        // Set the new filtered items to state and let the react magic happen.
-        if (this.isMounted()) {
-            this.setState({
-                data: {
-                    items: newItems
-                }
-            });
-        }
+        AppActions.search(q);
     },
 
     // Handle navigating through the result set using arraw keys
@@ -84,8 +48,8 @@ var SearchList = React.createClass({
             break;
 
         case 13: // enter
-            var link = $('#search-results .result.active').attr('href');
-            window.open(link, '_blank');
+            var id = $('#search-results .result.active').attr('data-id');
+            AppActions.addIssues(id);
             break;
 
         default:
@@ -95,22 +59,23 @@ var SearchList = React.createClass({
 
     // Initial states with no items
     getInitialState: function () {
-        return {
-            data: {
-                "items": []
-            }
-        };
+      return {
+       "Items": null
+      };
     },
+
     // React's magical render method
     render: function() {
-        var rows;
-        var items = this.state.data.items;
+        var rows,
+            items = this.state.Items;
 
-        rows = items.map(function(item, i) {
-          return(
-            <ListItem item={item} id={i}/>
-          );
-        });
+        if(items){
+          rows = items.map(function(item, i) {
+            return(
+              <ListItem item={item} id={item.id}/>
+            );
+          });
+        }
 
         return (
             <div>
@@ -124,13 +89,5 @@ var SearchList = React.createClass({
         );
     }
 });
-
-function preg_quote( str ) {
-  return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
-}
-
-function highlight(data, search){
-    return data.replace( new RegExp( "(" + preg_quote( search ) + ")" , 'gi' ), "<b>$1</b>" );
-}
 
 module.exports = SearchList;
