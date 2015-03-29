@@ -19,7 +19,7 @@ render : function(){
    { payload: '5', text: 'Defect Fixing' },
 ];
   return (
-    <div className="task">
+    <div className="col-md-12 task">
       <div className="row taskHeader">
         <div className="col-md-12 taskHeader">{item.subject}</div>
       </div>
