@@ -48,7 +48,7 @@ function _getTimeEntryActivities() {
 
 function _fetchItems() {
     "use strict";
-    var accessor = new ServiceAccessor(AppConstants.BASE_URL, "fc1ee0650bbe28d50a84ba9c87ffc403e2a06b78"),
+    /*var accessor = new ServiceAccessor(AppConstants.BASE_URL, "fc1ee0650bbe28d50a84ba9c87ffc403e2a06b78"),
         successCallback = function (data) {
           var arrayItems = $.makeArray( data );
           Issues = arrayItems;
@@ -56,7 +56,17 @@ function _fetchItems() {
         failCallback = function (jqXHR, textStatus, errorThrown) {
             debugger;
         };
-    accessor.getAllIssues(successCallback, failCallback);
+    accessor.getAllIssues(successCallback, failCallback);*/
+
+    Issues.push({
+    subject : "RFC 1897 - Performance Test Script Preparation",
+    id : 1
+  });
+
+  Issues.push({
+    subject : "RFC 1897 - Database Performance Test Execution",
+    id : 2
+  });
 
 }
 
@@ -75,7 +85,6 @@ var appStore = merge(EventEmitter.prototype, {
     },
     filter: function(q){
       var items = Issues;
-
       var newItems = [];
 
       items.map(function(item, i) {

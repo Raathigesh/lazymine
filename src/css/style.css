@@ -1,3 +1,7 @@
+html{
+  -webkit-app-region: drag;
+}
+
 body{
   font-size: 15px;
 }
