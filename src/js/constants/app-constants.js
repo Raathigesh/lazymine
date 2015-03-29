@@ -1,4 +1,6 @@
 module.exports = {
-    SEARCH: "SEARCH",
+    FetchIssues: "FetchIssues",
+    Search: "Search",
+    AddIssue: "AddIssue",
     BASE_URL: ""
 };

@@ -2,10 +2,21 @@ var AppConstants = require('../constants/app-constants');
 var AppDispatcher = require('../dispatchers/app-dispatcher');
 
 var AppActions = {
-    search: function (text) {
+    fetchIssues: function () {
         AppDispatcher.handleViewAction({
-            actionType: AppConstants.SEARCH,
-            searchText: text
+            actionType: AppConstants.FetchIssues
+        });
+    },
+    search: function (q) {
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.Search,
+            query:q
+        });
+    },
+    addIssues: function(issueId){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.AddIssue,
+            issueId:issueId
         });
     }
 }

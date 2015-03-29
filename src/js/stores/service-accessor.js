@@ -17,23 +17,23 @@ ServiceAccessor.prototype = (function () {
                 urlBuilder = new UrlBuilder(this.serviceBaseUrl)
                                     .withPageSize(this.pageSize),
                 issuesUrl = urlBuilder.buildIssuesUrl();
-        
+
             $.when(httpHelper.getRequest(this.apiKey, issuesUrl)).done(function (data) {
                 var totalRows = data.total_count,
                     totalPageCount = Math.ceil(totalRows / this.pageSize);
-                
+
                 issues = data.issues;
                 if (totalPageCount > 1) {
                     for (index = 2; index <= totalPageCount; index = index + 1) {
                         issuesUrl = urlBuilder.withNextOffset().buildIssuesUrl();
                         promises.push(httpHelper.getRequest(this.apiKey, issuesUrl));
                     }
-                    
+
                     $.when.apply($, promises).done(function () {
                         for (index = 0; index < arguments.length; index = index + 1) {
                             issues = issues.concat(arguments[index][0].issues);
                         }
-                        
+
                         issueSuccessCallback(issues);
                     }.bind(this)).fail(function (jqXHR, textStatus, errorThrown) {
                         issueFailCallback(jqXHR, textStatus, errorThrown);
@@ -49,11 +49,11 @@ ServiceAccessor.prototype = (function () {
             var promises = [],
                 index = 0,
                 timeEntryUrl = new UrlBuilder(this.serviceBaseUrl).buildTimeEntryUrl();
-                        
+
             for (index = 0; index < issues.length; index = index + 1) {
                 promises.push(httpHelper.postRequest(this.apiKey, timeEntryUrl, issues[0]));
             }
-            
+
             $.when.apply($, promises).done(function (data) {
                 debugger;
                 timeEntrySuccessCallback(true);
@@ -77,4 +77,3 @@ ServiceAccessor.prototype = (function () {
 }());
 
 module.exports = ServiceAccessor;
-

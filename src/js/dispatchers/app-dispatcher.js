@@ -1,5 +1,5 @@
 var Dispatcher = require('./dispatcher');
-var merge = require('react/lib/merge');
+var merge = require('react/lib/Object.assign');
 
 var AppDispatcher = merge(Dispatcher.prototype, {
     handleViewAction: function (action) {
