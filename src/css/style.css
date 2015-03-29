@@ -4,6 +4,7 @@ html{
 
 body{
   font-size: 15px;
+  overflow: auto;
 }
 
 /* Reset
@@ -15,9 +16,9 @@ ul,li{
 }
 
 #search-results{
-    background: white;
+    background: #e5e5e5;
     position: absolute;
-    width: 100%;
+    width: 98%;
     z-index : 1000;
 }
 
@@ -36,7 +37,7 @@ ul,li{
 }
 
 .result.active {
-  background-color: #ececec;
+  background-color: #bebebe;
 }
 
 .result .title{
@@ -59,9 +60,29 @@ ul,li{
 .task{
   margin-top: 5px;
   border: 1px solid #cecece;
+  background-color: #f3f3f3;
 }
 
 .taskHeader{
-  font-size: 14px;
+  font-size: 15px;
   background-color: #da3232;
+  color: #ffffff;
+  height: 25px;
+  padding-top: 2px;
+}
+
+.date{
+  margin-top : 10px;
+}
+
+.hours{
+  margin-top : 10px;
+}
+
+.comment{
+  margin-top : 10px;
+}
+
+.activity{
+  margin-top : 10px;
 }

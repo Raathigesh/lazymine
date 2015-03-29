@@ -4,6 +4,7 @@ var Mui = require('material-ui');
 var Paper = Mui.Paper;
 var TextField = Mui.TextField;
 var DropDownMenu = Mui.DropDownMenu;
+var DatePicker = Mui.DatePicker;
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 
@@ -21,38 +22,35 @@ render : function(){
   return (
     <div className="col-md-12 task">
       <div className="row taskHeader">
-        <div className="col-md-12 taskHeader">{item.subject}</div>
+        <div className="col-sm-12 taskHeader">{item.subject}</div>
       </div>
       <div className="row">
-        <div className="col-md-1">
+        <div className="col-sm-1 date">
           Date
         </div>
-        <div className="col-md-4">
+        <div className="col-sm-2">
           <TextField hintText="Select Date" className="widthOfInputs"/>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-md-1">
+        <div className="col-sm-1 hours">
           Hours
         </div>
-        <div className="col-md-4">
+        <div className="col-sm-2">
           <TextField hintText="Hours" />
         </div>
       </div>
       <div className="row">
-        <div className="col-md-1">
+        <div className="col-sm-1 comment">
           Comment
         </div>
-        <div className="col-md-4">
+        <div className="col-sm-2">
           <TextField hintText="Comment" />
         </div>
-      </div>
-      <div className="row">
-        <div className="col-md-1">
-          Acctivity
+        <div className="col-sm-1 activity">
+          Activity
         </div>
-        <div className="col-md-4">
+        <div className="col-sm-2">
           <DropDownMenu menuItems={menuItems} autoWidth="false"/>
+
         </div>
       </div>
     </div>
