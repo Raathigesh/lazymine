@@ -16,6 +16,7 @@ gulp.task('browserify', function () {
 gulp.task('webkit-build', function () {
 
     var nw = new NwBuilder({
+        version: '0.12.0',
         files: ['./dist/**'],
         platforms: ['win']
     });
