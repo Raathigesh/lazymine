@@ -13,12 +13,6 @@ gulp.task('copy', function(){
     gulp.src('src/index.html')
     .pipe(gulp.dest('dist'));
 
-	gulp.src('src/manifest.json')
-    .pipe(gulp.dest('dist'));
-
-	gulp.src('src/js/background.js')
-    .pipe(gulp.dest('dist/js'));
-
     gulp.src('src/css/*.*')
     .pipe(gulp.dest('dist/css'));
 
