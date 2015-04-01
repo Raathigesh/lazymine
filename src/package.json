@@ -1,0 +1,11 @@
+{
+    "name": "Lazymine",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.html",
+    "window": {
+        "toolbar": false,
+        "width": 800,
+        "height": 600
+    }
+}
