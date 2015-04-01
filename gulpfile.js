@@ -34,6 +34,9 @@ gulp.task('copy', function () {
     gulp.src('src/index.html')
         .pipe(gulp.dest('dist'));
 
+    gulp.src('src/js/tray.js')
+        .pipe(gulp.dest('dist/js'));
+
     gulp.src('src/package.json')
         .pipe(gulp.dest('dist'));
 
