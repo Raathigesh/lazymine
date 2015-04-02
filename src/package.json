@@ -4,8 +4,11 @@
     "description": "",
     "main": "index.html",
     "window": {
+        "title": "Lazymine",
+        "frame": false,
         "toolbar": false,
-        "width": 800,
-        "height": 600
+        "show_in_taskbar": false,
+        "show": false,
+        "always-on-top": true
     }
 }

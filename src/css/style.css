@@ -1,79 +1,95 @@
+/* Set the entire body as draggable using the '-webkit-app-region: drag' property.
+The -webkit-app-region property blocks all other input so any child elements which
+require inputs need to set '-webkit-app-region: no-drag' property */
+
+body {
+    font-size: 15px;
+    overflow: auto;
+    -webkit-app-region: drag;
+}
+
 /* Reset
 ==================== */
-ul,li{
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
 
-#search-results{
-    background: #e5e5e5;
-    position: absolute;
-    width: 98%;
-    z-index : 1000;
-}
-
-#search-results.open ul {
-  padding: 10px;
-}
-
-.result {
-  color: #000000;
-  padding: 10px 20px;
-  display: block;
-}
-
-.result:hover {
-  background-color: #ececec;
-}
-
-.result.active {
-  background-color: #bebebe;
-}
-
-.result .title{
-  margin-left: 50px;
+ul,
+li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 #search {
-  width: 100%;
-  height: 40px;
-  font-size: 20px;
-  padding: 10px;
-  border: 1px solid #cecece;
-  margin-top: 10px;
+    -webkit-app-region: no-drag;
 }
 
-.description{
-  font-size: 13px;
+#search-results {
+    background: #e5e5e5;
+    position: absolute;
+    width: 98%;
+    z-index: 1000;
 }
 
-.task{
-  margin-top: 5px;
-  border: 1px solid #cecece;
-  background-color: #f3f3f3;
+#search-results.open ul {
+    padding: 10px;
 }
 
-.taskHeader{
-  font-size: 15px;
-  background-color: #da3232;
-  color: #ffffff;
-  height: 25px;
-  padding-top: 2px;
+.result {
+    color: #000000;
+    padding: 10px 20px;
+    display: block;
 }
 
-.date{
-  margin-top : 10px;
+.result:hover {
+    background-color: #ececec;
 }
 
-.hours{
-  margin-top : 10px;
+.result.active {
+    background-color: #bebebe;
 }
 
-.comment{
-  margin-top : 10px;
+.result .title {
+    margin-left: 50px;
 }
 
-.activity{
-  margin-top : 10px;
+#search {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #cecece;
+    margin-top: 10px;
+}
+
+.description {
+    font-size: 13px;
+}
+
+.task {
+    margin-top: 5px;
+    border: 1px solid #cecece;
+    background-color: #f3f3f3;
+}
+
+.taskHeader {
+    font-size: 15px;
+    background-color: #da3232;
+    color: #ffffff;
+    height: 25px;
+    padding-top: 2px;
+}
+
+.date {
+    margin-top: 10px;
+}
+
+.hours {
+    margin-top: 10px;
+}
+
+.comment {
+    margin-top: 10px;
+}
+
+.activity {
+    margin-top: 10px;
 }
