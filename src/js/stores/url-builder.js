@@ -38,6 +38,7 @@ UrlBuilder.prototype = (function () {
         withPageSize: withPageSize,
         withOffset: withOffset,
         withNextOffset: withNextOffset,
+        buildIssuesUrl : buildIssuesUrl,
         buildTimeEntryUrl: buildTimeEntryUrl,
         buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl
     };
