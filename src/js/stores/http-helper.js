@@ -6,7 +6,7 @@ var httpHelper = (function () {
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
-                dataType: 'jsonp',
+                dataType: 'json',
                 async: true,
                 headers: {
                     "X-Redmine-API-Key": apiKey
@@ -14,13 +14,13 @@ var httpHelper = (function () {
             });
         },
         postRequest = function (apiKey, url, data) {
-            debugger; 
+            debugger;
             return $.ajax({
                 type: "POST",
                 url: url,
                 contentType : "application/json",
                 crossDomain: true,
-                dataType: 'jsonp',
+                dataType: 'json',
                 async: true,
                 data: JSON.stringify(data),
                 headers: {
