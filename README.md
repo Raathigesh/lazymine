@@ -3,6 +3,7 @@ Lazymine is a simple redmine client which focuses on providing pleasant user exp
 
 [![MIT License][license-image]][license-url]
 [![Build Status](https://travis-ci.org/Raathigesh/Lazymine.svg?branch=master)](https://travis-ci.org/Raathigesh/LazyMine)
+[![Twitter Follow](https://img.shields.io/badge/twitter-follow-blue.svg?style=flat)](https://twitter.com/lazymine)
 
 How to build?
 
