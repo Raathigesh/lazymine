@@ -5,10 +5,10 @@
     "main": "index.html",
     "window": {
         "title": "Lazymine",
-        "frame": false,
-        "toolbar": false,
-        "show_in_taskbar": false,
-        "show": false,
+        "frame": true,
+        "toolbar": true,
+        "show_in_taskbar": true,
+        "show": true,
         "always-on-top": true
     }
 }
