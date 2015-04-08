@@ -3,6 +3,21 @@
 var React = require('react');
 
 var ListItem = React.createClass({
+    removeActive: function(){
+      this.setState( {
+       "Classes": "result"
+      });
+    },
+    addActive: function(){
+      this.setState( {
+       "Classes": "result active"
+      });
+    },
+    getInitialState: function () {
+      return {
+       "Classes": "result"
+      };
+    },
     render : function () {
         "use strict";
         var item = this.props.item;
@@ -10,8 +25,8 @@ var ListItem = React.createClass({
 
       return (
         <li>
-          <a target="_blank" href={item.link} className="result" id={"result-" + id} data-id={id}>       
-            <span className="description" dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>       
+          <a className={this.state.Classes} id={"result-" + id} data-id={id} >
+            <span className="description" dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>
           </a>
         </li>
         );

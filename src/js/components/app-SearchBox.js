@@ -9,10 +9,34 @@ var ListItem = require('../components/app-SearchListItem');
 
 // Main search list component
 var SearchList = React.createClass({
+    ActiveItem : 0,
     _change: function (data) {
       this.setState({
         "Items" :  data
       });
+      this.ActiveItem = 0;
+    },
+    getCurrentActiveResult: function(){
+      return "searchItem" + this.ActiveItem;
+    },
+    getNextResult: function(){
+        this.ActiveItem += 1;
+        return "searchItem" + this.ActiveItem;
+    },
+    getPreviousResult: function(){
+        this.ActiveItem -= 1;
+        return "searchItem" + this.ActiveItem;
+    },
+    moveUp: function(){
+      var references = this.refs;
+      references[this.getCurrentActiveResult()].removeActive();
+      references[this.getPreviousResult()].addActive();
+    },
+    moveDown: function(){
+      debugger
+      var references = this.refs;
+      references[this.getCurrentActiveResult()].removeActive();
+      references[this.getNextResult()].addActive();
     },
     componentWillMount: function () {
         AppStore.addChangeListener(this._change);
@@ -26,25 +50,14 @@ var SearchList = React.createClass({
 
     // Handle navigating through the result set using arraw keys
     navigate: function (event) {
+        var nextActiveItem = null;
         switch (event.which) {
         case 38: // up
-            var currentId = $('#search-results .result.active').attr('data-id');
-            var prevId = parseInt(currentId, 10) - 1;
-            $('#search-results .result').removeClass('active');
-            if (!$('#search-results #result-' + prevId).length) return false;
-            $('#search-results #result-' + prevId).addClass('active');
+            this.moveUp();
             break;
 
         case 40: // down
-            if (!$('#search-results .result.active').length) {
-                $('#search-results .result').first().addClass('active');
-            } else {
-                var currentId = $('#search-results .result.active').attr('data-id');
-                var nextId = parseInt(currentId, 10) + 1;
-                if (!$('#search-results #result-' + nextId).length) return false;
-                $('#search-results .result').removeClass('active');
-                $('#search-results #result-' + nextId).addClass('active');
-            }
+            this.moveDown();
             break;
 
         case 13: // enter
@@ -60,7 +73,8 @@ var SearchList = React.createClass({
     // Initial states with no items
     getInitialState: function () {
       return {
-       "Items": null
+       "Items": null,
+        "ActiveItem" : null
       };
     },
 
@@ -71,8 +85,9 @@ var SearchList = React.createClass({
 
         if(items){
           rows = items.map(function(item, i) {
+            var searchItemRef = "searchItem" + i;
             return(
-              <ListItem item={item} id={item.id}/>
+              <ListItem item={item} id={item.id} ref={searchItemRef}/>
             );
           });
         }

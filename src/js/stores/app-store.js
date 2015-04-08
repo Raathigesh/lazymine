@@ -14,9 +14,9 @@ module.exports = Merge(EventEmitter.prototype, (function (){
         onTaskListChange = function (payload) {
             emit.call(this, AppEvent.TaskListChange, payload);
         },
-        addChangeListeners = function (callback) {
-            on.call(this, AppEvent.SearchBoxChange, callback);
-            on.call(this, AppEvent.TaskListChange, callback);
+        addChangeListener = function (callback) {
+            emit.call(this, AppEvent.SearchBoxChange, callback);
+            emit.call(this, AppEvent.TaskListChange, callback);
         },
         removeChangeListeners = function (callback) {
             removeListener.call(this, AppEvent.SearchBoxChange, callback);
@@ -38,10 +38,10 @@ module.exports = Merge(EventEmitter.prototype, (function (){
                     onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                     break;
             }
-        }); 
+        });
 
     return {
-       addChangeListeners: addChangeListeners,
+       addChangeListener: addChangeListener,
        removeChangeListeners: removeChangeListeners,
        dispatcherIndex: dispatcherIndex
     };

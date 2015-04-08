@@ -124,7 +124,7 @@ StoreHelper.prototype = (function () {
                     fetchCallback(new ProcessStatus(true, MessageText.FetchFailure, data));
                 }.bind(this);
             this.serviceBase.getTimeEntryActivities(successCallback, failCallback)
-        }
+        },
         getTimeEntryActivities = function () {
             if(!this.TimeEntryActivities)
             {

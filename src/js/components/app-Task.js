@@ -20,37 +20,21 @@ render : function(){
    { payload: '5', text: 'Defect Fixing' },
 ];
   return (
-    <div className="col-md-12 task">
+    <div className="col-xs-12 task">
       <div className="row taskHeader">
-        <div className="col-sm-12 taskHeader">{item.subject}</div>
+        <div className="col-xs-12 taskHeader">{item.subject}</div>
       </div>
       <div className="row">
-        <div className="col-sm-1 date">
-          Date
-        </div>
-        <div className="col-sm-2">
-          <TextField hintText="Select Date" className="widthOfInputs"/>
-        </div>
-        <div className="col-sm-1 hours">
-          Hours
-        </div>
-        <div className="col-sm-2">
+          <div className="col-xs-12">
+            <TextField hintText="Comment" />
+          </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-6 activity">
           <TextField hintText="Hours" />
         </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-1 comment">
-          Comment
-        </div>
-        <div className="col-sm-2">
-          <TextField hintText="Comment" />
-        </div>
-        <div className="col-sm-1 activity">
-          Activity
-        </div>
-        <div className="col-sm-2">
+        <div className="col-xs-6">
           <DropDownMenu menuItems={menuItems} autoWidth="false"/>
-
         </div>
       </div>
     </div>
