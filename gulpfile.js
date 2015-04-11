@@ -46,11 +46,11 @@ gulp.task('copy', function () {
     gulp.src('src/js/lib/*.*')
         .pipe(gulp.dest('dist/js/lib'));
 
-    gulp.src('src/assets/icon_016.png')
+    gulp.src('src/assets/*.*')
         .pipe(gulp.dest('dist/assets'));
 
-    gulp.src('src/assets/icon_128.png')
-        .pipe(gulp.dest('dist/assets'));
+    gulp.src('src/fonts/*.*')
+        .pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('default', ['browserify', 'copy']);

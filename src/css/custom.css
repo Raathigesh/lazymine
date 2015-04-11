@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	color:#666666;
+	background:#f8f7f7;
+}
+
+.navbar.navbar, .navbar-default.navbar{
+	background:#f8f7f7;
+}
+.navbar{
+	margin-bottom:0;
+}
+.navbar .navbar-brand{
+	height:50px;
+}
+.search-control{
+	background:#f9f9f9;
+	box-shadow:1px 2px 5px #939393;
+	border:none;
+	display:block;
+	width:100%;	
+	min-height:48px;
+	padding:8px 12px;
+	font-size:18px;
+	margin-bottom:15px;
+}
+.top-refresh{
+	position:fixed;
+	top:20px;
+	right:20px;
+}
+.btn.btn-fab.top-refresh{
+	font-size:36px;
+	padding:10px;
+}
+
+.list-group .list-group-item .list-group-item-heading{
+	font-size:16px;
+	font-weight:500;	
+}
+.list-group{
+	margin-top:20px;
+}
+
+.list-group-item{
+	padding-top:8px !important;
+	padding-bottom:8px !important;	
+}
+
+.list-group-item.updated{
+	background:#EFEFEF;	
+}
+
+.list-group .list-group-separator{
+	margin:0;	
+}
+.btn-group{
+	margin-bottom:0;
+}
+.btn-cancel:not(.btn-link):not(.btn-flat){
+	background:#a2a1a1;
+	color:#fff;
+}
+.btn-cancel:hover:not(.btn-link):not(.btn-flat){
+	background:#b0afaf;	
+}

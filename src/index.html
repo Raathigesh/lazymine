@@ -1,25 +1,115 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Lazymine</title>
-    <link rel="stylesheet" media="screen" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/main.css">
-
+    <link href="css/bootstrap.min.css" rel="stylesheet" >
+    <link href="css/roboto.min.css" rel="stylesheet">
+    <link href="css/material.min.css" rel="stylesheet">
+    <link href="css/ripples.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 </head>
-
 <body>
-    <div id="main" class="container-fluid">
-        <div class="row">
-        </div>
-    </div>
-    <script src="js/lib/jquery-2.1.3.js"></script>
-    <script src="js/lib//bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/shell/tray.js"></script>
-    <script src="js/shell/window.js"></script>
+  <nav class="navbar navbar-default">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"><img src="assets/top-logo.png" /></a>
+      </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <input type="text" class="search-control" placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
+          </div>
+          <div class="col-md-12">
+            <h4>LATEST TASKS ASSIGNED TO YOU</h4>
+          </div>
+          <div class="list-group">
+              <div class="list-group-item">
+                  <div class="row-action-primary">
+                      <i>F</i>
+                  </div>
+                  <div class="row-content">
+                      <div class="least-content">15 mins ago </div>
+                      <h4 class="list-group-item-heading">FMSOA - Ominix Appointment Concierge</h4>
+                      <p class="list-group-item-text">#27732 - Web Widget UI Design and Development (new)</p>
+                  </div>
+              </div>
+              <div class="list-group-separator"></div>
+              <div class="list-group-item">
+                  <div class="row-action-primary">
+                      <i>U</i>
+                  </div>
+                  <div class="row-content">
+                      <div class="least-content">20 mins ago</div>
+                      <h4 class="list-group-item-heading">UICIR - UIE Circle</h4>
+                      <p class="list-group-item-text">#27732 - UX Revolution related tasks (new)</p>
+                  </div>
+              </div>
+              <div class="list-group-separator"></div>
+          </div>
+          <div class="col-md-12">
+              <h4>LAST TIME ENTERED TASKS</h4>
+          </div>
+          <div class="list-group">
+              <div class="list-group-item">
+                  <div class="row-action-primary">
+                      <i>F</i>
+                  </div>
+                  <div class="row-content">
+                      <div class="least-content">15 mins ago </div>
+                      <h4 class="list-group-item-heading">FMSOA - Ominix Appointment Concierge</h4>
+                      <p class="list-group-item-text">#27732 - Web Widget UI Design and Development (new)</p>
+                  </div>
+              </div>
+              <div class="list-group-separator"></div>
+              <div class="list-group-item updated">
+                  <div class="row-action-primary">
+                      <i>U</i>
+                  </div>
+                  <div class="row-content">
+                      <div class="least-content">20 mins ago</div>
+                      <h4 class="list-group-item-heading">UICIR - UIE Circle</h4>
+                      <p class="list-group-item-text">#27732 - UX Revolution related tasks (new)</p>
+                  </div>
+              </div>
+              <div class="list-group-separator"></div>
+              <div class="list-group-item">
+                  <div class="row-action-primary">
+                      <i>U</i>
+                  </div>
+                  <div class="row-content">
+                      <div class="least-content">20 mins ago</div>
+                      <h4 class="list-group-item-heading">UICIR - UIE Circle</h4>
+                      <p class="list-group-item-text">#27732 - UX Revolution related tasks (new)</p>
+                  </div>
+              </div>
+              <div class="list-group-separator"></div>
+              <div class="list-group-item">
+                  <div class="row-action-primary">
+                      <i>U</i>
+                  </div>
+                  <div class="row-content">
+                      <div class="least-content">20 mins ago</div>
+                      <h4 class="list-group-item-heading">UICIR - UIE Circle</h4>
+                      <p class="list-group-item-text">#27732 - UX Revolution related tasks (new)</p>
+                  </div>
+              </div>
+              <div class="list-group-separator"></div>
+          </div>
+      </div>
+
+  </div>
+  <div class="btn-group btn-group-justified" style="position:fixed; bottom:0;">
+      <a href="javascript:void(0)" class="btn btn-cancel btn-lg">CANCEL</a>
+      <a href="javascript:void(0)" class="btn btn-success btn-lg">UPDATE</a>
+  </div>
+  <a href="javascript:void(0)" class="btn btn-success btn-fab btn-raised mdi-notification-sync top-refresh"></a>
+
 </body>
 
+  <script src="js/lib/jquery-2.1.3.js"></script>
+  <script src="js/lib//bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/shell/tray.js"></script>
+  <script src="js/shell/window.js"></script>
 </html>
