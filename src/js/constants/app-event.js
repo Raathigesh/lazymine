@@ -1,4 +1,5 @@
 module.exports = {
     SearchBoxChange: "onSearchBoxChange",
-    TaskListChange: "onTaskListChange"
+    TaskListChange: "onTaskListChange",
+    Change: "onChange"
 };

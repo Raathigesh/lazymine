@@ -7,7 +7,8 @@ var gutil = require('gulp-util');
 gulp.task('browserify', function () {
     gulp.src('src/js/main.js')
         .pipe(browserify({
-            transform: 'reactify'
+            transform: 'reactify',
+            debug : true
         }))
         .pipe(concat('main.js'))
         .pipe(gulp.dest('dist/js'));

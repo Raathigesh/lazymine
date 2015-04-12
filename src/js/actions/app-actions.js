@@ -13,7 +13,7 @@ var AppActions = {
             query:q
         });
     },
-    addIssues: function(issueId){
+    addIssue: function(issueId){
         AppDispatcher.handleViewAction({
             actionType: AppConstants.AddIssue,
             issueId:issueId

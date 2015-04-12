@@ -20,7 +20,7 @@ render : function(){
    { payload: '5', text: 'Defect Fixing' },
 ];
   return (
-    <div className="col-xs-12 task">
+  /*  <div className="col-xs-12 task">
       <div className="row taskHeader">
         <div className="col-xs-12 taskHeader">{item.subject}</div>
       </div>
@@ -37,6 +37,16 @@ render : function(){
           <DropDownMenu menuItems={menuItems} autoWidth="false"/>
         </div>
       </div>
+    </div>*/
+    <div className="list-group-item">
+        <div className="row-action-primary">
+            <i>F</i>
+        </div>
+        <div className="row-content">
+            <div className="least-content">{this.props.updatedTime} mins ago </div>
+            <h4 className="list-group-item-heading">{this.props.projectName}</h4>
+            <p className="list-group-item-text">{this.props.taskName}</p>
+        </div>
     </div>
   );
 }

@@ -22,12 +22,11 @@ var ListItem = React.createClass({
         "use strict";
         var item = this.props.item;
         var id = this.props.id;
-
       return (
         <li>
-          <a className={this.state.Classes} id={"result-" + id} data-id={id} >
-            <span className="description" dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>
-          </a>
+          <div className={this.state.Classes} id={"result-" + id} data-id={id}>
+            <span className="description" dangerouslySetInnerHTML={{__html: item.subject}}></span>
+          </div>
         </li>
         );
     }

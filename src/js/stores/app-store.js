@@ -6,27 +6,36 @@ var AppConstants = require('../constants/app-action-name'),
     EventEmitter = require('events').EventEmitter,
     storeHelper = new StoreHelper();
 
+var SearchResults,
+    ActiveTasks;
+
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
     var onSearchBoxChange = function (payload) {
-            this.emit(AppEvent.SearchBoxChange, payload);
+            SearchResults = payload;
+            EventEmitter.prototype.emit(AppEvent.Change);
         },
         onTaskListChange = function (payload) {
-            this.emit(AppEvent.TaskListChange, payload);
+            ActiveTasks = payload;
+            EventEmitter.prototype.emit(AppEvent.Change);
         },
         addChangeListener = function (callback) {
-            this.emit(AppEvent.SearchBoxChange, callback);
-            this.emit(AppEvent.TaskListChange, callback);
+            EventEmitter.prototype.on.call(this, AppEvent.Change, callback);
         },
         removeChangeListeners = function (callback) {
-            removeListener.call(this, AppEvent.SearchBoxChange, callback);
-            removeListener.call(this, AppEvent.TaskListChange, callback);
+            removeListener.call(this, AppEvent.Change, callback);
+        },
+        getSearchResults = function(){
+          return SearchResults;
+        },
+        getActiveTasks = function(){
+          return ActiveTasks;
         },
         dispatcherIndex = AppDispatcher.register(function (payload) {
             var action = payload.action;
             switch (action.actionType) {
             case AppConstants.FetchIssues:
-                storeHelper.setSettings("<Track URL>", "<API KEY>");
+                storeHelper.setSettings("https://track.zone24x7.lk", "fc1ee0650bbe28d50a84ba9c87ffc403e2a06b78");
                 storeHelper.fetchItems(function (callback) {
                     onSearchBoxChange.call(this, callback);
                 });
@@ -34,7 +43,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             case AppConstants.Search:
                 onSearchBoxChange.call(this, storeHelper.filter(action.query));
                 break;
-            case AppConstants.AddIssue:
+            case AppConstants.AddIssue:              
                 onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                 break;
             }
@@ -42,6 +51,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
 
     return {
         addChangeListener: addChangeListener,
+        getSearchResults: getSearchResults,
+        getActiveTasks: getActiveTasks,
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex
     };

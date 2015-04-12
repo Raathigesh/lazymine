@@ -10,11 +10,15 @@ var ListItem = require('../components/app-SearchListItem');
 // Main search list component
 var SearchList = React.createClass({
     ActiveItem : 0,
-    _change: function (data) {
-      this.setState({
-        "Items" :  data
-      });
-      this.ActiveItem = 0;
+    _change: function () {
+        var data = AppStore.getSearchResults();
+
+        this.setState({
+          "Items" :  data.data,
+          "ShowResults" : true
+        });
+        this.ActiveItem = 0;
+
     },
     getCurrentActiveResult: function(){
       return "searchItem" + this.ActiveItem;
@@ -33,7 +37,6 @@ var SearchList = React.createClass({
       references[this.getPreviousResult()].addActive();
     },
     moveDown: function(){
-      debugger
       var references = this.refs;
       references[this.getCurrentActiveResult()].removeActive();
       references[this.getNextResult()].addActive();
@@ -62,7 +65,10 @@ var SearchList = React.createClass({
 
         case 13: // enter
             var id = $('#search-results .result.active').attr('data-id');
-            AppActions.addIssues(id);
+            AppActions.addIssue(id);
+            this.setState({
+              "Items" :  null
+            });
             break;
 
         default:
@@ -74,7 +80,8 @@ var SearchList = React.createClass({
     getInitialState: function () {
       return {
        "Items": null,
-        "ActiveItem" : null
+        "ActiveItem" : null,
+        "ShowResults" : false
       };
     },
 
@@ -93,15 +100,14 @@ var SearchList = React.createClass({
         }
 
         return (
-            <div>
-               <input id="search" type="text" placeholder="Start typing..." onChange={this.filter} onKeyDown={this.navigate}/>
-               <div id="search-results">
-                <ul>
-                  {rows}
-                </ul>
-              </div>
-            </div>
-        );
+          <div className="col-md-12">
+              <input id="search" type="text" className="search-control" onChange={this.filter} onKeyDown={this.navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
+                <div id="search-results" ref="searchResults">
+                 <ul>
+                   {rows}
+                 </ul>
+               </div>
+          </div>);
     }
 });
 

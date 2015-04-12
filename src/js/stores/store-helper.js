@@ -75,7 +75,7 @@ StoreHelper.prototype = (function () {
             initServiceBase.call(this);
             var successCallbackHandler = function (data) {
                     this.AllIssues = $.makeArray(data);
-                    fetchCallback(new ProcessStatus(true, MessageText.FetchSuccessful));
+                    fetchCallback(new ProcessStatus(true, MessageText.FetchSuccessful, this.AllIssues));
                 }.bind(this),
                 failCallbackHandler = function (jqXHR, textStatus, errorThrown) {
                     fetchCallback(new ProcessStatus(false, MessageText.FetchFailure));
@@ -105,7 +105,7 @@ StoreHelper.prototype = (function () {
         },
         addIssue = function (id) {
             var issue = Lodash.find(this.AllIssues, function (item) {
-                    return item.id === id;
+                    return item.id === parseInt(id);
                 });
             if(!issue) {
                 return new ProcessStatus(false, MessageText.IssueNotFound)
