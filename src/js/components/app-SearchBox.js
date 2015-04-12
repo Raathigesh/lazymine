@@ -69,6 +69,7 @@ var SearchList = React.createClass({
             this.setState({
               "Items" :  null
             });
+            React.findDOMNode(this.refs.searchBox).value = "";
             break;
 
         default:
@@ -101,7 +102,7 @@ var SearchList = React.createClass({
 
         return (
           <div className="col-md-12">
-              <input id="search" type="text" className="search-control" onChange={this.filter} onKeyDown={this.navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
+              <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyDown={this.navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
                 <div id="search-results" ref="searchResults">
                  <ul>
                    {rows}

@@ -21,14 +21,17 @@ var TaskList = React.createClass({
      "Items": null
     };
   },
-  render : function(){    
+  render : function(){
     var rows,
         items = this.state.Items;
 
     if(items){
       rows = items.map(function(item, i) {
         return(
+          <div>
           <Task updatedTime="15" projectName={item.project.name} taskName={item.subject}/>
+          <div className="list-group-separator"></div>
+          </div>
         );
       });
     }

@@ -19,7 +19,7 @@ body{
 	box-shadow:1px 2px 5px #939393;
 	border:none;
 	display:block;
-	width:100%;	
+	width:100%;
 	min-height:48px;
 	padding:8px 12px;
 	font-size:18px;
@@ -37,7 +37,7 @@ body{
 
 .list-group .list-group-item .list-group-item-heading{
 	font-size:16px;
-	font-weight:500;	
+	font-weight:500;
 }
 .list-group{
 	margin-top:20px;
@@ -45,15 +45,17 @@ body{
 
 .list-group-item{
 	padding-top:8px !important;
-	padding-bottom:8px !important;	
+	padding-bottom:8px !important;
+	height : 96px;
+	cursor:pointer;
 }
 
 .list-group-item.updated{
-	background:#EFEFEF;	
+	background:#EFEFEF;
 }
 
 .list-group .list-group-separator{
-	margin:0;	
+	margin:0;
 }
 .btn-group{
 	margin-bottom:0;
@@ -63,5 +65,5 @@ body{
 	color:#fff;
 }
 .btn-cancel:hover:not(.btn-link):not(.btn-flat){
-	background:#b0afaf;	
+	background:#b0afaf;
 }

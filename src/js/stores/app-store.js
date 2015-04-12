@@ -26,10 +26,10 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             removeListener.call(this, AppEvent.Change, callback);
         },
         getSearchResults = function(){
-          return SearchResults;
+            return SearchResults;
         },
         getActiveTasks = function(){
-          return ActiveTasks;
+            return ActiveTasks;
         },
         dispatcherIndex = AppDispatcher.register(function (payload) {
             var action = payload.action;
@@ -37,13 +37,14 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             case AppConstants.FetchIssues:
                 storeHelper.setSettings("https://track.zone24x7.lk", "fc1ee0650bbe28d50a84ba9c87ffc403e2a06b78");
                 storeHelper.fetchItems(function (callback) {
-                    onSearchBoxChange.call(this, callback);
+                    //onSearchBoxChange.call(this, callback);
+                    SearchResults = callback;
                 });
                 break;
             case AppConstants.Search:
                 onSearchBoxChange.call(this, storeHelper.filter(action.query));
                 break;
-            case AppConstants.AddIssue:              
+            case AppConstants.AddIssue:
                 onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                 break;
             }
