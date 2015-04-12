@@ -16,8 +16,17 @@ handleClick: function() {
       endValue: this.state.height === 96 ? 245 : 96
     });
   },
+  elementClick: function(event){
+    var state = this.state;
+    state.classes = "list-group-item updated";
+    this.setState(state);
+    event.stopPropagation();
+  },
   getInitialState: function() {
-    return {height: 96};
+    return {
+      height: 96,
+      classes: "list-group-item"
+      };
   },
 render : function(){
   var item = this.props.item;
@@ -34,7 +43,7 @@ var style = {
 };
 
   return (
-    <div style={style} onClick={this.handleClick} className="list-group-item">
+    <div style={style} onClick={this.handleClick} className={this.state.classes}>
         <div className="row-action-primary">
             <i>F</i>
         </div>
@@ -44,11 +53,11 @@ var style = {
             <p className="list-group-item-text">{this.props.taskName}</p>
         </div>
         <div className="row-content">
-            <TextField hintText="Comment" />
+            <TextField hintText="Comment" className="comment-box" onClick={this.elementClick}/>
         </div>
         <div className="row-content">
-          <TextField hintText="Hours" />
-          <DropDownMenu menuItems={menuItems} autoWidth="false"/>
+          <DropDownMenu menuItems={menuItems} autoWidth="false" onClick={this.elementClick}/>
+          <TextField hintText="Hours" onClick={this.elementClick}/>
         </div>
     </div>
   );

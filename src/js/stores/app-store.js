@@ -35,7 +35,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             var action = payload.action;
             switch (action.actionType) {
             case AppConstants.FetchIssues:
-                storeHelper.setSettings("https://track.zone24x7.lk", "fc1ee0650bbe28d50a84ba9c87ffc403e2a06b78");
+                storeHelper.setSettings("", "");
                 storeHelper.fetchItems(function (callback) {
                     //onSearchBoxChange.call(this, callback);
                     SearchResults = callback;

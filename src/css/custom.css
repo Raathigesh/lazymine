@@ -67,3 +67,7 @@ body{
 .btn-cancel:hover:not(.btn-link):not(.btn-flat){
 	background:#b0afaf;
 }
+
+.comment-box{
+	width: 100%;
+}
