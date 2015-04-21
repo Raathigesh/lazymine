@@ -11,10 +11,9 @@ var ListItem = require('../components/app-SearchListItem');
 var SearchList = React.createClass({
     ActiveItem : 0,
     _change: function () {
-        var data = AppStore.getSearchResults();
-
+        var searchResultProcess = AppStore.getSearchResultProcess();
         this.setState({
-          "Items" :  data.data,
+          "Items" :  searchResultProcess.data,
           "ShowResults" : true
         });
         this.ActiveItem = 0;

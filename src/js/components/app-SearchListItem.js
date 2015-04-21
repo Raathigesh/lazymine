@@ -25,7 +25,7 @@ var ListItem = React.createClass({
       return (
         <li>
           <div className={this.state.Classes} id={"result-" + id} data-id={id}>
-            <span className="description" dangerouslySetInnerHTML={{__html: item.subject}}></span>
+            <span className="description" dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>
           </div>
         </li>
         );

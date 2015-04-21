@@ -91,17 +91,38 @@ StoreHelper.prototype = (function () {
                 return new ProcessStatus(false, MessageText.NoIssuesAvailable);
             }
 
-            var upperQuery = query.toUpperCase(),
+            var upperQueryParts = query.toUpperCase().split(' '),
                 filterItems = Lodash.filter(this.AllIssues, function (item) {
-                    return item.subject.toUpperCase().indexOf(upperQuery) !== -1;
-                }),
-                filterItemsClone = Lodash.cloneDeep(filterItems);
+                    item.matchCount = 0;
 
-            filterItemsClone.map(function (item) {
-                item.formattedTitle = formatFilter.call(this, item.subject, upperQuery);
+                    var parts = Lodash.filter(upperQueryParts, function(part) {
+                        return part.length > 1;
+                    });
+
+                    var queryExpression = new RegExp("(" + parts.join('|') + ")", 'gi'),
+                        matchstrings = item.subject.match(queryExpression);
+
+                    if(matchstrings)
+                    {
+                        item.matchCount += matchstrings.length
+                    }
+
+
+                    return item.matchCount > 0;
+                });
+
+            var sortedList = Lodash.sortByOrder(filterItems, ['matchCount'], [false]);
+
+            sortedList.map(function (item) {
+                item.formattedTitle = item.subject;
+                upperQueryParts.map(function (part) {
+                    if(part){
+                      item.formattedTitle = formatFilter.call(this, item.formattedTitle, part);
+                    }
+                });
             });
 
-            return new ProcessStatus(true, MessageText.IssueFilterSuccessful, filterItemsClone);
+            return new ProcessStatus(true, MessageText.IssueFilterSuccessful, sortedList);
         },
         addIssue = function (id) {
             var issue = Lodash.find(this.AllIssues, function (item) {

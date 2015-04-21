@@ -6,30 +6,29 @@ var AppConstants = require('../constants/app-action-name'),
     EventEmitter = require('events').EventEmitter,
     storeHelper = new StoreHelper();
 
-var SearchResults,
-    ActiveTasks;
-
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
-    var onSearchBoxChange = function (payload) {
-            SearchResults = payload;
+    var SearchProcess = null,
+        ActiveProcess = null,
+        getSearchResultProcess = function () {
+            return SearchProcess;
+        },
+        getActiveTaskProcess = function () {
+            return ActiveProcess;
+        },
+        onSearchBoxChange = function (payload) {
+            SearchProcess = payload;
             EventEmitter.prototype.emit(AppEvent.Change);
         },
         onTaskListChange = function (payload) {
-            ActiveTasks = payload;
+            ActiveProcess = payload;
             EventEmitter.prototype.emit(AppEvent.Change);
         },
         addChangeListener = function (callback) {
-            EventEmitter.prototype.on.call(this, AppEvent.Change, callback);
+            EventEmitter.prototype.on(AppEvent.Change, callback);
         },
         removeChangeListeners = function (callback) {
-            removeListener.call(this, AppEvent.Change, callback);
-        },
-        getSearchResults = function(){
-            return SearchResults;
-        },
-        getActiveTasks = function(){
-            return ActiveTasks;
+            EventEmitter.prototype.removeListener(AppEvent.Change, callback);
         },
         dispatcherIndex = AppDispatcher.register(function (payload) {
             var action = payload.action;
@@ -37,8 +36,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             case AppConstants.FetchIssues:
                 storeHelper.setSettings("", "");
                 storeHelper.fetchItems(function (callback) {
-                    //onSearchBoxChange.call(this, callback);
-                    SearchResults = callback;
+                    SearchProcess = callback;
                 });
                 break;
             case AppConstants.Search:
@@ -51,9 +49,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
         });
 
     return {
+        getSearchResultProcess: getSearchResultProcess,
+        getActiveTaskProcess: getActiveTaskProcess,
         addChangeListener: addChangeListener,
-        getSearchResults: getSearchResults,
-        getActiveTasks: getActiveTasks,
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex
     };
