@@ -5,10 +5,10 @@ var AppStore = require('../stores/app-store');
 
 var TaskList = React.createClass({
   _change: function (payload) {
-    var data = AppStore.getActiveTasks();
-    if(data){
+    var activeTaskProcess = AppStore.getActiveTaskProcess();
+    if(activeTaskProcess){
       this.setState({
-        "Items" :  data.data
+        "Items": activeTaskProcess.data
       });
     }
   },
