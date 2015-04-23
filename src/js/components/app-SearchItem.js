@@ -2,7 +2,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-var ListItem = React.createClass({
+var SearchItem = React.createClass({
     removeActive: function(){
       this.setState( {
        "Classes": "result"
@@ -25,11 +25,12 @@ var ListItem = React.createClass({
       return (
         <li>
           <div className={this.state.Classes} id={"result-" + id} data-id={id}>
-            <span className="description" dangerouslySetInnerHTML={{__html: item.subject}}></span>
+            <div className="searchResult-projectName" dangerouslySetInnerHTML={{__html: item.project.name}}></div>
+            <span className="searchResult-description" dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>
           </div>
         </li>
         );
     }
 });
 
-module.exports = ListItem;
+module.exports = SearchItem;

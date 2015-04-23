@@ -37,6 +37,7 @@ li {
     color: #000000;
     padding: 10px 20px;
     display: block;
+    background-color: white;
 }
 
 .result:hover {
@@ -60,8 +61,12 @@ li {
     margin-top: 10px;
 }
 
-.description {
+.searchResult-description {
     font-size: 13px;
+}
+
+.searchResult-projectName {
+    font-size: 15px;
 }
 
 .task {

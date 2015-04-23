@@ -14,7 +14,6 @@ var Container = React.createClass({
       <div className="container-fluid">
         <div className="row">
           <SearchBox/>
-          <Title text="LATEST TASKS ASSIGNED TO YOU"/>
           <Title text="LAST TIME ENTERED TASKS"/>
           <TaskList/>
         </div>

@@ -71,3 +71,15 @@ body{
 .comment-box{
 	width: 100%;
 }
+
+.hours-input{
+	width: 150px;
+}
+
+.task-input{
+	padding-left : 60px;
+}
+
+.tracker-dropdown{
+	margin-left: -5px;
+}
