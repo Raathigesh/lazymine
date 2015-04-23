@@ -7,8 +7,8 @@ var TextField = Mui.TextField;
 var tweenState = require('react-tween-state');
 
 var Task = React.createClass({
-mixins: [tweenState.Mixin],
-handleClick: function() {
+  mixins: [tweenState.Mixin],
+  handleClick: function() {
     this.tweenState('height', {
       easing: tweenState.easingTypes.easeInOutQuad,
       duration: 500,
@@ -17,6 +17,9 @@ handleClick: function() {
     });
   },
   elementClick: function(event){
+    event.stopPropagation();
+  },
+  hourEntered: function(event){
     var state = this.state;
     state.classes = "list-group-item updated";
     this.setState(state);
@@ -28,40 +31,42 @@ handleClick: function() {
       classes: "list-group-item"
       };
   },
-render : function(){
-  var item = this.props.item;
-  var menuItems = [
-   { payload: '1', text: 'Requirement' },
-   { payload: '2', text: 'Design' },
-   { payload: '3', text: 'Developement' },
-   { payload: '4', text: 'Documentation' },
-   { payload: '5', text: 'Defect Fixing' },
-];
+  render : function(){
+    var item = this.props.item;
+    var menuItems = [
+       { payload: '1', text: 'Requirement' },
+       { payload: '2', text: 'Design' },
+       { payload: '3', text: 'Developement' },
+       { payload: '4', text: 'Documentation' },
+       { payload: '5', text: 'Defect Fixing' },
+    ];
 
-var style = {
-  height: this.getTweeningValue('height')
-};
+    var style = {
+      height: this.getTweeningValue('height')
+    };
 
-  return (
-    <div style={style} onClick={this.handleClick} className={this.state.classes}>
-        <div className="row-action-primary">
-            <i>F</i>
+    return (
+        <div style={style} onClick={this.handleClick} className={this.state.classes}>
+            <div className="row-action-primary">
+                <i>F</i>
+            </div>
+            <div className="row-content">
+                <div className="least-content">{this.props.updatedTime} mins ago </div>
+                <h4 className="list-group-item-heading">{this.props.projectName}</h4>
+                <p className="list-group-item-text">{this.props.taskName}</p>
+            </div>
+            <div className="row-content task-input">
+                <div className="col-xs-12">
+                  <TextField hintText="Comment" className="comment-box" onClick={this.elementClick}/>
+                </div>
+            </div>
+            <div className="row-content task-input">
+              <DropDownMenu menuItems={menuItems} className="tracker-dropdown" onClick={this.elementClick}/>
+                <TextField hintText="Hours" onChange={this.hourEntered} className="hours-input"/>
+            </div>
         </div>
-        <div className="row-content">
-            <div className="least-content">{this.props.updatedTime} mins ago </div>
-            <h4 className="list-group-item-heading">{this.props.projectName}</h4>
-            <p className="list-group-item-text">{this.props.taskName}</p>
-        </div>
-        <div className="row-content">
-            <TextField hintText="Comment" className="comment-box" onClick={this.elementClick}/>
-        </div>
-        <div className="row-content">
-          <DropDownMenu menuItems={menuItems} autoWidth="false" onClick={this.elementClick}/>
-          <TextField hintText="Hours" onClick={this.elementClick}/>
-        </div>
-    </div>
-  );
-}
+      );
+    }
 });
 
 module.exports = Task;

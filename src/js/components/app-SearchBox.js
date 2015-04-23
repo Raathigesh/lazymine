@@ -4,7 +4,7 @@
 var React = require('react');
 var AppStore = require('../stores/app-store');
 var AppActions = require('../actions/app-actions');
-var ListItem = require('../components/app-SearchListItem');
+var ListItem = require('../components/app-SearchItem');
 
 
 // Main search list component
@@ -20,25 +20,39 @@ var SearchList = React.createClass({
 
     },
     getCurrentActiveResult: function(){
-      return "searchItem" + this.ActiveItem;
+      return this.refs["searchItem" + this.ActiveItem];
     },
     getNextResult: function(){
         this.ActiveItem += 1;
-        return "searchItem" + this.ActiveItem;
+        return this.refs["searchItem" + this.ActiveItem];
     },
     getPreviousResult: function(){
         this.ActiveItem -= 1;
-        return "searchItem" + this.ActiveItem;
+        return this.refs["searchItem" + this.ActiveItem];
     },
     moveUp: function(){
-      var references = this.refs;
-      references[this.getCurrentActiveResult()].removeActive();
-      references[this.getPreviousResult()].addActive();
+      var currentActiveResult = this.getCurrentActiveResult();
+      var previousResult = this.getPreviousResult();
+
+      if(currentActiveResult){
+        currentActiveResult.removeActive();
+      }
+
+      if(previousResult){
+        previousResult.addActive();
+      }
     },
     moveDown: function(){
-      var references = this.refs;
-      references[this.getCurrentActiveResult()].removeActive();
-      references[this.getNextResult()].addActive();
+      var currentActiveResult = this.getCurrentActiveResult();
+      var nextResult = this.getNextResult();
+
+      if(currentActiveResult){
+        currentActiveResult.removeActive();
+      }
+
+      if(nextResult){
+        nextResult.addActive();
+      }
     },
     componentWillMount: function () {
         AppStore.addChangeListener(this._change);
