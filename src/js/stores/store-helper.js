@@ -154,6 +154,30 @@ StoreHelper.prototype = (function () {
 
             return new ProcessStatus(true, MessageText.ActivityAvailable, this.TimeEntryActivities);
         },
+        updateTime = function (timeEntry) {
+           var validateTimeEntryProcess = validateTimeEntry.call(this, timeEntry);
+           if(validateTimeEntryProcess.status) {
+              return validateTimeEntryProcess;
+           }
+
+           var issue = Lodash.find(this.ActiveIssues, { 'id' : timeEntry.Id });
+           if(issue) {
+               issue.time_updated = true;
+               issue.spent_on = timeEntry.spent_on;
+               issue.hours = timeEntry.hours;
+               issue.activity_id = timeEntry.activity_id;
+               issue.comments = timeEntry.comments;
+               return new ProcessStatus(true, MessageText.TimeUpdated);
+           }
+           else {
+              return new ProcessStatus(false, MessageText.IssueNotFound);
+           }
+        },
+        validateTimeEntry = function (timeEntry) {
+            if(!timeEntry && !timeEntry.spent_on && !timeEntry.hours && !timeEntry.activity_id) {
+                return new ProcessStatus(false, MessageText.InvalidTimeEntry);
+            }
+        },
         createTimeEntries = function (entryCallback) {
             initServiceBase.call(this);
             var successCallback = function (data) {
@@ -162,7 +186,27 @@ StoreHelper.prototype = (function () {
                 failCallback = function (jqXHR, textStatus, errorThrown) {
                     entryCallback(new ProcessStatus(true, MessageText.TimeEntryFailure))
                 }.bind(this);
-            this.serviceBase.createTimeEntries(issues, successCallback, failCallback);
+
+            var updatedIssues = Lodash.filter(this.ActiveIssues, function (issue) {
+                return issue.time_updated;
+            });
+
+            var updatedIssues = [];
+            this.ActiveIssues.map(function (issue) {
+                if(issue.time_updated) {
+                  updatedIssues.push({
+                        time_entry: {
+                            issue_id: issue.issue_id,
+                            spent_on: issue.spent_on,
+                            hours: issue.hours,
+                            activity_id: issue.activity_id,
+                            comments: issue.comments
+                        }
+                    });
+                }
+            });
+
+            this.serviceBase.createTimeEntries(updatedIssues, successCallback, failCallback);
         };
 
     return {
@@ -173,7 +217,8 @@ StoreHelper.prototype = (function () {
         addIssue: addIssue,
         fetchTimeEntryActivities: fetchTimeEntryActivities,
         getTimeEntryActivities: getTimeEntryActivities,
-        createTimeEntries: createTimeEntries
+        createTimeEntries: createTimeEntries,
+        updateTime: updateTime
     };
 }());
 
