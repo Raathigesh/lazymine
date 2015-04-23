@@ -10,6 +10,7 @@ How to build?
 1. Install Node - https://nodejs.org/
 2. Clone the repository.
 3. Run "npm install" which will install all the dependencies.
+4. Run "npm install gulp -g" which will install gulp globally.
 4. Run "gulp" and "dist" folder will be created with the latest JS build.
 5. Run "gulp build" and "build" folder will be created with the executables.
 
