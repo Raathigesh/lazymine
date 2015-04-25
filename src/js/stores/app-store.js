@@ -8,21 +8,22 @@ var AppConstants = require('../constants/app-action-name'),
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
-    var SearchProcess = null,
-        ActiveProcess = null,
-        getSearchResultProcess = function () {
-            return SearchProcess;
+        var State = {
+            fetchInProgress : false, // denotes weather issues are being fetched.
+            filteredResult : [], // filtered search results.
+            activeItems : null, // active tasks selected by the user.
+            activities : null // activities available to enter time against. Fetched from server.
         },
-        getActiveTaskProcess = function () {
-            return ActiveProcess;
+        getState = function () {
+            return State;
         },
         onSearchBoxChange = function (payload) {
-            SearchProcess = payload;
-            EventEmitter.prototype.emit(AppEvent.Change);
+            State.filteredResult = payload.data; // set the newly filtered data.
+            EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
         },
-        onTaskListChange = function (payload) {
-            ActiveProcess = payload;
-            EventEmitter.prototype.emit(AppEvent.Change);
+        onTaskListChange = function (payload) {            
+            State.activeItems = payload.data; // set the new set of active items.
+            EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
         },
         addChangeListener = function (callback) {
             EventEmitter.prototype.on(AppEvent.Change, callback);
@@ -36,22 +37,24 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             case AppConstants.FetchIssues:
                 storeHelper.setSettings("", "");
                 storeHelper.fetchItems(function (callback) {
-                    SearchProcess = callback;
+                    //SearchProcess = callback;
+                });
+                storeHelper.fetchTimeEntryActivities(function (callback) {
+                    State.activities = storeHelper.getTimeEntryActivities().data;
                 });
                 break;
             case AppConstants.Search:
                 onSearchBoxChange.call(this, storeHelper.filter(action.query));
                 break;
-            case AppConstants.AddIssue:
+            case AppConstants.AddIssue:            
                 onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                 break;
             }
         });
 
-    return {
-        getSearchResultProcess: getSearchResultProcess,
-        getActiveTaskProcess: getActiveTaskProcess,
-        addChangeListener: addChangeListener,
+    return { 
+        getState: getState,
+        addChangeListener: addChangeListener, 
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex
     };

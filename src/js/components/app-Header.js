@@ -2,8 +2,6 @@
 var React = require('react');
 
 var Header = React.createClass({
-  componentWillMount: function () {
-  },
   render : function(){
     return (
       <nav className="navbar navbar-default">

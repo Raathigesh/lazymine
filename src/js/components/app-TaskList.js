@@ -4,33 +4,23 @@ var Task = require('../components/app-Task');
 var AppStore = require('../stores/app-store');
 
 var TaskList = React.createClass({
-  _change: function (payload) {
-    var activeTaskProcess = AppStore.getActiveTaskProcess();
-    if(activeTaskProcess){
-      this.setState({
-        "Items": activeTaskProcess.data
-      });
-    }
-  },
-  componentWillMount: function () {
-      AppStore.addChangeListener(this._change);
-  },
-  // Initial states with no items
+  
   getInitialState: function () {
     return {
-     "Items": null
+     "items": null
     };
   },
+  
   render : function(){
     var rows,
-        items = this.state.Items;
+        items = this.props.items;
 
     if(items){
       rows = items.map(function(item, i) {
         return(
           <div>
-          <Task updatedTime="15" projectName={item.project.name} taskName={item.subject}/>
-          <div className="list-group-separator"></div>
+            <Task updatedTime="15" projectName={item.project.name} taskName={item.subject}/>
+            <div className="list-group-separator"></div>
           </div>
         );
       });

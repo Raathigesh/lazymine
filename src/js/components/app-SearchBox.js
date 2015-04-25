@@ -1,128 +1,50 @@
-/*Modification of http://tonyspiro.com/dev/react-typeahead-search*/
-
 /** @jsx React.DOM */
 var React = require('react');
 var AppStore = require('../stores/app-store');
 var AppActions = require('../actions/app-actions');
-var ListItem = require('../components/app-SearchItem');
+var SearchResult = require('../components/app-SearchResult');
 
+var SearchBox = React.createClass({
 
-// Main search list component
-var SearchList = React.createClass({
     ActiveItem : 0,
-    _change: function () {
-        var searchResultProcess = AppStore.getSearchResultProcess();
-        this.setState({
-          "Items" :  searchResultProcess.data,
-          "ShowResults" : true
-        });
-        this.ActiveItem = 0;
 
-    },
-    getCurrentActiveResult: function(){
-      return this.refs["searchItem" + this.ActiveItem];
-    },
-    getNextResult: function(){
-        this.ActiveItem += 1;
-        return this.refs["searchItem" + this.ActiveItem];
-    },
-    getPreviousResult: function(){
-        this.ActiveItem -= 1;
-        return this.refs["searchItem" + this.ActiveItem];
-    },
-    moveUp: function(){
-      var currentActiveResult = this.getCurrentActiveResult();
-      var previousResult = this.getPreviousResult();
-
-      if(currentActiveResult){
-        currentActiveResult.removeActive();
-      }
-
-      if(previousResult){
-        previousResult.addActive();
-      }
-    },
-    moveDown: function(){
-      var currentActiveResult = this.getCurrentActiveResult();
-      var nextResult = this.getNextResult();
-
-      if(currentActiveResult){
-        currentActiveResult.removeActive();
-      }
-
-      if(nextResult){
-        nextResult.addActive();
-      }
-    },
-    componentWillMount: function () {
-        AppStore.addChangeListener(this._change);
-        AppActions.fetchIssues();
-    },
     // Filters items as user types
     filter: function (event) {
         var q = event.target.value;
         AppActions.search(q);
-    },
-
-    // Handle navigating through the result set using arraw keys
-    navigate: function (event) {
-        var nextActiveItem = null;
-        switch (event.which) {
-        case 38: // up
-            this.moveUp();
-            break;
-
-        case 40: // down
-            this.moveDown();
-            break;
-
-        case 13: // enter
-            var id = $('#search-results .result.active').attr('data-id');
-            AppActions.addIssue(id);
-            this.setState({
-              "Items" :  null
-            });
-            React.findDOMNode(this.refs.searchBox).value = "";
-            break;
-
-        default:
-            return; // exit this handler for other keys
-        }
-    },
+        this.toggleResultsPanel(true);
+    },    
 
     // Initial states with no items
     getInitialState: function () {
-      return {
-       "Items": null,
-        "ActiveItem" : null,
-        "ShowResults" : false
-      };
+        return {
+          "showResults" : true
+        };
     },
 
-    // React's magical render method
+    toggleResultsPanel: function(show){      
+        this.setState({
+          "showResults" : show
+        });
+    },
+
+    navigate: function (event) {      
+        this.refs.searchResult.navigate(event);
+    },
+    
     render: function() {
-        var rows,
-            items = this.state.Items;
-
-        if(items){
-          rows = items.map(function(item, i) {
-            var searchItemRef = "searchItem" + i;
-            return(
-              <ListItem item={item} id={item.id} ref={searchItemRef}/>
-            );
-          });
-        }
-
-        return (
-          <div className="col-md-12">
-              <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyDown={this.navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
-                <div id="search-results" ref="searchResults">
-                 <ul>
-                   {rows}
-                 </ul>
-               </div>
-          </div>);
+      return (
+        <div className="col-md-12">
+            <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyDown={this.navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
+            
+            { 
+              this.state.showResults 
+              ? <SearchResult ref="searchResult" results={this.props.items} toggleResultsPanel={this.toggleResultsPanel}/> 
+              : null 
+            }
+        </div>
+      );
     }
 });
 
-module.exports = SearchList;
+module.exports = SearchBox;

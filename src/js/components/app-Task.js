@@ -7,7 +7,9 @@ var TextField = Mui.TextField;
 var tweenState = require('react-tween-state');
 
 var Task = React.createClass({
+
   mixins: [tweenState.Mixin],
+
   handleClick: function() {
     this.tweenState('height', {
       easing: tweenState.easingTypes.easeInOutQuad,
@@ -16,21 +18,25 @@ var Task = React.createClass({
       endValue: this.state.height === 96 ? 245 : 96
     });
   },
+
   elementClick: function(event){
     event.stopPropagation();
   },
+
   hourEntered: function(event){
     var state = this.state;
     state.classes = "list-group-item updated";
     this.setState(state);
     event.stopPropagation();
   },
+
   getInitialState: function() {
     return {
       height: 96,
       classes: "list-group-item"
       };
   },
+  
   render : function(){
     var item = this.props.item;
     var menuItems = [
