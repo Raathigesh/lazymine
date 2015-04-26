@@ -3,6 +3,7 @@ var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 var NwBuilder = require('node-webkit-builder');
 var gutil = require('gulp-util');
+var browserSync = require('browser-sync').create();
 
 gulp.task('browserify', function () {
     gulp.src('src/js/main.js')
@@ -58,6 +59,20 @@ gulp.task('default', ['browserify', 'copy']);
 
 gulp.task('watch', function () {
     gulp.watch('src/**/*.*', ['default']);
+});
+
+gulp.task('serve', ['default'], function () {
+
+    // Serve files from the root of this project
+    browserSync.init({
+        server: {
+            baseDir: "./dist"
+        }
+    });
+
+    // add browserSync.reload to the tasks array to make
+    // all browsers reload after tasks are complete.
+    gulp.watch('src/**/*.*', ['default', browserSync.reload]);
 });
 
 gulp.task('ci', ['browserify', 'copy']);

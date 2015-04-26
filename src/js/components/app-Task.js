@@ -5,6 +5,7 @@ var DropDownMenu = Mui.DropDownMenu;
 var DatePicker = Mui.DatePicker;
 var TextField = Mui.TextField;
 var tweenState = require('react-tween-state');
+var AppActions = require('../actions/app-actions');
 
 var Task = React.createClass({
 
@@ -15,7 +16,7 @@ var Task = React.createClass({
       easing: tweenState.easingTypes.easeInOutQuad,
       duration: 500,
       beginValue:  this.state.height === 96 ? 96 : 245,
-      endValue: this.state.height === 96 ? 245 : 96
+      endValue: this.state.height === 96 ? 245 : 245
     });
   },
 
@@ -23,36 +24,39 @@ var Task = React.createClass({
     event.stopPropagation();
   },
 
+  activityChanged: function(e, selectedIndex, menuItem){
+
+  },
+
   hourEntered: function(event){
-    var state = this.state;
-    state.classes = "list-group-item updated";
-    this.setState(state);
+    debugger
+    var spentHours = React.findDOMNode(this.refs.spentHours).value;
+    AppActions.updateTime(this.props.item.id, this.activityId, spentHours);
     event.stopPropagation();
   },
 
   getInitialState: function() {
     return {
-      height: 96,
-      classes: "list-group-item"
+      height: 96
       };
   },
   
   render : function(){
-    var item = this.props.item;
-    var menuItems = [
-       { payload: '1', text: 'Requirement' },
-       { payload: '2', text: 'Design' },
-       { payload: '3', text: 'Developement' },
-       { payload: '4', text: 'Documentation' },
-       { payload: '5', text: 'Defect Fixing' },
-    ];
+    
+    var activities = this.props.activities;
+    var item = this.props.item;   
+    var classes = "list-group-item";
+
+    if(item.hasOwnProperty("time_updated") && item.time_updated == true){
+      classes = "list-group-item updated";
+    }
 
     var style = {
       height: this.getTweeningValue('height')
     };
 
     return (
-        <div style={style} onClick={this.handleClick} className={this.state.classes}>
+        <div style={style} onClick={this.handleClick} className={classes}>
             <div className="row-action-primary">
                 <i>F</i>
             </div>
@@ -67,8 +71,8 @@ var Task = React.createClass({
                 </div>
             </div>
             <div className="row-content task-input">
-              <DropDownMenu menuItems={menuItems} className="tracker-dropdown" onClick={this.elementClick}/>
-                <TextField hintText="Hours" onChange={this.hourEntered} className="hours-input"/>
+              <DropDownMenu menuItems={activities} className="tracker-dropdown" onClick={this.elementClick} onChange={this.activityChanged}/>
+              <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this.elementClick} onBlur={this.hourEntered}/>
             </div>
         </div>
       );

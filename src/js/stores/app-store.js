@@ -12,10 +12,13 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchInProgress : false, // denotes weather issues are being fetched.
             filteredResult : [], // filtered search results.
             activeItems : null, // active tasks selected by the user.
-            activities : null // activities available to enter time against. Fetched from server.
+            activities : new Array() // activities available to enter time against. Fetched from server.
         },
         getState = function () {
             return State;
+        },
+        getSettings = function(){
+            return storeHelper.getSettings();
         },
         onSearchBoxChange = function (payload) {
             State.filteredResult = payload.data; // set the newly filtered data.
@@ -31,29 +34,48 @@ module.exports = Merge(EventEmitter.prototype, (function () {
         removeChangeListeners = function (callback) {
             EventEmitter.prototype.removeListener(AppEvent.Change, callback);
         },
-        dispatcherIndex = AppDispatcher.register(function (payload) {
+        dispatcherIndex = AppDispatcher.register(function (payload) {            
             var action = payload.action;
             switch (action.actionType) {
-            case AppConstants.FetchIssues:
-                storeHelper.setSettings("", "");
-                storeHelper.fetchItems(function (callback) {
-                    //SearchProcess = callback;
-                });
-                storeHelper.fetchTimeEntryActivities(function (callback) {
-                    State.activities = storeHelper.getTimeEntryActivities().data;
-                });
-                break;
-            case AppConstants.Search:
-                onSearchBoxChange.call(this, storeHelper.filter(action.query));
-                break;
-            case AppConstants.AddIssue:            
-                onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
-                break;
-            }
+                case AppConstants.FetchIssues:                    
+                    storeHelper.fetchItems(function (callback) {
+                        
+                    });
+                    storeHelper.fetchTimeEntryActivities(function (callback) {   
+                        var activities = storeHelper.getTimeEntryActivities().data.time_entry_activities;
+                                         
+                        activities.map(function(item, i) {
+                            State.activities.push({
+                                text: item.name
+                            });
+                        });
+                    });
+                    break;
+                case AppConstants.Search:
+                    onSearchBoxChange.call(this, storeHelper.filter(action.query));
+                    break;
+                case AppConstants.AddIssue:            
+                    onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
+                    break;
+                case AppConstants.UpdateTime:                
+                    var result = storeHelper.updateTime(action);
+                    debugger
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                    break;
+                case AppConstants.CreateTimeEntries:
+                    storeHelper.createTimeEntries(function (result){
+                        
+                    });
+                    break;
+                case AppConstants.SaveSettings:
+                    storeHelper.setSettings(action.settings.url, action.settings.apiKey);
+                    break;
+                }
         });
 
     return { 
         getState: getState,
+        getSettings: getSettings,
         addChangeListener: addChangeListener, 
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex

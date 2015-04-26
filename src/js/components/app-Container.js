@@ -8,7 +8,7 @@ var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 
 var Container = React.createClass({
-  _change: function () {    
+  _change: function () {
       var storeState = AppStore.getState();
       this.setState(storeState);
   },
@@ -19,8 +19,7 @@ var Container = React.createClass({
   },
 
   getInitialState: function () {    
-      var s =   AppStore.getState();
-      return s;
+      return AppStore.getState();      
   },
   
   render : function(){
@@ -33,7 +32,7 @@ var Container = React.createClass({
             <TaskList items={this.state.activeItems} activities={this.state.activities}/>
           </div>
         </div>
-        <Footer/>
+        <Footer secondaryText="CANCEL" cancelLink="#" primaryText="UPDATE"/>
       </div>
     );
   }

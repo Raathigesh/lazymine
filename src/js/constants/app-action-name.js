@@ -1,5 +1,8 @@
 module.exports = {
     FetchIssues: "FetchIssues",
     Search: "Search",
-    AddIssue: "AddIssue"
+    AddIssue: "AddIssue",
+    UpdateTime: "UpdateTime",
+    CreateTimeEntries: "CreateTimeEntries",
+    SaveSettings: "SaveSettings"
 };

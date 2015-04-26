@@ -21,7 +21,7 @@ StoreHelper.prototype = (function () {
                 protocols: ['https']
             });
         },
-        setSettings = function (baseUrl, apiKey) {
+        setSettings = function (baseUrl, apiKey) {            
             if (!isValidUrl.call(this, baseUrl)) {
                 return new ProcessStatus(false, MessageText.InvalidURL);
             }
@@ -35,13 +35,14 @@ StoreHelper.prototype = (function () {
                 APIKey: apiKey
             };
 
-            localStorage.setItem(this.settingsKey, settings);
+            localStorage.setItem(this.settingsKey, JSON.stringify(settings));
             this.settings = settings;
 
             return new ProcessStatus(true, MessageText.SaveSuccessful);
         },
-        getSettings = function () {
-            var settings = localStorage.getItem(this.settingsKey);
+        getSettings = function () {            
+            var retr = localStorage.getItem(this.settingsKey);
+            var settings = JSON.parse(retr);
             if (settings) {
                 return settings;
             }

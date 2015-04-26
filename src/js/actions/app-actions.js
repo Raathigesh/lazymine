@@ -18,6 +18,30 @@ var AppActions = {
             actionType: AppConstants.AddIssue,
             issueId:issueId
         });
+    },
+    updateTime: function(issueId, activityId, spentHours){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.UpdateTime,
+            timeEntry: {
+                spent_on : issueId,
+                activity_id: activityId,
+                hours: spentHours
+            }
+        });
+    },
+    createTimeEntries: function(){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.CreateTimeEntries
+        });
+    },
+    saveSettings: function(url, apiKey){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.SaveSettings,
+            settings: {
+                url : url,
+                apiKey: apiKey
+            }
+        });
     }
 }
 

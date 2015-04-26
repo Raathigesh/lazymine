@@ -13,13 +13,14 @@ var TaskList = React.createClass({
   
   render : function(){
     var rows,
-        items = this.props.items;
+        items = this.props.items,
+        activities = this.props.activities;
 
     if(items){
       rows = items.map(function(item, i) {
         return(
           <div>
-            <Task updatedTime="15" projectName={item.project.name} taskName={item.subject}/>
+            <Task updatedTime="15" item={item} projectName={item.project.name} taskName={item.subject} activities={activities}/>
             <div className="list-group-separator"></div>
           </div>
         );
