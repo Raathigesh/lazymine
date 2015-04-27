@@ -8,7 +8,7 @@
         "frame": true,
         "toolbar": true,
         "show_in_taskbar": true,
-        "show": true,
+        "show": false,
         "always-on-top": true
     }
 }

@@ -1,32 +1,39 @@
 // Load library
 var gui = require('nw.gui');
 
-// Reference to window and tray
-var win = gui.Window.get();
-var tray;
+(function() {
+    "use strict";
+    // Reference to window and tray
+    var win = gui.Window.get(),
+        menu = new gui.Menu(),
+        tray;
 
-// Show tray
-tray = new gui.Tray({
-    icon: 'assets/icon_128.png'
-});
-
-tray.on('click', function () {
-    win.show();
-    this.remove();
-    tray = null;
-});
-
-win.on('minimize', function () {
-    // Hide window
-    this.hide();
-
+    // Show tray
     tray = new gui.Tray({
         icon: 'assets/icon_128.png'
     });
 
     tray.on('click', function () {
         win.show();
-        this.remove();
-        tray = null;
     });
-});
+
+    menu.append(new gui.MenuItem({
+        label: "Show",
+        click: function() {
+            // Quit current app
+            win.show();
+        }
+    }));
+
+    menu.append(new gui.MenuItem({ type: 'separator' }));
+
+    menu.append(new gui.MenuItem({
+        label: "Close",
+        click: function() {
+            // Quit current app
+            gui.App.quit();
+        }
+    }));
+
+    tray.menu = menu;
+}());
