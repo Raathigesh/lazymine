@@ -40,14 +40,17 @@ StoreHelper.prototype = (function () {
 
             return new ProcessStatus(true, MessageText.SaveSuccessful);
         },
-        getSettings = function () {            
+        getSettings = function () {                    
             var retr = localStorage.getItem(this.settingsKey);
             var settings = JSON.parse(retr);
             if (settings) {
                 return settings;
             }
 
-            return null;
+            return settings = {
+                BaseURL: "",
+                APIKey: ""
+            };
         },
         fetchSettings = function () {
             if (!this.settings) {
