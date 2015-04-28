@@ -5,13 +5,17 @@ var TextField = Mui.TextField;
 var Footer = require('../components/app-Footer');
 var AppStore = require('../stores/app-store');
 var AppActions = require('../actions/app-actions');
+var Router = require('react-router');
 
 var Settings = React.createClass({
-
-	saveSettings: function(){		 
+	contextTypes: {
+    	router: React.PropTypes.func
+  	},
+	saveSettings: function(){		 		
 		var url = this.refs.url.getValue();  
 		var apiKey = this.refs.apiKey.getValue();
 		AppActions.saveSettings(url, apiKey); 
+		this.context.router.transitionTo('home');
 	},
 
 	getInitialState: function () {		
