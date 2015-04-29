@@ -5,7 +5,6 @@ var AppConstants = require('../constants/app-action-name'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
     storeHelper = new StoreHelper();
-
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
         var State = {
@@ -18,13 +17,14 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             return State;
         },
         getSettings = function(){
-            return storeHelper.getSettings();
+            storeHelper.fetchSettings();
+            return storeHelper.settings;
         },
         onSearchBoxChange = function (payload) {
             State.filteredResult = payload.data; // set the newly filtered data.
             EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
         },
-        onTaskListChange = function (payload) {            
+        onTaskListChange = function (payload) {
             State.activeItems = payload.data; // set the new set of active items.
             EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
         },
@@ -34,16 +34,16 @@ module.exports = Merge(EventEmitter.prototype, (function () {
         removeChangeListeners = function (callback) {
             EventEmitter.prototype.removeListener(AppEvent.Change, callback);
         },
-        dispatcherIndex = AppDispatcher.register(function (payload) {            
+        dispatcherIndex = AppDispatcher.register(function (payload) {
             var action = payload.action;
             switch (action.actionType) {
-                case AppConstants.FetchIssues:                    
+                case AppConstants.FetchIssues:
                     storeHelper.fetchItems(function (callback) {
-                        
+
                     });
-                    storeHelper.fetchTimeEntryActivities(function (callback) {   
+                    storeHelper.fetchTimeEntryActivities(function (callback) {
                         var activities = storeHelper.getTimeEntryActivities().data.time_entry_activities;
-                                         
+
                         activities.map(function(item, i) {
                             State.activities.push({
                                 text: item.name
@@ -54,17 +54,17 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 case AppConstants.Search:
                     onSearchBoxChange.call(this, storeHelper.filter(action.query));
                     break;
-                case AppConstants.AddIssue:            
+                case AppConstants.AddIssue:
                     onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                     break;
-                case AppConstants.UpdateTime:                
+                case AppConstants.UpdateTime:
                     var result = storeHelper.updateTime(action);
                     debugger
                     EventEmitter.prototype.emit(AppEvent.Change);
                     break;
                 case AppConstants.CreateTimeEntries:
                     storeHelper.createTimeEntries(function (result){
-                        
+
                     });
                     break;
                 case AppConstants.SaveSettings:
@@ -73,10 +73,10 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 }
         });
 
-    return { 
+    return {
         getState: getState,
         getSettings: getSettings,
-        addChangeListener: addChangeListener, 
+        addChangeListener: addChangeListener,
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex
     };

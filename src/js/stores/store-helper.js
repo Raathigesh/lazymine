@@ -21,7 +21,7 @@ StoreHelper.prototype = (function () {
                 protocols: ['https']
             });
         },
-        setSettings = function (baseUrl, apiKey) {            
+        setSettings = function (baseUrl, apiKey) {
             if (!isValidUrl.call(this, baseUrl)) {
                 return new ProcessStatus(false, MessageText.InvalidURL);
             }
@@ -37,21 +37,16 @@ StoreHelper.prototype = (function () {
 
             localStorage.setItem(this.settingsKey, JSON.stringify(settings));
             this.settings = settings;
-
+            initServiceBase.call(this);
             return new ProcessStatus(true, MessageText.SaveSuccessful);
         },
-        getSettings = function () {                    
-            var retr = localStorage.getItem(this.settingsKey);
-            var settings = {
-                BaseURL: "",
-                APIKey: ""
-            };
-			
-			if (retr) {
-				settings = JSON.parse(retr);
-			}
+        getSettings = function () {
+            var storeSettings = localStorage.getItem(this.settingsKey);
+      			if (storeSettings) {
+              return JSON.parse(storeSettings);
+      			}
 
-            return settings;
+            return null;
         },
         fetchSettings = function () {
             if (!this.settings) {
@@ -72,6 +67,7 @@ StoreHelper.prototype = (function () {
             }
         },
         fetchItems = function (fetchCallback) {
+          debugger;
             var fetchSettingsProcess = fetchSettings.call(this);
             if (!fetchSettingsProcess.status) {
                 fetchCallback(fetchSettingsProcess);
@@ -104,7 +100,7 @@ StoreHelper.prototype = (function () {
                         return part.length > 1;
                     });
 
-                    var queryExpression = new RegExp("(" + parts.join('|') + ")", 'gi'),
+                    var queryExpression = new RegExp("(?=.*" + parts.join(')(?=.*') + ")", 'gi'),
                         matchstrings = item.subject.match(queryExpression);
 
                     if(matchstrings)
@@ -216,7 +212,7 @@ StoreHelper.prototype = (function () {
 
     return {
         setSettings: setSettings,
-        getSettings: getSettings,
+        fetchSettings: fetchSettings,
         fetchItems: fetchItems,
         filter: filter,
         addIssue: addIssue,
