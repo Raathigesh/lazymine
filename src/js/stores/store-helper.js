@@ -42,15 +42,16 @@ StoreHelper.prototype = (function () {
         },
         getSettings = function () {                    
             var retr = localStorage.getItem(this.settingsKey);
-            var settings = JSON.parse(retr);
-            if (settings) {
-                return settings;
-            }
-
-            return settings = {
+            var settings = {
                 BaseURL: "",
                 APIKey: ""
             };
+			
+			if (retr) {
+				settings = JSON.parse(retr);
+			}
+
+            return settings;
         },
         fetchSettings = function () {
             if (!this.settings) {
