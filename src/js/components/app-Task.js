@@ -11,6 +11,8 @@ var Task = React.createClass({
 
   mixins: [tweenState.Mixin],
 
+  activityId: 0,
+
   handleClick: function() {
     this.tweenState('height', {
       easing: tweenState.easingTypes.easeInOutQuad,
@@ -25,12 +27,14 @@ var Task = React.createClass({
   },
 
   activityChanged: function(e, selectedIndex, menuItem){
-
+    debugger
+    this.activityId = menuItem.id;
   },
 
   hourEntered: function(event){
     debugger
-    var spentHours = React.findDOMNode(this.refs.spentHours).value;
+    var spentHours = this.refs.spentHours.getValue();
+    debugger
     AppActions.updateTime(this.props.item.id, this.activityId, spentHours);
     event.stopPropagation();
   },

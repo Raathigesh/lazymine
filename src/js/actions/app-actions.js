@@ -23,9 +23,11 @@ var AppActions = {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.UpdateTime,
             timeEntry: {
-                spent_on : issueId,
+                issue_id: issueId,
+                spent_on : new Date(),
                 activity_id: activityId,
-                hours: spentHours
+                hours: spentHours,
+                comments: "test comment"
             }
         });
     },

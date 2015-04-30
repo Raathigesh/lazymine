@@ -13,7 +13,7 @@ module.exports = {
     IssueFilterSuccessful: "Issues filtered successfully.",
     NoActivityAvailable: "No Activities available.",
     ActivityAvailable: "Activities available.",
-    InvalidTimeEntry: "Invalid time entry.",
+    InvalidTimeEntry: "Invalid time entry object.",
     IssueNotFound: "Issue not found.",
     TimeUpdated: "Time entry updates."
 };

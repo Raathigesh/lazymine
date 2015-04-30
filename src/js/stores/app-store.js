@@ -17,8 +17,16 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             return State;
         },
         getSettings = function(){
-            storeHelper.fetchSettings();
-            return storeHelper.settings;
+            var fetchResult = storeHelper.fetchSettings();
+            if(fetchResult.status){
+                return storeHelper.settings;
+            }
+            else{
+                return {
+                    BaseURL: "",
+                    APIKey: ""
+                };
+            }
         },
         onSearchBoxChange = function (payload) {
             State.filteredResult = payload.data; // set the newly filtered data.
@@ -42,10 +50,12 @@ module.exports = Merge(EventEmitter.prototype, (function () {
 
                     });
                     storeHelper.fetchTimeEntryActivities(function (callback) {
+                        debugger
                         var activities = storeHelper.getTimeEntryActivities().data.time_entry_activities;
 
                         activities.map(function(item, i) {
                             State.activities.push({
+                                id: item.id,
                                 text: item.name
                             });
                         });
@@ -58,11 +68,13 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                     break;
                 case AppConstants.UpdateTime:
-                    var result = storeHelper.updateTime(action);
-                    debugger
+                debugger
+                    var result = storeHelper.updateTime(action.timeEntry);
+                    
                     EventEmitter.prototype.emit(AppEvent.Change);
                     break;
                 case AppConstants.CreateTimeEntries:
+                debugger
                     storeHelper.createTimeEntries(function (result){
 
                     });

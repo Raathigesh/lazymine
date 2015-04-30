@@ -156,15 +156,15 @@ StoreHelper.prototype = (function () {
             return new ProcessStatus(true, MessageText.ActivityAvailable, this.TimeEntryActivities);
         },
         updateTime = function (timeEntry) {
-           var validateTimeEntryProcess = validateTimeEntry.call(this, timeEntry);
-           if(validateTimeEntryProcess.status) {
-              return validateTimeEntryProcess;
+           var isValid = validateTimeEntry.call(this, timeEntry);
+           if(!isValid) {
+              return new ProcessStatus(false, MessageText.InvalidTimeEntry);
            }
 
-           var issue = Lodash.find(this.ActiveIssues, { 'id' : timeEntry.Id });
+           var issue = Lodash.find(this.ActiveIssues, { 'id' : timeEntry.issue_id });
            if(issue) {
                issue.time_updated = true;
-               issue.spent_on = timeEntry.spent_on;
+               issue.spent_on = "2015-04-29";//timeEntry.spent_on;
                issue.hours = timeEntry.hours;
                issue.activity_id = timeEntry.activity_id;
                issue.comments = timeEntry.comments;
@@ -176,8 +176,10 @@ StoreHelper.prototype = (function () {
         },
         validateTimeEntry = function (timeEntry) {
             if(!timeEntry && !timeEntry.spent_on && !timeEntry.hours && !timeEntry.activity_id) {
-                return new ProcessStatus(false, MessageText.InvalidTimeEntry);
+                return false;
             }
+
+            return true;
         },
         createTimeEntries = function (entryCallback) {
             initServiceBase.call(this);
@@ -191,13 +193,13 @@ StoreHelper.prototype = (function () {
             var updatedIssues = Lodash.filter(this.ActiveIssues, function (issue) {
                 return issue.time_updated;
             });
-
+debugger;
             var updatedIssues = [];
             this.ActiveIssues.map(function (issue) {
                 if(issue.time_updated) {
                   updatedIssues.push({
                         time_entry: {
-                            issue_id: issue.issue_id,
+                            issue_id: issue.id,
                             spent_on: issue.spent_on,
                             hours: issue.hours,
                             activity_id: issue.activity_id,

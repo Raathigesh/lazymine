@@ -22,6 +22,10 @@ var Container = React.createClass({
       return AppStore.getState();      
   },
   
+  updateTime: function(){
+    debugger
+      AppActions.createTimeEntries();
+  },
   render : function(){
     return (
       <div>
@@ -32,7 +36,7 @@ var Container = React.createClass({
             <TaskList items={this.state.activeItems} activities={this.state.activities}/>
           </div>
         </div>
-        <Footer secondaryText="CANCEL" cancelLink="#" primaryText="UPDATE"/>
+        <Footer primaryClick={this.updateTime} secondaryText="CANCEL" cancelLink="#" primaryText="UPDATE"/>
       </div>
     );
   }
