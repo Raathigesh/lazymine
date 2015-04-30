@@ -19,15 +19,15 @@ var AppActions = {
             issueId:issueId
         });
     },
-    updateTime: function(issueId, activityId, spentHours){
+    updateTime: function(issueId, activityId, spentHours, date, comment){
         AppDispatcher.handleViewAction({
             actionType: AppConstants.UpdateTime,
             timeEntry: {
                 issue_id: issueId,
-                spent_on : new Date(),
+                spent_on : date,
                 activity_id: activityId,
                 hours: spentHours,
-                comments: "test comment"
+                comments: comment
             }
         });
     },

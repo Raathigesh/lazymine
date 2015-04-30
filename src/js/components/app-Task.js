@@ -26,16 +26,15 @@ var Task = React.createClass({
     event.stopPropagation();
   },
 
-  activityChanged: function(e, selectedIndex, menuItem){
-    debugger
+  activityChanged: function(e, selectedIndex, menuItem){    
     this.activityId = menuItem.id;
   },
 
-  hourEntered: function(event){
-    debugger
+  hourEntered: function(event){    
     var spentHours = this.refs.spentHours.getValue();
-    debugger
-    AppActions.updateTime(this.props.item.id, this.activityId, spentHours);
+    var comment = this.refs.comment.getValue();
+    var today = new Date();
+    AppActions.updateTime(this.props.item.id, this.activityId, spentHours, today, comment);
     event.stopPropagation();
   },
 
@@ -71,7 +70,7 @@ var Task = React.createClass({
             </div>
             <div className="row-content task-input">
                 <div className="col-xs-12">
-                  <TextField hintText="Comment" className="comment-box" onClick={this.elementClick}/>
+                  <TextField ref="comment" hintText="Comment" className="comment-box" onClick={this.elementClick}/>
                 </div>
             </div>
             <div className="row-content task-input">
