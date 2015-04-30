@@ -13,7 +13,13 @@ var Task = React.createClass({
 
   activityId: 0,
 
-  handleClick: function() {
+  getInitialState: function() {
+    return {
+      height: 96
+      };
+  },
+
+  _handleClick: function() {
     this.tweenState('height', {
       easing: tweenState.easingTypes.easeInOutQuad,
       duration: 500,
@@ -22,27 +28,21 @@ var Task = React.createClass({
     });
   },
 
-  elementClick: function(event){
+  _elementClick: function(event){
     event.stopPropagation();
   },
 
-  activityChanged: function(e, selectedIndex, menuItem){    
+  _activityChanged: function(e, selectedIndex, menuItem){    
     this.activityId = menuItem.id;
   },
 
-  hourEntered: function(event){    
+  _hourEntered: function(event){    
     var spentHours = this.refs.spentHours.getValue();
     var comment = this.refs.comment.getValue();
     var today = new Date();
     AppActions.updateTime(this.props.item.id, this.activityId, spentHours, today, comment);
     event.stopPropagation();
-  },
-
-  getInitialState: function() {
-    return {
-      height: 96
-      };
-  },
+  },  
   
   render : function(){
     
@@ -59,23 +59,23 @@ var Task = React.createClass({
     };
 
     return (
-        <div style={style} onClick={this.handleClick} className={classes}>
+        <div style={style} onClick={this._handleClick} className={classes}>
             <div className="row-action-primary">
                 <i>F</i>
             </div>
             <div className="row-content">
                 <div className="least-content">{this.props.updatedTime} mins ago </div>
-                <h4 className="list-group-item-heading">{this.props.projectName}</h4>
-                <p className="list-group-item-text">{this.props.taskName}</p>
+                <h4 className="list-group-item-heading">{item.project.name}</h4>
+                <p className="list-group-item-text">{item.subject}</p>
             </div>
             <div className="row-content task-input">
                 <div className="col-xs-12">
-                  <TextField ref="comment" hintText="Comment" className="comment-box" onClick={this.elementClick}/>
+                  <TextField ref="comment" hintText="Comment" className="comment-box" onClick={this._elementClick}/>
                 </div>
             </div>
             <div className="row-content task-input">
-              <DropDownMenu menuItems={activities} className="tracker-dropdown" onClick={this.elementClick} onChange={this.activityChanged}/>
-              <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this.elementClick} onBlur={this.hourEntered}/>
+              <DropDownMenu menuItems={activities} className="tracker-dropdown" onClick={this._elementClick} onChange={this._activityChanged}/>
+              <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this._elementClick} onBlur={this._hourEntered}/>
             </div>
         </div>
       );

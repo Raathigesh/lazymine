@@ -8,25 +8,26 @@ var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 
 var Container = React.createClass({
-  _change: function () {
-      var storeState = AppStore.getState();
-      this.setState(storeState);
+  
+  getInitialState: function () {    
+      return AppStore.getState();      
   },
 
   componentWillMount: function () {
       AppStore.addChangeListener(this._change);
       AppActions.fetchIssues();
   },
-
-  getInitialState: function () {    
-      return AppStore.getState();      
-  },
   
-  updateTime: function(){
-    debugger
+  _change: function () {
+      var storeState = AppStore.getState();
+      this.setState(storeState);
+  },
+
+  _updateTime: function() {    
       AppActions.createTimeEntries();
   },
-  render : function(){
+
+  render : function() {
     return (
       <div>
         <div className="container-fluid">
@@ -36,7 +37,11 @@ var Container = React.createClass({
             <TaskList items={this.state.activeItems} activities={this.state.activities}/>
           </div>
         </div>
-        <Footer primaryClick={this.updateTime} secondaryText="CANCEL" cancelLink="#" primaryText="UPDATE"/>
+        <Footer 
+            primaryClick={this._updateTime} 
+            secondaryText="CANCEL" 
+            cancelLink="#" 
+            primaryText="UPDATE"/>
       </div>
     );
   }

@@ -20,7 +20,7 @@ var TaskList = React.createClass({
       rows = items.map(function(item, i) {
         return(
           <div>
-            <Task updatedTime="15" item={item} projectName={item.project.name} taskName={item.subject} activities={activities}/>
+            <Task updatedTime="15" item={item} activities={activities}/>
             <div className="list-group-separator"></div>
           </div>
         );

@@ -19,8 +19,8 @@ var RouteHandler = Router.RouteHandler;
 var App = React.createClass({
     render: function () {
         return (<div>        			
-                  	<Header/>
-                  	<RouteHandler/>
+                	<Header/>
+                	<RouteHandler/>
                 </div>);
     }
 });
