@@ -14,5 +14,8 @@ How to build?
 4. Run "gulp" and "dist" folder will be created with the latest JS build.
 5. Run "gulp build" and "build" folder will be created with the executables.
 
+Need more Details?
+Take a look at our [wiki](https://github.com/Raathigesh/Lazymine/wiki).
+
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE
