@@ -1,8 +1,12 @@
 var Lodash = require('lodash'),
+    moment = require('moment'),
     Validator = require('validator'),
     MessageText = require('../constants/message-text'),
     ServiceAccessor = require('./service-accessor'),
-    ProcessStatus = require('./process-status');
+    ProcessStatus = require('./process-status'),
+    ItemStatus = require("../constants/item-status"),
+    HttpHelper = require('./http-helper'),
+    UrlBuilder = require('./url-builder');
 
 var StoreHelper = function () {
     "use strict";
@@ -12,6 +16,11 @@ var StoreHelper = function () {
     this.AllIssues = [];
     this.ActiveIssues = [];
     this.TimeEntryActivities = null;
+    this.itemStatusCollection = [
+        ItemStatus.InProgress,
+        ItemStatus.New,
+        ItemStatus.ReOpened
+    ];
 };
 
 StoreHelper.prototype = (function () {
@@ -63,7 +72,7 @@ StoreHelper.prototype = (function () {
         },
         initServiceBase = function () {
             if(!this.serviceBase) {
-                this.serviceBase = new ServiceAccessor(this.settings.BaseURL, this.settings.APIKey);
+                this.serviceBase = new ServiceAccessor(new UrlBuilder(this.settings.BaseURL), new HttpHelper(this.settings.APIKey));
             }
         },
         fetchItems = function (fetchCallback) {
@@ -81,7 +90,7 @@ StoreHelper.prototype = (function () {
                 failCallbackHandler = function (jqXHR, textStatus, errorThrown) {
                     fetchCallback(new ProcessStatus(false, MessageText.FetchFailure));
                 }.bind(this);
-            this.serviceBase.getAllIssues(successCallbackHandler, failCallbackHandler);
+            this.serviceBase.getAllIssues(this.itemStatusCollection, successCallbackHandler, failCallbackHandler);
         },
         formatFilter = function (data, query) {
             return data.replace(new RegExp("(" + Validator.stripLow(query) + ")", 'gi'), "<b>$1</b>");
@@ -164,7 +173,7 @@ StoreHelper.prototype = (function () {
            var issue = Lodash.find(this.ActiveIssues, { 'id' : timeEntry.issue_id });
            if(issue) {
                issue.time_updated = true;
-               issue.spent_on = "2015-04-29";//timeEntry.spent_on;
+               issue.spent_on = moment().format("YYYY-MM-DD");
                issue.hours = timeEntry.hours;
                issue.activity_id = timeEntry.activity_id;
                issue.comments = timeEntry.comments;
@@ -190,10 +199,6 @@ StoreHelper.prototype = (function () {
                     entryCallback(new ProcessStatus(true, MessageText.TimeEntryFailure))
                 }.bind(this);
 
-            var updatedIssues = Lodash.filter(this.ActiveIssues, function (issue) {
-                return issue.time_updated;
-            });
-debugger;
             var updatedIssues = [];
             this.ActiveIssues.map(function (issue) {
                 if(issue.time_updated) {
