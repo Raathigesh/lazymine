@@ -4,9 +4,7 @@ var Lodash = require('lodash'),
     MessageText = require('../constants/message-text'),
     ServiceAccessor = require('./service-accessor'),
     ProcessStatus = require('./process-status'),
-    ItemStatus = require("../constants/item-status"),
-    HttpHelper = require('./http-helper'),
-    UrlBuilder = require('./url-builder');
+    HttpHelper = require('./http-helper');
 
 var StoreHelper = function () {
     "use strict";
@@ -16,11 +14,6 @@ var StoreHelper = function () {
     this.AllIssues = [];
     this.ActiveIssues = [];
     this.TimeEntryActivities = null;
-    this.itemStatusCollection = [
-        ItemStatus.InProgress,
-        ItemStatus.New,
-        ItemStatus.ReOpened
-    ];
 };
 
 StoreHelper.prototype = (function () {
@@ -72,11 +65,10 @@ StoreHelper.prototype = (function () {
         },
         initServiceBase = function () {
             if(!this.serviceBase) {
-                this.serviceBase = new ServiceAccessor(new UrlBuilder(this.settings.BaseURL), new HttpHelper(this.settings.APIKey));
+                this.serviceBase = new ServiceAccessor(this.settings.BaseURL, new HttpHelper(this.settings.APIKey));
             }
         },
         fetchItems = function (fetchCallback) {
-          debugger;
             var fetchSettingsProcess = fetchSettings.call(this);
             if (!fetchSettingsProcess.status) {
                 fetchCallback(fetchSettingsProcess);
@@ -87,10 +79,10 @@ StoreHelper.prototype = (function () {
                     this.AllIssues = $.makeArray(data);
                     fetchCallback(new ProcessStatus(true, MessageText.FetchSuccessful, this.AllIssues));
                 }.bind(this),
-                failCallbackHandler = function (jqXHR, textStatus, errorThrown) {
+                failCallbackHandler = function () {
                     fetchCallback(new ProcessStatus(false, MessageText.FetchFailure));
                 }.bind(this);
-            this.serviceBase.getAllIssues(this.itemStatusCollection, successCallbackHandler, failCallbackHandler);
+            this.serviceBase.getAllIssues(successCallbackHandler, failCallbackHandler);
         },
         formatFilter = function (data, query) {
             return data.replace(new RegExp("(" + Validator.stripLow(query) + ")", 'gi'), "<b>$1</b>");
@@ -151,7 +143,7 @@ StoreHelper.prototype = (function () {
                     this.TimeEntryActivities = data;
                     fetchCallback(new ProcessStatus(true, MessageText.FetchSuccessful));
                 }.bind(this),
-                failCallback = function (jqXHR, textStatus, errorThrown) {
+                failCallback = function () {
                     fetchCallback(new ProcessStatus(true, MessageText.FetchFailure, data));
                 }.bind(this);
             this.serviceBase.getTimeEntryActivities(successCallback, failCallback)

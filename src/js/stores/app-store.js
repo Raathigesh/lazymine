@@ -11,7 +11,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchInProgress : false, // denotes weather issues are being fetched.
             filteredResult : [], // filtered search results.
             activeItems : null, // active tasks selected by the user.
-            activities : new Array() // activities available to enter time against. Fetched from server.
+            activities : [] // activities available to enter time against. Fetched from server.
         },
         getState = function () {
             return State;
@@ -50,7 +50,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
 
                     });
                     storeHelper.fetchTimeEntryActivities(function (callback) {
-                        debugger
                         var activities = storeHelper.getTimeEntryActivities().data.time_entry_activities;
 
                         activities.map(function(item, i) {
@@ -68,15 +67,11 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                     break;
                 case AppConstants.UpdateTime:
-                debugger
                     var result = storeHelper.updateTime(action.timeEntry);
-                    
                     EventEmitter.prototype.emit(AppEvent.Change);
                     break;
                 case AppConstants.CreateTimeEntries:
-                debugger
                     storeHelper.createTimeEntries(function (result){
-
                     });
                     break;
                 case AppConstants.SaveSettings:
