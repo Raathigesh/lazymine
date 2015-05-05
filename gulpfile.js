@@ -14,7 +14,7 @@ var uglify = require('gulp-uglify');
 var bases = {
  src: 'src/',
  dist: 'dist/',
- concat: 'dist/concat',
+ concat: 'dist/concat/',
  webkit: 'dist/build/'
 };
 
@@ -57,6 +57,7 @@ gulp.task('build-scripts', function() {
 
 gulp.task('build-css', function() {
   return gulp.src(paths.styles, {cwd: bases.src})
+	.pipe(concat('style.css'))
     .pipe(minifyCss())
     .pipe(gulp.dest(bases.concat + 'css/'));
 });
