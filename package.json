@@ -25,13 +25,14 @@
     "browser-sync": "^2.6.5",
     "es6-promise": "^2.0.1",
     "karma": "~0.12.31",
-    "karma-jasmine": "~0.3.5",
-    "karma-chrome-launcher": "~0.1",
     "karma-browserify": "~4.1.2",
+    "karma-chrome-launcher": "~0.1",
+    "karma-jasmine": "~0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
     "requirejs": "^2.1.17"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "node_modules/karma/bin/karma start"
   },
   "author": "",
   "license": "ISC"

@@ -4,6 +4,7 @@ var concat = require('gulp-concat');
 var NwBuilder = require('node-webkit-builder');
 var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
+var karma = require('karma').server;
 
 gulp.task('browserify', function () {
     gulp.src('src/js/main.js')
@@ -55,7 +56,14 @@ gulp.task('copy', function () {
         .pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('default', ['browserify', 'copy']);
+gulp.task('test', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('default', ['test', 'browserify', 'copy']);
 
 gulp.task('watch', function () {
     gulp.watch('src/**/*.*', ['default']);
@@ -77,4 +85,4 @@ gulp.task('serve', ['default'], function () {
 
 gulp.task('ci', ['browserify', 'copy']);
 
-gulp.task('build', ['browserify', 'copy', 'webkit-build']);
+gulp.task('build', ['test', 'browserify', 'copy', 'webkit-build']);
