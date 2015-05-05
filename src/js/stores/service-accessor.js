@@ -84,7 +84,7 @@ ServiceAccessor.prototype = (function () {
             var promises = [],
                 timeEntryUrl = new UrlBuilder(this.serviceBaseUrl).buildTimeEntryUrl();
 
-            for (index = 0; index < issues.length; index = index + 1) {
+            for (var index = 0; index < issues.length; index = index + 1) {
                 promises.push(this.httpHelper.postRequest(timeEntryUrl, issues[0]));
             }
 
