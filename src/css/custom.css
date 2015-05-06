@@ -60,7 +60,7 @@ body{
  }
 
 .list-group-item.open{
-	height : 245px;
+	height : 230px;
 	transition: all .25s ease-in-out;
 }
 
