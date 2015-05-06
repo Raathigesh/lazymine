@@ -33,7 +33,6 @@ var Container = React.createClass({
         <div className="container-fluid">
           <div className="row">
             <SearchBox items={this.state.filteredResult}/>
-            <Title text="LAST TIME ENTERED TASKS"/>
             <TaskList items={this.state.activeItems} activities={this.state.activities}/>
           </div>
         </div>

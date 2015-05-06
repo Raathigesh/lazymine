@@ -51,14 +51,12 @@ var Task = React.createClass({
     },
   
     render : function(){
-    
         var activities = this.props.activities;
         var item = this.props.item;
 
         // Just get the first proper letter of the project
         var icontext = this.props.item.project.name.replace(/[^a-z]/gi,'').charAt(0);
 
-        debugger;
         // Commented out. We might not need this.
         /*if(item.hasOwnProperty("time_updated") && item.time_updated == true){
             this.setState({
