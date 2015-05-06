@@ -107,4 +107,8 @@ UrlBuilder.prototype = (function () {
     };
 }());
 
+UrlBuilder.createInstance = function (serviceBaseUrl) {
+    return new UrlBuilder(serviceBaseUrl);
+};
+
 module.exports = UrlBuilder;

@@ -165,7 +165,7 @@ describe("URL Builder - buildTimeEntryActivitiesUrl", function() {
     });
 });
 
-describe("URL Builder - setItemStatus", function() {
+describe("URL Builder - withItemStatus", function() {
     var builder;
     beforeEach(function() {
         var uri = "https://track.zone24x7.lk";

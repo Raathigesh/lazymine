@@ -58,4 +58,8 @@ HttpHelper.prototype = (function () {
     };
 }());
 
+HttpHelper.createInstance = function (apiKey) {
+    return new HttpHelper(apiKey);
+};
+
 module.exports = HttpHelper;

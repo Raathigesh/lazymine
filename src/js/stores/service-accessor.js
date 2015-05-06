@@ -50,7 +50,7 @@ ServiceAccessor.prototype = (function () {
             var promises = [],
                 issues = [],
                 index,
-                urlBuilder = new UrlBuilder(this.serviceBaseUrl),
+                urlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl),
                 issuesUrl = urlBuilder.withItemStatus(itemStatus).buildIssuesUrl();
 
             $.when(this.httpHelper.getRequest(issuesUrl)).done(function (data) {
@@ -82,7 +82,7 @@ ServiceAccessor.prototype = (function () {
         },
         createTimeEntries = function (issues, timeEntrySuccessCallback, timeEntryFailCallback) {
             var promises = [],
-                timeEntryUrl = new UrlBuilder(this.serviceBaseUrl).buildTimeEntryUrl();
+                timeEntryUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryUrl();
 
             for (var index = 0; index < issues.length; index = index + 1) {
                 promises.push(this.httpHelper.postRequest(timeEntryUrl, issues[0]));
@@ -95,7 +95,7 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
         },
         getTimeEntryActivities = function (activitySuccessCallback, activityFailCallback) {
-            var TimeEntryActivitiesUrl = new UrlBuilder(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
+            var TimeEntryActivitiesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
             $.when(this.httpHelper.getRequest(TimeEntryActivitiesUrl)).done(function (response) {
                 activitySuccessCallback(response);
             }.bind(this)).fail(function () {
@@ -108,5 +108,9 @@ ServiceAccessor.prototype = (function () {
         getTimeEntryActivities: getTimeEntryActivities
     };
 }());
+
+ServiceAccessor.createInstance = function (serviceBaseUrl, httpHelper) {
+    return new ServiceAccessor(serviceBaseUrl, httpHelper);
+};
 
 module.exports = ServiceAccessor;

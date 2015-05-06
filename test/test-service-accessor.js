@@ -1,13 +1,41 @@
-var ServiceAccessor = require('../src/js/stores/service-accessor');
+var ServiceAccessor = require('../src/js/stores/service-accessor'),
+    HttpHelper = require('../src/js/stores/http-helper'),
+    UrlBuilder = require('../src/js/stores/url-builder'),
+    $ = require("jquery");
 
-describe("HTTP Helper - construct", function() {
-    it("Should throw error when provided API key is not provided", function() {
-        expect(function() {
-            new HttpHelper(12)
-        }).toThrowError(InvalidArgumentError, "Parameter apiKey must be a none empty string.");
+describe("Service Accessor - getTimeEntryActivities", function() {
+    var serviceAccessor = null,
+        fakeUrl = "https://track.zone24x7.lk/",
+        fakeData = "fake data",
+        fakeHttpHelper = new HttpHelper("fake api key"),
+        fakeUrlBuilder = new UrlBuilder(fakeUrl),
+        successCallback = null,
+        failCallback = null;
 
-        expect(function() {
-            new HttpHelper("")
-        }).toThrowError(InvalidArgumentError, "Parameter apiKey must be a none empty string.");
+    beforeEach(function() {
+        spyOn(UrlBuilder, "createInstance").and.callFake(function (){
+            return fakeUrlBuilder;
+        });
+        serviceAccessor = new ServiceAccessor(fakeUrl, fakeHttpHelper);
+
+        successCallback = jasmine.createSpy('successCallback');
+        failCallback = jasmine.createSpy('failCallback');
+    });
+
+    it("Should call success callback when promise is resolved", function() {
+        spyOn(fakeUrlBuilder, 'buildTimeEntryActivitiesUrl').and.callFake(function () {
+            return fakeUrl;
+        });
+        spyOn(fakeHttpHelper, 'getRequest').and.callFake(function () {
+            var deferred = $.Deferred();
+            deferred.resolve(fakeData);
+            return deferred.promise();
+        });
+
+        serviceAccessor.getTimeEntryActivities(successCallback, failCallback);
+
+        expect(UrlBuilder.createInstance).toHaveBeenCalledWith(fakeUrl);
+        expect(successCallback).toHaveBeenCalledWith(fakeData);
+        expect(failCallback).not.toHaveBeenCalled();
     });
 });
