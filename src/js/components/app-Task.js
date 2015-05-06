@@ -20,7 +20,7 @@ var Task = React.createClass({
         };
     },
 
-    _handleClick: function() {
+    _handleClick: function(event) {
         if(this.state.open) {
             this.setState({
                 open: false,
@@ -47,6 +47,7 @@ var Task = React.createClass({
         var comment = this.refs.comment.getValue();
         var today = new Date();
         AppActions.updateTime(this.props.item.id, this.activityId, spentHours, today, comment);
+
         event.stopPropagation();
     },
   
@@ -80,7 +81,9 @@ var Task = React.createClass({
                     </div>
                 </div>
                 <div className="row-content task-input">
-                  <DropDownMenu menuItems={activities} className="tracker-dropdown" onClick={this._elementClick} onChange={this._activityChanged}/>
+                    <div className="tracker-dropdown-wrap" onClick={this._elementClick}>
+                        <DropDownMenu menuItems={activities} className="tracker-dropdown" onChange={this._activityChanged}/>
+                    </div>
                   <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this._elementClick} onBlur={this._hourEntered}/>
                 </div>
             </div>

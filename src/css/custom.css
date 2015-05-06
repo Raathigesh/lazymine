@@ -93,3 +93,7 @@ body{
 .tracker-dropdown{
 	margin-left: -5px;
 }
+
+.tracker-dropdown-wrap{
+	display: inline-block;
+}
