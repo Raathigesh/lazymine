@@ -94,7 +94,7 @@ var SearchResult = React.createClass({
     render: function() {
         var rows,
             items = this.props.results,
-            toggle = this.togglePanel,
+            toggle = this._togglePanel,
             clear = this._clearCurrentActiveResult;
 
         if(items){
