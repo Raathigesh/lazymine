@@ -72,6 +72,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     break;
                 case AppConstants.CreateTimeEntries:
                     storeHelper.createTimeEntries(function (result){
+                        EventEmitter.prototype.emit(AppEvent.Change);
                     });
                     break;
                 case AppConstants.SaveSettings:
