@@ -6,8 +6,8 @@
     "window": {
         "title": "Lazymine",
         "frame": true,
-        "toolbar": true,
-        "show_in_taskbar": true,
+        "toolbar": false,
+        "show_in_taskbar": false,
         "show": false,
         "always-on-top": true
     }

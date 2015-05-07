@@ -24,7 +24,7 @@ var gui = require('nw.gui'); // Load native UI library
 
     localStorage.setItem(windowKey, JSON.stringify(windowConf));
 
-    win.on('blur', function () {
+    /*win.on('blur', function () {
         localStorage.setItem(windowKey, JSON.stringify({
             width : win.width,
             height : win.height,
@@ -34,7 +34,7 @@ var gui = require('nw.gui'); // Load native UI library
 
         // Hide window
         this.hide();
-    });
+    });*/
 
     win.on('close', function () {
         localStorage.setItem(windowKey, JSON.stringify({

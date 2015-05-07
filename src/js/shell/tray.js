@@ -19,8 +19,7 @@ var gui = require('nw.gui');
 
     menu.append(new gui.MenuItem({
         label: "Show",
-        click: function() {
-            // Quit current app
+        click: function() {            
             win.show();
         }
     }));
@@ -28,7 +27,7 @@ var gui = require('nw.gui');
     menu.append(new gui.MenuItem({ type: 'separator' }));
 
     menu.append(new gui.MenuItem({
-        label: "Close",
+        label: "Exit",
         click: function() {
             // Quit current app
             gui.App.quit();
