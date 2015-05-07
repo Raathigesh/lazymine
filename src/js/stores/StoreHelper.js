@@ -1,10 +1,11 @@
-var Lodash = require('lodash'),
+var _ = require('lodash'),
     moment = require('moment'),
     Validator = require('validator'),
     MessageText = require('../constants/message-text'),
-    ServiceAccessor = require('./service-accessor'),
+    ServiceAccessor = require('./ServiceAccessor'),
     ProcessStatus = require('./process-status'),
-    HttpHelper = require('./http-helper');
+    HttpHelper = require('./HttpHelper'),
+    TimeEntry = require('./TimeEntry');
 
 var StoreHelper = function () {
     "use strict";
@@ -94,10 +95,10 @@ StoreHelper.prototype = (function () {
             }
 
             var upperQueryParts = query.toUpperCase().split(' '),
-                filterItems = Lodash.filter(this.AllIssues, function (item) {
+                filterItems = _.filter(this.AllIssues, function (item) {
                     item.matchCount = 0;
 
-                    var parts = Lodash.filter(upperQueryParts, function(part) {
+                    var parts = _.filter(upperQueryParts, function(part) {
                         return part.length > 1;
                     });
 
@@ -113,7 +114,7 @@ StoreHelper.prototype = (function () {
                     return item.matchCount > 0;
                 });
 
-            var sortedList = Lodash.sortByOrder(filterItems, ['matchCount'], [false]);
+            var sortedList = _.sortByOrder(filterItems, ['matchCount'], [false]);
 
             sortedList.map(function (item) {
                 item.formattedTitle = item.subject;
@@ -127,15 +128,21 @@ StoreHelper.prototype = (function () {
             return new ProcessStatus(true, MessageText.IssueFilterSuccessful, sortedList);
         },
         addIssue = function (id) {
-            var issue = Lodash.find(this.AllIssues, function (item) {
+            var issue = _.find(this.AllIssues, function (item) {
                     return item.id === parseInt(id);
                 });
             if(!issue) {
                 return new ProcessStatus(false, MessageText.IssueNotFound)
             }
 
-            this.ActiveIssues.push(issue);
+            this.ActiveIssues.push(TimeEntry.createInstance(issue.id, issue.subject, issue.project.name));
             return new ProcessStatus(true, MessageText.IssueAdded, this.ActiveIssues);
+        },
+        updateTimeEntry = function (timeEntry) {
+            var entry = _.find(this.ActiveIssues, { 'id': timeEntry.id }),
+                today = moment().format("YYYY-MM-DD");
+
+            entry.updateEntry(today, parseInt(timeEntry.hours), timeEntry.activityId, timeEntry.comments);
         },
         fetchTimeEntryActivities = function (fetchCallback) {
             initServiceBase.call(this);
@@ -156,56 +163,23 @@ StoreHelper.prototype = (function () {
 
             return new ProcessStatus(true, MessageText.ActivityAvailable, this.TimeEntryActivities);
         },
-        updateTime = function (timeEntry) {
-           var isValid = validateTimeEntry.call(this, timeEntry);
-           if(!isValid) {
-              return new ProcessStatus(false, MessageText.InvalidTimeEntry);
-           }
-
-           var issue = Lodash.find(this.ActiveIssues, { 'id' : timeEntry.issue_id });
-           if(issue) {
-               issue.time_updated = true;
-               issue.spent_on = moment().format("YYYY-MM-DD");
-               issue.hours = timeEntry.hours;
-               issue.activity_id = timeEntry.activity_id;
-               issue.comments = timeEntry.comments;
-               return new ProcessStatus(true, MessageText.TimeUpdated);
-           }
-           else {
-              return new ProcessStatus(false, MessageText.IssueNotFound);
-           }
-        },
-        validateTimeEntry = function (timeEntry) {
-            if(!timeEntry && !timeEntry.spent_on && !timeEntry.hours && !timeEntry.activity_id) {
-                return false;
-            }
-
-            return true;
-        },
         createTimeEntries = function (entryCallback) {
             initServiceBase.call(this);
-            var successCallback = function (data) {
-                    entryCallback(new ProcessStatus(true, MessageText.TimeEntrySuccessful))
+            var successCallback = function (status) {
+                    if(status) {
+                        entryCallback(new ProcessStatus(true, MessageText.TimeEntrySuccessful));
+                    }
+                    else {
+                        entryCallback(new ProcessStatus(true, MessageText.TimeEntryFailure))
+                    }
                 }.bind(this),
-                failCallback = function (jqXHR, textStatus, errorThrown) {
+                failCallback = function () {
                     entryCallback(new ProcessStatus(true, MessageText.TimeEntryFailure))
                 }.bind(this);
 
-            var updatedIssues = [];
-            this.ActiveIssues.map(function (issue) {
-                if(issue.time_updated) {
-                  updatedIssues.push({
-                        time_entry: {
-                            issue_id: issue.id,
-                            spent_on: issue.spent_on,
-                            hours: issue.hours,
-                            activity_id: issue.activity_id,
-                            comments: issue.comments
-                        }
-                    });
-                }
+            var updatedIssues = _.remove(this.ActiveIssues, function (entry) {
+                return entry.updated;
             });
-
             this.serviceBase.createTimeEntries(updatedIssues, successCallback, failCallback);
         };
 
@@ -215,10 +189,10 @@ StoreHelper.prototype = (function () {
         fetchItems: fetchItems,
         filter: filter,
         addIssue: addIssue,
+        updateTimeEntry: updateTimeEntry,
         fetchTimeEntryActivities: fetchTimeEntryActivities,
         getTimeEntryActivities: getTimeEntryActivities,
-        createTimeEntries: createTimeEntries,
-        updateTime: updateTime
+        createTimeEntries: createTimeEntries
     };
 }());
 

@@ -1,14 +1,19 @@
 var InvalidArgumentError = require("../error/InvalidArgumentError"),
     ItemStatus = require("../constants/item-status"),
-    HttpHelper = require('./http-helper'),
-    UrlBuilder = require('./url-builder'),
+    HttpHelper = require('./HttpHelper'),
+    UrlBuilder = require('./UrlBuilder'),
+    TimeEntry = require('./TimeEntry'),
     $ = require("jquery"),
-    _ = require('lodash');
+    Validator = require('validator');
 
 var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
     "use strict";
+    if(!Validator.isURL(serviceBaseUrl)){
+        throw new InvalidArgumentError("Parameter serviceBaseUrl must be a URL.");
+    }
+
     if(!(httpHelper instanceof HttpHelper)) {
-        throw new InvalidArgumentError("Parameter httpHelper must be instance of HttpHelper");
+        throw new InvalidArgumentError("Parameter httpHelper must be an instance of HttpHelper.");
     }
 
     this.serviceBaseUrl = serviceBaseUrl;
@@ -36,6 +41,14 @@ ServiceAccessor.prototype = (function () {
             return promises;
         },
         getAllIssues = function (issueSuccessCallback, issueFailCallback) {
+            if(typeof issueSuccessCallback !== "function") {
+                throw new InvalidArgumentError("Parameter issueSuccessCallback must be a function.");
+            }
+
+            if(typeof issueFailCallback !== "function") {
+                throw new InvalidArgumentError("Parameter issueFailCallback must be a function.");
+            }
+
             $.when.apply(this, getIssuePromises.call(this)).done(function () {
                 var issues = [];
                 for (var index = 0; index < arguments.length; index = index + 1) {
@@ -47,6 +60,14 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
         },
         getIssues = function (itemStatus, issueSuccessCallback, issueFailCallback) {
+            if(typeof issueSuccessCallback !== "function") {
+                throw new InvalidArgumentError("Parameter issueSuccessCallback must be a function.");
+            }
+
+            if(typeof issueFailCallback !== "function") {
+                throw new InvalidArgumentError("Parameter issueFailCallback must be a function.");
+            }
+
             var promises = [],
                 issues = [],
                 index,
@@ -80,13 +101,29 @@ ServiceAccessor.prototype = (function () {
                 issueFailCallback();
             }.bind(this));
         },
-        createTimeEntries = function (issues, timeEntrySuccessCallback, timeEntryFailCallback) {
+        createTimeEntries = function (timeEntryCollection, timeEntrySuccessCallback, timeEntryFailCallback) {
+            if(typeof timeEntrySuccessCallback !== "function") {
+                throw new InvalidArgumentError("Parameter timeEntrySuccessCallback must be a function.");
+            }
+
+            if(typeof timeEntryFailCallback !== "function") {
+                throw new InvalidArgumentError("Parameter timeEntryFailCallback must be a function.");
+            }
+
+            if(!(timeEntryCollection instanceof Array)) {
+                throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
+            }
+
             var promises = [],
                 timeEntryUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryUrl();
 
-            for (var index = 0; index < issues.length; index = index + 1) {
-                promises.push(this.httpHelper.postRequest(timeEntryUrl, issues[0]));
-            }
+            timeEntryCollection.map(function (timeEntry) {
+                if(!(timeEntry instanceof TimeEntry)) {
+                    throw new InvalidArgumentError("Parameter timeEntryCollection must contain TimeEntry objects.");
+                }
+
+                promises.push(this.httpHelper.postRequest(timeEntryUrl, timeEntry.buildPostEntry()));
+            }.bind(this));
 
             $.when.apply($, promises).done(function () {
                 timeEntrySuccessCallback(true);
@@ -95,6 +132,14 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
         },
         getTimeEntryActivities = function (activitySuccessCallback, activityFailCallback) {
+            if(typeof activitySuccessCallback !== "function") {
+                throw new InvalidArgumentError("Parameter activitySuccessCallback must be a function.");
+            }
+
+            if(typeof activityFailCallback !== "function") {
+                throw new InvalidArgumentError("Parameter activityFailCallback must be a function.");
+            }
+
             var TimeEntryActivitiesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
             $.when(this.httpHelper.getRequest(TimeEntryActivitiesUrl)).done(function (response) {
                 activitySuccessCallback(response);
@@ -104,6 +149,7 @@ ServiceAccessor.prototype = (function () {
         };
     return {
         getAllIssues: getAllIssues,
+        getIssues: getIssues,
         createTimeEntries: createTimeEntries,
         getTimeEntryActivities: getTimeEntryActivities
     };

@@ -1,7 +1,7 @@
 var AppConstants = require('../constants/app-action-name'),
     AppEvent = require('../constants/app-event'),
     AppDispatcher = require('../dispatchers/app-dispatcher'),
-    StoreHelper = require('./store-helper'),
+    StoreHelper = require('./StoreHelper'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
     storeHelper = new StoreHelper();
@@ -67,7 +67,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
                     break;
                 case AppConstants.UpdateTime:
-                    var result = storeHelper.updateTime(action.timeEntry);
+                    var result = storeHelper.updateTimeEntry(action.timeEntry);
                     EventEmitter.prototype.emit(AppEvent.Change);
                     break;
                 case AppConstants.CreateTimeEntries:

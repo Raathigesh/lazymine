@@ -36,11 +36,10 @@ var Task = React.createClass({
     this.activityId = menuItem.id;
   },
 
-  _hourEntered: function(event){    
+  _hourEntered: function(event){
     var spentHours = this.refs.spentHours.getValue();
     var comment = this.refs.comment.getValue();
-    var today = new Date();
-    AppActions.updateTime(this.props.item.id, this.activityId, spentHours, today, comment);
+    AppActions.updateTime(this.props.item.id, this.activityId, spentHours, comment);
     event.stopPropagation();
   },  
   
@@ -65,8 +64,8 @@ var Task = React.createClass({
             </div>
             <div className="row-content">
                 <div className="least-content">{this.props.updatedTime} mins ago </div>
-                <h4 className="list-group-item-heading">{item.project.name}</h4>
-                <p className="list-group-item-text">{item.subject}</p>
+                <h4 className="list-group-item-heading">{item.projectName}</h4>
+                <p className="list-group-item-text">{item.issueName}</p>
             </div>
             <div className="row-content task-input">
                 <div className="col-xs-12">

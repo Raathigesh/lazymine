@@ -1,4 +1,4 @@
-var HttpHelper = require('../src/js/stores/http-helper'),
+var HttpHelper = require('../src/js/stores/HttpHelper'),
     InvalidArgumentError = require('../src/js/error/InvalidArgumentError'),
     $ = require("jquery");
 
