@@ -42,11 +42,10 @@ var Task = React.createClass({
         this.activityId = menuItem.id;
     },
 
-  _hourEntered: function(event){      
-        var spentHours = this.refs.spentHours.getValue();
+    _hourEntered: function(event){
+       var spentHours = this.refs.spentHours.getValue();
         var comment = this.refs.comment.getValue();
-    AppActions.updateTime(this.props.item.id, this.activityId, spentHours, comment);
-
+        AppActions.updateTime(this.props.item.id, this.activityId, spentHours, comment);
         event.stopPropagation();
     },
   
