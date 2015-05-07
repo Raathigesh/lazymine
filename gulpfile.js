@@ -126,7 +126,12 @@ gulp.task('default', function(callback) {
 				callback);		
 });
 
-gulp.task('ci', ['browserify', 'copy-extras']);
+gulp.task('ci', function(callback) {
+    runSequence('clean',
+        ['browserify', 'build-scripts', 'build-css', 'copy-extras'],
+        'webkit-build',
+        callback);
+});
 
 gulp.task('build', function(callback) {
 	runSequence(['clean', 'test'],
