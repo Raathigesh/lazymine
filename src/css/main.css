@@ -2336,7 +2336,7 @@ hr {
 .mui-text-field {
   font-size: 16px;
   line-height: 24px;
-  width: 256px;
+  /*width: 256px;*/
   height: 48px;
   display: inline-block;
   position: relative;

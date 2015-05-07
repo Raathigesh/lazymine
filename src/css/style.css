@@ -37,6 +37,7 @@ li {
     color: #000000;
     padding: 10px 20px;
     display: block;
+    cursor:pointer;
     background-color: white;
 }
 

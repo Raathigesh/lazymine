@@ -20,6 +20,7 @@
     "react-router": "^0.13.2",
     "react-tween-state": "0.0.5",
     "reactify": "^1.0.0",
+    "rx": "^2.5.2",
     "validator": "^3.37.0"
   },
   "devDependencies": {

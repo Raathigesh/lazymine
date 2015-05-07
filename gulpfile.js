@@ -62,6 +62,28 @@ gulp.task('build-css', function() {
     .pipe(gulp.dest(bases.concat + 'css/'));
 });
 
+gulp.task('dev-browserify', function () {
+    return gulp.src(paths.main, {cwd: bases.src})
+        .pipe(browserify({
+            transform: 'reactify',
+            debug : true
+        }))
+        .pipe(concat('main.js'))			
+        .pipe(gulp.dest(bases.concat + 'js/'));
+});
+
+gulp.task('dev-build-scripts', function() {
+	return gulp.src(paths.scripts, {cwd: bases.src})
+		.pipe(concat('support.js'))		
+		.pipe(gulp.dest(bases.concat + 'js/'));
+});
+
+gulp.task('dev-build-css', function() {
+  return gulp.src(paths.styles, {cwd: bases.src})
+	.pipe(concat('style.css'))    
+    .pipe(gulp.dest(bases.concat + 'css/'));
+});
+
 gulp.task('copy-extras', function () {	
 	return gulp.src(filesToMove, { base: bases.src, cwd: bases.src })
 		.pipe(gulp.dest(bases.concat));
@@ -100,8 +122,8 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('default', function(callback) {
-	runSequence(['clean', 'test'],
-				['browserify', 'build-scripts', 'build-css', 'copy-extras'],				
+	runSequence(['clean'],
+				['dev-browserify', 'dev-build-scripts', 'dev-build-css', 'copy-extras'],				
 				callback);		
 });
 

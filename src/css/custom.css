@@ -46,12 +46,22 @@ body{
 .list-group-item{
 	padding-top:8px !important;
 	padding-bottom:8px !important;
-	height : 96px;
+	height : 82px;
 	cursor:pointer;
+	transition: all .25s ease-in-out;
+}
+
+.list-group-item-heading{
+	padding-top: 0; !important;
 }
 
 .list-group-item.updated{
-	background:#EFEFEF;
+	 background:#EFEFEF;
+ }
+
+.list-group-item.open{
+	height : 230px;
+	transition: all .25s ease-in-out;
 }
 
 .list-group .list-group-separator{
@@ -73,7 +83,7 @@ body{
 }
 
 .hours-input{
-	width: 150px;
+	width: 100px;
 }
 
 .task-input{
@@ -82,4 +92,8 @@ body{
 
 .tracker-dropdown{
 	margin-left: -5px;
+}
+
+.tracker-dropdown-wrap{
+	display: inline-block;
 }
