@@ -42,8 +42,8 @@ var Task = React.createClass({
         this.activityId = menuItem.id;
     },
 
-    _hourEntered: function(event){
-       var spentHours = this.refs.spentHours.getValue();
+    _hourEntered: function(event){		
+		var spentHours = this.refs.spentHours.getValue();
         var comment = this.refs.comment.getValue();
         AppActions.updateTime(this.props.item.id, this.activityId, spentHours, comment);
         event.stopPropagation();
@@ -82,7 +82,7 @@ var Task = React.createClass({
                     <div className="tracker-dropdown-wrap" onClick={this._elementClick}>
                         <DropDownMenu menuItems={activities} className="tracker-dropdown" onChange={this._activityChanged}/>
                     </div>
-                  <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this._elementClick} onBlur={this._hourEntered}/>
+                  <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this._elementClick} onKeyUp={this._hourEntered}/>
                 </div>
             </div>
         );
