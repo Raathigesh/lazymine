@@ -15,6 +15,7 @@ var StoreHelper = function () {
     this.AllIssues = [];
     this.ActiveIssues = [];
     this.TimeEntryActivities = null;
+    this.resultCount = 10;
 };
 
 StoreHelper.prototype = (function () {
@@ -110,11 +111,10 @@ StoreHelper.prototype = (function () {
                         item.matchCount += matchstrings.length
                     }
 
-
                     return item.matchCount > 0;
                 });
 
-            var sortedList = _.sortByOrder(filterItems, ['matchCount'], [false]);
+            var sortedList = _.take(_.sortByOrder(filterItems, ['matchCount'], [false]), this.resultCount);
 
             sortedList.map(function (item) {
                 item.formattedTitle = item.subject;
