@@ -82,6 +82,10 @@ body{
 	width: 100%;
 }
 
+.comment-box.mui-text-field{
+	width: 100%;
+}
+
 .hours-input{
 	width: 100px;
 }
