@@ -4,7 +4,6 @@ var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var imagemin = require('gulp-imagemin');
 var karma = require('karma').server;
 var minifyCss = require('gulp-minify-css');
 var nwBuilder = require('node-webkit-builder');
