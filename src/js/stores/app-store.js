@@ -4,7 +4,9 @@ var AppConstants = require('../constants/app-action-name'),
     StoreHelper = require('./StoreHelper'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
-    storeHelper = new StoreHelper();
+    storeHelper = new StoreHelper(),
+    settings = require('./Settings');
+
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
         var State = {
@@ -18,16 +20,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             return State;
         },
         getSettings = function(){
-            var fetchResult = storeHelper.fetchSettings();
-            if(fetchResult.status){
-                return storeHelper.settings;
-            }
-            else{
-                return {
-                    BaseURL: "",
-                    APIKey: ""
-                };
-            }
+            return settings;
         },
         onSearchBoxChange = function (payload) {
             State.filteredResult = payload.data; // set the newly filtered data.
@@ -78,7 +71,15 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     });
                     break;
                 case AppConstants.SaveSettings:
-                    storeHelper.setSettings(action.settings.url, action.settings.apiKey);
+                    try {
+                        $.when(settings.setSettings(action.settings.url, action.settings.apiKey)).done(function () {
+                            debugger;
+                        }).fail(function (error) {
+                            debugger;
+                        });
+                    } catch (error) {
+                        console.log(error)
+                    }
                     break;
                 }
         });
