@@ -23,7 +23,7 @@ var paths = {
 	libs: ['js/lib/*.*', 'css/lib/*.*', 'fonts/*.*'],
 	styles: ['css/*.*'],
 	html: ['index.html'],
-	images: ['assets/*.png'],
+	images: ['assets/*.*'],
 	extras: ['package.json'],
 };
 
