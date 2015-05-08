@@ -5,7 +5,8 @@ var Validator = require("validator"),
 var UrlBase = {
     Issues : "/issues.json",
     TimeEntries: "/time_entries.json",
-    TimeEntryActivities: "/enumerations/time_entry_activities.json"
+    TimeEntryActivities: "/enumerations/time_entry_activities.json",
+    CurrentUser: "/users/current.json"
 };
 
 var UrlBuilder = function (serviceBaseUrl) {
@@ -91,6 +92,9 @@ UrlBuilder.prototype = (function () {
         },
         buildTimeEntryActivitiesUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntryActivities);
+        },
+        buildCurrentUserUrl = function () {
+            return this.serviceBaseUrl.concat(UrlBase.CurrentUser);
         };
     return {
         withPageSize: withPageSize,
@@ -103,7 +107,8 @@ UrlBuilder.prototype = (function () {
         getItemStatus : getItemStatus,
         buildIssuesUrl : buildIssuesUrl,
         buildTimeEntryUrl: buildTimeEntryUrl,
-        buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl
+        buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl,
+        buildCurrentUserUrl: buildCurrentUserUrl
     };
 }());
 

@@ -5,13 +5,12 @@ var _ = require('lodash'),
     ServiceAccessor = require('./ServiceAccessor'),
     ProcessStatus = require('./process-status'),
     HttpHelper = require('./HttpHelper'),
-    TimeEntry = require('./TimeEntry');
+    TimeEntry = require('./TimeEntry'),
+    settings = require('./Settings');
 
 var StoreHelper = function () {
     "use strict";
-    this.settingsKey = "settings";
     this.serviceBase = null;
-    this.settings = null;
     this.AllIssues = [];
     this.ActiveIssues = [];
     this.TimeEntryActivities = null;
@@ -20,62 +19,12 @@ var StoreHelper = function () {
 
 StoreHelper.prototype = (function () {
     "use strict";
-    var isValidUrl = function (url) {
-            return Validator.isURL(url, {
-                protocols: ['https']
-            });
-        },
-        setSettings = function (baseUrl, apiKey) {
-            if (!isValidUrl.call(this, baseUrl)) {
-                return new ProcessStatus(false, MessageText.InvalidURL);
-            }
-
-            if (!apiKey) {
-                return new ProcessStatus(false, MessageText.InvalidAPIKey);
-            }
-
-            var settings = {
-                BaseURL: baseUrl,
-                APIKey: apiKey
-            };
-
-            localStorage.setItem(this.settingsKey, JSON.stringify(settings));
-            this.settings = settings;
-            initServiceBase.call(this);
-            return new ProcessStatus(true, MessageText.SaveSuccessful);
-        },
-        getSettings = function () {
-            var storeSettings = localStorage.getItem(this.settingsKey);
-      			if (storeSettings) {
-              return JSON.parse(storeSettings);
-      			}
-
-            return null;
-        },
-        fetchSettings = function () {
-            if (!this.settings) {
-                var settingsCache = getSettings.call(this)
-                if (settingsCache) {
-                    this.settings = settingsCache;
-                    return new ProcessStatus(true, MessageText.LoadSuccessful);
-                } else {
-                    return new ProcessStatus(false, MessageText.LoadFailure);
-                }
-            }
-
-            return new ProcessStatus(true, MessageText.AlreadyLoaded);
-        },
-        initServiceBase = function () {
+    var initServiceBase = function () {
             if(!this.serviceBase) {
-                this.serviceBase = new ServiceAccessor(this.settings.BaseURL, new HttpHelper(this.settings.APIKey));
+                this.serviceBase = new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey));
             }
         },
         fetchItems = function (fetchCallback) {
-            var fetchSettingsProcess = fetchSettings.call(this);
-            if (!fetchSettingsProcess.status) {
-                fetchCallback(fetchSettingsProcess);
-            }
-
             initServiceBase.call(this);
             var successCallbackHandler = function (data) {
                     this.AllIssues = $.makeArray(data);
@@ -184,8 +133,6 @@ StoreHelper.prototype = (function () {
         };
 
     return {
-        setSettings: setSettings,
-        fetchSettings: fetchSettings,
         fetchItems: fetchItems,
         filter: filter,
         addIssue: addIssue,
