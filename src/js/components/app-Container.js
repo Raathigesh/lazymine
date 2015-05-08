@@ -6,6 +6,7 @@ var SearchBox = require('../components/app-SearchBox');
 var Title = require('../components/app-Title');
 var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
+var Loader = require('../components/app-Loader');
 
 var Container = React.createClass({
   
@@ -30,6 +31,7 @@ var Container = React.createClass({
   render : function() {
     return (
       <div>
+      <Loader isLoading={this.state.isLoading}>
         <div className="container-fluid">
           <div className="row">
             <SearchBox items={this.state.filteredResult}/>
@@ -41,6 +43,7 @@ var Container = React.createClass({
             secondaryText="CANCEL" 
             cancelLink="#" 
             primaryText="UPDATE"/>
+        </Loader>
       </div>
     );
   }
