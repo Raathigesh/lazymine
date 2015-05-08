@@ -48,7 +48,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             switch (action.actionType) {
                 case AppConstants.FetchIssues:
                     storeHelper.fetchItems(function (callback) {
-                        State.isLoading = false;
+                        State.isLoading = false; 
                         EventEmitter.prototype.emit(AppEvent.Change);
                     });
                     storeHelper.fetchTimeEntryActivities(function (callback) {
