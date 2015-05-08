@@ -4,20 +4,26 @@ var Router = require('react-router');
 var Link = Router.Link;
 
 var Loader = React.createClass({
-  render : function(){
+    render : function(){
 
-    var overlay = null;
+        var className = "overlay hide";
 
-    if(this.props.isLoading){
-        overlay = <div className="overlay"><div><img src="assets/Cat.GIF"/> Loading...</div></div>;
+        if(this.props.isLoading){
+            className = "overlay";
+        }
+        else {
+            className = "overlay hide";
+        }
+
+        return (
+            <div className={className}>
+                <div>
+                    <img src="assets/Cat.GIF"/>
+                    <h4>Fetching Your Data</h4>
+                </div>
+            </div>
+        );
     }
-
-    return (      
-      <div>   
-        {{overlay}}
-      </div>      
-    );
-  }
 });
 
 module.exports = Loader; 

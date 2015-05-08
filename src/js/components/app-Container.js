@@ -7,11 +7,12 @@ var Title = require('../components/app-Title');
 var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
+var Refresh = require('../components/app-Refresh');
 
 var Container = React.createClass({
   
-  getInitialState: function () {    
-      return AppStore.getState();      
+  getInitialState: function () {
+      return AppStore.getState();
   },
 
   componentWillMount: function () {
@@ -43,6 +44,7 @@ var Container = React.createClass({
             secondaryText="CANCEL" 
             cancelLink="#" 
             primaryText="UPDATE"/>
+        <Refresh />
       </div>
     );
   }
