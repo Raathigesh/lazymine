@@ -13,7 +13,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchInProgress : false, // denotes weather issues are being fetched.
             filteredResult : [], // filtered search results.
             activeItems : null, // active tasks selected by the user.
-            activities : [] // activities available to enter time against. Fetched from server.
+            activities : [], // activities available to enter time against. Fetched from server.
+            isLoading : true
         },
         getState = function () {
             return State;
@@ -40,7 +41,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             switch (action.actionType) {
                 case AppConstants.FetchIssues:
                     storeHelper.fetchItems(function (callback) {
-
+                        State.isLoading = false; 
+                        EventEmitter.prototype.emit(AppEvent.Change);
                     });
                     storeHelper.fetchTimeEntryActivities(function (callback) {
                         var activities = storeHelper.getTimeEntryActivities().data.time_entry_activities;

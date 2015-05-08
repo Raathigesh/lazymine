@@ -29,9 +29,14 @@ var SearchBox = React.createClass({
         })
         .throttle(500)
         .distinctUntilChanged()
-        .subscribe(function(query){                          
-            AppActions.search(query);
-            this._toggleResultsPanel(true);
+        .subscribe(function(query){
+            if(query.length > 0) {
+                AppActions.search(query);
+                this._toggleResultsPanel(true);
+            }
+            else{
+                this._toggleResultsPanel(false);
+            }
         }.bind(this));
 
         this.filter = filter;
@@ -43,14 +48,14 @@ var SearchBox = React.createClass({
         });
     },    
 
-    _navigate: function (event) {      
+    _navigate: function (event) {
         this.refs.searchResult._navigate(event);
     },
     
     render: function() {
       return (
         <div className="col-md-12">
-            <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyDown={this._navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>            
+            <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyUp={this._navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
             { 
               this.state.showResults 
               ? <SearchResult ref="searchResult" results={this.props.items} toggleResultsPanel={this._toggleResultsPanel}/> 

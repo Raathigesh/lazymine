@@ -4,7 +4,6 @@ var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var imagemin = require('gulp-imagemin');
 var karma = require('karma').server;
 var minifyCss = require('gulp-minify-css');
 var nwBuilder = require('node-webkit-builder');
@@ -24,7 +23,7 @@ var paths = {
 	libs: ['js/lib/*.*', 'css/lib/*.*', 'fonts/*.*'],
 	styles: ['css/*.*'],
 	html: ['index.html'],
-	images: ['assets/*.png'],
+	images: ['assets/*.*'],
 	extras: ['package.json'],
 };
 
@@ -127,7 +126,12 @@ gulp.task('default', function(callback) {
 				callback);		
 });
 
-gulp.task('ci', ['browserify', 'copy-extras']);
+gulp.task('ci', function(callback) {
+    runSequence('clean',
+        ['browserify', 'build-scripts', 'build-css', 'copy-extras'],
+        'webkit-build',
+        callback);
+});
 
 gulp.task('build', function(callback) {
 	runSequence(['clean', 'test'],
