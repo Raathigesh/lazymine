@@ -46,7 +46,6 @@ body{
 .list-group-item{
 	padding-top:8px !important;
 	padding-bottom:8px !important;
-	height : 82px;
 	cursor:pointer;
 	transition: all .25s ease-in-out;
 }
@@ -60,8 +59,14 @@ body{
  }
 
 .list-group-item.open{
-	height : 230px;
-	transition: all .25s ease-in-out;
+	overflow: visible;
+	display: inline-block;
+}
+
+.list-group-item.collapsed{
+	height : 82px;
+	display: inline-block;
+	overflow: hidden;
 }
 
 .list-group .list-group-separator{

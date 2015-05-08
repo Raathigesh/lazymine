@@ -16,7 +16,7 @@ var Task = React.createClass({
     getInitialState: function() {
         return {
             open:false,
-            class: "list-group-item"
+            class: "list-group-item collapsed"
         };
     },
 
@@ -24,7 +24,7 @@ var Task = React.createClass({
         if(this.state.open) {
             this.setState({
                 open: false,
-                class: "list-group-item"
+                class: "list-group-item collapsed"
             });
         }else{
             this.setState({
