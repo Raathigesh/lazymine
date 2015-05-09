@@ -4,11 +4,11 @@ var AppConstants = require('../constants/app-action-name'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
     settings = require('./settings-manager'),
-    DataManager = require('./data-manager'),
+    DataStore = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
     HttpHelper = require('./http-helper');
 
-var dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
+var dataStore = new DataStore(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
@@ -28,9 +28,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchData = function () {
                 try {
                     if (settings.available) {
-                        $.when(dataManager.fetchData()).done(function () {
+                        $.when(dataStore.fetchData()).done(function () {
                             State.isLoading = false;
-                            dataManager.activityCollection.map(function(item) {
+                            dataStore.activityCollection.map(function(item) {
                                 State.activities.push({
                                     id: item.id,
                                     text: item.name
@@ -48,7 +48,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             filterTaskCollection = function(query) {
                 try{
                     if(settings.available) {
-                        State.filteredResult = dataManager.filterTaskCollection(query);
+                        State.filteredResult = dataStore.filterTaskCollection(query);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }
                 } catch (error) {
@@ -57,8 +57,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             createActiveTask = function (issueId) {
                 try {
-                    dataManager.createActiveTask(issueId);
-                    State.activeItems = dataManager.activeTaskCollection;
+                    dataStore.createActiveTask(issueId);
+                    State.activeItems = dataStore.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch(error) {
                     console.log(error);
@@ -66,7 +66,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             updateActiveTask =  function (entry) {
                 try {
-                    dataManager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                    dataStore.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -74,14 +74,15 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             removeActiveTask = function (entryId) {
                 try {
-                    dataManager.removeActiveTask(entryId);
+                    dataStore.removeActiveTask(entryId);
+                    EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
                 }
             },
             postUpdatedActiveTaskCollection = function () {
                 try {
-                    $.when(dataManager.postUpdatedActiveTaskCollection()).done(function () {
+                    $.when(dataStore.postUpdatedActiveTaskCollection()).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }).fail(function (error) {
                         console.log(error);
@@ -126,6 +127,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                         break;
                     case AppConstants.SaveSettings:
                         setSettings.call(this, action.settings);
+                        break;
+                    case AppConstants.RemoveTimeEntry:
+                        removeActiveTask.call(this, action.taskId);
                         break;
                     }
             });

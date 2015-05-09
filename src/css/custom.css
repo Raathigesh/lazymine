@@ -136,3 +136,11 @@ body{
 	margin:-100px 0 0 -75px;
 	color : white;
 }
+
+.remove {
+	display: none;
+}
+
+.list-group-item:hover .remove {
+	display: block;
+}
