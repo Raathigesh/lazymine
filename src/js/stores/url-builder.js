@@ -56,10 +56,6 @@ UrlBuilder.prototype = (function () {
             return this.itemOffset;
         },
         withTaskAssignee = function (taskAssignee) {
-            if(!taskAssignee){
-                throw new InvalidArgumentError("Parameter taskAssignee is required.");
-            }
-
             this.assignee = taskAssignee;
             return this;
         },
