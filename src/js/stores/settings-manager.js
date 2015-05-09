@@ -1,11 +1,12 @@
-var Validator = require("validator"),
-    InvalidArgumentError = require("../error/invalid-argument-error"),
+var Validator = require('validator'),
+    InvalidArgumentError = require('../error/invalid-argument-error'),
     HttpHelper = require('./http-helper'),
     UrlBuilder = require('./url-builder'),
-    TaskAssignee = require("../constants/task-assignee"),
-    TimeEntryDay = require("../constants/time-entry-day"),
-    objectHelper = require("./object-helper"),
-    $ = require("jquery");
+    TaskAssignee = require('../constants/task-assignee'),
+    TimeEntryDay = require('../constants/time-entry-day'),
+    objectHelper = require('./object-helper'),
+    $ = require('jquery'),
+    moment = require('moment');
 
 var SettingsManager = function () {
     "use strict";
@@ -14,6 +15,7 @@ var SettingsManager = function () {
     this.BaseURL = "";
     this.APIKey = "";
     this.TaskAssignee = TaskAssignee.All;
+    this.TimeEntryDay = TimeEntryDay.Today;
     this.available  = this.fetchSettings();
 };
 
@@ -74,10 +76,29 @@ SettingsManager.prototype = (function () {
                 return true;
             }
             return false;
+        },
+        getTimeEntryDate = function () {
+            switch (this.TimeEntryDay) {
+                case TimeEntryDay.Today :
+                    return moment().format("YYYY-MM-DD");
+                    break;
+                case TimeEntryDay.Yesterday :
+                    return moment().subtract(1, 'days').format("YYYY-MM-DD");
+                    break;
+            }
+        },
+        setTimeEntryDay = function (timeEntryDay) {
+            if (!objectHelper.hasPropertyValue(TimeEntryDay, timeEntryDay)) {
+                throw new InvalidArgumentError("Parameter timeEntryDay must be an instance of TimeEntryDay.")
+            }
+
+            this.TimeEntryDay = timeEntryDay;
         };
     return {
         setSettings: setSettings,
-        fetchSettings: fetchSettings
+        fetchSettings: fetchSettings,
+        getTimeEntryDate: getTimeEntryDate,
+        setTimeEntryDay: setTimeEntryDay
     };
 })();
 

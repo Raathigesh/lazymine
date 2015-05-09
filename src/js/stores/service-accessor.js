@@ -49,12 +49,6 @@ ServiceAccessor.prototype = (function () {
                         .withTaskAssignee(this.taskAssignee);
                     promises.push(getTaskPromise.call(this, taskFullFetchUrlBuilder));
                 } else {
-                    var taskCreatedOnUrlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl)
-                        .withItemStatus(taskStatus)
-                        .withTaskAssignee(this.taskAssignee)
-                        .withCreatedOn(this.lastTaskFetch);
-                    promises.push(getTaskPromise.call(this, taskCreatedOnUrlBuilder));
-
                     var taskUpdatedOnUrlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl)
                         .withItemStatus(taskStatus)
                         .withTaskAssignee(this.taskAssignee)
@@ -122,7 +116,6 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
-
         createTimeEntries = function (timeEntryCollection) {
             if(!(timeEntryCollection instanceof Array)) {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");

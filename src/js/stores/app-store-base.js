@@ -45,6 +45,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             fetchLatest = function () {
                 try {
+                    debugger;
                     if (settings.available) {
                         $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
@@ -106,10 +107,17 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             setSettings = function (data) {
                 try {
                     debugger;
-                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee)).done(function () {
+                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee, settings.getTimeEntryDate())).done(function () {
                     }).fail(function (error) {
                         console.log(error);
                     });
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            setTimeEntryDay = function (timeEntryDay) {
+                try {
+                    settings.setTimeEntryDay(timeEntryDay);
                 } catch (error) {
                     console.log(error);
                 }
