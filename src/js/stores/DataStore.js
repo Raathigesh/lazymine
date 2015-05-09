@@ -38,7 +38,7 @@ DataStore.prototype = (function () {
             return deferred.promise();
         },
         filterTaskCollection = function (query) {
-            var upperQueryParts = query.toUpperCase().split(' '),
+            var upperQueryParts = query.toUpperCase().trim().split(' '),
                 parts = _.filter(upperQueryParts, function(part) {
                     return part.length > 1;
                 });
