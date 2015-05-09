@@ -64,7 +64,7 @@ var Settings = React.createClass({
 							      label="All"
 							      defaultChecked={true} />
 							    <RadioButton
-							      value="Me"
+							      value="me"
 							      label="Assigned To Me"/>
 						</RadioButtonGroup>
 			   		</div>
