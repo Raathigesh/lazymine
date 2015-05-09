@@ -4,7 +4,7 @@ var Validator = require("validator"),
     UrlBuilder = require('./url-builder'),
     $ = require("jquery");
 
-var SettingsStore = function () {
+var SettingsManager = function () {
     "use strict";
     this.settingsKey = "settings";
 
@@ -13,7 +13,7 @@ var SettingsStore = function () {
     this.available  = this.fetchSettings();
 };
 
-SettingsStore.prototype = (function () {
+SettingsManager.prototype = (function () {
     "use strict";
     var setSettings = function (baseUrl, apiKey) {
             var deferred = $.Deferred();
@@ -69,4 +69,4 @@ SettingsStore.prototype = (function () {
     };
 })();
 
-module.exports = new SettingsStore();
+module.exports = new SettingsManager();

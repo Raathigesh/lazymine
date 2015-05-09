@@ -7,7 +7,7 @@ var InvalidArgumentError = require("../error/invalid-argument-error"),
     moment = require('moment'),
     Validator = require('validator');
 
-DataStore = function (serviceAccessor) {
+DataManager = function (serviceAccessor) {
     if(!(serviceAccessor instanceof ServiceAccessor)) {
         throw new InvalidArgumentError("Parameter serviceAccessor must be an instance of ServiceAccessor.");
     }
@@ -21,7 +21,7 @@ DataStore = function (serviceAccessor) {
     this.timeEntryDate = moment().format("YYYY-MM-DD");
 };
 
-DataStore.prototype = (function () {
+DataManager.prototype = (function () {
     var fetchData = function () {
             var promises = [];
             promises.push(this.serviceAccessor.getTaskCollection());
@@ -115,4 +115,4 @@ DataStore.prototype = (function () {
     }
 })();
 
-module.exports = DataStore;
+module.exports = DataManager;
