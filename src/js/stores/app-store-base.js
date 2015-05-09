@@ -45,6 +45,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             fetchLatest = function () {
                 try {
+                    debugger;
                     if (settings.available) {
                         $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;

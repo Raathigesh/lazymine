@@ -90,10 +90,12 @@ UrlBuilder.prototype = (function () {
             return this.statusId;
         },
         withCreatedOn = function (createdOn) {
-            this.createdOn = createdOn
+            this.createdOn = createdOn;
+            return this;
         },
         withUpdatedOn = function (updatedOn) {
             this.updatedOn = updatedOn;
+            return this;
         },
         getCreatedOnUrlSegment = function () {
             return this.createdOn ? "created_on=><" + this.createdOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
