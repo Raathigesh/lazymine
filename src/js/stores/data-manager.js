@@ -37,7 +37,7 @@ DataManager.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
-        updateTaskList = function (taskAssignee) {
+        fetchLatest = function (taskAssignee) {
             var deferred = $.Deferred();
             $.when(this.serviceAccessor.getTaskCollection(taskAssignee, false)).done(function (taskCollection) {
                 taskCollection.map(function (task) {
@@ -124,7 +124,7 @@ DataManager.prototype = (function () {
         };
     return {
         fetchData: fetchData,
-        updateTaskList: updateTaskList,
+        fetchLatest: fetchLatest,
         filterTaskCollection: filterTaskCollection,
         createActiveTask: createActiveTask,
         updateActiveTask: updateActiveTask,

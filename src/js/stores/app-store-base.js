@@ -43,6 +43,20 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     console.log(error);
                 }
             },
+            fetchLatest = function () {
+                try {
+                    if (settings.available) {
+                        $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
+                            State.isLoading = false;
+                            EventEmitter.prototype.emit(AppEvent.Change);
+                        }.bind(this)).fail(function (error) {
+                            console.log(error);
+                        });
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            },
             filterTaskCollection = function(query) {
                 try{
                     if(settings.available) {
