@@ -1,6 +1,8 @@
 var Validator = require("validator"),
     InvalidArgumentError = require("../error/invalid-argument-error"),
-    ItemStatus = require("../constants/item-status");
+    ItemStatus = require("../constants/item-status"),
+    TaskAssignee = require("../constants/task-assignee"),
+    objectHelper = require("./object-helper");
 
 var UrlBase = {
     Issues : "/issues.json",
@@ -17,6 +19,7 @@ var UrlBuilder = function (serviceBaseUrl) {
 
     this.serviceBaseUrl = serviceBaseUrl;
     this.statusId = ItemStatus.New;
+    this.assignee = TaskAssignee.All;
     this.currentPageSize = 100;
     this.itemOffset = 0;
 };
@@ -52,6 +55,14 @@ UrlBuilder.prototype = (function () {
         getOffset = function () {
             return this.itemOffset;
         },
+        withTaskAssignee = function (taskAssignee) {
+            if(!taskAssignee){
+                throw new InvalidArgumentError("Parameter taskAssignee is required.");
+            }
+
+            this.assignee = taskAssignee;
+            return this;
+        },
         withNextOffset = function () {
             this.itemOffset = this.itemOffset + this.currentPageSize;
             return this;
@@ -62,19 +73,8 @@ UrlBuilder.prototype = (function () {
             this.statusId = ItemStatus.New;
             return this;
         },
-        hasPropertyValue = function (status) {
-            for(var prop in ItemStatus) {
-                if(ItemStatus.hasOwnProperty(prop)) {
-                    if(ItemStatus[prop] === status) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        },
         withItemStatus = function (status) {
-            if(!hasPropertyValue.call(this, status)){
+            if(!objectHelper.hasPropertyValue(ItemStatus, status)){
                 throw new InvalidArgumentError("Parameter statusId must be a property of ItemStatus.");
             }
 
@@ -85,7 +85,7 @@ UrlBuilder.prototype = (function () {
             return this.statusId;
         },
         buildIssuesUrl = function () {
-            return this.serviceBaseUrl.concat(UrlBase.Issues, "?assigned_to_id=*&status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?assigned_to_id=", this.assignee ,"&status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
         },
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
@@ -101,6 +101,7 @@ UrlBuilder.prototype = (function () {
         getPageSize: getPageSize,
         withOffset: withOffset,
         getOffset: getOffset,
+        withTaskAssignee: withTaskAssignee,
         withNextOffset: withNextOffset,
         resetDefault: resetDefault,
         withItemStatus: withItemStatus,

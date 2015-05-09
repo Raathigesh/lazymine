@@ -1,4 +1,4 @@
 module.exports = {
     Me: "me",
-    All: "*"
+    All: ""
 };

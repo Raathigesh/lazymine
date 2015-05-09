@@ -6,7 +6,8 @@ var AppConstants = require('../constants/app-action-name'),
     settings = require('./settings-manager'),
     DataManager = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
-    HttpHelper = require('./http-helper');
+    HttpHelper = require('./http-helper'),
+    TaskAssignee = require("../constants/task-assignee");
 
 var dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
 
@@ -28,7 +29,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchData = function () {
                 try {
                     if (settings.available) {
-                        $.when(dataManager.fetchData()).done(function () {
+                        $.when(dataManager.fetchData(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
                             dataManager.activityCollection.map(function(item) {
                                 State.activities.push({
@@ -92,7 +93,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             setSettings = function (data) {
                 try {
-                    $.when(settings.setSettings(data.url, data.apiKey)).done(function () {
+                    $.when(settings.setSettings(data.url, data.apiKey, data.taskAssignee)).done(function () {
                     }).fail(function (error) {
                         console.log(error);
                     });

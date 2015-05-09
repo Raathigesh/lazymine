@@ -22,9 +22,9 @@ DataManager = function (serviceAccessor) {
 };
 
 DataManager.prototype = (function () {
-    var fetchData = function () {
+    var fetchData = function (taskAssignee) {
             var promises = [];
-            promises.push(this.serviceAccessor.getTaskCollection());
+            promises.push(this.serviceAccessor.getTaskCollection(taskAssignee));
             promises.push(this.serviceAccessor.getTimeEntryActivities());
 
             var deferred = $.Deferred();

@@ -2,6 +2,8 @@ var Validator = require("validator"),
     InvalidArgumentError = require("../error/invalid-argument-error"),
     HttpHelper = require('./http-helper'),
     UrlBuilder = require('./url-builder'),
+    TaskAssignee = require("../constants/task-assignee"),
+    objectHelper = require("./object-helper"),
     $ = require("jquery");
 
 var SettingsManager = function () {
@@ -10,32 +12,40 @@ var SettingsManager = function () {
 
     this.BaseURL = "";
     this.APIKey = "";
+    this.TaskAssignee = TaskAssignee.All;
     this.available  = this.fetchSettings();
 };
 
 SettingsManager.prototype = (function () {
     "use strict";
-    var setSettings = function (baseUrl, apiKey) {
+    var setSettings = function (baseUrl, apiKey, assignee) {
             var deferred = $.Deferred();
             if(!Validator.isURL(baseUrl)){
-                deferred.reject("URL must be valid.");
+                deferred.reject("Parameter baseUrl must be valid.");
                 return deferred.promise();
             }
 
             if (typeof apiKey !== "string" || apiKey === "") {
-                deferred.reject("API key must not be empty.");
+                deferred.reject("Parameter apiKey must not be empty.");
+                return deferred.promise();
+            }
+
+            if (objectHelper.hasPropertyValue(TaskAssignee, assignee)) {
+                deferred.reject("Parameter assignee must be an instance of taskAssignee.");
                 return deferred.promise();
             }
 
             var settings = {
                 BaseURL: baseUrl,
-                APIKey: apiKey
+                APIKey: apiKey,
+                TaskAssignee: assignee
             };
 
             $.when(validateSettings.call(this, settings)).done(function () {
                 localStorage.setItem(this.settingsKey, JSON.stringify(settings));
                 this.BaseURL = baseUrl;
                 this.APIKey = apiKey;
+                this.TaskAssignee = assignee;
                 this.available = true;
                 deferred.resolve(data);
             }.bind(this)).fail(function () {
@@ -59,6 +69,7 @@ SettingsManager.prototype = (function () {
                 var settings = JSON.parse(storeSettings);
                 this.BaseURL = settings.BaseURL;
                 this.APIKey = settings.APIKey;
+                this.TaskAssignee = settings.TaskAssignee;
                 return true;
             }
             return false;

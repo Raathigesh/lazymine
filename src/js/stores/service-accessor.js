@@ -23,6 +23,7 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
         ItemStatus.New,
         ItemStatus.ReOpened
     ];
+    this.taskAssignee = null;
 };
 
 ServiceAccessor.prototype = (function () {
@@ -40,7 +41,8 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
             return promises;
         },
-        getTaskCollection = function () {
+        getTaskCollection = function (assignee) {
+            this.taskAssignee = assignee;
             var deferred = $.Deferred();
             $.when.apply(this, getTaskCollectionPromises.call(this)).done(function () {
                 var taskCollection = [];
@@ -59,7 +61,7 @@ ServiceAccessor.prototype = (function () {
                 taskCollection = [],
                 index,
                 urlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl),
-                issuesUrl = urlBuilder.withItemStatus(taskStatus).buildIssuesUrl();
+                issuesUrl = urlBuilder.withItemStatus(taskStatus).withTaskAssignee(this.taskAssignee).buildIssuesUrl();
 
             $.when(this.httpHelper.getRequest(issuesUrl)).done(function (data) {
                 var totalRows = data.total_count,
