@@ -18,7 +18,6 @@ DataManager = function (serviceAccessor) {
     this.activityCollection = [];
     this.activeTaskCollection = [];
     this.resultCount = 10;
-    this.timeEntryDate = moment().format("YYYY-MM-DD");
 };
 
 DataManager.prototype = (function () {
@@ -111,9 +110,9 @@ DataManager.prototype = (function () {
                 return entry.id == timeEntryId;
             });
         },
-        updateActiveTask = function (timeEntryId, hours, activityId, comments) {
+        updateActiveTask = function (timeEntryId, hours, activityId, comments, timeEntryDate) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
-            entry.updateEntry(this.timeEntryDate, parseInt(hours), activityId, comments);
+            entry.updateEntry(timeEntryDate, parseInt(hours), activityId, comments);
         },
         postUpdatedActiveTaskCollection = function () {
             var deferred = $.Deferred(),

@@ -107,7 +107,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             setSettings = function (data) {
                 try {
                     debugger;
-                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee)).done(function () {
+                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee, settings.getTimeEntryDate())).done(function () {
                     }).fail(function (error) {
                         console.log(error);
                     });
