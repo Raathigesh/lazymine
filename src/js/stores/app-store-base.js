@@ -76,6 +76,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             removeActiveTask = function (entryId) {
                 try {
                     dataManager.removeActiveTask(entryId);
+                    EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
                 }
@@ -127,6 +128,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                         break;
                     case AppConstants.SaveSettings:
                         setSettings.call(this, action.settings);
+                        break;
+                    case AppConstants.RemoveTimeEntry:
+                        removeActiveTask.call(this, action.taskId);
                         break;
                     }
             });

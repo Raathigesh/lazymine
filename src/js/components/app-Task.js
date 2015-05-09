@@ -48,6 +48,10 @@ var Task = React.createClass({
         AppActions.updateTime(this.props.item.id, this.activityId, spentHours, comment);
         event.stopPropagation();
     },
+
+    _remove: function(){
+        AppActions.removeTimeEntry(this.props.item.id);
+    },
   
     render : function(){
         var activities = this.props.activities;
@@ -70,8 +74,9 @@ var Task = React.createClass({
                     <i>{icontext}</i>
                 </div>
                 <div className="row-content">
-                <h4 className="list-group-item-heading">{item.projectName}</h4>
-                <p className="list-group-item-text">{item.issueName}</p>
+                    <div className="least-content remove" onClick={this._remove}>Remove</div>
+                    <h4 className="list-group-item-heading">{item.projectName}</h4>
+                    <p className="list-group-item-text">{item.issueName}</p>
                 </div>
                 <div className="row-content task-input">
                     <div className="col-xs-12">

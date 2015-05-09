@@ -4,5 +4,6 @@ module.exports = {
     AddIssue: "AddIssue",
     UpdateTime: "UpdateTime",
     CreateTimeEntries: "CreateTimeEntries",
-    SaveSettings: "SaveSettings"
+    SaveSettings: "SaveSettings",
+    RemoveTimeEntry: "RemoveTimeEntry"
 };

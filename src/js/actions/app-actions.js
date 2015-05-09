@@ -43,6 +43,12 @@ var AppActions = {
                 apiKey: apiKey
             }
         });
+    },
+    removeTimeEntry: function(taskId){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.RemoveTimeEntry,
+            taskId: taskId
+        });
     }
 }
 
