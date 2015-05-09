@@ -58,9 +58,9 @@ var Settings = React.createClass({
 				   		<RadioButtonGroup 
 				   			name="assigneeType"
 				   			ref="assignee"
-					  		defaultSelected="">
+					  		defaultSelected="*">
 							    <RadioButton
-							      value=""
+							      value="*"
 							      label="All"
 							      defaultChecked={true} />
 							    <RadioButton
