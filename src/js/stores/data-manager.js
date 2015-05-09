@@ -44,6 +44,11 @@ DataManager.prototype = (function () {
                     var oldTask = _.find(this.taskCollection, { 'id' : task.id });
                     if(oldTask) {
                         oldTask = task;
+                        var oldActiveTask = _.find(this.activeTaskCollection, { 'issueId' : task.id });
+                        if(oldActiveTask) {
+                            oldActiveTask.issueName = task.subject;
+                            oldActiveTask.projectName = task.project.name;
+                        }
                     } else {
                         this.taskCollection.push(task);
                     }
