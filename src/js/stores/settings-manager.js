@@ -86,11 +86,19 @@ SettingsManager.prototype = (function () {
                     return moment().subtract(1, 'days').format("YYYY-MM-DD");
                     break;
             }
+        },
+        setTimeEntryDay = function (timeEntryDay) {
+            if (!objectHelper.hasPropertyValue(TimeEntryDay, timeEntryDay)) {
+                throw new InvalidArgumentError("Parameter timeEntryDay must be an instance of TimeEntryDay.")
+            }
+
+            this.TimeEntryDay = timeEntryDay;
         };
     return {
         setSettings: setSettings,
         fetchSettings: fetchSettings,
-        getTimeEntryDate: getTimeEntryDate
+        getTimeEntryDate: getTimeEntryDate,
+        setTimeEntryDay: setTimeEntryDay
     };
 })();
 

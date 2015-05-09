@@ -115,6 +115,13 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     console.log(error);
                 }
             },
+            setTimeEntryDay = function (timeEntryDay) {
+                try {
+                    settings.setTimeEntryDay(timeEntryDay);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
             addChangeListener = function (callback) {
                 EventEmitter.prototype.on(AppEvent.Change, callback);
             },
