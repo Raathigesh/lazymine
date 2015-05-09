@@ -98,10 +98,10 @@ UrlBuilder.prototype = (function () {
             return this;
         },
         getCreatedOnUrlSegment = function () {
-            return this.createdOn ? "created_on=><" + this.createdOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
+            return this.createdOn ? "&created_on=><" + this.createdOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
         },
         getUpdatedOnUrlSegment = function () {
-            return this.updatedOn ? "updated_on=><" + this.updatedOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
+            return this.updatedOn ? "&updated_on=><" + this.updatedOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
         },
         buildIssuesUrl = function () {
             var assignedTo = getTaskAssigneeUrlSegment.call(this);
