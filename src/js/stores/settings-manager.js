@@ -3,6 +3,7 @@ var Validator = require("validator"),
     HttpHelper = require('./http-helper'),
     UrlBuilder = require('./url-builder'),
     TaskAssignee = require("../constants/task-assignee"),
+    TimeEntryDay = require("../constants/time-entry-day"),
     objectHelper = require("./object-helper"),
     $ = require("jquery");
 
@@ -13,6 +14,7 @@ var SettingsManager = function () {
     this.BaseURL = "";
     this.APIKey = "";
     this.TaskAssignee = TaskAssignee.All;
+    this.TimeEntryDay = TimeEntryDay.Today;
     this.available  = this.fetchSettings();
 };
 
@@ -30,7 +32,7 @@ SettingsManager.prototype = (function () {
                 return deferred.promise();
             }
 
-            if (objectHelper.hasPropertyValue(TaskAssignee, assignee)) {
+            if (!objectHelper.hasPropertyValue(TaskAssignee, assignee)) {
                 deferred.reject("Parameter assignee must be an instance of taskAssignee.");
                 return deferred.promise();
             }
@@ -47,7 +49,7 @@ SettingsManager.prototype = (function () {
                 this.APIKey = apiKey;
                 this.TaskAssignee = assignee;
                 this.available = true;
-                deferred.resolve(data);
+                deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("URL or API key is invalid.");
             }.bind(this));

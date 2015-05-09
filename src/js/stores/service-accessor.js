@@ -42,6 +42,10 @@ ServiceAccessor.prototype = (function () {
             return promises;
         },
         getTaskCollection = function (assignee) {
+            if(typeof assignee === "undefined") {
+               throw new InvalidArgumentError("Parameter assignee is required.");
+            }
+
             this.taskAssignee = assignee;
             var deferred = $.Deferred();
             $.when.apply(this, getTaskCollectionPromises.call(this)).done(function () {

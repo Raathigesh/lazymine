@@ -81,7 +81,8 @@ UrlBuilder.prototype = (function () {
             return this.statusId;
         },
         buildIssuesUrl = function () {
-            return this.serviceBaseUrl.concat(UrlBase.Issues, "?assigned_to_id=", this.assignee ,"&status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
+            var assignedTo = (this.assignee == TaskAssignee.All) ? "" : "assigned_to_id=" + this.assignee + "&";
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?", assignedTo ,"status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
         },
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);

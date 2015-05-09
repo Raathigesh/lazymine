@@ -4,11 +4,11 @@ var AppConstants = require('../constants/app-action-name'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
     settings = require('./settings-manager'),
-    DataStore = require('./data-manager'),
+    DataManager = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
     HttpHelper = require('./http-helper');
 
-var dataStore = new DataStore(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
+var dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
@@ -26,9 +26,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchData = function () {
                 try {
                     if (settings.available) {
-                        $.when(dataStore.fetchData()).done(function () {
+                        $.when(dataManager.fetchData(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
-                            dataStore.activityCollection.map(function(item) {
+                            dataManager.activityCollection.map(function(item) {
                                 State.activities.push({
                                     id: item.id,
                                     text: item.name
@@ -46,7 +46,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             filterTaskCollection = function(query) {
                 try{
                     if(settings.available) {
-                        State.filteredResult = dataStore.filterTaskCollection(query);
+                        State.filteredResult = dataManager.filterTaskCollection(query);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }
                 } catch (error) {
@@ -55,8 +55,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             createActiveTask = function (issueId) {
                 try {
-                    dataStore.createActiveTask(issueId);
-                    State.activeItems = dataStore.activeTaskCollection;
+                    dataManager.createActiveTask(issueId);
+                    State.activeItems = dataManager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch(error) {
                     console.log(error);
@@ -64,7 +64,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             updateActiveTask =  function (entry) {
                 try {
-                    dataStore.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                    dataManager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -72,7 +72,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             removeActiveTask = function (entryId) {
                 try {
-                    dataStore.removeActiveTask(entryId);
+                    dataManager.removeActiveTask(entryId);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -80,7 +80,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             postUpdatedActiveTaskCollection = function () {
                 try {
-                    $.when(dataStore.postUpdatedActiveTaskCollection()).done(function () {
+                    $.when(dataManager.postUpdatedActiveTaskCollection()).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }).fail(function (error) {
                         console.log(error);
@@ -91,7 +91,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             setSettings = function (data) {
                 try {
-                    $.when(settings.setSettings(data.url, data.apiKey)).done(function () {
+                    debugger;
+                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee)).done(function () {
                     }).fail(function (error) {
                         console.log(error);
                     });
