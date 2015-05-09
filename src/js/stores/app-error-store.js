@@ -16,15 +16,13 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             getState = function () {
                 return ErrorState;
             },            
-            addChangeListener = function (callback) {
-                debugger
+            addChangeListener = function (callback) {                
                 EventEmitter.prototype.on(AppEvent.Change, callback);
             },
             removeChangeListeners = function (callback) {
                 EventEmitter.prototype.removeListener(AppEvent.Change, callback);
             },
-            dispatcherIndex = AppDispatcher.register(function (payload) {
-                debugger
+            dispatcherIndex = AppDispatcher.register(function (payload) {                
                 var action = payload.action;
                 switch (action.actionType) {
                     case AppConstants.StoreError:
