@@ -1,9 +1,11 @@
 var InvalidArgumentError = require("../error/invalid-argument-error"),
+    InvalidOperationError = require("../error/invalid-operation-error"),
     ItemStatus = require("../constants/item-status"),
     HttpHelper = require('./http-helper'),
     UrlBuilder = require('./url-builder'),
     TimeEntry = require('./time-entry'),
     $ = require("jquery"),
+    moment = require('moment'),
     Validator = require('validator');
 
 var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
@@ -24,48 +26,73 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
         ItemStatus.ReOpened
     ];
     this.taskAssignee = null;
+    this.lastTaskFetch = null;
 };
 
 ServiceAccessor.prototype = (function () {
     "use strict";
-    var getTaskCollectionPromises = function () {
+    var getTaskPromise = function (taskUrlBuilder) {
+            var deferred = $.Deferred();
+            $.when(getTaskCollectionWithStatus.call(this, taskUrlBuilder)).done(function (data) {
+                deferred.resolve(data);
+            }.bind(this)).fail(function () {
+                deferred.reject();
+            }.bind(this));
+            return deferred.promise();
+        },
+        getTaskCollectionPromises = function (isFullFetch) {
             var promises = [];
             this.taskStatusCollection.map(function (taskStatus) {
-                var deferred = $.Deferred();
-                $.when(getTaskCollectionWithStatus.call(this, taskStatus)).done(function (data) {
-                    deferred.resolve(data);
-                }.bind(this)).fail(function () {
-                    deferred.reject();
-                }.bind(this));
-                promises.push(deferred.promise());
+                if(isFullFetch) {
+                    var taskFullFetchUrlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl)
+                        .withItemStatus(taskStatus)
+                        .withTaskAssignee(this.taskAssignee);
+                    promises.push(getTaskPromise.call(this, taskFullFetchUrlBuilder));
+                } else {
+                    var taskCreatedOnUrlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl)
+                        .withItemStatus(taskStatus)
+                        .withTaskAssignee(this.taskAssignee)
+                        .withCreatedOn(this.lastTaskFetch);
+                    promises.push(getTaskPromise.call(this, taskCreatedOnUrlBuilder));
+
+                    var taskUpdatedOnUrlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl)
+                        .withItemStatus(taskStatus)
+                        .withTaskAssignee(this.taskAssignee)
+                        .withUpdatedOn(this.lastTaskFetch);
+                    promises.push(getTaskPromise.call(this, taskUpdatedOnUrlBuilder));
+                }
             }.bind(this));
             return promises;
         },
-        getTaskCollection = function (assignee) {
+        getTaskCollection = function (assignee, isFullFetch) {
             if(typeof assignee === "undefined") {
                throw new InvalidArgumentError("Parameter assignee is required.");
             }
 
+            if(typeof isFullFetch !== "boolean") {
+                throw new InvalidArgumentError("Parameter isFullFetch must be a boolean.");
+            }
+
             this.taskAssignee = assignee;
             var deferred = $.Deferred();
-            $.when.apply(this, getTaskCollectionPromises.call(this)).done(function () {
+            $.when.apply(this, getTaskCollectionPromises.call(this, isFullFetch)).done(function () {
                 var taskCollection = [];
                 for (var index = 0; index < arguments.length; index = index + 1) {
                     taskCollection = taskCollection.concat(arguments[index])
                 }
+                this.lastTaskFetch = moment();
                 deferred.resolve(taskCollection);
             }.bind(this)).fail(function () {
                 deferred.reject();
             }.bind(this));
             return deferred.promise();
         },
-        getTaskCollectionWithStatus = function (taskStatus) {
+        getTaskCollectionWithStatus = function (urlBuilder) {
             var deferred = $.Deferred();
             var promises = [],
                 taskCollection = [],
                 index,
-                urlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl),
-                issuesUrl = urlBuilder.withItemStatus(taskStatus).withTaskAssignee(this.taskAssignee).buildIssuesUrl();
+                issuesUrl = urlBuilder.buildIssuesUrl();
 
             $.when(this.httpHelper.getRequest(issuesUrl)).done(function (data) {
                 var totalRows = data.total_count,
@@ -95,6 +122,7 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
+
         createTimeEntries = function (timeEntryCollection) {
             if(!(timeEntryCollection instanceof Array)) {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");

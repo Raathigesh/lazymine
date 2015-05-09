@@ -24,13 +24,30 @@ DataManager = function (serviceAccessor) {
 DataManager.prototype = (function () {
     var fetchData = function (taskAssignee) {
             var promises = [];
-            promises.push(this.serviceAccessor.getTaskCollection(taskAssignee));
+            promises.push(this.serviceAccessor.getTaskCollection(taskAssignee, true));
             promises.push(this.serviceAccessor.getTimeEntryActivities());
 
             var deferred = $.Deferred();
             $.when.apply(this, promises).done(function (taskCollection, activityCollection) {
                 this.taskCollection = taskCollection;
                 this.activityCollection = activityCollection.time_entry_activities;
+                deferred.resolve();
+            }.bind(this)).fail(function () {
+                deferred.reject("Data load failure.");
+            }.bind(this));
+            return deferred.promise();
+        },
+        updateTaskList = function (taskAssignee) {
+            var deferred = $.Deferred();
+            $.when(this.serviceAccessor.getTaskCollection(taskAssignee, false)).done(function (taskCollection) {
+                taskCollection.map(function (task) {
+                    var oldTask = _.find(this.taskCollection, { 'id' : task.id });
+                    if(oldTask) {
+                        oldTask = task;
+                    } else {
+                        this.taskCollection.push(task);
+                    }
+                }.bind(this));
                 deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("Data load failure.");
@@ -107,6 +124,7 @@ DataManager.prototype = (function () {
         };
     return {
         fetchData: fetchData,
+        updateTaskList: updateTaskList,
         filterTaskCollection: filterTaskCollection,
         createActiveTask: createActiveTask,
         updateActiveTask: updateActiveTask,

@@ -2,7 +2,8 @@ var Validator = require("validator"),
     InvalidArgumentError = require("../error/invalid-argument-error"),
     ItemStatus = require("../constants/item-status"),
     TaskAssignee = require("../constants/task-assignee"),
-    objectHelper = require("./object-helper");
+    objectHelper = require("./object-helper"),
+    moment = require('moment');
 
 var UrlBase = {
     Issues : "/issues.json",
@@ -22,6 +23,8 @@ var UrlBuilder = function (serviceBaseUrl) {
     this.assignee = TaskAssignee.All;
     this.currentPageSize = 100;
     this.itemOffset = 0;
+    this.createdOn = null;
+    this.updatedOn = null;
 };
 
 UrlBuilder.prototype = (function () {
@@ -59,6 +62,12 @@ UrlBuilder.prototype = (function () {
             this.assignee = taskAssignee;
             return this;
         },
+        getTaskAssignee = function (){
+            return this.assignee;
+        },
+        getTaskAssigneeUrlSegment = function (){
+            return (this.assignee === TaskAssignee.All) ? "" : "&assigned_to_id=" + this.assignee;
+        },
         withNextOffset = function () {
             this.itemOffset = this.itemOffset + this.currentPageSize;
             return this;
@@ -80,9 +89,23 @@ UrlBuilder.prototype = (function () {
         getItemStatus = function () {
             return this.statusId;
         },
+        withCreatedOn = function (createdOn) {
+            this.createdOn = createdOn
+        },
+        withUpdatedOn = function (updatedOn) {
+            this.updatedOn = updatedOn;
+        },
+        getCreatedOnUrlSegment = function () {
+            return this.createdOn ? "created_on=><" + this.createdOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
+        },
+        getUpdatedOnUrlSegment = function () {
+            return this.updatedOn ? "updated_on=><" + this.updatedOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
+        },
         buildIssuesUrl = function () {
-            var assignedTo = (this.assignee == TaskAssignee.All) ? "" : "assigned_to_id=" + this.assignee + "&";
-            return this.serviceBaseUrl.concat(UrlBase.Issues, "?", assignedTo ,"status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
+            var assignedTo = getTaskAssigneeUrlSegment.call(this);
+            var createdOn = getCreatedOnUrlSegment.call(this);
+            var updatedOn = getUpdatedOnUrlSegment.call(this);
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize, assignedTo, createdOn, updatedOn);
         },
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
@@ -99,10 +122,13 @@ UrlBuilder.prototype = (function () {
         withOffset: withOffset,
         getOffset: getOffset,
         withTaskAssignee: withTaskAssignee,
+        getTaskAssignee: getTaskAssignee,
         withNextOffset: withNextOffset,
         resetDefault: resetDefault,
         withItemStatus: withItemStatus,
         getItemStatus : getItemStatus,
+        withCreatedOn: withCreatedOn,
+        withUpdatedOn: withUpdatedOn,
         buildIssuesUrl : buildIssuesUrl,
         buildTimeEntryUrl: buildTimeEntryUrl,
         buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl,

@@ -14,7 +14,6 @@ var SettingsManager = function () {
     this.BaseURL = "";
     this.APIKey = "";
     this.TaskAssignee = TaskAssignee.All;
-    this.TimeEntryDay = TimeEntryDay.Today;
     this.available  = this.fetchSettings();
 };
 
