@@ -16,8 +16,8 @@ var UrlBuilder = function (serviceBaseUrl) {
     }
 
     this.serviceBaseUrl = serviceBaseUrl;
-    this.statusId = ItemStatus.New,
-    this.currentPageSize = 100,
+    this.statusId = ItemStatus.New;
+    this.currentPageSize = 100;
     this.itemOffset = 0;
 };
 
@@ -85,7 +85,7 @@ UrlBuilder.prototype = (function () {
             return this.statusId;
         },
         buildIssuesUrl = function () {
-            return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?assigned_to_id=*&status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize);
         },
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);

@@ -72,6 +72,13 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     console.log(error);
                 }
             },
+            removeActiveTask = function (entryId) {
+                try {
+                    dataStore.removeActiveTask(entryId);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
             postUpdatedActiveTaskCollection = function () {
                 try {
                     $.when(dataStore.postUpdatedActiveTaskCollection()).done(function () {

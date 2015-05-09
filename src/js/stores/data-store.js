@@ -84,6 +84,11 @@ DataStore.prototype = (function () {
 
             this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name));
         },
+        removeActiveTask = function (timeEntryId) {
+            _.remove(this.activeTaskCollection, function (entry) {
+                return entry.id == timeEntryId;
+            });
+        },
         updateActiveTask = function (timeEntryId, hours, activityId, comments) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
             entry.updateEntry(this.timeEntryDate, parseInt(hours), activityId, comments);
@@ -105,7 +110,8 @@ DataStore.prototype = (function () {
         filterTaskCollection: filterTaskCollection,
         createActiveTask: createActiveTask,
         updateActiveTask: updateActiveTask,
-        postUpdatedActiveTaskCollection: postUpdatedActiveTaskCollection
+        postUpdatedActiveTaskCollection: postUpdatedActiveTaskCollection,
+        removeActiveTask: removeActiveTask
     }
 })();
 
