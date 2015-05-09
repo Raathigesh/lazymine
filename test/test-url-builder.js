@@ -1,5 +1,5 @@
-var UrlBuilder = require('../src/js/stores/UrlBuilder'),
-    InvalidArgumentError = require('../src/js/error/InvalidArgumentError'),
+var UrlBuilder = require('../src/js/stores/url-builder'),
+    InvalidArgumentError = require('../src/js/error/invalid-argument-error'),
     ItemStatus = require("../src/js/constants/item-status");
 
 describe("URL Builder - construct", function() {

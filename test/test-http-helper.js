@@ -1,5 +1,5 @@
-var HttpHelper = require('../src/js/stores/HttpHelper'),
-    InvalidArgumentError = require('../src/js/error/InvalidArgumentError'),
+var HttpHelper = require('../src/js/stores/http-helper'),
+    InvalidArgumentError = require('../src/js/error/invalid-argument-error'),
     $ = require("jquery");
 
 describe("HTTP Helper - construct", function() {

@@ -1,5 +1,5 @@
 var Validator = require("validator"),
-    InvalidArgumentError = require("../error/InvalidArgumentError"),
+    InvalidArgumentError = require("../error/invalid-argument-error"),
     ItemStatus = require("../constants/item-status");
 
 var UrlBase = {

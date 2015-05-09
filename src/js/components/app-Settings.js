@@ -3,7 +3,7 @@ var React = require('react');
 var Mui = require('material-ui');
 var TextField = Mui.TextField;
 var Footer = require('../components/app-Footer');
-var AppStore = require('../stores/app-store');
+var AppStore = require('../stores/app-store-base');
 var AppActions = require('../actions/app-actions');
 var Router = require('react-router');
 

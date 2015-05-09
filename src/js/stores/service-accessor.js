@@ -1,8 +1,8 @@
-var InvalidArgumentError = require("../error/InvalidArgumentError"),
+var InvalidArgumentError = require("../error/invalid-argument-error"),
     ItemStatus = require("../constants/item-status"),
-    HttpHelper = require('./HttpHelper'),
-    UrlBuilder = require('./UrlBuilder'),
-    TimeEntry = require('./TimeEntry'),
+    HttpHelper = require('./http-helper'),
+    UrlBuilder = require('./url-builder'),
+    TimeEntry = require('./time-entry'),
     $ = require("jquery"),
     Validator = require('validator');
 

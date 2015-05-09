@@ -1,4 +1,4 @@
-var InvalidArgumentError = require("../error/InvalidArgumentError"),
+var InvalidArgumentError = require("../error/invalid-argument-error"),
     $ = require("jquery"),
     Validator = require("validator");
 

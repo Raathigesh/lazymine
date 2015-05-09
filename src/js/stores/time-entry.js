@@ -1,4 +1,4 @@
-var InvalidArgumentError = require("../error/InvalidArgumentError"),
+var InvalidArgumentError = require("../error/invalid-argument-error"),
     Guid = require("easy-guid");
 
 TimeEntry = function (issueId, issueName, projectName) {

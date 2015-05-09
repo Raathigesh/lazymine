@@ -1,8 +1,8 @@
-var ServiceAccessor = require('../src/js/stores/ServiceAccessor'),
-    HttpHelper = require('../src/js/stores/HttpHelper'),
-    UrlBuilder = require('../src/js/stores/UrlBuilder'),
+var ServiceAccessor = require('../src/js/stores/service-accessor'),
+    HttpHelper = require('../src/js/stores/http-helper'),
+    UrlBuilder = require('../src/js/stores/url-builder'),
     ItemStatus = require("../src/js/constants/item-status"),
-    InvalidArgumentError = require('../src/js/error/InvalidArgumentError'),
+    InvalidArgumentError = require('../src/js/error/invalid-argument-error'),
     $ = require("jquery");
 
 describe("Service Accessor - constructor", function() {

@@ -3,10 +3,10 @@ var AppConstants = require('../constants/app-action-name'),
     AppDispatcher = require('../dispatchers/app-dispatcher'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
-    settings = require('./Settings'),
-    DataStore = require('./DataStore'),
-    ServiceAccessor = require('./ServiceAccessor'),
-    HttpHelper = require('./HttpHelper');
+    settings = require('./settings-store'),
+    DataStore = require('./data-store'),
+    ServiceAccessor = require('./service-accessor'),
+    HttpHelper = require('./http-helper');
 
 var dataStore = new DataStore(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
 
@@ -58,8 +58,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             createActiveTask = function (issueId) {
                 try {
                     dataStore.createActiveTask(issueId);
-                    State.activeItems = dataStore.activeTaskCollection; // set the new set of active items.
-                    EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
+                    State.activeItems = dataStore.activeTaskCollection;
+                    EventEmitter.prototype.emit(AppEvent.Change);
                 } catch(error) {
                     console.log(error);
                 }

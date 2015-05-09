@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
-var AppStore = require('../stores/app-store');
+var AppStore = require('../stores/app-store-base');
 var AppActions = require('../actions/app-actions');
 var SearchBox = require('../components/app-SearchBox');
 var Title = require('../components/app-Title');

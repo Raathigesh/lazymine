@@ -1,10 +1,10 @@
 var Validator = require("validator"),
-    InvalidArgumentError = require("../error/InvalidArgumentError"),
-    HttpHelper = require('./HttpHelper'),
-    UrlBuilder = require('./UrlBuilder'),
+    InvalidArgumentError = require("../error/invalid-argument-error"),
+    HttpHelper = require('./http-helper'),
+    UrlBuilder = require('./url-builder'),
     $ = require("jquery");
 
-var Settings = function () {
+var SettingsStore = function () {
     "use strict";
     this.settingsKey = "settings";
 
@@ -13,7 +13,7 @@ var Settings = function () {
     this.available  = this.fetchSettings();
 };
 
-Settings.prototype = (function () {
+SettingsStore.prototype = (function () {
     "use strict";
     var setSettings = function (baseUrl, apiKey) {
             var deferred = $.Deferred();
@@ -69,4 +69,4 @@ Settings.prototype = (function () {
     };
 })();
 
-module.exports = new Settings();
+module.exports = new SettingsStore();
