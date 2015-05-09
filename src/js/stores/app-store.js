@@ -1,18 +1,21 @@
 var AppConstants = require('../constants/app-action-name'),
     AppEvent = require('../constants/app-event'),
     AppDispatcher = require('../dispatchers/app-dispatcher'),
-    StoreHelper = require('./StoreHelper'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
-    storeHelper = new StoreHelper(),
-    settings = require('./Settings');
+    settings = require('./Settings'),
+    DataStore = require('./DataStore'),
+    ServiceAccessor = require('./ServiceAccessor'),
+    HttpHelper = require('./HttpHelper');
+
+var dataStore = new DataStore(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
         var State = {
             fetchInProgress : false, // denotes weather issues are being fetched.
             filteredResult : [], // filtered search results.
-            activeItems : null, // active tasks selected by the user.
+            activeItems : [], // active tasks selected by the user.
             activities : [], // activities available to enter time against. Fetched from server.
             isLoading : true
         },
@@ -22,14 +25,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
         getSettings = function(){
             return settings;
         },
-        onSearchBoxChange = function (payload) {
-            State.filteredResult = payload.data; // set the newly filtered data.
-            EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
-        },
-        onTaskListChange = function (payload) {
-            State.activeItems = payload.data; // set the new set of active items.
-            EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
-        },
+
         addChangeListener = function (callback) {
             EventEmitter.prototype.on(AppEvent.Change, callback);
         },
@@ -40,45 +36,72 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             var action = payload.action;
             switch (action.actionType) {
                 case AppConstants.FetchIssues:
-                    storeHelper.fetchItems(function (callback) {
-                        State.isLoading = false; 
-                        EventEmitter.prototype.emit(AppEvent.Change);
-                    });
-                    storeHelper.fetchTimeEntryActivities(function (callback) {
-                        var activities = storeHelper.getTimeEntryActivities().data.time_entry_activities;
-
-                        activities.map(function(item, i) {
-                            State.activities.push({
-                                id: item.id,
-                                text: item.name
+                    try {
+                        if (settings.available) {
+                            $.when(dataStore.fetchData()).done(function () {
+                                State.isLoading = false;
+                                dataStore.activityCollection.map(function(item) {
+                                    State.activities.push({
+                                        id: item.id,
+                                        text: item.name
+                                    });
+                                }.bind(this));
+                                EventEmitter.prototype.emit(AppEvent.Change);
+                            }.bind(this)).fail(function (error) {
+                                console.log(error);
                             });
-                        });
-                    });
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
                     break;
                 case AppConstants.Search:
-                    onSearchBoxChange.call(this, storeHelper.filter(action.query));
+                    try{
+                        if(settings.available) {
+                            State.filteredResult = dataStore.filterTaskCollection(action.query); // set the newly filtered data.
+                            EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
                     break;
                 case AppConstants.AddIssue:
-                    onTaskListChange.call(this, storeHelper.addIssue(action.issueId));
+                    try {
+                        dataStore.createActiveTask(action.issueId);
+                        State.activeItems = dataStore.activeTaskCollection; // set the new set of active items.
+                        EventEmitter.prototype.emit(AppEvent.Change); // notify view about the change.
+                    } catch(error) {
+                        console.log(error);
+                    }
                     break;
                 case AppConstants.UpdateTime:
-                    var result = storeHelper.updateTimeEntry(action.timeEntry);
-                    EventEmitter.prototype.emit(AppEvent.Change);
+                    try {
+                        var entry = action.timeEntry;
+                        dataStore.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                        EventEmitter.prototype.emit(AppEvent.Change);
+                    } catch (error) {
+                        console.log(error);
+                    }
                     break;
                 case AppConstants.CreateTimeEntries:
-                    storeHelper.createTimeEntries(function (result){
-                        EventEmitter.prototype.emit(AppEvent.Change);
-                    });
+                    try {
+                        $.when(dataStore.postUpdatedActiveTaskCollection()).done(function () {
+                            EventEmitter.prototype.emit(AppEvent.Change);
+                        }).fail(function (error) {
+                            console.log(error);
+                        });
+                    } catch (error) {
+                        console.log(error);
+                    }
                     break;
                 case AppConstants.SaveSettings:
                     try {
                         $.when(settings.setSettings(action.settings.url, action.settings.apiKey)).done(function () {
-                            debugger;
                         }).fail(function (error) {
-                            debugger;
+                            console.log(error);
                         });
                     } catch (error) {
-                        console.log(error)
+                        console.log(error);
                     }
                     break;
                 }

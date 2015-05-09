@@ -18,7 +18,7 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
 
     this.serviceBaseUrl = serviceBaseUrl;
     this.httpHelper = httpHelper;
-    this.itemStatusCollection = [
+    this.taskStatusCollection = [
         ItemStatus.InProgress,
         ItemStatus.New,
         ItemStatus.ReOpened
@@ -27,58 +27,45 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
 
 ServiceAccessor.prototype = (function () {
     "use strict";
-    var getIssuePromises = function () {
+    var getTaskCollectionPromises = function () {
             var promises = [];
-            this.itemStatusCollection.map(function (itemStatus) {
+            this.taskStatusCollection.map(function (taskStatus) {
                 var deferred = $.Deferred();
-                getIssues.call(this, itemStatus, function (data) {
+                $.when(getTaskCollectionWithStatus.call(this, taskStatus)).done(function (data) {
                     deferred.resolve(data);
-                }, function () {
+                }.bind(this)).fail(function () {
                     deferred.reject();
-                });
+                }.bind(this));
                 promises.push(deferred.promise());
             }.bind(this));
             return promises;
         },
-        getAllIssues = function (issueSuccessCallback, issueFailCallback) {
-            if(typeof issueSuccessCallback !== "function") {
-                throw new InvalidArgumentError("Parameter issueSuccessCallback must be a function.");
-            }
-
-            if(typeof issueFailCallback !== "function") {
-                throw new InvalidArgumentError("Parameter issueFailCallback must be a function.");
-            }
-
-            $.when.apply(this, getIssuePromises.call(this)).done(function () {
-                var issues = [];
+        getTaskCollection = function () {
+            var deferred = $.Deferred();
+            $.when.apply(this, getTaskCollectionPromises.call(this)).done(function () {
+                var taskCollection = [];
                 for (var index = 0; index < arguments.length; index = index + 1) {
-                    issues = issues.concat(arguments[index])
+                    taskCollection = taskCollection.concat(arguments[index])
                 }
-                issueSuccessCallback(issues);
+                deferred.resolve(taskCollection);
             }.bind(this)).fail(function () {
-                issueFailCallback()
+                deferred.reject();
             }.bind(this));
+            return deferred.promise();
         },
-        getIssues = function (itemStatus, issueSuccessCallback, issueFailCallback) {
-            if(typeof issueSuccessCallback !== "function") {
-                throw new InvalidArgumentError("Parameter issueSuccessCallback must be a function.");
-            }
-
-            if(typeof issueFailCallback !== "function") {
-                throw new InvalidArgumentError("Parameter issueFailCallback must be a function.");
-            }
-
+        getTaskCollectionWithStatus = function (taskStatus) {
+            var deferred = $.Deferred();
             var promises = [],
-                issues = [],
+                taskCollection = [],
                 index,
                 urlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl),
-                issuesUrl = urlBuilder.withItemStatus(itemStatus).buildIssuesUrl();
+                issuesUrl = urlBuilder.withItemStatus(taskStatus).buildIssuesUrl();
 
             $.when(this.httpHelper.getRequest(issuesUrl)).done(function (data) {
                 var totalRows = data.total_count,
                     totalPageCount = Math.ceil(totalRows / urlBuilder.getPageSize());
 
-                issues = issues.concat(data.issues);
+                taskCollection = taskCollection.concat(data.issues);
                 if (totalPageCount > 1) {
                     for (index = 2; index <= totalPageCount; index = index + 1) {
                         issuesUrl = urlBuilder.withNextOffset().buildIssuesUrl();
@@ -87,29 +74,22 @@ ServiceAccessor.prototype = (function () {
 
                     $.when.apply($, promises).done(function () {
                         for (index = 0; index < arguments.length; index = index + 1) {
-                            issues = issues.concat(arguments[index][0].issues)
+                            taskCollection = taskCollection.concat(arguments[index][0].issues)
                         }
 
-                        issueSuccessCallback(issues);
+                        deferred.resolve(taskCollection);
                     }.bind(this)).fail(function () {
-                        issueFailCallback();
+                        deferred.reject();
                     }.bind(this));
                 } else {
-                    issueSuccessCallback(issues);
+                    deferred.resolve(taskCollection);
                 }
             }.bind(this)).fail(function () {
-                issueFailCallback();
+                deferred.reject();
             }.bind(this));
+            return deferred.promise();
         },
-        createTimeEntries = function (timeEntryCollection, timeEntrySuccessCallback, timeEntryFailCallback) {
-            if(typeof timeEntrySuccessCallback !== "function") {
-                throw new InvalidArgumentError("Parameter timeEntrySuccessCallback must be a function.");
-            }
-
-            if(typeof timeEntryFailCallback !== "function") {
-                throw new InvalidArgumentError("Parameter timeEntryFailCallback must be a function.");
-            }
-
+        createTimeEntries = function (timeEntryCollection) {
             if(!(timeEntryCollection instanceof Array)) {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
             }
@@ -125,31 +105,27 @@ ServiceAccessor.prototype = (function () {
                 promises.push(this.httpHelper.postRequest(timeEntryUrl, timeEntry.buildPostEntry()));
             }.bind(this));
 
+            var deferred = $.Deferred();
             $.when.apply($, promises).done(function () {
-                timeEntrySuccessCallback(true);
+                deferred.resolve();
             }.bind(this)).fail(function () {
-                timeEntryFailCallback();
+                deferred.reject();
             }.bind(this));
+            return deferred.promise();
         },
-        getTimeEntryActivities = function (activitySuccessCallback, activityFailCallback) {
-            if(typeof activitySuccessCallback !== "function") {
-                throw new InvalidArgumentError("Parameter activitySuccessCallback must be a function.");
-            }
-
-            if(typeof activityFailCallback !== "function") {
-                throw new InvalidArgumentError("Parameter activityFailCallback must be a function.");
-            }
-
+        getTimeEntryActivities = function () {
+            var deferred = $.Deferred();
             var TimeEntryActivitiesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
-            $.when(this.httpHelper.getRequest(TimeEntryActivitiesUrl)).done(function (response) {
-                activitySuccessCallback(response);
+            $.when(this.httpHelper.getRequest(TimeEntryActivitiesUrl)).done(function (data) {
+                deferred.resolve(data);
             }.bind(this)).fail(function () {
-                activityFailCallback();
+                deferred.reject();
             }.bind(this));
+            return deferred.promise();
         };
     return {
-        getAllIssues: getAllIssues,
-        getIssues: getIssues,
+        getTaskCollection: getTaskCollection,
+        getTaskCollectionWithStatus: getTaskCollectionWithStatus,
         createTimeEntries: createTimeEntries,
         getTimeEntryActivities: getTimeEntryActivities
     };

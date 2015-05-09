@@ -27,7 +27,7 @@ describe("Service Accessor - constructor", function() {
 
         expect(serviceAccessor.serviceBaseUrl).toEqual(uri);
         expect(serviceAccessor.httpHelper).toEqual(httpHelper);
-        expect(serviceAccessor.itemStatusCollection).toEqual(jasmine.objectContaining([
+        expect(serviceAccessor.taskStatusCollection).toEqual(jasmine.objectContaining([
             ItemStatus.InProgress,
             ItemStatus.New,
             ItemStatus.ReOpened

@@ -36,6 +36,7 @@ Settings.prototype = (function () {
                 localStorage.setItem(this.settingsKey, JSON.stringify(settings));
                 this.BaseURL = baseUrl;
                 this.APIKey = apiKey;
+                this.available = true;
                 deferred.resolve(data);
             }.bind(this)).fail(function () {
                 deferred.reject("URL or API key is invalid.");
