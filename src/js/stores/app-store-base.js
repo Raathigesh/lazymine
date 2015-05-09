@@ -4,12 +4,11 @@ var AppConstants = require('../constants/app-action-name'),
     Merge = require('react/lib/Object.assign'),
     EventEmitter = require('events').EventEmitter,
     settings = require('./settings-manager'),
-    DataManager = require('./data-manager'),
+    DataStore = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
-    HttpHelper = require('./http-helper'),
-    TaskAssignee = require("../constants/task-assignee");
+    HttpHelper = require('./http-helper');
 
-var dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
+var dataStore = new DataStore(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
@@ -18,20 +17,18 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 filteredResult : [], // filtered search results.
                 activeItems : [], // active tasks selected by the user.
                 activities : [], // activities available to enter time against. Fetched from server.
-                isLoading : true
+                isLoading : true,
+                settings: settings
             },
             getState = function () {
                 return State;
             },
-            getSettings = function(){
-                return settings;
-            },
             fetchData = function () {
                 try {
                     if (settings.available) {
-                        $.when(dataManager.fetchData(settings.TaskAssignee)).done(function () {
+                        $.when(dataStore.fetchData()).done(function () {
                             State.isLoading = false;
-                            dataManager.activityCollection.map(function(item) {
+                            dataStore.activityCollection.map(function(item) {
                                 State.activities.push({
                                     id: item.id,
                                     text: item.name
@@ -49,7 +46,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             filterTaskCollection = function(query) {
                 try{
                     if(settings.available) {
-                        State.filteredResult = dataManager.filterTaskCollection(query);
+                        State.filteredResult = dataStore.filterTaskCollection(query);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }
                 } catch (error) {
@@ -58,8 +55,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             createActiveTask = function (issueId) {
                 try {
-                    dataManager.createActiveTask(issueId);
-                    State.activeItems = dataManager.activeTaskCollection;
+                    dataStore.createActiveTask(issueId);
+                    State.activeItems = dataStore.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch(error) {
                     console.log(error);
@@ -67,7 +64,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             updateActiveTask =  function (entry) {
                 try {
-                    dataManager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                    dataStore.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -75,7 +72,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             removeActiveTask = function (entryId) {
                 try {
-                    dataManager.removeActiveTask(entryId);
+                    dataStore.removeActiveTask(entryId);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -83,7 +80,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             postUpdatedActiveTaskCollection = function () {
                 try {
-                    $.when(dataManager.postUpdatedActiveTaskCollection()).done(function () {
+                    $.when(dataStore.postUpdatedActiveTaskCollection()).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }).fail(function (error) {
                         console.log(error);
@@ -94,7 +91,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             setSettings = function (data) {
                 try {
-                    $.when(settings.setSettings(data.url, data.apiKey, data.taskAssignee)).done(function () {
+                    $.when(settings.setSettings(data.url, data.apiKey)).done(function () {
                     }).fail(function (error) {
                         console.log(error);
                     });
@@ -137,7 +134,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
 
     return {
         getState: getState,
-        getSettings: getSettings,
         addChangeListener: addChangeListener,
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex

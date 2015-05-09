@@ -35,12 +35,13 @@ var AppActions = {
             actionType: AppConstants.CreateTimeEntries
         });
     },
-    saveSettings: function(url, apiKey){
+    saveSettings: function(url, apiKey, assignee){
         AppDispatcher.handleViewAction({
             actionType: AppConstants.SaveSettings,
             settings: {
                 url : url,
-                apiKey: apiKey
+                apiKey: apiKey,
+                assignee : assignee
             }
         });
     },

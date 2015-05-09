@@ -5,11 +5,13 @@ var Title = React.createClass({
 
   render : function(){
     return (
-      <div className="col-md-12">
-            <h4>
-            	{this.props.text}
-            </h4>
-      </div>
+    	<div className="row">
+    		<div className="col-md-12">
+	            <h4>
+	            	{this.props.text}
+	            </h4>
+      		</div>
+    	</div>      
     );
   }
 });
