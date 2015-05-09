@@ -5,5 +5,7 @@ module.exports = {
     UpdateTime: "UpdateTime",
     CreateTimeEntries: "CreateTimeEntries",
     SaveSettings: "SaveSettings",
-    RemoveTimeEntry: "RemoveTimeEntry"
+    RemoveTimeEntry: "RemoveTimeEntry",
+    RefreshIssues: "RefreshIssues",
+    StoreError: "StoreError"
 };

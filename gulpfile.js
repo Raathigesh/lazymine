@@ -24,12 +24,14 @@ var paths = {
 	styles: ['css/*.*'],
 	html: ['index.html'],
 	images: ['assets/*.*'],
-	extras: ['package.json']
+	extras: ['package.json'],
+    chrome_extension: ['extension/manifest.json', 'extension/background.js']
 };
 
 var filesToMove = paths.libs.concat(paths.html)										
 					.concat(paths.images)
-					.concat(paths.extras);
+					.concat(paths.extras)
+                    .concat(paths.chrome_extension);
 					
 gulp.task('clean', function() {
 	return gulp.src(bases.dist)

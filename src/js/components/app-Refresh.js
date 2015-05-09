@@ -7,7 +7,7 @@ var Link = Router.Link;
 var Refresh = React.createClass({
 
     _refreshTasks: function() {
-        AppActions.fetchIssues();
+        AppActions.refreshIssues();
     },
 
     render : function(){

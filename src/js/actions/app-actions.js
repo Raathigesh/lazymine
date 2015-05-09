@@ -50,6 +50,17 @@ var AppActions = {
             actionType: AppConstants.RemoveTimeEntry,
             taskId: taskId
         });
+    },
+    refreshIssues: function(){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.RefreshIssues
+        });
+    },
+    storeError: function(error){
+         AppDispatcher.handleViewAction({
+            actionType: AppConstants.StoreError,
+            error: error
+        });
     }
 }
 

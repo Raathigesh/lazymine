@@ -144,6 +144,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     case AppConstants.RemoveTimeEntry:
                         removeActiveTask.call(this, action.taskId);
                         break;
+                    case AppConstants.RefreshIssues:
+                        fetchLatest.call(this);
+                        break;
                     }
             });
 
