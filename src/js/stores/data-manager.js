@@ -17,11 +17,23 @@ DataManager = function (serviceAccessor) {
     this.taskCollection = [];
     this.activityCollection = [];
     this.activeTaskCollection = [];
+    this.timePostedTaskCollection = [];
     this.resultCount = 10;
 };
 
 DataManager.prototype = (function () {
-    var fetchData = function (taskAssignee) {
+    var colourCollection = [
+            '#FFCDD2',
+            '#E1BEE7',
+            '#D1C4E9',
+            '#BBDEFB',
+            '#B2EbF2',
+            '#C8E6E9',
+            '#F0F4C3',
+            '#FFF9C4',
+            '#FFCCBC'
+        ],
+        fetchData = function (taskAssignee) {
             var promises = [];
             promises.push(this.serviceAccessor.getTaskCollection(taskAssignee, true));
             promises.push(this.serviceAccessor.getTimeEntryActivities());
@@ -90,11 +102,18 @@ DataManager.prototype = (function () {
             sortedList.map(function (task) {
                 task.formattedTitle = task.subject;
                 for(var i = 0; i < upperQueryParts.length; i++) {
-                    task.formattedTitle =  task.formattedTitle.replace(queryPartSelectors[i], "<b>$1</b>");
+                    task.formattedTitle =  task.formattedTitle.replace(queryPartSelectors[i], getTextHighlighter.call(this, i));
                 }
             });
 
             return sortedList;
+        },
+        getTextHighlighter = function (index) {
+            debugger;
+            var length = colourCollection.length,
+                colourIndex = index/length>=1?index%length:index;
+
+            return "<span style=\"background-color:" + colourCollection[colourIndex] + ";font-weight: bold;\">$1</span>";
         },
         createActiveTask = function (id) {
             var task = _.find(this.taskCollection, function (task) {
@@ -117,11 +136,11 @@ DataManager.prototype = (function () {
             entry.updateEntry(timeEntryDate, parseInt(hours), activityId, comments);
         },
         postUpdatedActiveTaskCollection = function () {
-            var deferred = $.Deferred(),
-                updatedIssues = _.remove(this.activeTaskCollection, function (entry) {
-                    return entry.updated;
-                });
-            $.when(this.serviceAccessor.createTimeEntries(updatedIssues)).done(function () {
+            var deferred = $.Deferred();
+            this.timePostedTaskCollection = _.remove(this.activeTaskCollection, function (entry) {
+                return entry.updated;
+            });
+            $.when(this.serviceAccessor.createTimeEntries(this.timePostedTaskCollection)).done(function () {
                 deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("Time entry failure.");

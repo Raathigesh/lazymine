@@ -17,6 +17,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 filteredResult : [], // filtered search results.
                 activeItems : [], // active tasks selected by the user.
                 activities : [], // activities available to enter time against. Fetched from server.
+                postedItems: [], // time posted task collection.
                 isLoading : true,
                 settings: settings
             },
@@ -71,6 +72,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             createActiveTask = function (issueId) {
                 try {
+                    State.filteredResult = [];
                     dataManager.createActiveTask(issueId);
                     State.activeItems = dataManager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
@@ -80,6 +82,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             updateActiveTask =  function (entry) {
                 try {
+                    State.filteredResult = [];
                     dataManager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
@@ -88,6 +91,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             removeActiveTask = function (entryId) {
                 try {
+                    State.filteredResult = [];
                     dataManager.removeActiveTask(entryId);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
@@ -96,7 +100,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             postUpdatedActiveTaskCollection = function () {
                 try {
+                    State.filteredResult = [];
                     $.when(dataManager.postUpdatedActiveTaskCollection()).done(function () {
+                        State.postedItems.concat(dataManager.timePostedTaskCollection);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }).fail(function (error) {
                         console.log(error);
@@ -107,7 +113,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             setSettings = function (data) {
                 try {
-                    debugger;
                     $.when(settings.setSettings(data.url, data.apiKey, data.assignee, settings.getTimeEntryDate())).done(function () {
                     }).fail(function (error) {
                         console.log(error);
