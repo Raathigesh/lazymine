@@ -28,6 +28,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     if (settings.available) {
                         $.when(dataManager.fetchData(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
+                            State.filteredResult = [];
                             dataManager.activityCollection.map(function(item) {
                                 State.activities.push({
                                     id: item.id,
@@ -45,10 +46,10 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             fetchLatest = function () {
                 try {
-                    debugger;
                     if (settings.available) {
                         $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
+                            State.filteredResult = [];
                             EventEmitter.prototype.emit(AppEvent.Change);
                         }.bind(this)).fail(function (error) {
                             console.log(error);

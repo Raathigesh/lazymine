@@ -40,13 +40,15 @@ DataManager.prototype = (function () {
             var deferred = $.Deferred();
             $.when(this.serviceAccessor.getTaskCollection(taskAssignee, false)).done(function (taskCollection) {
                 taskCollection.map(function (task) {
-                    var oldTask = _.find(this.taskCollection, { 'id' : task.id });
-                    if(oldTask) {
-                        oldTask = task;
-                        var oldActiveTask = _.find(this.activeTaskCollection, { 'issueId' : task.id });
-                        if(oldActiveTask) {
-                            oldActiveTask.issueName = task.subject;
-                            oldActiveTask.projectName = task.project.name;
+                    var taskIndex = _.findIndex(this.taskCollection, { 'id' : task.id });
+                    if(typeof taskIndex === "number") {
+                        this.taskCollection[taskIndex] = task;
+                        var oldActiveTask = _.filter(this.activeTaskCollection, { 'issueId' : task.id });
+                        if(oldActiveTask.length > 0) {
+                            oldActiveTask.map(function (activeTask) {
+                                activeTask.issueName = task.subject;
+                                activeTask.projectName = task.project.name;
+                            });
                         }
                     } else {
                         this.taskCollection.push(task);

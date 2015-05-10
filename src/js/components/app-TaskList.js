@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Task = require('../components/app-Task');
-var AppStore = require('../stores/app-store-base');
+var AppStore = require('../stores/app-base-store');
 
 var TaskList = React.createClass({
   
