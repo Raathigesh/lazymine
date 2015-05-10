@@ -54,8 +54,8 @@ var Task = React.createClass({
             <div className="tile tile-collapse">
                 <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile">
                     <div className="pull-left tile-side">
-                        <div className="avatar avatar-blue avatar-sm">
-                            <span className="icon icon-alarm"></span>
+                        <div className="avatar avatar-multi">
+                            <span className="icon">{icontext}</span>
                         </div>
                     </div>
                     <div className="tile-action" data-ignore="tile">
@@ -66,22 +66,22 @@ var Task = React.createClass({
                         </ul>
                     </div>
                     <div className="tile-inner">
-                        <div className="text-overflow">{item.issueName}</div>
+                        <h4 className="text-overflow list-group-item-heading">{item.projectName}</h4>
+                        <p className="text-overflow list-group-item-text">{item.issueName}</p>
                     </div>
                 </div>
                 <div className="tile-active-show collapse" id={dataTarget}>
                     <div className="tile-sub">
-                        <p className="expanded-details">{item.projectName}<br/><small>{item.issueName}</small></p>
                         <div className="row">
                             <div className="col-lg-12 col-sm-12">
                                 <TextField ref="comment" label = "Comment"/> 
                             </div>    
                         </div>
                         <div className="row">
-                             <div className="col-lg-6 col-sm-6">
+                             <div className="col-lg-6 col-sm-6 tracker-dropdown">
                                 <Dropdown ref="activity" data={activities}/>
                              </div>
-                             <div className="col-lg-6 col-sm-6">
+                             <div className="col-lg-6 col-sm-6 hours-input">
                                 <TextField ref="spentHours" label = "Hours" keyUp={this._hourEntered}/>
                              </div>                            
                         </div>

@@ -19,7 +19,7 @@ var DropDown = React.createClass({
        <div className="form-group form-group-label">
         <div className="row">
           <div className="col-lg-12 col-sm-12">
-            <label className="floating-label" for="float-select">Select</label>
+            <label className="floating-label" for="float-select">Activity</label>
             <select ref="selectBox" className="form-control" id="float-select">
               <option value=""></option>
               {items}

@@ -33,6 +33,7 @@ body{
 .btn.btn-fab.top-refresh{
 	font-size:36px;
 	padding:10px;
+	line-height: 30px;
 }
 
 .list-group .list-group-item .list-group-item-heading{
@@ -51,6 +52,12 @@ body{
 }
 
 .list-group-item-heading{
+	font-size: 16px;
+	font-weight: 500;
+	padding-top: 0; !important;
+}
+
+.list-group-item-text{
 	padding-top: 0; !important;
 }
 
@@ -91,16 +98,8 @@ body{
 	width: 100%;
 }
 
-.hours-input{
-	width: 100px;
-}
-
 .task-input{
 	padding-left : 60px;
-}
-
-.tracker-dropdown{
-	margin-left: -5px;
 }
 
 .tracker-dropdown-wrap{
@@ -148,4 +147,22 @@ body{
 	font-size: 16px;
 	  margin-top: 9px;
 	  margin-bottom: -15px;
+}
+
+.avatar-multi{
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.25);
+	color: #ffffff;
+	font-size: 20px;
+	text-align: center;
+	height: 45px;
+	line-height: 45px;
+	width: 45px;
+}
+
+.tracker-dropdown{
+	display: inline-block;
+}
+
+.hours-input{
+	display: inline-block;
 }
