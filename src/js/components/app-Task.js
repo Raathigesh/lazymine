@@ -1,35 +1,25 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Mui = require('material-ui');
-var DropDownMenu = Mui.DropDownMenu;
-var DatePicker = Mui.DatePicker;
-var TextField = Mui.TextField;
-var tweenState = require('react-tween-state');
 var AppActions = require('../actions/app-actions');
+var TextField = require('../components/form/app-TextField');
+var Dropdown = require('../components/form/app-Dropdown');
 
 var Task = React.createClass({
 
-    mixins: [tweenState.Mixin],
-
-    activityId: 0,
-
     getInitialState: function() {
         return {
-            open:false,
-            class: "list-group-item collapsed"
+            open:false
         };
     },
 
     _handleClick: function(event) {
         if(this.state.open) {
             this.setState({
-                open: false,
-                class: "list-group-item collapsed"
+                open: false
             });
         }else{
             this.setState({
-                open: true,
-                class: "list-group-item open"
+                open: true
             });
         }
     },
@@ -38,14 +28,12 @@ var Task = React.createClass({
         event.stopPropagation();
     },
 
-    _activityChanged: function(e, selectedIndex, menuItem){
-        this.activityId = menuItem.id;
-    },
-
     _hourEntered: function(event){		
-		var spentHours = this.refs.spentHours.getValue();
+        debugger
+		var spentHours = parseFloat(this.refs.spentHours.getValue());
         var comment = this.refs.comment.getValue();
-        AppActions.updateTime(this.props.item.id, this.activityId, spentHours, comment);
+        var activityId = this.refs.activity.getValue();
+        AppActions.updateTime(this.props.item.id, activityId, spentHours, comment);
         event.stopPropagation();
     },
 
@@ -60,34 +48,44 @@ var Task = React.createClass({
         // Just get the first proper letter of the project
         var icontext = this.props.item.projectName.replace(/[^a-z]/gi,'').charAt(0);
 
-        // Commented out. We might not need this.
-        /*if(item.hasOwnProperty("time_updated") && item.time_updated == true){
-            this.setState({
-                open: false,
-                class: "list-group-item updated"
-            });
-        }*/
+        var dataTarget = "tile-collapse-" + item.id;
 
         return (
-            <div onClick={this._handleClick} className={this.state.class}>
-                <div className="row-action-primary">
-                    <i>{icontext}</i>
-                </div>
-                <div className="row-content">
-                    <div className="least-content remove" onClick={this._remove}>Remove</div>
-                    <h4 className="list-group-item-heading">{item.projectName}</h4>
-                    <p className="list-group-item-text">{item.issueName}</p>
-                </div>
-                <div className="row-content task-input">
-                    <div className="col-xs-12">
-                      <TextField ref="comment" hintText="Comment" className="comment-box" onClick={this._elementClick}/>
+            <div className="tile tile-collapse">
+                <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile">
+                    <div className="pull-left tile-side">
+                        <div className="avatar avatar-blue avatar-sm">
+                            <span className="icon icon-alarm"></span>
+                        </div>
+                    </div>
+                    <div className="tile-action" data-ignore="tile">
+                        <ul className="nav nav-list pull-right">
+                            <li>
+                                <a href="javascript:void(0)" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
+                            </li>                 
+                        </ul>
+                    </div>
+                    <div className="tile-inner">
+                        <div className="text-overflow">{item.issueName}</div>
                     </div>
                 </div>
-                <div className="row-content task-input">
-                    <div className="tracker-dropdown-wrap" onClick={this._elementClick}>
-                        <DropDownMenu menuItems={activities} className="tracker-dropdown" onChange={this._activityChanged}/>
+                <div className="tile-active-show collapse" id={dataTarget}>
+                    <div className="tile-sub">
+                        <p className="expanded-details">{item.projectName}<br/><small>{item.issueName}</small></p>
+                        <div className="row">
+                            <div className="col-lg-12 col-sm-12">
+                                <TextField ref="comment" label = "Comment"/> 
+                            </div>    
+                        </div>
+                        <div className="row">
+                             <div className="col-lg-6 col-sm-6">
+                                <Dropdown ref="activity" data={activities}/>
+                             </div>
+                             <div className="col-lg-6 col-sm-6">
+                                <TextField ref="spentHours" label = "Hours" keyUp={this._hourEntered}/>
+                             </div>                            
+                        </div>
                     </div>
-                  <TextField ref="spentHours" hintText="Hours" className="hours-input" onClick={this._elementClick} onKeyUp={this._hourEntered}/>
                 </div>
             </div>
         );

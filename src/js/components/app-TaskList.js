@@ -18,17 +18,14 @@ var TaskList = React.createClass({
 
     if(items){
       rows = items.map(function(item, i) {
-        return(
-          <div>
-            <Task updatedTime="15" item={item} activities={activities}/>
-            <div className="list-group-separator"></div>
-          </div>
+        return(          
+            <Task updatedTime="15" item={item} activities={activities} /> 
         );
       });
     }
 
     return (
-        <div className="list-group">
+        <div className="tile-wrap">
            {rows}
         </div>
     );

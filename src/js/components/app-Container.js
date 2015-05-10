@@ -53,11 +53,9 @@ var Container = React.createClass({
     return (
       <div>
       <Loader isLoading={this.state.isLoading}/>
-        <div className="container-fluid">
-          <div className="row">
+        <div className="container">
             <SearchBox items={this.state.filteredResult}/>
             <TaskList items={this.state.activeItems} activities={this.state.activities}/>
-          </div>
         </div>
         <Footer 
             primaryClick={this._updateTime} 

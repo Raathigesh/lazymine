@@ -20,7 +20,7 @@ var bases = {
 var paths = {
 	main: ['js/main.js'], // since we need to browserify this file specifically
 	scripts: ['js/shell/*.js'],
-	libs: ['js/lib/*.*', 'css/lib/*.*', 'css/fonts/*.*'],
+	libs: ['js/lib/*.*', 'css/lib/*.*', 'css/fonts/*.*', 'css/lib/fonts/*.*'],
 	styles: ['css/*.*'],
 	html: ['index.html'],
 	images: ['assets/*.*'],

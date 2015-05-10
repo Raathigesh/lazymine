@@ -54,13 +54,15 @@ var SearchBox = React.createClass({
     
     render: function() {
       return (
-        <div className="col-md-12">
-            <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyUp={this._navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
-            { 
-              this.state.showResults 
-              ? <SearchResult ref="searchResult" results={this.props.items} toggleResultsPanel={this._toggleResultsPanel}/> 
-              : null 
-            }
+        <div className="row">
+            <div className="col-md-12">
+                <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter} onKeyUp={this._navigate} placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
+                { 
+                  this.state.showResults 
+                  ? <SearchResult ref="searchResult" results={this.props.items} toggleResultsPanel={this._toggleResultsPanel}/> 
+                  : null 
+                }
+            </div>
         </div>
       );
     }
