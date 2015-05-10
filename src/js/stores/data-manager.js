@@ -22,18 +22,7 @@ DataManager = function (serviceAccessor) {
 };
 
 DataManager.prototype = (function () {
-    var colourCollection = [
-            '#FFCDD2',
-            '#E1BEE7',
-            '#D1C4E9',
-            '#BBDEFB',
-            '#B2EbF2',
-            '#C8E6E9',
-            '#F0F4C3',
-            '#FFF9C4',
-            '#FFCCBC'
-        ],
-        fetchData = function (taskAssignee) {
+    var fetchData = function (taskAssignee) {
             var promises = [];
             promises.push(this.serviceAccessor.getTaskCollection(taskAssignee, true));
             promises.push(this.serviceAccessor.getTimeEntryActivities());
@@ -91,29 +80,20 @@ DataManager.prototype = (function () {
             });
 
             var sortedList = _.take(_.sortByOrder(filteredTasks, ['matchCount'], [false]), this.resultCount);
-            var queryPartSelectors = [];
 
-            upperQueryParts.map(function (part) {
-                if(part.length > 0) {
-                    queryPartSelectors.push(new RegExp("(" + Validator.stripLow(part) + ")", 'gi'));
-                }
+            var selectorParts = _.filter(upperQueryParts, function(part) {
+                return part.length > 0;
             });
-
+            var selectorExpression = new RegExp("(" + selectorParts.join('|') + ")", 'gi');
             sortedList.map(function (task) {
                 task.formattedTitle = task.subject;
-                for(var i = 0; i < upperQueryParts.length; i++) {
-                    task.formattedTitle =  task.formattedTitle.replace(queryPartSelectors[i], getTextHighlighter.call(this, i));
-                }
+                task.formattedTitle = task.formattedTitle.replace(selectorExpression, getTextHighlighter.call(this));
             });
 
             return sortedList;
         },
-        getTextHighlighter = function (index) {
-            debugger;
-            var length = colourCollection.length,
-                colourIndex = index/length>=1?index%length:index;
-
-            return "<span style=\"background-color:" + colourCollection[colourIndex] + ";font-weight: bold;\">$1</span>";
+        getTextHighlighter = function () {
+            return "<span style=\"background-color:#81D4FA;font-weight: bold;\">$1</span>";
         },
         createActiveTask = function (id) {
             var task = _.find(this.taskCollection, function (task) {
