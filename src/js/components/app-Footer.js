@@ -10,7 +10,7 @@ var Footer = React.createClass({
         <a href={this.props.cancelLink} className="btn btn-cancel btn-lg">
         	{this.props.secondaryText}
         </a>
-        <a className="btn btn-success btn-lg" onClick={this.props.primaryClick}>
+        <a className="btn btn-success btn-lg btn-alt waves-button waves-effect waves-light" onClick={this.props.primaryClick}>
         	{this.props.primaryText}
         </a>
       </div>

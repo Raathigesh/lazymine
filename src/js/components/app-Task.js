@@ -52,9 +52,9 @@ var Task = React.createClass({
 
         return (
             <div className="tile tile-collapse">
-                <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile">
+                <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
                     <div className="pull-left tile-side">
-                        <div className="avatar avatar-multi">
+                        <div className="avatar avatar-sm avatar-multi">
                             <span className="icon">{icontext}</span>
                         </div>
                     </div>
@@ -66,8 +66,7 @@ var Task = React.createClass({
                         </ul>
                     </div>
                     <div className="tile-inner">
-                        <h4 className="text-overflow list-group-item-heading">{item.projectName}</h4>
-                        <p className="text-overflow list-group-item-text">{item.issueName}</p>
+                        <div className="text-overflow">{item.issueName}</div>
                     </div>
                 </div>
                 <div className="tile-active-show collapse" id={dataTarget}>
