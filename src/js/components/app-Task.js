@@ -28,8 +28,7 @@ var Task = React.createClass({
         event.stopPropagation();
     },
 
-    _hourEntered: function(event){		
-        debugger
+    _hourEntered: function(event){
 		var spentHours = parseFloat(this.refs.spentHours.getValue());
         var comment = this.refs.comment.getValue();
         var activityId = this.refs.activity.getValue();
@@ -42,8 +41,15 @@ var Task = React.createClass({
     },
   
     render : function(){
-        var activities = this.props.activities;
-        var item = this.props.item;
+        var activities = this.props.activities,
+            item = this.props.item,
+            tileClass = "tile tile-collapse",
+            hoursText = "";
+
+        if (item.updated) {
+            tileClass = "tile tile-collapse selected";
+            hoursText = "[" + item.hours + " Hours]"
+        }
 
         // Just get the first proper letter of the project
         var icontext = this.props.item.projectName.replace(/[^a-z]/gi,'').charAt(0);
@@ -51,18 +57,26 @@ var Task = React.createClass({
         var dataTarget = "tile-collapse-" + item.id;
 
         return (
-            <div className="tile tile-collapse">
+            <div className={tileClass}>
                 <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
                     <div className="pull-left tile-side">
                         <div className="avatar avatar-sm avatar-multi">
                             <span className="icon">{icontext}</span>
                         </div>
                     </div>
-                    <div className="tile-action" data-ignore="tile">
+
+                    <div className="tile-action tile-action-show">
                         <ul className="nav nav-list pull-right">
                             <li>
                                 <a href="javascript:void(0)" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
                             </li>                 
+                        </ul>
+                    </div>
+                    <div>
+                        <ul className="pull-right tile-hours">
+                            <li>
+                                <span>{hoursText}</span>
+                            </li>
                         </ul>
                     </div>
                     <div className="tile-inner">
