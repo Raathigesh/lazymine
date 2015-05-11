@@ -9,9 +9,13 @@ var AppConstants = require('../constants/app-action-name'),
     HttpHelper = require('./http-helper'),
     dataManager = null;
 
-if(settings.available) {
-    dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
-}
+getDataManager = function () {
+    if (settings.available && dataManager === null) {
+        dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
+    }
+
+    return dataManager;
+};
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
@@ -30,10 +34,11 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchData = function () {
                 try {
                     if (settings.available) {
-                        $.when(dataManager.fetchData(settings.TaskAssignee)).done(function () {
+                        var manager = getDataManager();
+                        $.when(manager.fetchData(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
                             State.filteredResult = [];
-                            dataManager.activityCollection.map(function(item) {
+                            manager.activityCollection.map(function(item) {
                                 State.activities.push({
                                     id: item.id,
                                     text: item.name
@@ -51,7 +56,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchLatestBackground = function () {
                 var intervalId  = setInterval(function () {
                     if (settings.available) {
-                        $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
+                        var manager = getDataManager();
+                        $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
                         }.bind(this)).fail(function (error) {
                             console.log(error);
                         });
@@ -65,7 +71,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             fetchLatest = function () {
                 try {
                     if (settings.available) {
-                        $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
+                        var manager = getDataManager();
+                        $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
                             State.isLoading = false;
                             State.filteredResult = [];
                             EventEmitter.prototype.emit(AppEvent.Change);
@@ -80,7 +87,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             filterTaskCollection = function(query) {
                 try{
                     if(settings.available) {
-                        State.filteredResult = dataManager.filterTaskCollection(query);
+                        var manager = getDataManager();
+                        State.filteredResult = manager.filterTaskCollection(query);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }
                 } catch (error) {
@@ -89,9 +97,10 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             createActiveTask = function (issueId) {
                 try {
+                    var manager = getDataManager();
                     State.filteredResult = [];
-                    dataManager.createActiveTask(issueId);
-                    State.activeItems = dataManager.activeTaskCollection;
+                    manager.createActiveTask(issueId);
+                    State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch(error) {
                     console.log(error);
@@ -99,8 +108,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             updateActiveTask =  function (entry) {
                 try {
+                    var manager = getDataManager();
                     State.filteredResult = [];
-                    dataManager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                    manager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -108,8 +118,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             removeActiveTask = function (entryId) {
                 try {
+                    var manager = getDataManager();
                     State.filteredResult = [];
-                    dataManager.removeActiveTask(entryId);
+                    manager.removeActiveTask(entryId);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 } catch (error) {
                     console.log(error);
@@ -117,11 +128,12 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             postUpdatedActiveTaskCollection = function () {
                 try {
+                    var manager = getDataManager();
                     State.filteredResult = [];
-                    $.when(dataManager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
-                        State.postedItems.concat(dataManager.timePostedTaskCollection);
+                    $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
+                        State.postedItems.concat(manager.timePostedTaskCollection);
                         EventEmitter.prototype.emit(AppEvent.Change);
-                    }).fail(function (error) {
+                    }.bind(this)).fail(function (error) {
                         console.log(error);
                     });
                 } catch (error) {
