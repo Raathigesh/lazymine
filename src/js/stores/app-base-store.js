@@ -45,6 +45,21 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     console.log(error);
                 }
             },
+            fetchLatestBackground = function () {
+                var intervalId  = setTimeout(function () {
+                    if (settings.available) {
+                        $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
+                            debugger;
+                        }.bind(this)).fail(function (error) {
+                            console.log(error);
+                        });
+                    }
+                    else
+                    {
+                        clearInterval(intervalId);
+                    }
+                }.bind(this), 1800000);
+            },
             fetchLatest = function () {
                 try {
                     if (settings.available) {
@@ -139,6 +154,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 switch (action.actionType) {
                     case AppConstants.FetchIssues:
                         fetchData.call(this);
+                        fetchLatestBackground.call(this);
                         break;
                     case AppConstants.Search:
                         filterTaskCollection.call(this, action.query);
