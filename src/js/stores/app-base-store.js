@@ -6,9 +6,12 @@ var AppConstants = require('../constants/app-action-name'),
     settings = require('./settings-manager'),
     DataManager = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
-    HttpHelper = require('./http-helper');
+    HttpHelper = require('./http-helper'),
+    dataManager = null;
 
-var dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
+if(settings.available) {
+    dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
+}
 
 module.exports = Merge(EventEmitter.prototype, (function () {
     "use strict";
