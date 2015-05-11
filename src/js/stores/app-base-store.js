@@ -46,10 +46,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 }
             },
             fetchLatestBackground = function () {
-                var intervalId  = setTimeout(function () {
+                var intervalId  = setInterval(function () {
                     if (settings.available) {
                         $.when(dataManager.fetchLatest(settings.TaskAssignee)).done(function () {
-                            debugger;
                         }.bind(this)).fail(function (error) {
                             console.log(error);
                         });
