@@ -18,7 +18,8 @@ var Container = React.createClass({
   },
 
   getInitialState: function () {
-      return AppStore.getState();
+      var state = AppStore.getState();
+      return state;
   },
 
   componentWillMount: function () {
