@@ -143,6 +143,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             setSettings = function (data) {
                 try {
                     $.when(settings.setSettings(data.url, data.apiKey, data.assignee)).done(function () {
+                        State.settings = settings;
+                        EventEmitter.prototype.emit(AppEvent.Change);
                     }).fail(function (error) {
                         console.log(error);
                     });
