@@ -27,11 +27,15 @@ TimeEntry = function (issueId, issueName, projectName) {
 
 TimeEntry.prototype = (function () {
     var dateFormatPattern = /^\d{4}-\d{2}-\d{2}$/,
-        updateEntry = function (spentOn, hours, activityId, comments) {
+        setSpentOn = function (spentOn) {
             if(typeof spentOn !== "string" || !spentOn.match(dateFormatPattern)) {
                 throw new InvalidArgumentError("Parameter spentOn must be a string with format {YYYY-MM-DD}.");
             }
 
+            this.spentOn = spentOn;
+            return this;
+        },
+        updateEntry = function (hours, activityId, comments) {
             if(typeof hours !== "number") {
                 throw new InvalidArgumentError("Parameter hours must be a number.");
             }
@@ -44,11 +48,11 @@ TimeEntry.prototype = (function () {
                 throw new InvalidArgumentError("Parameter comments must be a string.");
             }
 
-            this.spentOn = spentOn;
             this.hours = hours;
             this.activityId = activityId;
             this.comments = comments;
             this.updated = true;
+            return this;
         },
         buildPostEntry = function () {
             return {
@@ -63,7 +67,8 @@ TimeEntry.prototype = (function () {
         };
     return {
         updateEntry: updateEntry,
-        buildPostEntry: buildPostEntry
+        buildPostEntry: buildPostEntry,
+        setSpentOn: setSpentOn
     };
 })();
 

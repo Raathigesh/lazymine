@@ -116,7 +116,7 @@ ServiceAccessor.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
-        createTimeEntries = function (timeEntryCollection) {
+        createTimeEntries = function (timeEntryCollection, spentOn) {
             if(!(timeEntryCollection instanceof Array)) {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
             }
@@ -129,7 +129,7 @@ ServiceAccessor.prototype = (function () {
                     throw new InvalidArgumentError("Parameter timeEntryCollection must contain TimeEntry objects.");
                 }
 
-                promises.push(this.httpHelper.postRequest(timeEntryUrl, timeEntry.buildPostEntry()));
+                promises.push(this.httpHelper.postRequest(timeEntryUrl, timeEntry.setSpentOn(spentOn).buildPostEntry()));
             }.bind(this));
 
             var deferred = $.Deferred();

@@ -114,16 +114,16 @@ DataManager.prototype = (function () {
         clearActiveTaskCollection = function () {
             this.activeTaskCollection = [];
         },
-        updateActiveTask = function (timeEntryId, hours, activityId, comments, timeEntryDate) {
+        updateActiveTask = function (timeEntryId, hours, activityId, comments) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
-            entry.updateEntry(timeEntryDate, parseInt(hours), activityId, comments);
+            entry.updateEntry(parseFloat(hours), parseInt(activityId), comments);
         },
-        postUpdatedActiveTaskCollection = function () {
+        postUpdatedActiveTaskCollection = function (spentOn) {
             var deferred = $.Deferred();
             this.timePostedTaskCollection = _.remove(this.activeTaskCollection, function (entry) {
                 return entry.updated;
             });
-            $.when(this.serviceAccessor.createTimeEntries(this.timePostedTaskCollection)).done(function () {
+            $.when(this.serviceAccessor.createTimeEntries(this.timePostedTaskCollection, spentOn)).done(function () {
                 deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("Time entry failure.");

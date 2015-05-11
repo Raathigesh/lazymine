@@ -115,7 +115,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             postUpdatedActiveTaskCollection = function () {
                 try {
                     State.filteredResult = [];
-                    $.when(dataManager.postUpdatedActiveTaskCollection()).done(function () {
+                    $.when(dataManager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
                         State.postedItems.concat(dataManager.timePostedTaskCollection);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }).fail(function (error) {
@@ -127,7 +127,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             },
             setSettings = function (data) {
                 try {
-                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee, settings.getTimeEntryDate())).done(function () {
+                    $.when(settings.setSettings(data.url, data.apiKey, data.assignee)).done(function () {
                     }).fail(function (error) {
                         console.log(error);
                     });
