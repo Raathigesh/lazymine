@@ -111,6 +111,9 @@ DataManager.prototype = (function () {
                 return entry.id == timeEntryId;
             });
         },
+        clearActiveTaskCollection = function () {
+            this.activeTaskCollection = [];
+        },
         updateActiveTask = function (timeEntryId, hours, activityId, comments, timeEntryDate) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
             entry.updateEntry(timeEntryDate, parseInt(hours), activityId, comments);
@@ -134,7 +137,8 @@ DataManager.prototype = (function () {
         createActiveTask: createActiveTask,
         updateActiveTask: updateActiveTask,
         postUpdatedActiveTaskCollection: postUpdatedActiveTaskCollection,
-        removeActiveTask: removeActiveTask
+        removeActiveTask: removeActiveTask,
+        clearActiveTaskCollection: clearActiveTaskCollection
     }
 })();
 
