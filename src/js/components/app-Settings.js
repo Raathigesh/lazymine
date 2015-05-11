@@ -21,13 +21,25 @@ var Settings = React.createClass({
        return AppStore.getState();       
   	},
 
+  	 componentWillMount: function () {
+      AppStore.addChangeListener(this._change);
+  	},
+
   	_saveSettings: function(){
 		var url = this.refs.url.getValue();  
 		var apiKey = this.refs.apiKey.getValue();
 		var assignee = this.refs.assignee.getSelectedValue();
-		AppActions.saveSettings(url, apiKey, assignee); 
-		this.context.router.transitionTo('home');
+		AppActions.saveSettings(url, apiKey, assignee);
 	}, 
+
+	_change: function () {
+      var storeState = AppStore.getState();
+      this.setState(storeState);
+
+      if(this.state.settings.BaseURL != null && this.state.settings.BaseURL != "" && this.state.settings.APIKey != null && this.state.settings.APIKey != ""){
+          this.context.router.transitionTo('home');
+      }
+  	},
 
 	render : function(){ 
 		return ( 
