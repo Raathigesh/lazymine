@@ -13,6 +13,11 @@ var AppActions = {
             query: q
         });
     },
+    clearSearch: function(){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.ClearSearch
+        });
+    },
     addIssue: function (issueId) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.AddIssue,

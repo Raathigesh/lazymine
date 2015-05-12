@@ -100,6 +100,14 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
+        clearSearch = function(){
+            try {
+                State.filteredResult = [];
+                EventEmitter.prototype.emit(AppEvent.Change);
+            } catch (error) {
+                console.error(prettify(error) || error);
+            }
+        },
         createActiveTask = function (issueId) {
             try {
                 var manager = getDataManager();
@@ -215,6 +223,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 case AppConstants.Search:
                     filterTaskCollection.call(this, action.query);
                     break;
+                case AppConstants.ClearSearch:
+                    clearSearch.call();
                 case AppConstants.AddIssue:
                     createActiveTask.call(this, action.issueId);
                     break;
