@@ -5,6 +5,10 @@ body{
 	background:#f8f7f7;
 }
 
+.container{
+    margin-top: 48px;
+}
+
 .navbar.navbar, .navbar-default.navbar{
 	background:#f8f7f7;
 }
@@ -12,8 +16,19 @@ body{
 	margin-bottom:0;
 }
 .navbar .navbar-brand{
+    position: absolute;
+    top: 8px;
 	height:50px;
 }
+
+.icon-menu{
+    color: #666;
+}
+
+.header .nav>li>a .header-close:after{
+    background: #a2a1a1;
+}
+
 .search-control{
 	background:#f9f9f9;
 	box-shadow:1px 2px 5px #939393;
@@ -29,6 +44,7 @@ body{
 	position:fixed;
 	top:20px;
 	right:20px;
+    z-index: 30;
 }
 
 .fbtn.fbtn-green{

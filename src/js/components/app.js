@@ -6,6 +6,7 @@ var Container = require('../components/app-Container');
 var SearchBox = require('../components/app-SearchBox');
 var TaskList = require('../components/app-TaskList');
 var Settings = require('../components/app-Settings');
+var NavBar = require('../components/app-NavBar');
 
 
 var Router = require('react-router');
@@ -17,9 +18,16 @@ var RouteHandler = Router.RouteHandler;
 
 
 var App = React.createClass({
+    getInitialState: function() {
+        return {
+            navState: "closed"
+        };
+    },
+
     render: function () {
         return (<div>        			
-                	<Header/>
+                	<Header />
+                    <NavBar />
                 	<RouteHandler/>
                 </div>);
     }
