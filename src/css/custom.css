@@ -81,7 +81,13 @@ body{
 }
 .btn-group{
 	margin-bottom:0;
+	width: 100%;
 }
+
+.btn-group a{
+	width: 50%;
+}
+
 .btn-cancel:not(.btn-link):not(.btn-flat){
 	background:#a2a1a1;
 	color:#fff;

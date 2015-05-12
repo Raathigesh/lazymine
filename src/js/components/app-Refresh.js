@@ -12,7 +12,14 @@ var Refresh = React.createClass({
 
     render : function(){
         return (
-            <div className="btn btn-success btn-fab btn-raised mdi-notification-sync top-refresh" onClick={this._refreshTasks}></div>
+        <div className="fbtn-container top-refresh">
+            <div className="fbtn-inner" onClick={this._refreshTasks}>
+                <a className="fbtn fbtn-green fbtn-lg">
+                    <span className="fbtn-text">Refresh Items</span>
+                    <span className="fbtn-ori icon icon-refresh"></span>
+                </a>
+            </div>
+        </div>
         );
     }
 });
