@@ -10,6 +10,7 @@ var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
 var Refresh = require('../components/app-Refresh');
 var Errors= require('../constants/store-errors');
+var DatePicker = require('../components/app-DatePicker')
 
 var Container = React.createClass({
 
@@ -57,10 +58,11 @@ var Container = React.createClass({
         <div className="container">
             <SearchBox items={this.state.filteredResult}/>
             <TaskList items={this.state.activeItems} activities={this.state.activities}/>
+            <DatePicker />
         </div>
         <Footer 
             primaryClick={this._updateTime} 
-            secondaryText="CANCEL" 
+            secondaryText="CANCEL"
             cancelLink="#" 
             primaryText="UPDATE"/>
         <Refresh />
