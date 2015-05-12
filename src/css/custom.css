@@ -30,6 +30,10 @@ body{
 	top:20px;
 	right:20px;
 }
+
+.fbtn.fbtn-green{
+	background:#4caf50 ;
+}
 .btn.btn-fab.top-refresh{
 	font-size:36px;
 	padding:10px;
@@ -81,7 +85,13 @@ body{
 }
 .btn-group{
 	margin-bottom:0;
+	width: 100%;
 }
+
+.btn-group a{
+	width: 50%;
+}
+
 .btn-cancel:not(.btn-link):not(.btn-flat){
 	background:#a2a1a1;
 	color:#fff;

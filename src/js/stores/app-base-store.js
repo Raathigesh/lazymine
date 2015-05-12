@@ -148,11 +148,12 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
-        clearTimeEntries = function () {
+        clearActiveTaskCollection = function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
                     manager.clearActiveTaskCollection();
+                    State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -202,7 +203,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     postUpdatedActiveTaskCollection.call(this);
                     break;
                 case AppConstants.ClearTimeEntries:
-                    clearTimeEntries.call(this);
+                    clearActiveTaskCollection.call(this);
                     break;
                 case AppConstants.SaveSettings:
                     setSettings.call(this, action.settings);
