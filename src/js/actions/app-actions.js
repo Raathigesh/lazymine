@@ -13,19 +13,40 @@ var AppActions = {
             query: q
         });
     },
+    clearSearch: function(){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.ClearSearch
+        });
+    },
     addIssue: function (issueId) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.AddIssue,
             issueId: issueId
         });
     },
-    updateTime: function (id, activityId, spentHours, comment) {
+    updateTaskActivityId: function (id, activityId) {
         AppDispatcher.handleViewAction({
-            actionType: AppConstants.UpdateTime,
-            timeEntry: {
+            actionType: AppConstants.UpdateTaskActivityId,
+            entry: {
                 id: id,
-                hours: spentHours,
-                activityId: activityId,
+                activityId: activityId
+            }
+        });
+    },
+    updateTaskHours: function (id, spentHours) {
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.UpdateTaskHours,
+            entry: {
+                id: id,
+                hours: spentHours
+            }
+        });
+    },
+    updateTaskComments: function (id, comment) {
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.UpdateTaskComments,
+            entry: {
+                id: id,
                 comments: comment
             }
         });
@@ -67,6 +88,6 @@ var AppActions = {
             error: error
         });
     }
-}
+};
 
 module.exports = AppActions;

@@ -100,11 +100,18 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
+        clearSearch = function(){
+            try {
+                State.filteredResult = [];
+                EventEmitter.prototype.emit(AppEvent.Change);
+            } catch (error) {
+                console.error(prettify(error) || error);
+            }
+        },
         createActiveTask = function (issueId) {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     manager.createActiveTask(issueId);
                     State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
@@ -113,12 +120,33 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
-        updateActiveTask = function (entry) {
+        updateActiveTaskActivityId = function (entry) {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
-                    manager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                    manager.updateActiveTaskActivityId(entry.id, entry.activityId);
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
+            } catch (error) {
+                console.error(prettify(error) || error);
+            }
+        },
+        updateActiveTaskComments = function (entry) {
+            try {
+                var manager = getDataManager();
+                if(manager !== null) {
+                    manager.updateActiveTaskComments(entry.id, entry.comments);
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
+            } catch (error) {
+                console.error(prettify(error) || error);
+            }
+        },
+        updateActiveTaskHours = function (entry) {
+            try {
+                var manager = getDataManager();
+                if(manager !== null) {
+                    manager.updateActiveTaskHours(entry.id, entry.hours);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -129,7 +157,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     manager.removeActiveTask(entryId);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -141,7 +168,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
@@ -152,11 +178,12 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
-        clearTimeEntries = function () {
+        clearActiveTaskCollection = function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
                     manager.clearActiveTaskCollection();
+                    State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -196,17 +223,25 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 case AppConstants.Search:
                     filterTaskCollection.call(this, action.query);
                     break;
+                case AppConstants.ClearSearch:
+                    clearSearch.call();
                 case AppConstants.AddIssue:
                     createActiveTask.call(this, action.issueId);
                     break;
-                case AppConstants.UpdateTime:
-                    updateActiveTask.call(this, action.timeEntry);
+                case AppConstants.UpdateTaskActivityId:
+                    updateActiveTaskActivityId.call(this, action.entry);
+                    break;
+                case AppConstants.UpdateTaskComments:
+                    updateActiveTaskComments.call(this, action.entry);
+                    break;
+                case AppConstants.UpdateTaskHours:
+                    updateActiveTaskHours.call(this, action.entry);
                     break;
                 case AppConstants.CreateTimeEntries:
                     postUpdatedActiveTaskCollection.call(this);
                     break;
                 case AppConstants.ClearTimeEntries:
-                    clearTimeEntries.call(this);
+                    clearActiveTaskCollection.call(this);
                     break;
                 case AppConstants.SaveSettings:
                     setSettings.call(this, action.settings);

@@ -1,8 +1,11 @@
 module.exports = {
     FetchIssues: "FetchIssues",
     Search: "Search",
+    ClearSearch: "ClearSearch",
     AddIssue: "AddIssue",
-    UpdateTime: "UpdateTime",
+    UpdateTaskActivityId: "UpdateTaskActivityId",
+    UpdateTaskComments: "UpdateTaskComments",
+    UpdateTaskHours: "UpdateTaskHours",
     CreateTimeEntries: "CreateTimeEntries",
     ClearTimeEntries: "ClearTimeEntries",
     SaveSettings: "SaveSettings",
