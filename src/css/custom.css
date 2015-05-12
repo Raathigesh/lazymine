@@ -29,6 +29,7 @@ body{
 	position:fixed;
 	top:20px;
 	right:20px;
+	bottom:inherit;
 }
 
 .fbtn.fbtn-green{
