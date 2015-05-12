@@ -104,6 +104,7 @@ DataManager.prototype = (function () {
             }
 
             this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name));
+            this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName')
         },
         removeActiveTask = function (timeEntryId) {
             _.remove(this.activeTaskCollection, function (entry) {
@@ -113,9 +114,17 @@ DataManager.prototype = (function () {
         clearActiveTaskCollection = function () {
             this.activeTaskCollection = [];
         },
-        updateActiveTask = function (timeEntryId, hours, activityId, comments) {
+        updateActiveTaskHours = function (timeEntryId, hours) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
-            entry.updateEntry(parseFloat(hours), parseInt(activityId), comments);
+            entry.setHours(parseFloat(hours));
+        },
+        updateActiveTaskActivityId = function (timeEntryId, activityId) {
+            var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
+            entry.setActivityId(parseInt(activityId));
+        },
+        updateActiveTaskComments = function (timeEntryId, comments) {
+            var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
+            entry.setComments(comments);
         },
         postUpdatedActiveTaskCollection = function (spentOn) {
             var deferred = $.Deferred(),
@@ -134,7 +143,9 @@ DataManager.prototype = (function () {
         fetchLatest: fetchLatest,
         filterTaskCollection: filterTaskCollection,
         createActiveTask: createActiveTask,
-        updateActiveTask: updateActiveTask,
+        updateActiveTaskHours: updateActiveTaskHours,
+        updateActiveTaskActivityId: updateActiveTaskActivityId,
+        updateActiveTaskComments: updateActiveTaskComments,
         postUpdatedActiveTaskCollection: postUpdatedActiveTaskCollection,
         removeActiveTask: removeActiveTask,
         clearActiveTaskCollection: clearActiveTaskCollection

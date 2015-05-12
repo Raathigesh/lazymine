@@ -45,6 +45,7 @@ body{
 	top:20px;
 	right:20px;
     z-index: 30;
+	bottom:inherit;
 }
 
 .fbtn.fbtn-green{
