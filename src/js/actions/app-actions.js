@@ -67,6 +67,6 @@ var AppActions = {
             error: error
         });
     }
-}
+};
 
 module.exports = AppActions;

@@ -64,7 +64,7 @@ var Container = React.createClass({
                 <Footer
                     primaryText="UPDATE"
                     primaryClick={this._updateTime}
-                    secondaryText="CANCEL"
+                    secondaryText="CLEAR"
                     secondaryClick={this._cancel}/>
                 <Refresh />
             </div>

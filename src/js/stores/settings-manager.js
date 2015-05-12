@@ -18,7 +18,7 @@ var SettingsManager = function () {
     this.TimeEntryDay = TimeEntryDay.Today;
     this.available  = this.fetchSettings();
     this.forceLoad = false;
-    this.backgroundFetchTimerInterval = 1800000;
+    this.backgroundFetchTimerInterval = 900000;
 };
 
 SettingsManager.prototype = (function () {
