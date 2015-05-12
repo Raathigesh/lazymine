@@ -1,34 +1,14 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Task = require('../components/app-Task');
 
-var TaskList = React.createClass({
-
-    getInitialState: function () {
-        return {
-            "items": null
-        };
-    },
-
+var RadioButtonGroup = React.createClass({
     render : function(){
-        var rows,
-            items = this.props.items,
-            activities = this.props.activities;
-
-        if(items){
-            rows = items.map(function(item, i) {
-                return(
-                    <Task updatedTime="15" item={item} activities={activities} />
-                );
-            });
-        }
-
         return (
-            <div className="tile-wrap">
-                {rows}
+            <div>
+
             </div>
         );
     }
 });
 
-module.exports = TaskList;
+module.exports = RadioButtonGroup;
