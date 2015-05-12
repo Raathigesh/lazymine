@@ -31,7 +31,7 @@ var SearchBox = React.createClass({
             .throttle(500)
             .distinctUntilChanged()
             .subscribe(function (query) {
-                if (query.length > 0) {
+                if (query.length > this.MinimumQueryLength) {
                     AppActions.search(query);
                     this._toggleResultsPanel(true);
                     if (this.refs.searchResult._getCurrentActiveResult()) {
@@ -39,6 +39,9 @@ var SearchBox = React.createClass({
                     }
                 }
                 else {
+                    //clear the search results on the removing the filter text
+                    //so that it'll not be picked when search box focused
+                    AppActions.clearSearch();
                     this._toggleResultsPanel(false);
                 }
             }.bind(this));

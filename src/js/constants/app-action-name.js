@@ -1,6 +1,7 @@
 module.exports = {
     FetchIssues: "FetchIssues",
     Search: "Search",
+    ClearSearch: "ClearSearch",
     AddIssue: "AddIssue",
     UpdateTaskActivityId: "UpdateTaskActivityId",
     UpdateTaskComments: "UpdateTaskComments",
