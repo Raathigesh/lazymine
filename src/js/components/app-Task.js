@@ -28,11 +28,19 @@ var Task = React.createClass({
         event.stopPropagation();
     },
 
-    _hourEntered: function(event){
-		var spentHours = parseFloat(this.refs.spentHours.getValue());
-        var comment = this.refs.comment.getValue();
+    _updateTaskActivityId: function(event){
         var activityId = this.refs.activity.getValue();
-        AppActions.updateTime(this.props.item.id, activityId, spentHours, comment);
+        AppActions.updateTaskActivityId(this.props.item.id, activityId);
+        event.stopPropagation();
+    },
+    _updateTaskComments: function(event){
+        var comment = this.refs.comment.getValue();
+        AppActions.updateTaskComments(this.props.item.id, comment);
+        event.stopPropagation();
+    },
+    _updateTaskHours: function(event){
+        var spentHours = parseFloat(this.refs.spentHours.getValue());
+        AppActions.updateTaskHours(this.props.item.id, spentHours);
         event.stopPropagation();
     },
 
@@ -87,15 +95,15 @@ var Task = React.createClass({
                     <div className="tile-sub">
                         <div className="row">
                             <div className="col-lg-12 col-sm-12">
-                                <TextField ref="comment" label = "Comment"/> 
+                                <TextField ref="comment" label = "Comment" keyUp={this._updateTaskComments}/>
                             </div>    
                         </div>
                         <div className="row">
                              <div className="col-lg-6 col-sm-6 tracker-dropdown">
-                                <Dropdown ref="activity" data={activities}/>
+                                <Dropdown ref="activity" data={activities} updateTaskActivityId={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
-                                <TextField ref="spentHours" label = "Hours" keyUp={this._hourEntered}/>
+                                <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours}/>
                              </div>                            
                         </div>
                     </div>

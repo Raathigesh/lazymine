@@ -35,28 +35,29 @@ TimeEntry.prototype = (function () {
             this.spentOn = spentOn;
             return this;
         },
-        updateEntry = function (hours, activityId, comments) {
-            this.updated = false;
-            if(typeof hours !== "number") {
-                throw new InvalidArgumentError("Parameter hours must be a number.");
-            }
-
-            if(typeof hours > 0) {
-                throw new InvalidArgumentError("Parameter hours cannot be a minus value.");
-            }
-
-            if(typeof activityId !== "number") {
-                throw new InvalidArgumentError("Parameter activityId must be a number.");
-            }
-
-            if(typeof comments !== "string") {
-                throw new InvalidArgumentError("Parameter comments must be a string.");
+        isUpdated  = function () {
+            return this.activityId !== null && this.hours !== null;
+        },
+        setHours = function (hours) {
+            if(isNaN(hours) || typeof hours !== "number" && hours > 0) {
+                this.updated = false;
             }
 
             this.hours = hours;
+            this.updated = isUpdated.call(this);
+            return this;
+        },
+        setActivityId = function (activityId) {
+            if(isNaN(activityId) || typeof activityId !== "number") {
+                this.updated = false;
+            }
+
             this.activityId = activityId;
+            this.updated = isUpdated.call(this);
+            return this;
+        },
+        setComments = function (comments) {
             this.comments = comments;
-            this.updated = true;
             return this;
         },
         buildPostEntry = function () {
@@ -71,7 +72,9 @@ TimeEntry.prototype = (function () {
             };
         };
     return {
-        updateEntry: updateEntry,
+        setHours: setHours,
+        setActivityId: setActivityId,
+        setComments: setComments,
         buildPostEntry: buildPostEntry,
         setSpentOn: setSpentOn
     };
