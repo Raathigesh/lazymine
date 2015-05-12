@@ -109,9 +109,15 @@ var SearchResult = React.createClass({
 
         return (
             <div id="search-results" ref="searchResults">
-                <ul>
-                    {rows}
-                </ul>
+                <div className="card">
+                    <div className="card-main">
+                        <div className="card-inner search-results-card-inner">
+                            <ul>
+                                {rows}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

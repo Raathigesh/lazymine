@@ -58,8 +58,10 @@ var Container = React.createClass({
                 <Loader isLoading={this.state.isLoading}/>
 
                 <div className="container">
-                    <SearchBox items={this.state.filteredResult}/>
-                    <TaskList items={this.state.activeItems} activities={this.state.activities}/>
+                    <div className="container-inner">
+                        <SearchBox items={this.state.filteredResult}/>
+                        <TaskList items={this.state.activeItems} activities={this.state.activities}/>
+                    </div>
                 </div>
                 <Footer
                     primaryText="UPDATE"

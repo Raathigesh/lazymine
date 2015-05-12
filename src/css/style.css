@@ -24,13 +24,23 @@ li {
 
 #search-results {
     background: #e5e5e5;
-    position: absolute;
-    width: 98%;
+    width: 100%;
     z-index: 1000;
+    padding-left: 1px;
+    padding-right: 1px;
+    margin-top: -14px;
 }
 
 #search-results.open ul {
     padding: 10px;
+}
+
+#search-results.card {
+    margin-bottom: 0;
+}
+
+.search-results-card-inner{
+    padding: 0;
 }
 
 .result {

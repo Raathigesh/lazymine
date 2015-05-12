@@ -7,13 +7,13 @@ var SearchItem = React.createClass({
 
     getInitialState: function () {
       return {
-       "Classes": "result"
+       "Classes": "tile result"
       };
     },
 
     _removeActive: function(){
       this.setState( {
-       "Classes": "result"
+       "Classes": "tile result"
       });
     },
 
@@ -38,7 +38,7 @@ var SearchItem = React.createClass({
 
     _mouseOut: function () {
       this.setState( {
-          "Classes": "result"
+          "Classes": "tile result"
       });
     },
 
