@@ -17,6 +17,8 @@ var SettingsManager = function () {
     this.TaskAssignee = TaskAssignee.All;
     this.TimeEntryDay = TimeEntryDay.Today;
     this.available  = this.fetchSettings();
+    this.forceLoad = false;
+    this.backgroundFetchTimerInterval = 1800000;
 };
 
 SettingsManager.prototype = (function () {
@@ -50,6 +52,7 @@ SettingsManager.prototype = (function () {
                 this.APIKey = apiKey;
                 this.TaskAssignee = assignee;
                 this.available = true;
+                this.forceLoad = true;
                 deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("URL or API key is invalid.");

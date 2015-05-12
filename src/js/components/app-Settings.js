@@ -30,7 +30,10 @@ var Settings = React.createClass({
 		var apiKey = this.refs.apiKey.getValue();
 		var assignee = this.refs.assignee.getSelectedValue();
 		AppActions.saveSettings(url, apiKey, assignee);
-	}, 
+	},
+	_cancel: function(){
+		this.context.router.transitionTo('home');
+	},
 
 	_change: function () {
       var storeState = AppStore.getState();
@@ -85,8 +88,8 @@ var Settings = React.createClass({
 				<Footer 
 					primaryText="SAVE" 
 					primaryClick={this._saveSettings} 
-					secondaryText="CANCEL" 
-					cancelLink="#"/>
+					secondaryText="CANCEL"
+					secondaryClick={this._cancel}/>
 			</div>
 		);
 	}

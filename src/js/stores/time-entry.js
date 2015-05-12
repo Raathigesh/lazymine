@@ -36,8 +36,13 @@ TimeEntry.prototype = (function () {
             return this;
         },
         updateEntry = function (hours, activityId, comments) {
+            this.updated = false;
             if(typeof hours !== "number") {
                 throw new InvalidArgumentError("Parameter hours must be a number.");
+            }
+
+            if(typeof hours > 0) {
+                throw new InvalidArgumentError("Parameter hours cannot be a minus value.");
             }
 
             if(typeof activityId !== "number") {

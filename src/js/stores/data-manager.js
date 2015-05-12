@@ -17,7 +17,6 @@ DataManager = function (serviceAccessor) {
     this.taskCollection = [];
     this.activityCollection = [];
     this.activeTaskCollection = [];
-    this.timePostedTaskCollection = [];
     this.resultCount = 10;
 };
 
@@ -119,11 +118,11 @@ DataManager.prototype = (function () {
             entry.updateEntry(parseFloat(hours), parseInt(activityId), comments);
         },
         postUpdatedActiveTaskCollection = function (spentOn) {
-            var deferred = $.Deferred();
-            this.timePostedTaskCollection = _.remove(this.activeTaskCollection, function (entry) {
-                return entry.updated;
-            });
-            $.when(this.serviceAccessor.createTimeEntries(this.timePostedTaskCollection, spentOn)).done(function () {
+            var deferred = $.Deferred(),
+                timePostedTaskCollection = _.remove(this.activeTaskCollection, function (entry) {
+                    return entry.updated;
+                });
+            $.when(this.serviceAccessor.createTimeEntries(timePostedTaskCollection, spentOn)).done(function () {
                 deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("Time entry failure.");

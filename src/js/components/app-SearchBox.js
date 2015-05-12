@@ -33,6 +33,9 @@ var SearchBox = React.createClass({
             if(query.length > 0) {
                 AppActions.search(query);
                 this._toggleResultsPanel(true);
+                if(this.refs.searchResult._getCurrentActiveResult()) {
+                    this.refs.searchResult._getCurrentActiveResult()._addActive();
+                }
             }
             else{
                 this._toggleResultsPanel(false);

@@ -161,3 +161,12 @@ body{
 .hours-input{
 	display: inline-block;
 }
+
+.tile.selected{
+	background-color: #EFEFEF;
+}
+
+.tile-hours{
+	padding-top: 10px;
+	font-size: 14px;
+}

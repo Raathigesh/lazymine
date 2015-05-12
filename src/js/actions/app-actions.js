@@ -10,16 +10,16 @@ var AppActions = {
     search: function (q) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.Search,
-            query:q
+            query: q
         });
     },
-    addIssue: function(issueId){
+    addIssue: function (issueId) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.AddIssue,
-            issueId:issueId
+            issueId: issueId
         });
     },
-    updateTime: function(id, activityId, spentHours, comment){
+    updateTime: function (id, activityId, spentHours, comment) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.UpdateTime,
             timeEntry: {
@@ -30,34 +30,39 @@ var AppActions = {
             }
         });
     },
-    createTimeEntries: function(){
+    createTimeEntries: function () {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.CreateTimeEntries
         });
     },
-    saveSettings: function(url, apiKey, assignee){
+    clearTimeEntries: function () {
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.ClearTimeEntries
+        });
+    },
+    saveSettings: function (url, apiKey, assignee) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.SaveSettings,
             settings: {
-                url : url,
+                url: url,
                 apiKey: apiKey,
-                assignee : assignee
+                assignee: assignee
             }
         });
     },
-    removeTimeEntry: function(taskId){
+    removeTimeEntry: function (taskId) {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.RemoveTimeEntry,
             taskId: taskId
         });
     },
-    refreshIssues: function(){
+    refreshIssues: function () {
         AppDispatcher.handleViewAction({
             actionType: AppConstants.RefreshIssues
         });
     },
-    storeError: function(error){
-         AppDispatcher.handleViewAction({
+    storeError: function (error) {
+        AppDispatcher.handleViewAction({
             actionType: AppConstants.StoreError,
             error: error
         });

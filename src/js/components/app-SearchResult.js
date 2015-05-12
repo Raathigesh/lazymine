@@ -82,6 +82,7 @@ var SearchResult = React.createClass({
             break;
         case 27: // esc
             this.props.toggleResultsPanel(false);
+            break;
         default:
             return; // exit this handler for other keys
         }
