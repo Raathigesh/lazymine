@@ -112,6 +112,9 @@ UrlBuilder.prototype = (function () {
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
         },
+        buildUpdatedTimeEntriesUrl = function (spentOn) {
+            return UrlBase.TimeEntries.concat("?user_id=me&spent_on=", spentOn)
+        },
         buildTimeEntryActivitiesUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntryActivities);
         },
@@ -133,6 +136,7 @@ UrlBuilder.prototype = (function () {
         withUpdatedOn: withUpdatedOn,
         buildIssuesUrl : buildIssuesUrl,
         buildTimeEntryUrl: buildTimeEntryUrl,
+        buildUpdatedTimeEntriesUrl: buildUpdatedTimeEntriesUrl,
         buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl,
         buildCurrentUserUrl: buildCurrentUserUrl
     };

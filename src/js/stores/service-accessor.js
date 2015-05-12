@@ -142,8 +142,18 @@ ServiceAccessor.prototype = (function () {
         },
         getTimeEntryActivities = function () {
             var deferred = $.Deferred();
-            var TimeEntryActivitiesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
-            $.when(this.httpHelper.getRequest(TimeEntryActivitiesUrl)).done(function (data) {
+            var timeEntryActivitiesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryActivitiesUrl();
+            $.when(this.httpHelper.getRequest(timeEntryActivitiesUrl)).done(function (data) {
+                deferred.resolve(data);
+            }.bind(this)).fail(function () {
+                deferred.reject();
+            }.bind(this));
+            return deferred.promise();
+        },
+        getTimeEntries = function (spentOn) {
+            var deferred = $.Deferred();
+            var updatedTimeEntriesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildUpdatedTimeEntriesUrl(spentOn);
+            $.when(this.httpHelper.getRequest(updatedTimeEntriesUrl)).done(function (data) {
                 deferred.resolve(data);
             }.bind(this)).fail(function () {
                 deferred.reject();
@@ -154,7 +164,8 @@ ServiceAccessor.prototype = (function () {
         getTaskCollection: getTaskCollection,
         getTaskCollectionWithStatus: getTaskCollectionWithStatus,
         createTimeEntries: createTimeEntries,
-        getTimeEntryActivities: getTimeEntryActivities
+        getTimeEntryActivities: getTimeEntryActivities,
+        getTimeEntries: getTimeEntries
     };
 }());
 

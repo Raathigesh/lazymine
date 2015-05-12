@@ -7,10 +7,12 @@ var AppConstants = require('../constants/app-action-name'),
     DataManager = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
     HttpHelper = require('./http-helper'),
+    prettify = require('prettify-error'),
     dataManager = null;
 
 getDataManager = function () {
-    if (settings.available && dataManager === null) {
+    if ((dataManager === null || settings.forceLoad) && settings.available) {
+        settings.forceLoad = false;
         dataManager = new DataManager(new ServiceAccessor(settings.BaseURL, new HttpHelper(settings.APIKey)));
     }
 
@@ -24,7 +26,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             filteredResult: [], // filtered search results.
             activeItems: [], // active tasks selected by the user.
             activities: [], // activities available to enter time against. Fetched from server.
-            postedItems: [], // time posted task collection.
             isLoading: true,
             settings: settings
         },
@@ -33,8 +34,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
         },
         fetchData = function () {
             try {
-                if (settings.available) {
-                    var manager = getDataManager();
+                var manager = getDataManager();
+                if(manager !== null) {
                     $.when(manager.fetchData(settings.TaskAssignee)).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
@@ -44,128 +45,140 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                                 text: item.name
                             });
                         }.bind(this));
+                        fetchLatestBackground.call(this);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
-                        console.log(error);
+                        console.error(prettify(error) || error);
                     });
                 }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         fetchLatestBackground = function () {
             var intervalId = setInterval(function () {
-                if (settings.available) {
+                try {
                     var manager = getDataManager();
-                    $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
-                    }.bind(this)).fail(function (error) {
-                        console.log(error);
-                    });
+                    if (manager !== null) {
+                        $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
+                        }.bind(this)).fail(function (error) {
+                            console.error(prettify(error) || error);
+                        });
+                    }
+                    else {
+                        clearInterval(intervalId);
+                    }
+                } catch (error) {
+                    console.error(prettify(error) || error);
                 }
-                else {
-                    clearInterval(intervalId);
-                }
-            }.bind(this), 1800000);
+            }.bind(this), settings.backgroundFetchTimerInterval);
         },
         fetchLatest = function () {
             try {
-                if (settings.available) {
-                    var manager = getDataManager();
+                var manager = getDataManager();
+                if(manager !== null) {
                     $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
-                        console.log(error);
+                        console.error(prettify(error) || error);
                     });
                 }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         filterTaskCollection = function (query) {
             try {
-                if (settings.available) {
-                    var manager = getDataManager();
+                var manager = getDataManager();
+                if(manager !== null) {
                     State.filteredResult = manager.filterTaskCollection(query);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         createActiveTask = function (issueId) {
             try {
                 var manager = getDataManager();
-                State.filteredResult = [];
-                manager.createActiveTask(issueId);
-                State.activeItems = manager.activeTaskCollection;
-                EventEmitter.prototype.emit(AppEvent.Change);
+                if(manager !== null) {
+                    State.filteredResult = [];
+                    manager.createActiveTask(issueId);
+                    State.activeItems = manager.activeTaskCollection;
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         updateActiveTask = function (entry) {
             try {
                 var manager = getDataManager();
-                State.filteredResult = [];
-                manager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
-                EventEmitter.prototype.emit(AppEvent.Change);
+                if(manager !== null) {
+                    State.filteredResult = [];
+                    manager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         removeActiveTask = function (entryId) {
             try {
                 var manager = getDataManager();
-                State.filteredResult = [];
-                manager.removeActiveTask(entryId);
-                EventEmitter.prototype.emit(AppEvent.Change);
+                if(manager !== null) {
+                    State.filteredResult = [];
+                    manager.removeActiveTask(entryId);
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         postUpdatedActiveTaskCollection = function () {
             try {
                 var manager = getDataManager();
-                State.filteredResult = [];
-                $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
-                    State.postedItems.concat(manager.timePostedTaskCollection);
-                    EventEmitter.prototype.emit(AppEvent.Change);
-                }.bind(this)).fail(function (error) {
-                    console.log(error);
-                });
+                if(manager !== null) {
+                    State.filteredResult = [];
+                    $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
+                        EventEmitter.prototype.emit(AppEvent.Change);
+                    }.bind(this)).fail(function (error) {
+                        console.error(prettify(error) || error);
+                    });
+                }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         clearTimeEntries = function () {
             try {
                 var manager = getDataManager();
-                manager.clearActiveTaskCollection();
-                State.activeItems = manager.activeTaskCollection;
-                EventEmitter.prototype.emit(AppEvent.Change);
+                if(manager !== null) {
+                    manager.clearActiveTaskCollection();
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         setSettings = function (data) {
             try {
                 $.when(settings.setSettings(data.url, data.apiKey, data.assignee)).done(function () {
-                    State.settings = settings;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }).fail(function (error) {
-                    console.log(error);
+                    console.error(prettify(error) || error);
                 });
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         setTimeEntryDay = function (timeEntryDay) {
             try {
                 settings.setTimeEntryDay(timeEntryDay);
             } catch (error) {
-                console.log(error);
+                console.error(prettify(error) || error);
             }
         },
         addChangeListener = function (callback) {
@@ -179,7 +192,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             switch (action.actionType) {
                 case AppConstants.FetchIssues:
                     fetchData.call(this);
-                    fetchLatestBackground.call(this);
                     break;
                 case AppConstants.Search:
                     filterTaskCollection.call(this, action.query);
