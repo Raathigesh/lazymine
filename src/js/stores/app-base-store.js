@@ -104,7 +104,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     manager.createActiveTask(issueId);
                     State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
@@ -117,7 +116,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     manager.updateActiveTask(entry.id, entry.hours, entry.activityId, entry.comments);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -129,7 +127,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     manager.removeActiveTask(entryId);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -141,7 +138,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    State.filteredResult = [];
                     $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
