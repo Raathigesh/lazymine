@@ -18,14 +18,8 @@ var RouteHandler = Router.RouteHandler;
 
 
 var App = React.createClass({
-    getInitialState: function() {
-        return {
-            navState: "closed"
-        };
-    },
-
     render: function () {
-        return (<div>        			
+        return (<div>
                 	<Header />
                     <NavBar />
                 	<RouteHandler/>

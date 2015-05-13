@@ -109,10 +109,17 @@ body{
 .btn-group{
 	margin-bottom:0;
 	width: 100%;
+	background: #EFEFEF;
 }
 
-.btn-group a{
-	width: 50%;
+.btn-group a {
+	width: 25%;
+	margin: 10px;
+}
+
+.btn-group div {
+	font-size: 16px;
+	margin: 16px;
 }
 
 .btn-cancel:not(.btn-link):not(.btn-flat){
