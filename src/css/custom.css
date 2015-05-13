@@ -29,6 +29,11 @@ body{
     background: #a2a1a1;
 }
 
+.search-box{
+	height: 48px;
+	overflow: visible;
+}
+
 .search-control{
 	background:#f9f9f9;
 	box-shadow:1px 2px 5px #939393;
@@ -40,6 +45,7 @@ body{
 	font-size:18px;
 	margin-bottom:15px;
 }
+
 .top-refresh{
 	position:fixed;
 	top:20px;

@@ -39,8 +39,9 @@ TimeEntry.prototype = (function () {
             return this.activityId !== null && this.hours !== null;
         },
         setHours = function (hours) {
-            if(isNaN(hours) || typeof hours !== "number" && hours > 0) {
+            if(isNaN(hours) || typeof hours !== "number" || hours <= 0) {
                 this.updated = false;
+                return this;
             }
 
             this.hours = hours;
@@ -50,6 +51,7 @@ TimeEntry.prototype = (function () {
         setActivityId = function (activityId) {
             if(isNaN(activityId) || typeof activityId !== "number") {
                 this.updated = false;
+                return this;
             }
 
             this.activityId = activityId;

@@ -66,7 +66,7 @@ var SearchBox = React.createClass({
     render: function () {
         return (
             <div className="row">
-                <div className="col-md-12">
+                <div className="col-md-12 search-box">
                     <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter}
                            onKeyUp={this._navigate} onFocus={this._showResults}
                            placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
