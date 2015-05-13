@@ -34,6 +34,24 @@ body{
 	overflow: visible;
 }
 
+.search-refresh{
+    overflow: visible;
+    margin-top: -54px;
+    font-size: 30px;
+}
+
+.search-refresh a{
+    color: #666;
+    position: absolute;
+    margin-left: -40px;
+}
+
+.search-refresh a:hover{
+    color: #222;
+    position: absolute;
+    margin-left: -40px;
+}
+
 .search-control{
 	background:#f9f9f9;
 	box-shadow:1px 2px 5px #939393;

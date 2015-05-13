@@ -8,7 +8,6 @@ var Title = require('../components/app-Title');
 var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
-var Refresh = require('../components/app-Refresh');
 var Errors = require('../constants/store-errors');
 
 var Container = React.createClass({
@@ -68,7 +67,6 @@ var Container = React.createClass({
                     primaryClick={this._updateTime}
                     secondaryText="CLEAR"
                     secondaryClick={this._cancel}/>
-                <Refresh />
             </div>
         );
     }
