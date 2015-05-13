@@ -116,11 +116,11 @@ DataManager.prototype = (function () {
         },
         updateActiveTaskHours = function (timeEntryId, hours) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
-            entry.setHours(parseFloat(hours));
+            entry.setHours(hours);
         },
         updateActiveTaskActivityId = function (timeEntryId, activityId) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
-            entry.setActivityId(parseInt(activityId));
+            entry.setActivityId(activityId);
         },
         updateActiveTaskComments = function (timeEntryId, comments) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });

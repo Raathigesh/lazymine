@@ -1,5 +1,6 @@
 var InvalidArgumentError = require("../error/invalid-argument-error"),
-    Guid = require("easy-guid");
+    Guid = require("easy-guid"),
+    Validator = require('validator');
 
 TimeEntry = function (issueId, issueName, projectName) {
     if(typeof issueId !== "number") {
@@ -39,22 +40,22 @@ TimeEntry.prototype = (function () {
             return this.activityId !== null && this.hours !== null;
         },
         setHours = function (hours) {
-            if(isNaN(hours) || typeof hours !== "number" || hours <= 0) {
+            if(!(Validator.isInt(hours) || Validator.isFloat(hours))) {
                 this.updated = false;
                 return this;
             }
 
-            this.hours = hours;
+            this.hours = parseFloat(hours);
             this.updated = isUpdated.call(this);
             return this;
         },
         setActivityId = function (activityId) {
-            if(isNaN(activityId) || typeof activityId !== "number") {
+            if(!Validator.isInt(activityId)) {
                 this.updated = false;
                 return this;
             }
 
-            this.activityId = activityId;
+            this.activityId = parseInt(activityId);
             this.updated = isUpdated.call(this);
             return this;
         },
