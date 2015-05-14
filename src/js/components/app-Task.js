@@ -39,7 +39,7 @@ var Task = React.createClass({
         event.stopPropagation();
     },
     _updateTaskHours: function(event){
-        var spentHours = parseFloat(this.refs.spentHours.getValue());
+        var spentHours = this.refs.spentHours.getValue();
         AppActions.updateTaskHours(this.props.item.id, spentHours);
         event.stopPropagation();
     },
@@ -100,10 +100,10 @@ var Task = React.createClass({
                         </div>
                         <div className="row">
                              <div className="col-lg-6 col-sm-6 tracker-dropdown">
-                                <Dropdown ref="activity" data={activities} updateTaskActivityId={this._updateTaskActivityId}/>
+                                <Dropdown ref="activity" data={activities} onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
-                                <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours}/>
+                                <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours} isNumeric={true}/>
                              </div>                            
                         </div>
                     </div>

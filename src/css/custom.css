@@ -11,6 +11,8 @@ body{
 
 .navbar.navbar, .navbar-default.navbar{
 	background:#f8f7f7;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
 .navbar{
 	margin-bottom:0;
@@ -32,6 +34,24 @@ body{
 .search-box{
 	height: 48px;
 	overflow: visible;
+}
+
+.search-refresh{
+    overflow: visible;
+    margin-top: -54px;
+    font-size: 30px;
+}
+
+.search-refresh a{
+    color: #666;
+    position: absolute;
+    margin-left: -40px;
+}
+
+.search-refresh a:hover{
+    color: #222;
+    position: absolute;
+    margin-left: -40px;
 }
 
 .search-control{
@@ -109,10 +129,17 @@ body{
 .btn-group{
 	margin-bottom:0;
 	width: 100%;
+	background: #EFEFEF;
 }
 
-.btn-group a{
-	width: 50%;
+.btn-group a {
+	width: 25%;
+	margin: 10px;
+}
+
+.btn-group div {
+	font-size: 16px;
+	margin: 16px;
 }
 
 .btn-cancel:not(.btn-link):not(.btn-flat){

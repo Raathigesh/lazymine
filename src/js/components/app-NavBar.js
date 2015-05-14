@@ -11,7 +11,7 @@ var NavBar = React.createClass({
 
     render : function(){
         return (
-            <nav id="navBar" className="menu">
+            <nav id="navBar" className="menu full-height-menu">
                 <div className="menu-scroll">
                     <div className="menu-wrap">
                         <div className="menu-content">
@@ -29,18 +29,10 @@ var NavBar = React.createClass({
                             <div className="menu-content-inner">
                                 <ul className="nav">
                                     <li>
-                                        <Title text="Data Fetching Preference"/>
+                                        <a>All</a>
                                     </li>
                                     <li>
-                                        <div className="form-group">
-                                        <RadioButton
-                                            value="*"
-                                            label="All"
-                                            defaultChecked={true} />
-                                        <RadioButton
-                                            value="me"
-                                            label="Assigned To Me"/>
-                                        </div>
+                                        <a>Assigned To Me</a>
                                     </li>
                                 </ul>
                             </div>

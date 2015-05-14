@@ -8,6 +8,12 @@ var DropDown = React.createClass({
       return React.findDOMNode(this.refs.selectBox).value;
     },
     render : function(){
+        var onChange= null;
+
+        if(this.props.onChange){
+            onChange = this.props.onChange;
+        }
+
         var items =  this.props.data.map(function(item, i) {
             return(
                <option value={item.id}>{item.text}</option>
@@ -19,7 +25,7 @@ var DropDown = React.createClass({
             <div className="row">
               <div className="col-lg-12 col-sm-12">
                 <label className="floating-label" for="float-select">Activity</label>
-                <select ref="selectBox" className="form-control" id="float-select" onChange={this.props.updateTaskActivityId}>
+                <select ref="selectBox" className="form-control" id="float-select" onChange={onChange}>
                   <option value=""></option>
                   {items}
                 </select>
