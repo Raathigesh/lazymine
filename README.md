@@ -17,7 +17,7 @@ How to build?
 What are we up to ?
 
 - [Features](https://github.com/Raathigesh/Lazymine/labels/Feature)
-- [Bugs - Not Cool!](https://github.com/Raathigesh/Lazymine/labels/Bug)
+- [Bugs](https://github.com/Raathigesh/Lazymine/labels/Bug)
 
 
 Need more Details?
