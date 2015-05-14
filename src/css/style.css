@@ -106,3 +106,16 @@ li {
 .activity {
     margin-top: 10px;
 }
+
+.datePicker span{
+    float: left;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
+.datePicker input{
+    width : 60px;
+    height: 24px;
+    border-bottom-style: dashed !important;
+
+}

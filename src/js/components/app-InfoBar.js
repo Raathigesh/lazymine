@@ -1,16 +1,15 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Datepicker = require('../components/form/app-DatePicker');
+var Moment = require('moment');
 
 var InfoBar = React.createClass({
     render: function () {
+        var today = Moment().format('L');
         return (
             <div className="row">
-                <div className="col-md-4">
-                    <span> You are updating time for</span> <Datepicker />
-                </div>
-                <div className="col-md-6">
-                    Total Hours : 8.00
+                <div className="col-md-6 datePicker">
+                    <Datepicker initialDate={today}/>
                 </div>
             </div>
         );
