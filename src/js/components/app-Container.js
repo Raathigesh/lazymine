@@ -9,6 +9,7 @@ var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
 var Errors = require('../constants/store-errors');
+var InfoBar = require('../components/app-InfoBar');
 
 var Container = React.createClass({
 
@@ -59,6 +60,7 @@ var Container = React.createClass({
                 <div className="container">
                     <div className="container-inner">
                         <SearchBox items={this.state.filteredResult}/>
+                        <InfoBar />
                         <TaskList items={this.state.activeItems} activities={this.state.activities}/>
                     </div>
                 </div>

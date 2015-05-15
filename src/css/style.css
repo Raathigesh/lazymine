@@ -105,3 +105,11 @@ li {
 .activity {
     margin-top: 10px;
 }
+
+
+.datePicker input{
+    width : 80px;
+    height: 24px;
+    border-bottom-style: dashed !important;
+
+}
