@@ -11,8 +11,6 @@ body{
 
 .navbar.navbar, .navbar-default.navbar{
 	background:#f8f7f7;
-    box-shadow: none;
-    -webkit-box-shadow: none;
 }
 .navbar{
 	margin-bottom:0;
