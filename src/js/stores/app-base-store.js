@@ -27,7 +27,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             activeItems: [], // active tasks selected by the user.
             activities: [], // activities available to enter time against. Fetched from server.
             isLoading: true,
-            settings: settings
+            settings: settings,
+            error: null
         },
         getState = function () {
             return State;
@@ -48,6 +49,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                         fetchLatestBackground.call(this);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
+                        State.error = error;
+                        EventEmitter.prototype.emit(AppEvent.Change);
                         console.error(prettify(error) || error);
                     });
                 }
@@ -62,6 +65,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     if (manager !== null) {
                         $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
                         }.bind(this)).fail(function (error) {
+                            State.error = error;
+                            EventEmitter.prototype.emit(AppEvent.Change);
                             console.error(prettify(error) || error);
                         });
                     }
@@ -82,6 +87,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                         State.filteredResult = [];
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
+                        State.error = error;
+                        EventEmitter.prototype.emit(AppEvent.Change);
                         console.error(prettify(error) || error);
                     });
                 }
@@ -171,6 +178,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDay())).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
+                        State.error = error;
+                        EventEmitter.prototype.emit(AppEvent.Change);
                         console.error(prettify(error) || error);
                     });
                 }
@@ -196,6 +205,8 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }).fail(function (error) {
                     console.error(prettify(error) || error);
+                    State.error = error;
+                    EventEmitter.prototype.emit(AppEvent.Change);
                 });
             } catch (error) {
                 console.error(prettify(error) || error);
@@ -223,6 +234,9 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             EventEmitter.prototype.removeListener(AppEvent.Change, callback);
         },
         dispatcherIndex = AppDispatcher.register(function (payload) {
+            // Clear the current error as its shown to the user already.
+            State.error = null;
+
             var action = payload.action;
             switch (action.actionType) {
                 case AppConstants.FetchIssues:

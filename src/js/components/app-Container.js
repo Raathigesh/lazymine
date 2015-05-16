@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
 var AppStore = require('../stores/app-base-store');
-var ErrorStore = require('../stores/app-error-store');
 var AppActions = require('../actions/app-actions');
 var SearchBox = require('../components/app-SearchBox');
 var Title = require('../components/app-Title');
@@ -10,6 +9,7 @@ var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
 var Errors = require('../constants/store-errors');
 var InfoBar = require('../components/app-InfoBar');
+var Toast = require('../components/app-Toast');
 
 var Container = React.createClass({
 
@@ -30,18 +30,11 @@ var Container = React.createClass({
         if (this.state.settings.BaseURL == null || this.state.settings.BaseURL == "" || this.state.settings.APIKey == null || this.state.settings.APIKey == "") {
             this.context.router.transitionTo('setting');
         }
-
     },
 
     _change: function () {
         var storeState = AppStore.getState();
         this.setState(storeState);
-    },
-
-    _error: function () {
-        var errorState = ErrorStore.getState();
-
-
     },
 
     _updateTime: function () {
@@ -56,7 +49,7 @@ var Container = React.createClass({
         return (
             <div>
                 <Loader isLoading={this.state.isLoading}/>
-
+                <Toast message={this.state.error} />
                 <div className="container">
                     <div className="container-inner">
                         <SearchBox items={this.state.filteredResult}/>
