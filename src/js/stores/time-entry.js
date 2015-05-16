@@ -66,6 +66,13 @@ TimeEntry.prototype = (function () {
             this.comments = comments;
             return this;
         },
+        clearTimeEntry = function () {
+            this.spentOn = null;
+            this.hours = null;
+            this.activityId = null;
+            this.comments = null;
+            this.updated = false;
+        },
         buildPostEntry = function () {
             return {
                 time_entry: {
@@ -82,7 +89,8 @@ TimeEntry.prototype = (function () {
         setActivityId: setActivityId,
         setComments: setComments,
         buildPostEntry: buildPostEntry,
-        setSpentOn: setSpentOn
+        setSpentOn: setSpentOn,
+        clearTimeEntry: clearTimeEntry
     };
 }());
 

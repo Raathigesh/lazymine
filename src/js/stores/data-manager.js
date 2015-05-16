@@ -14,9 +14,10 @@ DataManager = function (serviceAccessor) {
 
     this.serviceAccessor = serviceAccessor;
 
-    this.taskCollection = [];
+    this.timeEntryCollection = [];
     this.activityCollection = [];
     this.activeTaskCollection = [];
+    this.timePostedTaskCollection = null;
     this.resultCount = 10;
 };
 
@@ -28,7 +29,7 @@ DataManager.prototype = (function () {
 
             var deferred = $.Deferred();
             $.when.apply(this, promises).done(function (taskCollection, activityCollection) {
-                this.taskCollection = taskCollection;
+                this.timeEntryCollection = taskCollection;
                 this.activityCollection = activityCollection.time_entry_activities;
                 deferred.resolve();
             }.bind(this)).fail(function () {
@@ -40,9 +41,9 @@ DataManager.prototype = (function () {
             var deferred = $.Deferred();
             $.when(this.serviceAccessor.getTaskCollection(taskAssignee, false)).done(function (taskCollection) {
                 taskCollection.map(function (task) {
-                    var taskIndex = _.findIndex(this.taskCollection, { 'id' : task.id });
+                    var taskIndex = _.findIndex(this.timeEntryCollection, { 'id' : task.id });
                     if(typeof taskIndex === "number") {
-                        this.taskCollection[taskIndex] = task;
+                        this.timeEntryCollection[taskIndex] = task;
                         var oldActiveTask = _.filter(this.activeTaskCollection, { 'issueId' : task.id });
                         if(oldActiveTask.length > 0) {
                             oldActiveTask.map(function (activeTask) {
@@ -51,7 +52,7 @@ DataManager.prototype = (function () {
                             });
                         }
                     } else {
-                        this.taskCollection.push(task);
+                        this.timeEntryCollection.push(task);
                     }
                 }.bind(this));
                 deferred.resolve();
@@ -67,7 +68,7 @@ DataManager.prototype = (function () {
                 });
 
             var queryExpression = new RegExp("(?=.*" + parts.join(')(?=.*') + ")", 'gi');
-            var filteredTasks= _.filter(this.taskCollection, function (task) {
+            var filteredTasks= _.filter(this.timeEntryCollection, function (task) {
                 task.matchCount = 0;
                 var match = task.subject.match(queryExpression);
                 if(match)
@@ -95,7 +96,7 @@ DataManager.prototype = (function () {
             return "<span style=\"background-color:#81D4FA;font-weight: bold;\">$1</span>";
         },
         createActiveTask = function (id) {
-            var task = _.find(this.taskCollection, function (task) {
+            var task = _.find(this.timeEntryCollection, function (task) {
                 return task.id === parseInt(id);
             });
 
@@ -127,16 +128,41 @@ DataManager.prototype = (function () {
             entry.setComments(comments);
         },
         postUpdatedActiveTaskCollection = function (spentOn) {
-            var deferred = $.Deferred(),
-                timePostedTaskCollection = _.remove(this.activeTaskCollection, function (entry) {
-                    return entry.updated;
+            var deferred = $.Deferred();
+            this.timePostedTaskCollection = _.filter(this.activeTaskCollection, function (entry) {
+                return entry.updated;
+            });
+            $.when(this.serviceAccessor.createTimeEntries(this.timePostedTaskCollection, spentOn)).done(function () {
+                this.timePostedTaskCollection.map(function (timeEntry) {
+                    timeEntry.clearTimeEntry();
                 });
-            $.when(this.serviceAccessor.createTimeEntries(timePostedTaskCollection, spentOn)).done(function () {
                 deferred.resolve();
             }.bind(this)).fail(function () {
                 deferred.reject("Time entry failure.");
             }.bind(this));
             return deferred.promise();
+        },
+        getPostedTaskCollection = function () {
+            return _.pluck(this.timePostedTaskCollection, 'issueId');
+        },
+        createActiveTaskCollection = function (taskIdCollection) {
+            if (typeof taskIdCollection === "Array") {
+                throw new InvalidArgumentError("Parameter taskIdCollection must be an array.");
+            }
+
+            taskIdCollection.map(function (taskId) {
+                var task = _.find(this.timeEntryCollection, function (task) {
+                    return task.id === parseInt(taskId);
+                });
+
+                if(!task) {
+                    return;
+                }
+
+                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name));
+            }.bind(this));
+
+            this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName')
         };
     return {
         fetchData: fetchData,
@@ -148,7 +174,9 @@ DataManager.prototype = (function () {
         updateActiveTaskComments: updateActiveTaskComments,
         postUpdatedActiveTaskCollection: postUpdatedActiveTaskCollection,
         removeActiveTask: removeActiveTask,
-        clearActiveTaskCollection: clearActiveTaskCollection
+        clearActiveTaskCollection: clearActiveTaskCollection,
+        getPostedTaskCollection: getPostedTaskCollection,
+        createActiveTaskCollection: createActiveTaskCollection
     }
 })();
 

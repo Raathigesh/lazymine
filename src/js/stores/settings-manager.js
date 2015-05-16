@@ -10,12 +10,14 @@ var Validator = require('validator'),
 
 var SettingsManager = function () {
     "use strict";
-    this.settingsKey = "settings";
+    this.settingsKey = "login_credentials";
+    this.taskCollectionKey = "task_collection";
 
     this.BaseURL = "";
     this.APIKey = "";
     this.TaskAssignee = TaskAssignee.All;
     this.timeEntryDay = moment();
+    this.timeEntryCollection = [];
     this.available  = this.fetchSettings();
     this.forceLoad = false;
     this.backgroundFetchTimerInterval = 900000;
@@ -23,9 +25,26 @@ var SettingsManager = function () {
 
 SettingsManager.prototype = (function () {
     "use strict";
-    var setSettings = function (baseUrl, apiKey, assignee) {
+    var setTaskCollection = function (timeEntryCollection) {
+            if (typeof timeEntryCollection === "Array") {
+                throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
+            }
+
+            localStorage.setItem(this.taskCollectionKey, JSON.stringify(taskCollection));
+            this.timeEntryCollection = timeEntryCollection;
+        },
+        fetchTaskCollection = function () {
+            var timeEntryCollectionJson = localStorage.getItem(this.taskCollectionKey);
+            if (timeEntryCollectionJson) {
+                this.timeEntryCollection = JSON.parse(timeEntryCollectionJson);
+                return true;
+            }
+
+            return false;
+        },
+        setSettings = function (baseUrl, apiKey, assignee) {
             var deferred = $.Deferred();
-            if(!Validator.isURL(baseUrl)){
+            if (!Validator.isURL(baseUrl)) {
                 deferred.reject("Parameter baseUrl must be valid.");
                 return deferred.promise();
             }
@@ -85,7 +104,7 @@ SettingsManager.prototype = (function () {
         },
         setTimeEntryDay = function (timeEntryDate) {
             if(timeEntryDate._isAMomentObject === true) {
-                throw new InvalidArgumentError("Parameter timeEntryDate must be a moment object.")
+                throw new InvalidArgumentError("Parameter timeEntryDate must be a moment object.");
             }
 
             this.timeEntryDay = timeEntryDate;
@@ -94,7 +113,9 @@ SettingsManager.prototype = (function () {
         setSettings: setSettings,
         fetchSettings: fetchSettings,
         getTimeEntryDay: getTimeEntryDay,
-        setTimeEntryDay: setTimeEntryDay
+        setTimeEntryDay: setTimeEntryDay,
+        setTaskCollection: setTaskCollection,
+        fetchTaskCollection: fetchTaskCollection
     };
 })();
 

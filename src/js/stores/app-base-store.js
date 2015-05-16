@@ -45,6 +45,11 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                                 text: item.name
                             });
                         }.bind(this));
+
+                        if(settings.fetchTaskCollection()) {
+                            manager.createActiveTaskCollection(settings.timeEntryCollection);
+                            State.activeItems = manager.activeTaskCollection;
+                        }
                         fetchLatestBackground.call(this);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
@@ -169,6 +174,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if(manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDay())).done(function () {
+                        settings.setTaskCollection(manager.getPostedTaskCollection());
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         console.error(prettify(error) || error);
@@ -202,7 +208,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             }
         },
         setTimeEntryDay = function (timeEntryDay) {
-            debugger;
             try {
                 settings.setTimeEntryDay(timeEntryDay);
             } catch (error) {
