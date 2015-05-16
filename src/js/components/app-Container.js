@@ -8,8 +8,8 @@ var Title = require('../components/app-Title');
 var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
-var Refresh = require('../components/app-Refresh');
 var Errors = require('../constants/store-errors');
+var InfoBar = require('../components/app-InfoBar');
 
 var Container = React.createClass({
 
@@ -60,6 +60,7 @@ var Container = React.createClass({
                 <div className="container">
                     <div className="container-inner">
                         <SearchBox items={this.state.filteredResult}/>
+                        <InfoBar />
                         <TaskList items={this.state.activeItems} activities={this.state.activities}/>
                     </div>
                 </div>
@@ -68,7 +69,6 @@ var Container = React.createClass({
                     primaryClick={this._updateTime}
                     secondaryText="CLEAR"
                     secondaryClick={this._cancel}/>
-                <Refresh />
             </div>
         );
     }

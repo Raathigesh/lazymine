@@ -69,7 +69,6 @@ li {
     font-size: 20px;
     padding: 10px;
     border: 1px solid #cecece;
-    margin-top: 10px;
 }
 
 .searchResult-description {
@@ -105,4 +104,12 @@ li {
 
 .activity {
     margin-top: 10px;
+}
+
+
+.datePicker input{
+    width : 80px;
+    height: 24px;
+    border-bottom-style: dashed !important;
+
 }
