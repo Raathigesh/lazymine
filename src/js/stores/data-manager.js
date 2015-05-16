@@ -5,11 +5,12 @@ var InvalidArgumentError = require("../error/invalid-argument-error"),
     $ = require("jquery"),
     _ = require('lodash'),
     moment = require('moment'),
-    Validator = require('validator');
-var FilterType = {
-    Match: "match",
-    Equal: "equal"
-};
+    Validator = require('validator'),
+    FilterType = {
+        Match: "match",
+        Equal: "equal"
+    };
+
 var DataManager = function (serviceAccessor) {
     if(!(serviceAccessor instanceof ServiceAccessor)) {
         throw new InvalidArgumentError("Parameter serviceAccessor must be an instance of ServiceAccessor.");
@@ -115,6 +116,19 @@ DataManager.prototype = (function () {
                 return hashPropertyValue === parseInt(value);
             });
         },
+        applySubjectFilter = function (taskCollection, queryParts) {
+            var queryExpression = new RegExp("(?=.*" + queryParts.join(')(?=.*') + ")", 'gi');
+            return _.filter(taskCollection, function (task) {
+                task.matchCount = 0;
+                var match = task.subject.match(queryExpression);
+                if(match)
+                {
+                    task.matchCount += match.length
+                }
+
+                return task.matchCount > 0;
+            });
+        },
         hashFilterTaskCollection = function (hashProperty, query) {
             switch(hashProperty.filter) {
                 case FilterType.Match:
@@ -141,6 +155,10 @@ DataManager.prototype = (function () {
                     return [];
                 } else {
                     taskCollection = hashFilterTaskCollection.call(this, hashProperty, upperQueryParts[1]);
+                    if(taskCollection.length === 0) {
+                        return [];
+                    }
+
                     upperQueryParts.splice(0, 2);
                 }
             }
@@ -148,34 +166,28 @@ DataManager.prototype = (function () {
             var parts = _.filter(upperQueryParts, function(part) {
                 return part.length > 1;
             });
-
-            var queryExpression = new RegExp("(?=.*" + parts.join(')(?=.*') + ")", 'gi');
-            var filteredTasks= _.filter(taskCollection, function (task) {
-                task.matchCount = 0;
-                var match = task.subject.match(queryExpression);
-                if(match)
-                {
-                    task.matchCount += match.length
-                }
-
-                return task.matchCount > 0;
-            });
+            var filteredTasks = applySubjectFilter.call(this, taskCollection, parts);
+            if(filteredTasks.length === 0) {
+                return [];
+            }
 
             var sortedList = _.take(_.sortByOrder(filteredTasks, ['matchCount'], [false]), this.resultCount);
-
-            var selectorParts = _.filter(upperQueryParts, function(part) {
-                return part.length > 0;
-            });
-            var selectorExpression = new RegExp("(" + selectorParts.join('|') + ")", 'gi');
-            sortedList.map(function (task) {
-                task.formattedTitle = task.subject;
-                task.formattedTitle = task.formattedTitle.replace(selectorExpression, getTextHighlighter.call(this));
-            });
+            applyTitleHighlighter.call(this, sortedList, upperQueryParts);
 
             return sortedList;
         },
         getTextHighlighter = function () {
             return "<span style=\"background-color:#81D4FA;font-weight: bold;\">$1</span>";
+        },
+        applyTitleHighlighter = function (taskCollection, upperQueryParts) {
+            var selectorParts = _.filter(upperQueryParts, function(part) {
+                return part.length > 0;
+            });
+            var selectorExpression = new RegExp("(" + selectorParts.join('|') + ")", 'gi');
+            taskCollection.map(function (task) {
+                task.formattedTitle = task.subject;
+                task.formattedTitle = task.formattedTitle.replace(selectorExpression, getTextHighlighter.call(this));
+            });
         },
         createActiveTask = function (id) {
             var task = _.find(this.taskCollection, function (task) {
