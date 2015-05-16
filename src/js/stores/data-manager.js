@@ -6,19 +6,44 @@ var InvalidArgumentError = require("../error/invalid-argument-error"),
     _ = require('lodash'),
     moment = require('moment'),
     Validator = require('validator');
-
-DataManager = function (serviceAccessor) {
+var FilterType = {
+    Match: "match",
+    Equal: "equal"
+};
+var DataManager = function (serviceAccessor) {
     if(!(serviceAccessor instanceof ServiceAccessor)) {
         throw new InvalidArgumentError("Parameter serviceAccessor must be an instance of ServiceAccessor.");
     }
 
     this.serviceAccessor = serviceAccessor;
 
-    this.timeEntryCollection = [];
+    this.taskCollection = [];
     this.activityCollection = [];
     this.activeTaskCollection = [];
     this.timePostedTaskCollection = null;
     this.resultCount = 10;
+    this.hashFilters = [
+        {
+            id: "#PRO",
+            value: "project.name",
+            filter: FilterType.Match
+        },
+        {
+            id: "#ID",
+            value: "id",
+            filter: FilterType.Equal
+        },
+        {
+            id: "#TRA",
+            value: "tracker.name",
+            filter: FilterType.Match
+        },
+        {
+            id: "#ASG",
+            value: "assigned_to.name",
+            filter: FilterType.Match
+        }
+    ];
 };
 
 DataManager.prototype = (function () {
@@ -29,7 +54,7 @@ DataManager.prototype = (function () {
 
             var deferred = $.Deferred();
             $.when.apply(this, promises).done(function (taskCollection, activityCollection) {
-                this.timeEntryCollection = taskCollection;
+                this.taskCollection = taskCollection;
                 this.activityCollection = activityCollection.time_entry_activities;
                 deferred.resolve();
             }.bind(this)).fail(function () {
@@ -41,9 +66,9 @@ DataManager.prototype = (function () {
             var deferred = $.Deferred();
             $.when(this.serviceAccessor.getTaskCollection(taskAssignee, false)).done(function (taskCollection) {
                 taskCollection.map(function (task) {
-                    var taskIndex = _.findIndex(this.timeEntryCollection, { 'id' : task.id });
+                    var taskIndex = _.findIndex(this.taskCollection, { 'id' : task.id });
                     if(typeof taskIndex === "number") {
-                        this.timeEntryCollection[taskIndex] = task;
+                        this.taskCollection[taskIndex] = task;
                         var oldActiveTask = _.filter(this.activeTaskCollection, { 'issueId' : task.id });
                         if(oldActiveTask.length > 0) {
                             oldActiveTask.map(function (activeTask) {
@@ -52,7 +77,7 @@ DataManager.prototype = (function () {
                             });
                         }
                     } else {
-                        this.timeEntryCollection.push(task);
+                        this.taskCollection.push(task);
                     }
                 }.bind(this));
                 deferred.resolve();
@@ -61,14 +86,71 @@ DataManager.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
+        getHashProperty = function (value) {
+            if(value) {
+                return _.find(this.hashFilters, { 'id' : value });
+            }
+
+            return null;
+        },
+        applyMatchFilter = function (propertyName, query) {
+            var hashFilterParts = query.toUpperCase().trim().split(' '),
+                queryExpression = new RegExp("(?=.*" + hashFilterParts.join(')(?=.*') + ")", 'gi');
+            return  _.filter(this.taskCollection, function (task) {
+                var hashPropertyValue = _.get(task, propertyName);
+                if(hashPropertyValue && hashPropertyValue.match(queryExpression)) {
+                    return true;
+                }
+
+                return false;
+            });
+        },
+        applyEqualFilter = function (propertyName, value) {
+            if (!Validator.isInt(value)) {
+                return [];
+            }
+
+            return  _.filter(this.taskCollection, function (task) {
+                var hashPropertyValue = _.get(task, propertyName);
+                return hashPropertyValue === parseInt(value);
+            });
+        },
+        hashFilterTaskCollection = function (hashProperty, query) {
+            switch(hashProperty.filter) {
+                case FilterType.Match:
+                    return applyMatchFilter.call(this, hashProperty.value, query);
+                    break;
+                case FilterType.Equal:
+                    return applyEqualFilter.call(this, hashProperty.value, query);
+                    break;
+            }
+
+        },
         filterTaskCollection = function (query) {
             var upperQueryParts = query.toUpperCase().trim().split(' '),
-                parts = _.filter(upperQueryParts, function(part) {
-                    return part.length > 1;
-                });
+                filterPartCount = upperQueryParts.length;
+
+            if(filterPartCount === 0) {
+                return [];
+            }
+
+            var hashProperty = getHashProperty.call(this,  _.first(upperQueryParts)),
+                taskCollection = this.taskCollection;
+            if(hashProperty) {
+                if(filterPartCount < 2 && upperQueryParts[1].length <= 1) {
+                    return [];
+                } else {
+                    taskCollection = hashFilterTaskCollection.call(this, hashProperty, upperQueryParts[1]);
+                    upperQueryParts.splice(0, 2);
+                }
+            }
+
+            var parts = _.filter(upperQueryParts, function(part) {
+                return part.length > 1;
+            });
 
             var queryExpression = new RegExp("(?=.*" + parts.join(')(?=.*') + ")", 'gi');
-            var filteredTasks= _.filter(this.timeEntryCollection, function (task) {
+            var filteredTasks= _.filter(taskCollection, function (task) {
                 task.matchCount = 0;
                 var match = task.subject.match(queryExpression);
                 if(match)
@@ -96,7 +178,7 @@ DataManager.prototype = (function () {
             return "<span style=\"background-color:#81D4FA;font-weight: bold;\">$1</span>";
         },
         createActiveTask = function (id) {
-            var task = _.find(this.timeEntryCollection, function (task) {
+            var task = _.find(this.taskCollection, function (task) {
                 return task.id === parseInt(id);
             });
 
@@ -151,7 +233,7 @@ DataManager.prototype = (function () {
             }
 
             taskIdCollection.map(function (taskId) {
-                var task = _.find(this.timeEntryCollection, function (task) {
+                var task = _.find(this.taskCollection, function (task) {
                     return task.id === parseInt(taskId);
                 });
 
