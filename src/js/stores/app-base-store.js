@@ -168,7 +168,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if(manager !== null) {
-                    $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDate())).done(function () {
+                    $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDay())).done(function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         console.error(prettify(error) || error);
@@ -202,8 +202,16 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             }
         },
         setTimeEntryDay = function (timeEntryDay) {
+            debugger;
             try {
                 settings.setTimeEntryDay(timeEntryDay);
+            } catch (error) {
+                console.error(prettify(error) || error);
+            }
+        },
+        getTimeEntryDay = function () {
+            try {
+                return settings.getTimeEntryDay();
             } catch (error) {
                 console.error(prettify(error) || error);
             }
@@ -225,6 +233,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     break;
                 case AppConstants.ClearSearch:
                     clearSearch.call();
+                    break;
                 case AppConstants.AddIssue:
                     createActiveTask.call(this, action.issueId);
                     break;
