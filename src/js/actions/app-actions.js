@@ -38,7 +38,7 @@ var AppActions = {
             actionType: AppConstants.UpdateTaskHours,
             entry: {
                 id: id,
-                hours: spentHours
+                hours: parseFloat(spentHours).toFixed(2)
             }
         });
     },

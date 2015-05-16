@@ -1,21 +1,23 @@
+/*global require, module, parseInt, parseFloat*/
 var InvalidArgumentError = require("../error/invalid-argument-error"),
-    Guid = require("easy-guid"),
-    Validator = require('validator');
+    easyGid = require("easy-guid"),
+    validator = require('validator');
 
-TimeEntry = function (issueId, issueName, projectName) {
-    if(typeof issueId !== "number") {
+var TimeEntry = function (issueId, issueName, projectName) {
+    "use strict";
+    if (typeof issueId !== "number") {
         throw new InvalidArgumentError("Parameter issueId must be a number.");
     }
 
-    if(typeof issueName !== "string") {
+    if (typeof issueName !== "string") {
         throw new InvalidArgumentError("Parameter issueName must be a string.");
     }
 
-    if(typeof projectName !== "string") {
+    if (typeof projectName !== "string") {
         throw new InvalidArgumentError("Parameter projectName must be a string.");
     }
 
-    this.id = Guid.new();
+    this.id = easyGid.new();
     this.issueId = issueId;
     this.issueName = issueName;
     this.projectName = projectName;
@@ -27,9 +29,10 @@ TimeEntry = function (issueId, issueName, projectName) {
 };
 
 TimeEntry.prototype = (function () {
+    "use strict";
     var dateFormatPattern = /^\d{4}-\d{2}-\d{2}$/,
         setSpentOn = function (spentOn) {
-            if(typeof spentOn !== "string" || !spentOn.match(dateFormatPattern)) {
+            if (typeof spentOn !== "string" || !spentOn.match(dateFormatPattern)) {
                 throw new InvalidArgumentError("Parameter spentOn must be a string with format {YYYY-MM-DD}.");
             }
 
@@ -40,7 +43,7 @@ TimeEntry.prototype = (function () {
             return this.activityId !== null && this.hours !== null;
         },
         setHours = function (hours) {
-            if(!(Validator.isInt(hours) || Validator.isFloat(hours))) {
+            if (!(validator.isInt(hours, { min: 0 }) || validator.isFloat(hours, { min: 0.00 }))) {
                 this.updated = false;
                 return this;
             }
@@ -50,12 +53,12 @@ TimeEntry.prototype = (function () {
             return this;
         },
         setActivityId = function (activityId) {
-            if(!Validator.isInt(activityId)) {
+            if (!validator.isInt(activityId)) {
                 this.updated = false;
                 return this;
             }
 
-            this.activityId = parseInt(activityId);
+            this.activityId = parseInt(activityId, 10);
             this.updated = isUpdated.call(this);
             return this;
         },
@@ -81,9 +84,10 @@ TimeEntry.prototype = (function () {
         buildPostEntry: buildPostEntry,
         setSpentOn: setSpentOn
     };
-})();
+}());
 
 TimeEntry.createInstance = function (issueId, issueName, projectName) {
+    "use strict";
     return new TimeEntry(issueId, issueName, projectName);
 };
 

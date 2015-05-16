@@ -11,7 +11,6 @@ var Task = React.createClass({
             open:false
         };
     },
-
     _handleClick: function(event) {
         if(this.state.open) {
             this.setState({
@@ -23,11 +22,9 @@ var Task = React.createClass({
             });
         }
     },
-
     _elementClick: function(event){
         event.stopPropagation();
     },
-
     _updateTaskActivityId: function(event){
         var activityId = this.refs.activity.getValue();
         AppActions.updateTaskActivityId(this.props.item.id, activityId);
@@ -43,11 +40,9 @@ var Task = React.createClass({
         AppActions.updateTaskHours(this.props.item.id, spentHours);
         event.stopPropagation();
     },
-
     _remove: function(){
         AppActions.removeTimeEntry(this.props.item.id);
     },
-  
     render : function(){
         var activities = this.props.activities,
             item = this.props.item,
@@ -56,7 +51,7 @@ var Task = React.createClass({
 
         if (item.updated) {
             tileClass = "tile tile-collapse selected";
-            hoursText = "[" + item.hours + " Hours]"
+            hoursText = "[" + parseFloat(item.hours ).toFixed(2) + " Hours]"
         }
 
         // Just get the first proper letter of the project
@@ -103,7 +98,7 @@ var Task = React.createClass({
                                 <Dropdown ref="activity" data={activities} onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
-                                <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours} isNumeric={true}/>
+                                <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours} isNumeric={true} setFixedFloatingZeros={true}/>
                              </div>                            
                         </div>
                     </div>

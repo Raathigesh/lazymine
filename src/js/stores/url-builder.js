@@ -1,3 +1,4 @@
+/*global require, module*/
 var Validator = require("validator"),
     InvalidArgumentError = require("../error/invalid-argument-error"),
     ItemStatus = require("../constants/item-status"),
@@ -14,7 +15,7 @@ var UrlBase = {
 
 var UrlBuilder = function (serviceBaseUrl) {
     "use strict";
-    if(!Validator.isURL(serviceBaseUrl)){
+    if (!Validator.isURL(serviceBaseUrl)) {
         throw new InvalidArgumentError("Parameter url must be a URL.");
     }
 
@@ -30,25 +31,25 @@ var UrlBuilder = function (serviceBaseUrl) {
 UrlBuilder.prototype = (function () {
     "use strict";
     var withPageSize = function (pageSize) {
-            if(typeof pageSize !== "number"){
+            if (typeof pageSize !== "number") {
                 throw new InvalidArgumentError("Parameter pageSize must be a number.");
             }
 
-            if(pageSize < 1 || pageSize > 100){
+            if (pageSize < 1 || pageSize > 100) {
                 throw new InvalidArgumentError("Parameter pageSize must be between 1 and 100.");
             }
             this.currentPageSize = pageSize;
             return this;
         },
-        getPageSize = function(){
+        getPageSize = function () {
             return this.currentPageSize;
         },
         withOffset = function (offset) {
-            if(typeof offset !== "number"){
+            if (typeof offset !== "number") {
                 throw new InvalidArgumentError("Parameter offset must be a number.");
             }
 
-            if(offset < 0){
+            if (offset < 0) {
                 throw new InvalidArgumentError("Parameter offset must be greater than 0.");
             }
 
@@ -62,10 +63,10 @@ UrlBuilder.prototype = (function () {
             this.assignee = taskAssignee;
             return this;
         },
-        getTaskAssignee = function (){
+        getTaskAssignee = function () {
             return this.assignee;
         },
-        getTaskAssigneeUrlSegment = function (){
+        getTaskAssigneeUrlSegment = function () {
             return (this.assignee === TaskAssignee.All) ? "" : "&assigned_to_id=" + this.assignee;
         },
         withNextOffset = function () {
@@ -79,7 +80,7 @@ UrlBuilder.prototype = (function () {
             return this;
         },
         withItemStatus = function (status) {
-            if(!objectHelper.hasPropertyValue(ItemStatus, status)){
+            if (!objectHelper.hasPropertyValue(ItemStatus, status)) {
                 throw new InvalidArgumentError("Parameter statusId must be a property of ItemStatus.");
             }
 
@@ -104,16 +105,16 @@ UrlBuilder.prototype = (function () {
             return this.updatedOn ? "&updated_on=><" + this.updatedOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
         },
         buildIssuesUrl = function () {
-            var assignedTo = getTaskAssigneeUrlSegment.call(this);
-            var createdOn = getCreatedOnUrlSegment.call(this);
-            var updatedOn = getUpdatedOnUrlSegment.call(this);
+            var assignedTo = getTaskAssigneeUrlSegment.call(this),
+                createdOn = getCreatedOnUrlSegment.call(this),
+                updatedOn = getUpdatedOnUrlSegment.call(this);
             return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize, assignedTo, createdOn, updatedOn);
         },
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
         },
         buildUpdatedTimeEntriesUrl = function (spentOn) {
-            return UrlBase.TimeEntries.concat("?user_id=me&spent_on=", spentOn)
+            return UrlBase.TimeEntries.concat("?user_id=me&spent_on=", spentOn);
         },
         buildTimeEntryActivitiesUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntryActivities);
@@ -143,6 +144,7 @@ UrlBuilder.prototype = (function () {
 }());
 
 UrlBuilder.createInstance = function (serviceBaseUrl) {
+    "use strict";
     return new UrlBuilder(serviceBaseUrl);
 };
 

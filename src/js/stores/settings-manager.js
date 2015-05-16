@@ -1,3 +1,4 @@
+/*global require, module*/
 var Validator = require('validator'),
     InvalidArgumentError = require('../error/invalid-argument-error'),
     HttpHelper = require('./http-helper'),

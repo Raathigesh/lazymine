@@ -7,9 +7,13 @@ var TextField = React.createClass({
     formNormalClassesFocus: "form-group form-group-label control-focus",
     formErrorClassesFocus: "form-group form-group-label form-group-red control-focus",
     isNumeric: false,
+    setFixedFloatingZeros: false,
     keyUpEvent: null,
-    getValue: function(){
-      return React.findDOMNode(this.refs.textBox).value;
+    getTextBox: function () {
+        return React.findDOMNode(this.refs.textBox);
+    },
+    getValue: function (){
+        return React.findDOMNode(this.refs.textBox).value;
     },
     getInitialState: function () {
         return {
@@ -19,7 +23,7 @@ var TextField = React.createClass({
     keyUpEventBase: function (event) {
         if(this.isNumeric) {
             var value = this.getValue();
-            if (value === "" || Validator.isInt(value) || Validator.isFloat(value)) {
+            if (value === "" || Validator.isInt(value, { min: 0 }) || Validator.isFloat(value, { min: 0.00 })) {
                 this.setState({
                     "formClassCollection": this.formNormalClassesFocus
                 });
@@ -34,15 +38,24 @@ var TextField = React.createClass({
             this.keyUpEvent(event);
         }
     },
+    blurEventBase: function (event) {
+        if (this.setFixedFloatingZeros) {
+            var textBox = this.getTextBox();
+            if (Validator.isInt(textBox.value) || Validator.isFloat(textBox.value)) {
+                textBox.value = parseFloat(textBox.value).toFixed(2);
+            }
+        }
+    },
     render : function(){
-        this.isNumeric = this.props.isNumeric,
+        this.isNumeric = this.props.isNumeric;
+        this.setFixedFloatingZeros = this.props.setFixedFloatingZeros;
         this.keyUpEvent = this.props.keyUp;
         return (
            <div className={this.state.formClassCollection}>
               <div className="row">
                 <div className="col-lg-12 col-sm-12">
                   <label className="floating-label" for="float-text">{this.props.label}</label>
-                  <input ref="textBox" className="form-control" id="float-text" type="text" onKeyUp={this.keyUpEventBase}/>
+                  <input ref="textBox" className="form-control" id="float-text" type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase}/>
                 </div>
               </div>
            </div>
