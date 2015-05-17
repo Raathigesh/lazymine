@@ -49,7 +49,7 @@ var Container = React.createClass({
         return (
             <div>
                 <Loader isLoading={this.state.isLoading}/>
-                <Toast message={this.state.error} />
+                <Toast error={this.state.error}/>
                 <div className="container">
                     <div className="container-inner">
                         <SearchBox items={this.state.filteredResult}/>

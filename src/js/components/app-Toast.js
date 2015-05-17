@@ -4,8 +4,8 @@ var React = require('react');
 var Toast = React.createClass({
     render : function(){
 
-        if(this.props.message != null){
-            alert(this.props.message);
+        if(this.props.error != null){
+            alert(this.props.error.code + " : " + this.props.error.message);
         }
 
         return (

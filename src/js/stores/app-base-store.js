@@ -8,6 +8,7 @@ var AppConstants = require('../constants/app-action-name'),
     ServiceAccessor = require('./service-accessor'),
     HttpHelper = require('./http-helper'),
     prettify = require('prettify-error'),
+    StoreError = require('../constants/store-errors'),
     dataManager = null;
 
 getDataManager = function () {
@@ -33,7 +34,6 @@ module.exports = Merge(EventEmitter.prototype, (function () {
         handleError = function(error){
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
-            console.error(prettify(error) || error);
         },
         getState = function () {
             return State;
@@ -63,6 +63,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     });
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -80,6 +81,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                         clearInterval(intervalId);
                     }
                 } catch (error) {
+                    handleError(StoreError.InternalServerError);
                     console.error(prettify(error) || error);
                 }
             }.bind(this), settings.backgroundFetchTimerInterval);
@@ -97,6 +99,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     });
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -108,6 +111,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -116,6 +120,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                 State.filteredResult = [];
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -128,6 +133,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -139,6 +145,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -150,6 +157,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -161,6 +169,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -172,6 +181,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -187,6 +197,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     });
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -199,6 +210,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -210,6 +222,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
                     handleError(error);
                 });
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -217,6 +230,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 settings.setTimeEntryDay(timeEntryDay);
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -224,6 +238,7 @@ module.exports = Merge(EventEmitter.prototype, (function () {
             try {
                 return settings.getTimeEntryDay();
             } catch (error) {
+                handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },

@@ -6,6 +6,7 @@ var InvalidArgumentError = require("../error/invalid-argument-error"),
     _ = require('lodash'),
     moment = require('moment'),
     Validator = require('validator'),
+    StoreError = require('../constants/store-errors'),
     FilterType = {
         Match: "match",
         Equal: "equal"
@@ -59,7 +60,7 @@ DataManager.prototype = (function () {
                 this.activityCollection = activityCollection.time_entry_activities;
                 deferred.resolve();
             }.bind(this)).fail(function () {
-                deferred.reject("Data load failure.");
+                deferred.reject(StoreError.DataLoadFailure);
             }.bind(this));
             return deferred.promise();
         },
@@ -83,7 +84,7 @@ DataManager.prototype = (function () {
                 }.bind(this));
                 deferred.resolve();
             }.bind(this)).fail(function () {
-                deferred.reject("Data load failure.");
+                deferred.reject(StoreError.DataLoadFailure);
             }.bind(this));
             return deferred.promise();
         },
@@ -258,7 +259,7 @@ DataManager.prototype = (function () {
                 });
                 deferred.resolve();
             }.bind(this)).fail(function () {
-                deferred.reject("Time entry failure.");
+                deferred.reject(StoreError.TimeEntryFailure);
             }.bind(this));
             return deferred.promise();
         },

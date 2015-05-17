@@ -5,6 +5,7 @@ var Validator = require('validator'),
     UrlBuilder = require('./url-builder'),
     TaskAssignee = require('../constants/task-assignee'),
     objectHelper = require('./object-helper'),
+    StoreError = require('../constants/store-errors'),
     $ = require('jquery'),
     moment = require('moment');
 
@@ -45,16 +46,16 @@ SettingsManager.prototype = (function () {
         setSettings = function (baseUrl, apiKey, assignee) {
             var deferred = $.Deferred();
             if (!Validator.isURL(baseUrl)) {
-                deferred.reject("Parameter baseUrl must be valid.");
+                deferred.reject(StoreError.InvalidUrl);
                 return deferred.promise();
             }
 
             if (typeof apiKey !== "string" || apiKey === "") {
-                deferred.reject("Parameter apiKey must not be empty.");
+                deferred.reject(StoreError.InvalidApiKey);
                 return deferred.promise();
             }
 
-            if (!objectHelper.hasPropertyValue(TaskAssignee, assignee)) {
+            if (!objectHelper.hasPropertyValue(TaskAssignee, assignee)) { // TODO : remove this
                 deferred.reject("Parameter assignee must be an instance of taskAssignee.");
                 return deferred.promise();
             }
@@ -74,7 +75,7 @@ SettingsManager.prototype = (function () {
                 this.forceLoad = true;
                 deferred.resolve();
             }.bind(this)).fail(function () {
-                deferred.reject("URL or API key is invalid.");
+                deferred.reject(StoreError.UrlOrApiKeyInvalid);
             }.bind(this));
             return deferred.promise();
         },
