@@ -1,7 +1,7 @@
 /*global require, module*/
 var InvalidArgumentError = require("../error/invalid-argument-error"),
     $ = require("jquery"),
-    Validator = require("validator");
+    validator = require("validator");
 
 var HttpHelper = function (apiKey) {
     "use strict";
@@ -15,7 +15,7 @@ var HttpHelper = function (apiKey) {
 HttpHelper.prototype = (function () {
     "use strict";
     var getRequest = function (url) {
-            if (!Validator.isURL(url)) {
+            if (!validator.isURL(url)) {
                 throw new InvalidArgumentError("Parameter url must be a URL.");
             }
 
@@ -32,7 +32,7 @@ HttpHelper.prototype = (function () {
             });
         },
         postRequest = function (url, data) {
-            if (!Validator.isURL(url)) {
+            if (!validator.isURL(url)) {
                 throw new InvalidArgumentError("Parameter url must be a URL.");
             }
 
