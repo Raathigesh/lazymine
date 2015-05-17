@@ -1,3 +1,5 @@
+var AppActions = require('../actions/app-actions');
+
 module.exports = {
     InternalServerError: {
         code: "S001",
@@ -5,7 +7,8 @@ module.exports = {
     },
     DataLoadFailure: {
         code: "S002",
-        message: "Data load failure."
+        message: "Data load failure.",
+        retry: "AppActions.fetchIssues()"
     },
     TimeEntryFailure : {
         code: "S003",
