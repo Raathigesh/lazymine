@@ -1,3 +1,4 @@
+/*global module*/
 module.exports = {
     New: 1,
     InProgress: 2,

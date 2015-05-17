@@ -1,3 +1,4 @@
+/*global module*/
 var InvalidArgumentError = function (message) {
     "use strict";
     this.name = "InvalidArgumentError";

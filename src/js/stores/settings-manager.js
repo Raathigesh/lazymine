@@ -1,4 +1,4 @@
-/*global require, module*/
+/*global require, module, localStorage*/
 var Validator = require('validator'),
     InvalidArgumentError = require('../error/invalid-argument-error'),
     HttpHelper = require('./http-helper'),
@@ -31,7 +31,7 @@ SettingsManager.prototype = (function () {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
             }
 
-            localStorage.setItem(this.taskCollectionKey, JSON.stringify(taskCollection));
+            localStorage.setItem(this.taskCollectionKey, JSON.stringify(timeEntryCollection));
             this.timeEntryCollection = timeEntryCollection;
         },
         fetchTaskCollection = function () {
@@ -43,8 +43,24 @@ SettingsManager.prototype = (function () {
 
             return false;
         },
+        validateSettings = function (settings) {
+            var deferred = $.Deferred(),
+                currentUserDetailUrl = UrlBuilder.createInstance(settings.BaseURL).buildCurrentUserUrl();
+            $.when(HttpHelper.createInstance(settings.APIKey).getRequest(currentUserDetailUrl)).done(function (data) {
+                deferred.resolve(data);
+            }.bind(this)).fail(function () {
+                deferred.reject();
+            }.bind(this));
+            return deferred.promise();
+        },
         setSettings = function (baseUrl, apiKey, assignee) {
-            var deferred = $.Deferred();
+            var deferred = $.Deferred(),
+                settings = {
+                    BaseURL: baseUrl,
+                    APIKey: apiKey,
+                    TaskAssignee: assignee
+                };
+
             if (!Validator.isURL(baseUrl)) {
                 deferred.reject(StoreError.InvalidUrl);
                 return deferred.promise();
@@ -55,16 +71,10 @@ SettingsManager.prototype = (function () {
                 return deferred.promise();
             }
 
-            if (!objectHelper.hasPropertyValue(TaskAssignee, assignee)) { // TODO : remove this
+            if (!objectHelper.hasPropertyValue(TaskAssignee, assignee)) {
                 deferred.reject("Parameter assignee must be an instance of taskAssignee.");
                 return deferred.promise();
             }
-
-            var settings = {
-                BaseURL: baseUrl,
-                APIKey: apiKey,
-                TaskAssignee: assignee
-            };
 
             $.when(validateSettings.call(this, settings)).done(function () {
                 localStorage.setItem(this.settingsKey, JSON.stringify(settings));
@@ -79,20 +89,11 @@ SettingsManager.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
-        validateSettings = function (settings) {
-            var deferred = $.Deferred();
-            var currentUserDetailUrl = UrlBuilder.createInstance(settings.BaseURL).buildCurrentUserUrl();
-            $.when(HttpHelper.createInstance(settings.APIKey).getRequest(currentUserDetailUrl)).done(function (data) {
-                deferred.resolve(data);
-            }.bind(this)).fail(function () {
-                deferred.reject();
-            }.bind(this));
-            return deferred.promise();
-        },
         fetchSettings = function () {
-            var storeSettings = localStorage.getItem(this.settingsKey);
+            var storeSettings = localStorage.getItem(this.settingsKey),
+                settings;
             if (storeSettings) {
-                var settings = JSON.parse(storeSettings);
+                settings = JSON.parse(storeSettings);
                 this.BaseURL = settings.BaseURL;
                 this.APIKey = settings.APIKey;
                 this.TaskAssignee = settings.TaskAssignee;
@@ -101,10 +102,10 @@ SettingsManager.prototype = (function () {
             return false;
         },
         getTimeEntryDay = function () {
-           return this.timeEntryDay.format("YYYY-MM-DD");
+            return this.timeEntryDay.format("YYYY-MM-DD");
         },
         setTimeEntryDay = function (timeEntryDate) {
-            if(timeEntryDate._isAMomentObject === true) {
+            if (timeEntryDate._isAMomentObject === true) {
                 throw new InvalidArgumentError("Parameter timeEntryDate must be a moment object.");
             }
 
@@ -118,6 +119,6 @@ SettingsManager.prototype = (function () {
         setTaskCollection: setTaskCollection,
         fetchTaskCollection: fetchTaskCollection
     };
-})();
+}());
 
 module.exports = new SettingsManager();
