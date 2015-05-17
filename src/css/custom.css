@@ -15,10 +15,9 @@ body{
 .navbar{
 	margin-bottom:0;
 }
-.navbar .navbar-brand{
-    position: absolute;
-    top: 8px;
-	height:50px;
+
+.header-row {
+	display: inline-block;
 }
 
 .icon-menu{
@@ -34,27 +33,8 @@ body{
 	overflow: visible;
 }
 
-.search-refresh{
-    overflow: visible;
-    margin-top: -54px;
-    font-size: 30px;
-}
-
-.search-refresh a{
-    color: #666;
-    position: absolute;
-    margin-left: -40px;
-}
-
-.search-refresh a:hover{
-    color: #222;
-    position: absolute;
-    margin-left: -40px;
-}
-
 .search-control{
-	background:#f9f9f9;
-	box-shadow:1px 2px 5px #939393;
+	background:#FFFFFF;
 	border:none;
 	display:block;
 	width:100%;
@@ -131,20 +111,23 @@ body{
 }
 
 .btn-group a {
-	width: 25%;
-	margin: 10px;
+	width: 50%;
+	border-radius: 0;
 }
 
-.btn-group div {
-	font-size: 16px;
-	margin: 16px;
+.btn-success:not(.btn-link){
+	background: #4CAF50;
+	color:#fff;
+}
+.btn-success:hover:not(.btn-link){
+	background:#59B75C;
 }
 
-.btn-cancel:not(.btn-link):not(.btn-flat){
+.btn-cancel:not(.btn-link){
 	background:#a2a1a1;
 	color:#fff;
 }
-.btn-cancel:hover:not(.btn-link):not(.btn-flat){
+.btn-cancel:hover:not(.btn-link){
 	background:#b0afaf;
 }
 

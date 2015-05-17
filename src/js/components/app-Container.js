@@ -2,7 +2,7 @@
 var React = require('react');
 var AppStore = require('../stores/app-base-store');
 var AppActions = require('../actions/app-actions');
-var SearchBox = require('../components/app-SearchBox');
+
 var Title = require('../components/app-Title');
 var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
@@ -52,7 +52,7 @@ var Container = React.createClass({
                 <Toast error={this.state.error}/>
                 <div className="container">
                     <div className="container-inner">
-                        <SearchBox items={this.state.filteredResult}/>
+
                         <InfoBar />
                         <TaskList items={this.state.activeItems} activities={this.state.activities}/>
                     </div>

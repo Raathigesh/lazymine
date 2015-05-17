@@ -5,7 +5,6 @@ require inputs need to set '-webkit-app-region: no-drag' property */
 body {
     font-size: 15px;
     overflow: auto;
-    -webkit-app-region: drag;
 }
 
 /* Reset
@@ -18,9 +17,6 @@ li {
     list-style: none;
 }
 
-#search {
-    -webkit-app-region: no-drag;
-}
 
 #search-results {
     background: #e5e5e5;
@@ -68,7 +64,6 @@ li {
     height: 40px;
     font-size: 20px;
     padding: 10px;
-    border: 1px solid #cecece;
 }
 
 .searchResult-description {

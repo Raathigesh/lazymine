@@ -63,22 +63,13 @@ var SearchBox = React.createClass({
         this._toggleResultsPanel(true);
     },
 
-    _refreshTasks: function() {
-        AppActions.refreshIssues();
-    },
-
     render: function () {
         return (
             <div className="row">
                 <div className="col-md-12 search-box">
-                    <input id="search" ref="searchBox" type="text" className="search-control" onChange={this.filter}
+                    <input id="search" ref="searchBox" type="text" className="form-control search-control" onChange={this.filter}
                            onKeyUp={this._navigate} onFocus={this._showResults}
                            placeholder="Type a name, id, #latest, #mine, #lastupdated..."/>
-                    <div className="search-refresh pull-right" onClick={this._refreshTasks}>
-                        <a href="#">
-                            <span className="icon icon-refresh"></span>
-                        </a>
-                    </div>
                     {
                         this.state.showResults
                             ? <SearchResult ref="searchResult" results={this.props.items}
