@@ -178,7 +178,7 @@ DataManager.prototype = (function () {
             var hashProperty = getHashProperty.call(this,  _.first(upperQueryParts)),
                 taskCollection = this.taskCollection;
             if(hashProperty) {
-                if(filterPartCount < 2 && upperQueryParts[1].length <= 1) {
+                if(filterPartCount < 2 || upperQueryParts[1].length === 0) {
                     return [];
                 } else {
                     taskCollection = hashFilterTaskCollection.call(this, hashProperty, upperQueryParts[1]);
