@@ -1,3 +1,4 @@
+/*global module, require*/
 var AppActions = require('../actions/app-actions');
 
 module.exports = {
@@ -27,7 +28,7 @@ module.exports = {
         message: "URL or API key is invalid."
     },
     SettingsNotSet: {
-    	code: "S007",
+        code: "S007",
         message: "Settings not available in local storage."
     }
 };

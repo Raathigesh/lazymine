@@ -1,3 +1,4 @@
+/*global module*/
 module.exports = {
     FetchIssues: "FetchIssues",
     Search: "Search",

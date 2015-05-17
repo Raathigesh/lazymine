@@ -1,3 +1,4 @@
+/*global module*/
 var InvalidOperationError = function (message) {
     "use strict";
     this.name = "InvalidOperationError";
