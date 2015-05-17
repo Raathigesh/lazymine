@@ -1,11 +1,10 @@
 /** @jsx React.DOM */
 var React = require('react');
 var AppActions = require('../actions/app-actions');
-var Header = require('../components/app-Header');
 var Container = require('../components/app-Container');
 var SearchBox = require('../components/app-SearchBox');
 var TaskList = require('../components/app-TaskList');
-var Settings = require('../components/app-Settings');
+var Login = require('../components/app-Login');
 var NavBar = require('../components/app-NavBar');
 
 
@@ -20,8 +19,6 @@ var RouteHandler = Router.RouteHandler;
 var App = React.createClass({
     render: function () {
         return (<div>
-                	<Header />
-                    <NavBar />
                 	<RouteHandler/>
                 </div>);
     }
@@ -30,7 +27,7 @@ var App = React.createClass({
 var routes = (
   <Route name="app" path="/" handler={App}>
     <Route name="home" handler={Container}/>
-    <Route name="setting" handler={Settings}/>
+    <Route name="login" handler={Login}/>
     <DefaultRoute handler={Container}/>
   </Route>
 );

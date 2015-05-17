@@ -34,7 +34,7 @@ body{
 }
 
 .search-control{
-	background:#FFFFFF;
+	background:#fff;
 	border:none;
 	display:block;
 	width:100%;
@@ -42,6 +42,28 @@ body{
 	padding:8px 12px;
 	font-size:18px;
 	margin-bottom:15px;
+}
+
+.login-card-wrap{
+	margin-top:0;
+	padding-top: 50px;
+}
+
+.login-avatar-wrapper {
+	height: 300px;
+}
+
+.login-avatar-wrapper span{
+	height: 100%;
+	width: 100%;
+	background-color: #fff;
+	border-radius: 0;
+}
+
+.avatar img {
+	border-radius: 0;
+	height: 100%;
+	width: auto;
 }
 
 .top-refresh{
@@ -148,6 +170,7 @@ body{
 }
 
 .overlay{
+	background: #000;
   	top: 0;
   	left: 0;
   	width: 100%;

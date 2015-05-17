@@ -21,7 +21,6 @@ var Header = React.createClass({
     },
 
     render : function(){
-
         return (
             <header className="header fixed navbar navbar-default">
                 <div className="header-row">
@@ -29,7 +28,7 @@ var Header = React.createClass({
             	        <img src="assets/top-logo.png" />
                     </a>
                 </div>
-                <SearchBox items={this.state.filteredResult}/>
+                { this.props.search == "show" ? <SearchBox items={this.state.filteredResult}/> : null }
             </header>
         );
     }

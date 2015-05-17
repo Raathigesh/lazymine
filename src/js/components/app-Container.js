@@ -2,7 +2,7 @@
 var React = require('react');
 var AppStore = require('../stores/app-base-store');
 var AppActions = require('../actions/app-actions');
-
+var Header = require('../components/app-Header');
 var Title = require('../components/app-Title');
 var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
@@ -28,7 +28,7 @@ var Container = React.createClass({
 
     componentDidMount: function () {
         if (this.state.settings.BaseURL == null || this.state.settings.BaseURL == "" || this.state.settings.APIKey == null || this.state.settings.APIKey == "") {
-            this.context.router.transitionTo('setting');
+            this.context.router.transitionTo('login');
         }
     },
 
@@ -48,6 +48,7 @@ var Container = React.createClass({
     render: function () {
         return (
             <div>
+                <Header search="show" />
                 <Loader isLoading={this.state.isLoading}/>
                 <Toast error={this.state.error}/>
                 <div className="container">
