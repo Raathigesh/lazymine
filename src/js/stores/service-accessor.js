@@ -23,7 +23,8 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
     this.taskStatusCollection = [
         ItemStatus.InProgress,
         ItemStatus.New,
-        ItemStatus.ReOpened
+        ItemStatus.ReOpened,
+        ItemStatus.Sandbox
     ];
     this.taskAssignee = null;
     this.lastTaskFetch = null;
