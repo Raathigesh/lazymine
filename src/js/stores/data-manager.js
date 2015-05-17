@@ -111,10 +111,16 @@ DataManager.prototype = (function () {
                 return [];
             }
 
-            return  _.filter(this.taskCollection, function (task) {
+            var task = _.find(this.taskCollection, function (task) {
                 var hashPropertyValue = _.get(task, propertyName);
                 return hashPropertyValue === parseInt(value);
             });
+
+            if(task) {
+                return [ task ];
+            }
+
+            return [];
         },
         applySubjectFilter = function (taskCollection, queryParts) {
             var queryExpression = new RegExp("(?=.*" + queryParts.join(')(?=.*') + ")", 'gi');
@@ -140,8 +146,28 @@ DataManager.prototype = (function () {
             }
 
         },
+        urlFilterExpression = new RegExp("\\/issues\\/\\d{1,}$", 'gi'),
+        applyUrlFilter = function (formattedQuery) {
+            var match = formattedQuery.match(urlFilterExpression);
+            if(match) {
+                var filteredTasks = applyEqualFilter.call(this, "id", match[0].split('/')[2]);
+                filteredTasks.map(function (task) {
+                    task.formattedTitle = task.subject;
+                });
+
+                return filteredTasks;
+            }
+
+            return [];
+        },
         filterTaskCollection = function (query) {
-            var upperQueryParts = query.toUpperCase().trim().split(' '),
+            var formattedQuery = _.trim(query.toUpperCase());
+            var urlFilteredCollection = applyUrlFilter.call(this, formattedQuery);
+            if (urlFilteredCollection.length === 1) {
+                return urlFilteredCollection;
+            }
+
+            var upperQueryParts = formattedQuery.split(' '),
                 filterPartCount = upperQueryParts.length;
 
             if(filterPartCount === 0) {
