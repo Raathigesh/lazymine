@@ -1,10 +1,12 @@
 /*global require, module*/
-var Validator = require("validator"),
+var validator = require("validator"),
     InvalidArgumentError = require("../error/invalid-argument-error"),
+    InvalidOperationError = require("../error/invalid-operation-error"),
     ItemStatus = require("../constants/item-status"),
     TaskAssignee = require("../constants/task-assignee"),
     objectHelper = require("./object-helper"),
-    moment = require('moment');
+    _ = require("lodash"),
+    moment = require("moment");
 
 var UrlBase = {
     Issues : "/issues.json",
@@ -15,7 +17,7 @@ var UrlBase = {
 
 var UrlBuilder = function (serviceBaseUrl) {
     "use strict";
-    if (!Validator.isURL(serviceBaseUrl)) {
+    if (!validator.isURL(serviceBaseUrl)) {
         throw new InvalidArgumentError("Parameter url must be a URL.");
     }
 
@@ -26,57 +28,55 @@ var UrlBuilder = function (serviceBaseUrl) {
     this.itemOffset = 0;
     this.createdOn = null;
     this.updatedOn = null;
+    this.spentOn = null;
 };
 
 UrlBuilder.prototype = (function () {
     "use strict";
-    var withPageSize = function (pageSize) {
-            if (typeof pageSize !== "number") {
-                throw new InvalidArgumentError("Parameter pageSize must be a number.");
-            }
-
-            if (pageSize < 1 || pageSize > 100) {
-                throw new InvalidArgumentError("Parameter pageSize must be between 1 and 100.");
-            }
-            this.currentPageSize = pageSize;
-            return this;
-        },
+    var dateFormat = "YYYY-MM-DD",
         getPageSize = function () {
             return this.currentPageSize;
         },
-        withOffset = function (offset) {
-            if (typeof offset !== "number") {
-                throw new InvalidArgumentError("Parameter offset must be a number.");
+        getOffset = function () {
+            return this.itemOffset;
+        },
+        getTaskAssignee = function () {
+            return this.assignee;
+        },
+        getItemStatus = function () {
+            return this.statusId;
+        },
+        getTaskAssigneeUrlSegment = function () {
+            return (this.assignee === TaskAssignee.All) ? "" : "&assigned_to_id=" + this.assignee;
+        },
+        getCreatedOnUrlSegment = function () {
+            return this.createdOn ? "&created_on=><" + this.createdOn.format(dateFormat) + "|" + moment().format(dateFormat) : "";
+        },
+        getUpdatedOnUrlSegment = function () {
+            return this.updatedOn ? "&updated_on=><" + this.updatedOn.format(dateFormat) + "|" + moment().format(dateFormat) : "";
+        },
+        withPageSize = function (pageSize) {
+            if (!_.isNumber(pageSize) || !validator.isInt(pageSize, { min: 1, max: 100 })) {
+                throw new InvalidArgumentError("Parameter pageSize must be an integer between 1 and 100.");
             }
 
-            if (offset < 0) {
-                throw new InvalidArgumentError("Parameter offset must be greater than 0.");
+            this.currentPageSize = pageSize;
+            return this;
+        },
+        withOffset = function (offset) {
+            if (!_.isNumber(offset) || !validator.isInt(offset, { min: 0 })) {
+                throw new InvalidArgumentError("Parameter offset must be an integer greater than or equal to 0.");
             }
 
             this.itemOffset = offset;
             return this;
         },
-        getOffset = function () {
-            return this.itemOffset;
-        },
         withTaskAssignee = function (taskAssignee) {
             this.assignee = taskAssignee;
             return this;
         },
-        getTaskAssignee = function () {
-            return this.assignee;
-        },
-        getTaskAssigneeUrlSegment = function () {
-            return (this.assignee === TaskAssignee.All) ? "" : "&assigned_to_id=" + this.assignee;
-        },
         withNextOffset = function () {
             this.itemOffset = this.itemOffset + this.currentPageSize;
-            return this;
-        },
-        resetDefault = function () {
-            this.itemOffset = 0;
-            this.currentPageSize = 100;
-            this.statusId = ItemStatus.New;
             return this;
         },
         withItemStatus = function (status) {
@@ -87,22 +87,29 @@ UrlBuilder.prototype = (function () {
             this.statusId = status;
             return this;
         },
-        getItemStatus = function () {
-            return this.statusId;
-        },
         withCreatedOn = function (createdOn) {
+            if (!createdOn || !createdOn._isAMomentObject) {
+                throw new InvalidArgumentError("Parameter createdOn must be a moment object.");
+            }
+
             this.createdOn = createdOn;
             return this;
         },
         withUpdatedOn = function (updatedOn) {
+            if (!updatedOn || !updatedOn._isAMomentObject) {
+                throw new InvalidArgumentError("Parameter updatedOn must be a moment object.");
+            }
+
             this.updatedOn = updatedOn;
             return this;
         },
-        getCreatedOnUrlSegment = function () {
-            return this.createdOn ? "&created_on=><" + this.createdOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
-        },
-        getUpdatedOnUrlSegment = function () {
-            return this.updatedOn ? "&updated_on=><" + this.updatedOn.format("YYYY-MM-DD") + "|" + moment().format("YYYY-MM-DD") : "";
+        withSpentOn = function (spentOn) {
+            if (!spentOn || !spentOn._isAMomentObject) {
+                throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
+            }
+
+            this.spentOn = spentOn;
+            return this;
         },
         buildIssuesUrl = function () {
             var assignedTo = getTaskAssigneeUrlSegment.call(this),
@@ -113,28 +120,43 @@ UrlBuilder.prototype = (function () {
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
         },
-        buildUpdatedTimeEntriesUrl = function (spentOn) {
-            return UrlBase.TimeEntries.concat("?user_id=me&spent_on=", spentOn);
+        buildUpdatedTimeEntriesUrl = function () {
+            if (this.spentOn === null) {
+                throw new InvalidOperationError("Must set spentOn before calling buildUpdatedTimeEntriesUrl.");
+            }
+
+            return this.serviceBaseUrl.concat(UrlBase.TimeEntries, "?user_id=me&spent_on=", this.spentOn.format(dateFormat));
         },
         buildTimeEntryActivitiesUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntryActivities);
         },
         buildCurrentUserUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.CurrentUser);
+        },
+        resetDefault = function () {
+            this.statusId = ItemStatus.New;
+            this.assignee = TaskAssignee.All;
+            this.currentPageSize = 100;
+            this.itemOffset = 0;
+            this.createdOn = null;
+            this.updatedOn = null;
+            this.spentOn = null;
+            return this;
         };
     return {
-        withPageSize: withPageSize,
         getPageSize: getPageSize,
-        withOffset: withOffset,
-        getOffset: getOffset,
-        withTaskAssignee: withTaskAssignee,
         getTaskAssignee: getTaskAssignee,
-        withNextOffset: withNextOffset,
-        resetDefault: resetDefault,
-        withItemStatus: withItemStatus,
         getItemStatus : getItemStatus,
+        getOffset: getOffset,
+        withPageSize: withPageSize,
+        withOffset: withOffset,
+        withTaskAssignee: withTaskAssignee,
+        withNextOffset: withNextOffset,
+        withItemStatus: withItemStatus,
         withCreatedOn: withCreatedOn,
         withUpdatedOn: withUpdatedOn,
+        withSpentOn: withSpentOn,
+        resetDefault: resetDefault,
         buildIssuesUrl : buildIssuesUrl,
         buildTimeEntryUrl: buildTimeEntryUrl,
         buildUpdatedTimeEntriesUrl: buildUpdatedTimeEntriesUrl,

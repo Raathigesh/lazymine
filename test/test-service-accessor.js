@@ -1,3 +1,4 @@
+/*global require, expect, describe, it, beforeEach, spyOn, jasmine*/
 var ServiceAccessor = require('../src/js/stores/service-accessor'),
     HttpHelper = require('../src/js/stores/http-helper'),
     UrlBuilder = require('../src/js/stores/url-builder'),
@@ -5,22 +6,23 @@ var ServiceAccessor = require('../src/js/stores/service-accessor'),
     InvalidArgumentError = require('../src/js/error/invalid-argument-error'),
     $ = require("jquery");
 
-describe("Service Accessor - constructor", function() {
-    it("Should throw error when provided service base is not a URL", function() {
+describe("Service Accessor - constructor", function () {
+    "use strict";
+    it("Should throw error when provided service base is not a URL", function () {
         var uri = "not a url";
-        expect(function() {
-            new ServiceAccessor(uri, null)
-        }).toThrowError(InvalidArgumentError, "Parameter serviceBaseUrl must be a URL.")
+        expect(function () {
+            new ServiceAccessor(uri, null);
+        }).toThrowError(InvalidArgumentError, "Parameter serviceBaseUrl must be a URL.");
     });
 
-    it("Should throw error when provided http helper is not an instance of HttpHelper", function() {
+    it("Should throw error when provided http helper is not an instance of HttpHelper", function () {
         var uri = "https://track.zone24x7.lk/";
-        expect(function() {
-            new ServiceAccessor(uri, null)
-        }).toThrowError(InvalidArgumentError, "Parameter httpHelper must be an instance of HttpHelper.")
+        expect(function () {
+            new ServiceAccessor(uri, null);
+        }).toThrowError(InvalidArgumentError, "Parameter httpHelper must be an instance of HttpHelper.");
     });
 
-    it("Should not throw exceptions when parameters are valid", function() {
+    it("Should not throw exceptions when parameters are valid", function () {
         var uri = "https://track.zone24x7.lk/",
             httpHelper = new HttpHelper("fake api key"),
             serviceAccessor = new ServiceAccessor(uri, httpHelper);
@@ -35,7 +37,8 @@ describe("Service Accessor - constructor", function() {
     });
 });
 
-describe("Service Accessor - getTimeEntryActivities", function() {
+describe("Service Accessor - getTimeEntryActivities", function () {
+    "use strict";
     var serviceAccessor = null,
         fakeUrl = "https://track.zone24x7.lk/",
         fakeData = "fake data",
@@ -44,8 +47,8 @@ describe("Service Accessor - getTimeEntryActivities", function() {
         successCallback = null,
         failCallback = null;
 
-    beforeEach(function() {
-        spyOn(UrlBuilder, "createInstance").and.callFake(function (){
+    beforeEach(function () {
+        spyOn(UrlBuilder, "createInstance").and.callFake(function () {
             return fakeUrlBuilder;
         });
         serviceAccessor = new ServiceAccessor(fakeUrl, fakeHttpHelper);
@@ -54,7 +57,7 @@ describe("Service Accessor - getTimeEntryActivities", function() {
         failCallback = jasmine.createSpy('failCallback');
     });
 
-    it("Should call success callback when promise is resolved", function() {
+    it("Should call success callback when promise is resolved", function () {
         spyOn(fakeUrlBuilder, 'buildTimeEntryActivitiesUrl').and.callFake(function () {
             return fakeUrl;
         });
@@ -71,7 +74,7 @@ describe("Service Accessor - getTimeEntryActivities", function() {
         expect(failCallback).not.toHaveBeenCalled();
     });
 
-    it("Should call fail callback when promise is reject", function() {
+    it("Should call fail callback when promise is reject", function () {
         spyOn(fakeUrlBuilder, 'buildTimeEntryActivitiesUrl').and.callFake(function () {
             return fakeUrl;
         });
@@ -89,20 +92,20 @@ describe("Service Accessor - getTimeEntryActivities", function() {
     });
 
     it("Should throw error when success callback is not a function", function () {
-        debugger;
-        expect(function() {
-            serviceAccessor.getTimeEntryActivities(null, null)
-        }).toThrowError(InvalidArgumentError, "Parameter activitySuccessCallback must be a function.")
+        expect(function () {
+            serviceAccessor.getTimeEntryActivities(null, null);
+        }).toThrowError(InvalidArgumentError, "Parameter activitySuccessCallback must be a function.");
     });
 
     it("Should throw error when fail callback is not a function", function () {
-        expect(function() {
-            serviceAccessor.getTimeEntryActivities(function() {}, null)
-        }).toThrowError(InvalidArgumentError, "Parameter activityFailCallback must be a function.")
+        expect(function () {
+            serviceAccessor.getTimeEntryActivities(function () {}, null);
+        }).toThrowError(InvalidArgumentError, "Parameter activityFailCallback must be a function.");
     });
 });
 
-describe("Service Accessor - createTimeEntries", function() {
+describe("Service Accessor - createTimeEntries", function () {
+    "use strict";
     var serviceAccessor = null,
         fakeUrl = "https://track.zone24x7.lk/",
         fakeData = "fake data",
@@ -111,8 +114,8 @@ describe("Service Accessor - createTimeEntries", function() {
         successCallback = null,
         failCallback = null;
 
-    beforeEach(function() {
-        spyOn(UrlBuilder, "createInstance").and.callFake(function (){
+    beforeEach(function () {
+        spyOn(UrlBuilder, "createInstance").and.callFake(function () {
             return fakeUrlBuilder;
         });
         serviceAccessor = new ServiceAccessor(fakeUrl, fakeHttpHelper);
@@ -121,7 +124,7 @@ describe("Service Accessor - createTimeEntries", function() {
         failCallback = jasmine.createSpy('failCallback');
     });
 
-    it("Should call success callback when promise is resolved", function() {
+    it("Should call success callback when promise is resolved", function () {
         spyOn(fakeUrlBuilder, 'buildTimeEntryActivitiesUrl').and.callFake(function () {
             return fakeUrl;
         });
@@ -138,7 +141,7 @@ describe("Service Accessor - createTimeEntries", function() {
         expect(failCallback).not.toHaveBeenCalled();
     });
 
-    it("Should call fail callback when promise is reject", function() {
+    it("Should call fail callback when promise is reject", function () {
         spyOn(fakeUrlBuilder, 'buildTimeEntryActivitiesUrl').and.callFake(function () {
             return fakeUrl;
         });
@@ -156,14 +159,14 @@ describe("Service Accessor - createTimeEntries", function() {
     });
 
     it("Should throw error when success callback is not a function", function () {
-        expect(function() {
-            serviceAccessor.createTimeEntries(null, null, null)
-        }).toThrowError(InvalidArgumentError, "Parameter timeEntrySuccessCallback must be a function.")
+        expect(function () {
+            serviceAccessor.createTimeEntries(null, null, null);
+        }).toThrowError(InvalidArgumentError, "Parameter timeEntrySuccessCallback must be a function.");
     });
 
     it("Should throw error when fail callback is not a function", function () {
-        expect(function() {
-            serviceAccessor.createTimeEntries(null, function() {}, null)
-        }).toThrowError(InvalidArgumentError, "Parameter timeEntryFailCallback must be a function.")
+        expect(function () {
+            serviceAccessor.createTimeEntries(null, function () {}, null);
+        }).toThrowError(InvalidArgumentError, "Parameter timeEntryFailCallback must be a function.");
     });
 });

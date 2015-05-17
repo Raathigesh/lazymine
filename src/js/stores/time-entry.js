@@ -1,12 +1,12 @@
-/*global require, module, parseInt, parseFloat*/
+/*global require, module*/
 var InvalidArgumentError = require("../error/invalid-argument-error"),
     easyGid = require("easy-guid"),
     validator = require('validator');
 
 var TimeEntry = function (issueId, issueName, projectName) {
     "use strict";
-    if (typeof issueId !== "number") {
-        throw new InvalidArgumentError("Parameter issueId must be a number.");
+    if (!validator.isInt(issueId)) {
+        throw new InvalidArgumentError("Parameter issueId must be an integer.");
     }
 
     if (typeof issueName !== "string") {
