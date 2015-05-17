@@ -22,10 +22,14 @@ var Header = React.createClass({
 
     render : function(){
         return (
-            <header className="header fixed navbar navbar-default">
+            <header className="header navbar navbar-default">
                 <div className="header-row">
         	        <a className="navbar-brand" href="#">
             	        <img src="assets/top-logo.png" />
+                    </a>
+                    <a className="close-btn pull-right" href="#" window-action="close">
+                        <span className="access-hide">Close</span>
+                        <span className="icon icon-close icon-lg"></span>
                     </a>
                 </div>
                 { this.props.search == "show" ? <SearchBox items={this.state.filteredResult}/> : null }

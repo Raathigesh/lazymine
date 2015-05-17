@@ -5,10 +5,8 @@ require inputs need to set '-webkit-app-region: no-drag' property */
 body {
     font-size: 15px;
     overflow: auto;
+    border: 1px solid #D3D3D3;
 }
-
-/* Reset
-==================== */
 
 ul,
 li {
