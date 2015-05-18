@@ -106,3 +106,7 @@ li {
     border-bottom-style: dashed !important;
 
 }
+
+.container-inner{
+    margin-top : 80px;
+}

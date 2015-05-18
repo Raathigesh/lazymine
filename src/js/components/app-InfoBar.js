@@ -4,12 +4,16 @@ var Datepicker = require('../components/form/app-DatePicker');
 var Moment = require('moment');
 
 var InfoBar = React.createClass({
+    getSelectedDate: function(){
+        return this.refs.datePicker.getValue();
+    },
+
     render: function () {
         var today = Moment().format('L');
         return (
             <div className="row">
                 <div className="col-md-6 datePicker">
-                    <Datepicker initialDate={today}/>
+                    <Datepicker ref="datePicker" initialDate={today}/>
                 </div>
             </div>
         );
