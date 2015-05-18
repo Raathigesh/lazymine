@@ -47,3 +47,8 @@ var gui = require('nw.gui'); // Load native UI library
         this.hide();
     });
 }());
+
+var MinimizeWindow = function(){
+    var win = gui.Window.get();
+    win.hide();
+};

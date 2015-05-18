@@ -20,6 +20,10 @@ var Header = React.createClass({
         this.setState(storeState);
     },
 
+    _close: function () {
+        MinimizeWindow();
+    },
+
     render : function(){
         return (
             <header className="header navbar navbar-default">
@@ -27,7 +31,7 @@ var Header = React.createClass({
         	        <a className="navbar-brand" href="#">
             	        <img src="assets/top-logo.png" />
                     </a>
-                    <a className="close-btn pull-right" href="#" window-action="close">
+                    <a className="close-btn pull-right" href="#" onClick={this._close}>
                         <span className="access-hide">Close</span>
                         <span className="icon icon-close icon-lg"></span>
                     </a>
