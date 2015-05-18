@@ -49,6 +49,12 @@ var gui = require('nw.gui'); // Load native UI library
 }());
 
 var MinimizeWindow = function(){
+    "use strict";
     var win = gui.Window.get();
     win.hide();
+};
+
+var OpenExternalUrl = function(url){
+    "use strict";
+    gui.Shell.openExternal(url);
 };
