@@ -137,7 +137,7 @@ gulp.task('default', function(callback) {
 
 gulp.task('ci', function(callback) {
     runSequence('clean',
-        ['browserify', 'build-scripts', 'build-css', 'copy-extras'],
+        ['browserify-With-Watch', 'build-scripts', 'build-css', 'copy-extras'],
         'webkit-build',
         callback);
 });
