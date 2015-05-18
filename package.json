@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.6.5",
+    "browserify": "^10.2.0",
     "es6-promise": "^2.0.1",
     "gulp-clean": "^0.3.1",
     "gulp-minify-css": "^1.1.1",
@@ -34,8 +35,11 @@
     "karma-browserify": "~4.1.2",
     "karma-chrome-launcher": "~0.1",
     "karma-jasmine": "~0.3.5",
+    "reactify": "^1.1.1",
     "requirejs": "^2.1.17",
-    "run-sequence": "^1.1.0"
+    "run-sequence": "^1.1.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.1"
   },
   "scripts": {
     "test": "node_modules/karma/bin/karma start"
