@@ -15,10 +15,16 @@ var DropDown = React.createClass({
         }
 
         var items =  this.props.data.map(function(item, i) {
+
+            var opt = <option value={item.id}>{item.text}</option>;
+
+            if(this.props.initialValue === item.id){
+                opt = <option value={item.id} selected="selected">{item.text}</option>;
+            }
             return(
-               <option value={item.id}>{item.text}</option>
+                opt
             );
-        });
+        }.bind(this));
 
         return (
            <div className="form-group form-group-label">

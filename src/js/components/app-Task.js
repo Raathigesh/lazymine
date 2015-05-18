@@ -90,12 +90,12 @@ var Task = React.createClass({
                     <div className="tile-sub">
                         <div className="row">
                             <div className="col-lg-12 col-sm-12">
-                                <TextField ref="comment" label = "Comment" keyUp={this._updateTaskComments}/>
+                                <TextField ref="comment" label = "Comment" value={item.comment} keyUp={this._updateTaskComments}/>
                             </div>    
                         </div>
                         <div className="row">
                              <div className="col-lg-6 col-sm-6 tracker-dropdown">
-                                <Dropdown ref="activity" data={activities} onChange={this._updateTaskActivityId}/>
+                                <Dropdown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
                                 <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours} isNumeric={true} setFixedFloatingZeros={true}/>
