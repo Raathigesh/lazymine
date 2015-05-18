@@ -258,6 +258,10 @@ DataManager.prototype = (function () {
             entry.setComments(comments);
         },
         postUpdatedActiveTaskCollection = function (spentOn) {
+            if (!spentOn || !spentOn._isAMomentObject) {
+                throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
+            }
+
             var deferred = $.Deferred();
             this.timePostedTaskCollection = _.filter(this.activeTaskCollection, function (entry) {
                 return entry.updated;
