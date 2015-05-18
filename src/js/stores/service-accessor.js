@@ -27,7 +27,6 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
         ItemStatus.ReOpened,
         ItemStatus.Sandbox
     ];
-    this.taskAssignee = null;
     this.lastTaskFetch = null;
 };
 
@@ -82,23 +81,20 @@ ServiceAccessor.prototype = (function () {
             this.taskStatusCollection.map(function (taskStatus) {
                 var urlBuilder = UrlBuilder.createInstance(this.serviceBaseUrl);
                 if (isFullFetch) {
-                    urlBuilder.withItemStatus(taskStatus)
-                        .withTaskAssignee(this.taskAssignee);
+                    urlBuilder.withItemStatus(taskStatus);
                 } else {
                     urlBuilder.withItemStatus(taskStatus)
-                        .withTaskAssignee(this.taskAssignee)
                         .withUpdatedOn(this.lastTaskFetch);
                 }
                 promises.push(getTaskPromise.call(this, urlBuilder));
             }.bind(this));
             return promises;
         },
-        getTaskCollection = function (assignee, isFullFetch) {
+        getTaskCollection = function (isFullFetch) {
             if (typeof isFullFetch !== "boolean") {
                 throw new InvalidArgumentError("Parameter isFullFetch must be a boolean.");
             }
 
-            this.taskAssignee = assignee;
             var deferred = $.Deferred();
             $.when.apply(this, getTaskCollectionPromises.call(this, isFullFetch)).done(function () {
                 var taskCollection = [],

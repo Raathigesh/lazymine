@@ -52,10 +52,10 @@ var DataManager = function (serviceAccessor) {
 
 DataManager.prototype = (function () {
     "use strict";
-    var fetchData = function (taskAssignee) {
+    var fetchData = function () {
             var promises = [],
                 deferred = $.Deferred();
-            promises.push(this.serviceAccessor.getTaskCollection(taskAssignee, true));
+            promises.push(this.serviceAccessor.getTaskCollection(true));
             promises.push(this.serviceAccessor.getTimeEntryActivities());
 
             $.when.apply(this, promises).done(function (taskCollection, activityCollection) {
@@ -67,10 +67,10 @@ DataManager.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
-        fetchLatest = function (taskAssignee) {
+        fetchLatest = function () {
             var deferred = $.Deferred(),
                 oldActiveTask;
-            $.when(this.serviceAccessor.getTaskCollection(taskAssignee, false)).done(function (taskCollection) {
+            $.when(this.serviceAccessor.getTaskCollection(false)).done(function (taskCollection) {
                 taskCollection.map(function (task) {
                     var taskIndex = _.findIndex(this.taskCollection, { 'id' : task.id });
                     if (typeof taskIndex === "number") {

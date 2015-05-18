@@ -46,7 +46,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 try {
                     var manager = getDataManager();
                     if (manager !== null) {
-                        $.when(manager.fetchLatest(settings.TaskAssignee)).fail(function (error) {
+                        $.when(manager.fetchLatest()).fail(function (error) {
                             handleError(error);
                         });
                     } else {
@@ -62,7 +62,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
-                    $.when(manager.fetchLatest(settings.TaskAssignee)).done(function () {
+                    $.when(manager.fetchLatest()).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
                         EventEmitter.prototype.emit(AppEvent.Change);
@@ -79,7 +79,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
-                    $.when(manager.fetchData(settings.TaskAssignee)).done(function () {
+                    $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
                         manager.activityCollection.map(function (item) {
