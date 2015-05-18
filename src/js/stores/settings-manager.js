@@ -3,7 +3,6 @@ var Validator = require('validator'),
     InvalidArgumentError = require('../error/invalid-argument-error'),
     HttpHelper = require('./http-helper'),
     UrlBuilder = require('./url-builder'),
-    TaskAssignee = require('../constants/task-assignee'),
     objectHelper = require('./object-helper'),
     StoreError = require('../constants/store-errors'),
     $ = require('jquery'),
@@ -16,7 +15,6 @@ var SettingsManager = function () {
 
     this.BaseURL = "";
     this.APIKey = "";
-    this.TaskAssignee = TaskAssignee.All;
     this.timeEntryDay = moment();
     this.timeEntryCollection = [];
     this.available  = this.fetchSettings();
@@ -53,12 +51,11 @@ SettingsManager.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
-        setSettings = function (baseUrl, apiKey, assignee) {
+        setSettings = function (baseUrl, apiKey) {
             var deferred = $.Deferred(),
                 settings = {
                     BaseURL: baseUrl,
-                    APIKey: apiKey,
-                    TaskAssignee: assignee
+                    APIKey: apiKey
                 };
 
             if (!Validator.isURL(baseUrl)) {
@@ -71,16 +68,10 @@ SettingsManager.prototype = (function () {
                 return deferred.promise();
             }
 
-            if (!objectHelper.hasPropertyValue(TaskAssignee, assignee)) {
-                deferred.reject("Parameter assignee must be an instance of taskAssignee.");
-                return deferred.promise();
-            }
-
             $.when(validateSettings.call(this, settings)).done(function () {
                 localStorage.setItem(this.settingsKey, JSON.stringify(settings));
                 this.BaseURL = baseUrl;
                 this.APIKey = apiKey;
-                this.TaskAssignee = assignee;
                 this.available = true;
                 this.forceLoad = true;
                 deferred.resolve();
@@ -96,7 +87,6 @@ SettingsManager.prototype = (function () {
                 settings = JSON.parse(storeSettings);
                 this.BaseURL = settings.BaseURL;
                 this.APIKey = settings.APIKey;
-                this.TaskAssignee = settings.TaskAssignee;
                 return true;
             }
             return false;

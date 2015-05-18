@@ -1,21 +1,20 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var AppStore = require('../stores/app-base-store');
-var AppActions = require('../actions/app-actions');
-var TaskAssinee = require('../constants/task-assignee');
-var Title = require('../components/app-Title');
-var Header = require('../components/app-Header');
-var Router = require('react-router');
+var React = require('react'),
+    AppStore = require('../stores/app-base-store'),
+    AppActions = require('../actions/app-actions'),
+    Title = require('../components/app-Title'),
+    Header = require('../components/app-Header'),
+    Router = require('react-router');
 
 var Settings = React.createClass({
-
-	contextTypes: {
-    	router: React.PropTypes.func
-  	},
-
-	render : function(){ 
-		return (
-			<div>
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+    render : function () {
+        "use strict";
+        return (
+            <div>
                 <Header />
 				<div className="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
 					<div className="card-wrap login-card-wrap">

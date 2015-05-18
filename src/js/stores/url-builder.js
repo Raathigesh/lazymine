@@ -3,7 +3,6 @@ var validator = require("validator"),
     InvalidArgumentError = require("../error/invalid-argument-error"),
     InvalidOperationError = require("../error/invalid-operation-error"),
     ItemStatus = require("../constants/item-status"),
-    TaskAssignee = require("../constants/task-assignee"),
     objectHelper = require("./object-helper"),
     _ = require("lodash"),
     moment = require("moment");
@@ -23,7 +22,6 @@ var UrlBuilder = function (serviceBaseUrl) {
 
     this.serviceBaseUrl = serviceBaseUrl;
     this.statusId = ItemStatus.New;
-    this.assignee = TaskAssignee.All;
     this.currentPageSize = 100;
     this.itemOffset = 0;
     this.createdOn = null;
@@ -40,14 +38,8 @@ UrlBuilder.prototype = (function () {
         getOffset = function () {
             return this.itemOffset;
         },
-        getTaskAssignee = function () {
-            return this.assignee;
-        },
         getItemStatus = function () {
             return this.statusId;
-        },
-        getTaskAssigneeUrlSegment = function () {
-            return (this.assignee === TaskAssignee.All) ? "" : "&assigned_to_id=" + this.assignee;
         },
         getCreatedOnUrlSegment = function () {
             return this.createdOn ? "&created_on=><" + this.createdOn.format(dateFormat) + "|" + moment().format(dateFormat) : "";
@@ -69,10 +61,6 @@ UrlBuilder.prototype = (function () {
             }
 
             this.itemOffset = offset;
-            return this;
-        },
-        withTaskAssignee = function (taskAssignee) {
-            this.assignee = taskAssignee;
             return this;
         },
         withNextOffset = function () {
@@ -112,10 +100,9 @@ UrlBuilder.prototype = (function () {
             return this;
         },
         buildIssuesUrl = function () {
-            var assignedTo = getTaskAssigneeUrlSegment.call(this),
-                createdOn = getCreatedOnUrlSegment.call(this),
+            var createdOn = getCreatedOnUrlSegment.call(this),
                 updatedOn = getUpdatedOnUrlSegment.call(this);
-            return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize, assignedTo, createdOn, updatedOn);
+            return this.serviceBaseUrl.concat(UrlBase.Issues, "?status_id=", this.statusId, "&offset=", this.itemOffset, "&limit=", this.currentPageSize, createdOn, updatedOn);
         },
         buildTimeEntryUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.TimeEntries);
@@ -135,7 +122,6 @@ UrlBuilder.prototype = (function () {
         },
         resetDefault = function () {
             this.statusId = ItemStatus.New;
-            this.assignee = TaskAssignee.All;
             this.currentPageSize = 100;
             this.itemOffset = 0;
             this.createdOn = null;
@@ -145,12 +131,10 @@ UrlBuilder.prototype = (function () {
         };
     return {
         getPageSize: getPageSize,
-        getTaskAssignee: getTaskAssignee,
         getItemStatus : getItemStatus,
         getOffset: getOffset,
         withPageSize: withPageSize,
         withOffset: withOffset,
-        withTaskAssignee: withTaskAssignee,
         withNextOffset: withNextOffset,
         withItemStatus: withItemStatus,
         withCreatedOn: withCreatedOn,
