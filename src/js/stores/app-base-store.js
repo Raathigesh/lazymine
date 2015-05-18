@@ -186,11 +186,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
-        postUpdatedActiveTaskCollection = function () {
+        postUpdatedActiveTaskCollection = function (spentOn) {
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
-                    $.when(manager.postUpdatedActiveTaskCollection(settings.getTimeEntryDay())).done(function () {
+                    $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
                         settings.setTaskCollection(manager.getPostedTaskCollection());
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
@@ -222,22 +222,6 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }).fail(function (error) {
                     handleError(error);
                 });
-            } catch (error) {
-                handleError(StoreError.InternalServerError);
-                console.error(prettify(error) || error);
-            }
-        },
-        setTimeEntryDay = function (timeEntryDay) {
-            try {
-                settings.setTimeEntryDay(timeEntryDay);
-            } catch (error) {
-                handleError(StoreError.InternalServerError);
-                console.error(prettify(error) || error);
-            }
-        },
-        getTimeEntryDay = function () {
-            try {
-                return settings.getTimeEntryDay();
             } catch (error) {
                 handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
@@ -277,7 +261,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 updateActiveTaskHours.call(this, action.entry);
                 break;
             case AppConstants.CreateTimeEntries:
-                postUpdatedActiveTaskCollection.call(this);
+                postUpdatedActiveTaskCollection.call(this, action.spentOn);
                 break;
             case AppConstants.ClearTimeEntries:
                 clearActiveTaskCollection.call(this);

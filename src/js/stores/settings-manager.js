@@ -90,22 +90,10 @@ SettingsManager.prototype = (function () {
                 return true;
             }
             return false;
-        },
-        getTimeEntryDay = function () {
-            return this.timeEntryDay.format("YYYY-MM-DD");
-        },
-        setTimeEntryDay = function (timeEntryDate) {
-            if (timeEntryDate._isAMomentObject === true) {
-                throw new InvalidArgumentError("Parameter timeEntryDate must be a moment object.");
-            }
-
-            this.timeEntryDay = timeEntryDate;
         };
     return {
         setSettings: setSettings,
         fetchSettings: fetchSettings,
-        getTimeEntryDay: getTimeEntryDay,
-        setTimeEntryDay: setTimeEntryDay,
         setTaskCollection: setTaskCollection,
         fetchTaskCollection: fetchTaskCollection
     };

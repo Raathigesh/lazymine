@@ -117,6 +117,10 @@ ServiceAccessor.prototype = (function () {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
             }
 
+            if (!spentOn || !spentOn._isAMomentObject) {
+                throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
+            }
+
             var promises = [],
                 timeEntryUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildTimeEntryUrl(),
                 deferred = $.Deferred();
