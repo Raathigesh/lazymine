@@ -10,6 +10,11 @@ var nwBuilder = require('node-webkit-builder');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var watchify = require('watchify');
+var reactify = require('reactify');
+
 var bases = {
  src: 'src/',
  dist: 'dist/',
@@ -18,7 +23,7 @@ var bases = {
 };
 
 var paths = {
-	main: ['js/main.js'], // since we need to browserify this file specifically
+	main: ['src/js/main.js'], // since we need to browserify this file specifically
 	scripts: ['js/shell/*.js'],
 	libs: ['js/lib/*.*', 'css/lib/*.*', 'css/fonts/*.*', 'css/lib/fonts/*.*'],
 	styles: ['css/*.*'],
@@ -124,7 +129,9 @@ gulp.task('test', function (done) {
 
 gulp.task('default', function(callback) {
 	runSequence(['clean'],
-				['dev-browserify', 'dev-build-scripts', 'dev-build-css', 'copy-extras'],				
+				['dev-build-scripts', 'dev-build-css', 'copy-extras'],
+                ['browserify-With-Watch'],
+                ['watch'],
 				callback);		
 });
 
@@ -147,21 +154,31 @@ gulp.task('build', function(callback) {
 
 
 gulp.task('watch', function () {
-    gulp.watch('src/**/*.*', ['default']);
+    gulp.watch('src/css/*.*', ['dev-build-css']);
 });
 
-gulp.task('serve', ['default'], function () {
 
-    // Serve files from the root of this project
-    browserSync.init({
-        server: {
-            baseDir: "./dist"
-        }
+gulp.task('browserify-With-Watch', function() {
+    var bundler = browserify({
+        entries: [paths.main], // Only need initial file, browserify finds the deps
+        transform: [reactify], // We want to convert JSX to normal javascript
+        debug: true, // Gives us sourcemapping
+        cache: {}, packageCache: {}, fullPaths: true // Requirement of watchify
     });
+    var watcher  = watchify(bundler);
 
-    // add browserSync.reload to the tasks array to make
-    // all browsers reload after tasks are complete.
-    gulp.watch('src/**/*.*', ['default', browserSync.reload]);
+    return watcher
+        .on('update', function () { // When any files update
+            var updateStart = Date.now();
+            console.log('Updating!');
+            watcher.bundle() // Create new bundle that uses the cache for high performance
+                .pipe(source('main.js'))
+                // This is where you add uglifying etc.
+                .pipe(gulp.dest(bases.concat + 'js/'));
+            console.log('Updated!', (Date.now() - updateStart) + 'ms');
+        })
+        .bundle() // Create the initial bundle when starting the task
+        .pipe(source('main.js'))
+        .pipe(gulp.dest(bases.concat + 'js/'));
 });
-
 // ===========================================================
