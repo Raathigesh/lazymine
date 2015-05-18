@@ -29,7 +29,7 @@ var DataManager = function (serviceAccessor) {
     this.urlFilterExpression = new RegExp("^" + this.serviceAccessor.serviceBaseUrl + "\\/issues\\/\\d{1,}$", 'gi');
     this.hashFilters = [
         {
-            id: "#PRO",
+            id: "#P",
             value: "project.name",
             filter: FilterType.Match
         },
@@ -39,12 +39,12 @@ var DataManager = function (serviceAccessor) {
             filter: FilterType.Equal
         },
         {
-            id: "#TRA",
+            id: "#T",
             value: "tracker.name",
             filter: FilterType.Match
         },
         {
-            id: "#ASG",
+            id: "#A",
             value: "assigned_to.name",
             filter: FilterType.Match
         }
@@ -53,7 +53,10 @@ var DataManager = function (serviceAccessor) {
 
 DataManager.prototype = (function () {
     "use strict";
-    var fetchData = function () {
+    var getTaskUrl = function (id) {
+            return this.serviceAccessor.serviceBaseUrl.concat("/issues/", id);
+        },
+        fetchData = function () {
             var promises = [],
                 deferred = $.Deferred();
             promises.push(this.serviceAccessor.getTaskCollection(true));
@@ -234,7 +237,7 @@ DataManager.prototype = (function () {
                 throw new InvalidOperationError("Task not available.");
             }
 
-            this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name));
+            this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this)));
             this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');
         },
         removeActiveTask = function (timeEntryId) {
@@ -293,7 +296,7 @@ DataManager.prototype = (function () {
                     return;
                 }
 
-                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name));
+                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name, getTaskUrl.call(this)));
             }.bind(this));
 
             this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');
