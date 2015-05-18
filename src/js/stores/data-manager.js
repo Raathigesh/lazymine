@@ -26,6 +26,7 @@ var DataManager = function (serviceAccessor) {
     this.activeTaskCollection = [];
     this.timePostedTaskCollection = null;
     this.resultCount = 10;
+    this.urlFilterExpression = new RegExp("^" + this.serviceAccessor.serviceBaseUrl + "\\/issues\\/\\d{1,}$", 'gi');
     this.hashFilters = [
         {
             id: "#PRO",
@@ -146,12 +147,11 @@ DataManager.prototype = (function () {
             }
 
         },
-        urlFilterExpression = new RegExp("\\/issues\\/\\d{1,}$", 'gi'),
         applyUrlFilter = function (formattedQuery) {
-            var match = formattedQuery.match(urlFilterExpression),
+            var match = formattedQuery.match(this.urlFilterExpression),
                 filteredTasks;
             if (match) {
-                filteredTasks = applyEqualFilter.call(this, "id", match[0].split('/')[2]);
+                filteredTasks = applyEqualFilter.call(this, "id", match[0].substr(match[0].lastIndexOf('/') + 1));
                 filteredTasks.map(function (task) {
                     task.formattedTitle = task.subject;
                 });
