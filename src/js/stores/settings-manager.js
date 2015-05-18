@@ -6,6 +6,7 @@ var Validator = require('validator'),
     objectHelper = require('./object-helper'),
     StoreError = require('../constants/store-errors'),
     $ = require('jquery'),
+    _ = require('lodash'),
     moment = require('moment');
 
 var SettingsManager = function () {
@@ -53,10 +54,7 @@ SettingsManager.prototype = (function () {
         },
         setSettings = function (baseUrl, apiKey) {
             var deferred = $.Deferred(),
-                settings = {
-                    BaseURL: baseUrl,
-                    APIKey: apiKey
-                };
+                settings;
 
             if (!Validator.isURL(baseUrl)) {
                 deferred.reject(StoreError.InvalidUrl);
@@ -67,6 +65,11 @@ SettingsManager.prototype = (function () {
                 deferred.reject(StoreError.InvalidApiKey);
                 return deferred.promise();
             }
+
+            settings = {
+                BaseURL: _.endsWith(baseUrl, '/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl,
+                APIKey: apiKey
+            };
 
             $.when(validateSettings.call(this, settings)).done(function () {
                 localStorage.setItem(this.settingsKey, JSON.stringify(settings));

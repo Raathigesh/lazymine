@@ -38,7 +38,8 @@ var Container = React.createClass({
     },
 
     _updateTime: function () {
-        AppActions.createTimeEntries();
+        var dateSelected = this.refs.infoBar.getSelectedDate();
+        AppActions.createTimeEntries(dateSelected);
     },
 
     _cancel: function () {
@@ -53,8 +54,7 @@ var Container = React.createClass({
                 <Toast error={this.state.error}/>
                 <div className="container">
                     <div className="container-inner">
-
-                        <InfoBar />
+                        <InfoBar ref="infoBar"/>
                         <TaskList items={this.state.activeItems} activities={this.state.activities}/>
                     </div>
                 </div>

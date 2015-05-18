@@ -53,9 +53,10 @@ var AppActions = (function () {
                 }
             });
         },
-        createTimeEntries = function () {
+        createTimeEntries = function (spentOn) {
             AppDispatcher.handleViewAction({
-                actionType: AppConstants.CreateTimeEntries
+                actionType: AppConstants.CreateTimeEntries,
+                spentOn: spentOn
             });
         },
         clearTimeEntries = function () {

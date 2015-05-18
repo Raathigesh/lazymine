@@ -3,7 +3,7 @@ var InvalidArgumentError = require("../error/invalid-argument-error"),
     easyGid = require("easy-guid"),
     validator = require('validator');
 
-var TimeEntry = function (issueId, issueName, projectName) {
+var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     "use strict";
     if (!validator.isInt(issueId)) {
         throw new InvalidArgumentError("Parameter issueId must be an integer.");
@@ -17,10 +17,15 @@ var TimeEntry = function (issueId, issueName, projectName) {
         throw new InvalidArgumentError("Parameter projectName must be a string.");
     }
 
+    if (!validator.isURL(taskUrl)) {
+        throw new InvalidArgumentError("Parameter taskUrl must be a URL.");
+    }
+
     this.id = easyGid.new();
     this.issueId = issueId;
     this.issueName = issueName;
     this.projectName = projectName;
+    this.taskUrl = taskUrl;
     this.spentOn = null;
     this.hours = null;
     this.activityId = null;
@@ -94,9 +99,9 @@ TimeEntry.prototype = (function () {
     };
 }());
 
-TimeEntry.createInstance = function (issueId, issueName, projectName) {
+TimeEntry.createInstance = function (issueId, issueName, projectName, taskUrl) {
     "use strict";
-    return new TimeEntry(issueId, issueName, projectName);
+    return new TimeEntry(issueId, issueName, projectName, taskUrl);
 };
 
 module.exports = TimeEntry;
