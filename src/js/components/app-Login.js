@@ -5,12 +5,39 @@ var React = require('react'),
     AppActions = require('../actions/app-actions'),
     Title = require('../components/app-Title'),
     Header = require('../components/app-Header'),
-    Router = require('react-router');
+    Router = require('react-router'),
+	TextField = require('../components/form/app-TextField');
 
 var Settings = React.createClass({
     contextTypes: {
         router: React.PropTypes.func
     },
+
+	getInitialState: function () {
+		return AppStore.getState();
+	},
+
+	componentWillMount: function () {
+		AppStore.addChangeListener(this._change);
+	},
+
+	_login: function () {
+		var url = this.refs.url.getValue();
+		var apiKey = this.refs.apiKey.getValue();
+
+		AppActions.saveSettings(url, apiKey);
+	},
+
+	_change: function () {
+		var storeState = AppStore.getState();
+		this.setState(storeState);
+
+		if(this.state.settings.BaseURL !== null && this.state.settings.BaseURL !== ""
+			&& this.state.settings.APIKey !== null && this.state.settings.APIKey !== ""){
+			this.context.router.transitionTo('home');
+		}
+	},
+
     render : function () {
         "use strict";
         return (
@@ -27,26 +54,12 @@ var Settings = React.createClass({
 										</span>
 									</p>
 									<form className="form" action="index.html">
-										<div className="form-group form-group-label">
-											<div className="row">
-												<div className="col-md-10 col-md-push-1">
-													<label className="floating-label" for="login-username">Redmine URL</label>
-													<input className="form-control" id="login-username" type="text"></input>
-												</div>
-											</div>
-										</div>
-										<div className="form-group form-group-label">
-											<div className="row">
-												<div className="col-md-10 col-md-push-1">
-													<label className="floating-label" for="login-password">API Key</label>
-													<input className="form-control" id="login-password" type="password"></input>
-												</div>
-											</div>
-										</div>
+										<TextField ref="url" label = "Redmine URL" />
+										<TextField ref="apiKey" label = "API Key" />
 										<div className="form-group">
 											<div className="row">
 												<div className="col-md-10 col-md-push-1">
-													<button className="btn btn-block btn-blue waves-button waves-effect waves-light">Connect</button>
+													<a className="btn btn-block btn-blue waves-button waves-effect waves-light" onClick={this._login}>Connect</a>
 												</div>
 											</div>
 										</div>
