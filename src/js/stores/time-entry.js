@@ -82,7 +82,7 @@ TimeEntry.prototype = (function () {
             return {
                 time_entry: {
                     issue_id: this.issueId,
-                    spent_on: this.spentOn.toString(dateFormat),
+                    spent_on: this.spentOn.format(dateFormat),
                     hours: this.hours,
                     activity_id: this.activityId,
                     comments: this.comments
