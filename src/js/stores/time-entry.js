@@ -35,10 +35,10 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
 
 TimeEntry.prototype = (function () {
     "use strict";
-    var dateFormatPattern = /^\d{4}-\d{2}-\d{2}$/,
+    var dateFormat = "YYYY-MM-DD",
         setSpentOn = function (spentOn) {
-            if (typeof spentOn !== "string" || !spentOn.match(dateFormatPattern)) {
-                throw new InvalidArgumentError("Parameter spentOn must be a string with format {YYYY-MM-DD}.");
+            if (!spentOn || !spentOn._isAMomentObject) {
+                throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
             }
 
             this.spentOn = spentOn;
@@ -82,7 +82,7 @@ TimeEntry.prototype = (function () {
             return {
                 time_entry: {
                     issue_id: this.issueId,
-                    spent_on: this.spentOn,
+                    spent_on: this.spentOn.toString(dateFormat),
                     hours: this.hours,
                     activity_id: this.activityId,
                     comments: this.comments
