@@ -296,7 +296,7 @@ DataManager.prototype = (function () {
                     return;
                 }
 
-                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name, getTaskUrl.call(this)));
+                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name, getTaskUrl.call(this, task.id)));
             }.bind(this));
 
             this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');
