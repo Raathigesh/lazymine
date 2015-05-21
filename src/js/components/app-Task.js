@@ -42,8 +42,10 @@ var Task = React.createClass({
     _remove: function(){
         AppActions.removeTimeEntry(this.props.item.id);
     },
-    _openExternalUrl: function(){
-
+    _openExternalUrl: function(event){
+        OpenExternalUrl(this.props.item.taskUrl);
+        MinimizeWindow();
+        event.preventDefault();
     },
     render : function(){
         var activities = this.props.activities,
@@ -73,14 +75,10 @@ var Task = React.createClass({
                     <div className="tile-action tile-action-show">
                         <ul className="nav nav-list pull-right">
                             <li>
-                                <a href="javascript:void(0)" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
-                            </li>                 
-                        </ul>
-                    </div>
-                    <div>
-                        <ul className="pull-right tile-hours">
+                                <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
+                            </li>
                             <li>
-                                <a href={"javascript:OpenExternalUrl('" + this.props.item.taskUrl + "');"}><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
+                                <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
                             </li>
                         </ul>
                     </div>
