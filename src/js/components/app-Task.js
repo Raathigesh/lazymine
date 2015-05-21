@@ -78,7 +78,7 @@ var Task = React.createClass({
                     <div>
                         <ul className="pull-right tile-hours">
                             <li>
-                                <a href="javascript:OpenExternalUrl('http://www.w3schools.com/html/');"><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
+                                <a href={"javascript:OpenExternalUrl('" + this.props.item.taskUrl + "');"}><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
                             </li>
                         </ul>
                     </div>

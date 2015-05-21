@@ -237,7 +237,7 @@ DataManager.prototype = (function () {
                 throw new InvalidOperationError("Task not available.");
             }
 
-            this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this)));
+            this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this, task.id)));
             this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');
         },
         removeActiveTask = function (timeEntryId) {
