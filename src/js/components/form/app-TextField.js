@@ -16,8 +16,14 @@ var TextField = React.createClass({
         return React.findDOMNode(this.refs.textBox).value;
     },
     getInitialState: function () {
+        var intialClass =  this.formNormalClasses;
+
+        if(this.props.value != null){
+            intialClass =  this.formNormalClasses + " control-highlight"
+        }
+
         return {
-            "formClassCollection": this.formNormalClasses
+            "formClassCollection": intialClass
         };
     },
     keyUpEventBase: function (event) {
@@ -33,10 +39,9 @@ var TextField = React.createClass({
                 });
             }
         }
-
-        if (this.keyUpEvent) {
-            this.keyUpEvent(event);
-        }
+    },
+    valueChange: function(event){
+        this.keyUpEvent(event.target.value);
     },
     blurEventBase: function (event) {
         if (this.setFixedFloatingZeros) {
@@ -55,7 +60,7 @@ var TextField = React.createClass({
               <div className="row">
                 <div className="col-lg-12 col-sm-12">
                   <label className="floating-label" for="float-text">{this.props.label}</label>
-                  <input ref="textBox" className="form-control" id="float-text" type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase}/>
+                  <input ref="textBox" className="form-control" id="float-text" value={this.props.value} type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase} onChange={this.valueChange}/>
                 </div>
               </div>
            </div>
