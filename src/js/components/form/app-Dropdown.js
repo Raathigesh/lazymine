@@ -10,6 +10,8 @@ var DropDown = React.createClass({
     render : function(){
         var onChange= null;
 
+        var className = "form-group form-group-label";
+
         if(this.props.onChange){
             onChange = this.props.onChange;
         }
@@ -20,6 +22,7 @@ var DropDown = React.createClass({
 
             if(this.props.initialValue === item.id){
                 opt = <option value={item.id} selected="selected">{item.text}</option>;
+                className = className + "  control-highlight";
             }
             return(
                 opt
@@ -27,7 +30,7 @@ var DropDown = React.createClass({
         }.bind(this));
 
         return (
-           <div className="form-group form-group-label">
+           <div className={className}>
             <div className="row">
               <div className="col-lg-12 col-sm-12">
                 <label className="floating-label" for="float-select">Activity</label>

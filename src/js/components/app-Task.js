@@ -30,8 +30,7 @@ var Task = React.createClass({
         AppActions.updateTaskActivityId(this.props.item.id, activityId);
         event.stopPropagation();
     },
-    _updateTaskComments: function(event){
-        var comment = this.refs.comment.getValue();
+    _updateTaskComments: function(comment){
         AppActions.updateTaskComments(this.props.item.id, comment);
         event.stopPropagation();
     },
@@ -43,6 +42,9 @@ var Task = React.createClass({
     _remove: function(){
         AppActions.removeTimeEntry(this.props.item.id);
     },
+    _openExternalUrl: function(){
+
+    },
     render : function(){
         var activities = this.props.activities,
             item = this.props.item,
@@ -53,7 +55,7 @@ var Task = React.createClass({
             tileClass = "tile tile-collapse selected";
             hoursText = "[" + parseFloat(item.hours ).toFixed(2) + " Hours]"
         }
-
+         
         // Just get the first proper letter of the project
         var icontext = this.props.item.projectName.replace(/[^a-z]/gi,'').charAt(0);
 
@@ -97,7 +99,7 @@ var Task = React.createClass({
                     <div className="tile-sub">
                         <div className="row">
                             <div className="col-lg-12 col-sm-12">
-                                <TextField ref="comment" label = "Comment" value={item.comment} keyUp={this._updateTaskComments}/>
+                                <TextField ref="comment" label = "Comment" value={item.comments} keyUp={this._updateTaskComments}/>
                             </div>    
                         </div>
                         <div className="row">
@@ -105,8 +107,8 @@ var Task = React.createClass({
                                 <Dropdown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
-                                <TextField ref="spentHours" label = "Hours" keyUp={this._updateTaskHours} isNumeric={true} setFixedFloatingZeros={true}/>
-                             </div>                            
+                                <TextField ref="spentHours" label = "Hours" value={item.hours} keyUp={this._updateTaskHours} isNumeric={true} setFixedFloatingZeros={true}/>
+                             </div>
                         </div>
                     </div>
                 </div>
