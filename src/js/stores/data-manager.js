@@ -192,7 +192,7 @@ DataManager.prototype = (function () {
                 return urlFilteredCollection;
             }
 
-            upperQueryParts = formattedQuery.split(' ');
+            upperQueryParts = _.escapeRegExp(formattedQuery).split(' ');
             filterPartCount = upperQueryParts.length;
 
             if (filterPartCount === 0) {
