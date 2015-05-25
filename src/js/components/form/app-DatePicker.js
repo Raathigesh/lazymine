@@ -7,7 +7,7 @@ var Link = Router.Link;
 
 var DatePicker = React.createClass({
     getValue: function(){
-        return Moment(React.findDOMNode(this.refs.date).value, "MM-DD-YYYY");
+        return Moment(React.findDOMNode(this.refs.date).value, "DD-MM-YYYY");
     },
 
     render : function(){
