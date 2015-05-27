@@ -9,12 +9,10 @@ var InfoBar = React.createClass({
     },
 
     render: function () {
-        var today = Moment().format('DD/MM/YYYY');;
+        var today = Moment().format('D/M/YYYY');
         return (
-            <div className="row">
-                <div className="col-md-6 datePicker">
-                    <Datepicker ref="datePicker" initialDate={today}/>
-                </div>
+            <div className="datePicker">
+                <Datepicker ref="datePicker" initialDate={today}/>
             </div>
         );
     }

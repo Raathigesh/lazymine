@@ -52,6 +52,11 @@ body{
 	overflow: visible;
 }
 
+.header-brand{
+    display: inline-block;
+    width: 25%;
+}
+
 .search-control{
 	background:#fff;
 	border:none;
