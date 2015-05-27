@@ -17,7 +17,7 @@ var SettingsManager = function () {
     this.BaseURL = "";
     this.APIKey = "";
     this.timeEntryDay = moment();
-    this.timeEntryCollection = [];
+    this.activeTaskCollection = [];
     this.available  = this.fetchSettings();
     this.forceLoad = false;
     this.backgroundFetchTimerInterval = 900000;
@@ -31,12 +31,12 @@ SettingsManager.prototype = (function () {
             }
 
             localStorage.setItem(this.taskCollectionKey, JSON.stringify(timeEntryCollection));
-            this.timeEntryCollection = timeEntryCollection;
+            this.activeTaskCollection = timeEntryCollection;
         },
         fetchTaskCollection = function () {
             var timeEntryCollectionJson = localStorage.getItem(this.taskCollectionKey);
             if (timeEntryCollectionJson) {
-                this.timeEntryCollection = JSON.parse(timeEntryCollectionJson);
+                this.activeTaskCollection = JSON.parse(timeEntryCollectionJson);
                 return true;
             }
 

@@ -282,6 +282,9 @@ DataManager.prototype = (function () {
         getPostedTaskCollection = function () {
             return _.pluck(this.timePostedTaskCollection, 'issueId');
         },
+        getActiveTaskCollection = function () {
+            return _.pluck(this.activeTaskCollection, 'issueId');
+        },
         createActiveTaskCollection = function (taskIdCollection) {
             if (typeof taskIdCollection === "Array") {
                 throw new InvalidArgumentError("Parameter taskIdCollection must be an array.");
@@ -313,6 +316,7 @@ DataManager.prototype = (function () {
         removeActiveTask: removeActiveTask,
         clearActiveTaskCollection: clearActiveTaskCollection,
         getPostedTaskCollection: getPostedTaskCollection,
+        getActiveTaskCollection: getActiveTaskCollection,
         createActiveTaskCollection: createActiveTaskCollection
     };
 }());

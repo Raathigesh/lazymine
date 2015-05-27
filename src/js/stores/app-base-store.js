@@ -90,7 +90,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         }.bind(this));
 
                         if (settings.fetchTaskCollection()) {
-                            manager.createActiveTaskCollection(settings.timeEntryCollection);
+                            manager.createActiveTaskCollection(settings.activeTaskCollection);
                             State.activeItems = manager.activeTaskCollection;
                         }
                         fetchLatestBackground.call(this);
@@ -130,6 +130,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.createActiveTask(issueId);
+                    settings.setTaskCollection(manager.getActiveTaskCollection());
                     State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -179,6 +180,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.removeActiveTask(entryId);
+                    settings.setTaskCollection(manager.getActiveTaskCollection());
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -191,7 +193,6 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
-                        settings.setTaskCollection(manager.getPostedTaskCollection());
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         handleError(error);
@@ -208,6 +209,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 if (manager !== null) {
                     manager.clearActiveTaskCollection();
                     State.activeItems = manager.activeTaskCollection;
+                    settings.setTaskCollection(manager.getActiveTaskCollection());
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
