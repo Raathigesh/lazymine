@@ -35,7 +35,8 @@ var Task = React.createClass({
         event.stopPropagation();
     },
     _updateTaskHours: function(event){
-        var spentHours = this.refs.spentHours.getValue();
+        var updatedValue = (this.refs.spentHours.getValue() == "") ? "0" : this.refs.spentHours.getValue();
+        var spentHours = parseFloat(updatedValue);
         AppActions.updateTaskHours(this.props.item.id, spentHours);
         event.stopPropagation();
     },
@@ -48,6 +49,7 @@ var Task = React.createClass({
         event.preventDefault();
     },
     render : function(){
+        debugger
         var activities = this.props.activities,
             item = this.props.item,
             tileClass = "tile tile-collapse",

@@ -1,4 +1,3 @@
-var browserify = require('gulp-browserify');
 var browserSync = require('browser-sync').create();
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
