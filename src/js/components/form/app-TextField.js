@@ -1,6 +1,8 @@
+/*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Validator = require('validator');
+    Validator = require('validator'),
+    easyGid = require("easy-guid");
 
 var TextField = React.createClass({
     formNormalClasses: "form-group form-group-label",
@@ -10,16 +12,19 @@ var TextField = React.createClass({
     setFixedFloatingZeros: false,
     keyUpEvent: null,
     getTextBox: function () {
+        "use strict";
         return React.findDOMNode(this.refs.textBox);
     },
-    getValue: function (){
+    getValue: function () {
+        "use strict";
         return React.findDOMNode(this.refs.textBox).value;
     },
     getInitialState: function () {
+        "use strict";
         var intialClass =  this.formNormalClasses;
 
-        if(this.props.value != null){
-            intialClass =  this.formNormalClasses + " control-highlight"
+        if (this.props.value !== null) {
+            intialClass =  this.formNormalClasses + " control-highlight";
         }
 
         return {
@@ -27,7 +32,8 @@ var TextField = React.createClass({
         };
     },
     keyUpEventBase: function (event) {
-        if(this.isNumeric) {
+        "use strict";
+        if (this.isNumeric) {
             var value = this.getValue();
             if (value === "" || Validator.isInt(value, { min: 0 }) || Validator.isFloat(value, { min: 0.00 })) {
                 this.setState({
@@ -40,10 +46,12 @@ var TextField = React.createClass({
             }
         }
     },
-    valueChange: function(event){
+    valueChange: function (event) {
+        "use strict";
         this.keyUpEvent(event.target.value);
     },
     blurEventBase: function (event) {
+        "use strict";
         if (this.setFixedFloatingZeros) {
             var textBox = this.getTextBox();
             if (Validator.isInt(textBox.value) || Validator.isFloat(textBox.value)) {
@@ -51,16 +59,18 @@ var TextField = React.createClass({
             }
         }
     },
-    render : function(){
+    render : function () {
+        "use strict";
         this.isNumeric = this.props.isNumeric;
         this.setFixedFloatingZeros = this.props.setFixedFloatingZeros;
         this.keyUpEvent = this.props.keyUp;
+        var identifier = easyGid.new();
         return (
            <div className={this.state.formClassCollection}>
               <div className="row">
                 <div className="col-lg-12 col-sm-12">
-                  <label className="floating-label" for="float-text">{this.props.label}</label>
-                  <input ref="textBox" className="form-control" id="float-text" value={this.props.value} type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase} onChange={this.valueChange}/>
+                  <label className="floating-label" htmlFor={identifier}>{this.props.label}</label>
+                  <input ref="textBox" className="form-control" id={identifier} value={this.props.value} type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase} onChange={this.valueChange}/>
                 </div>
               </div>
            </div>
