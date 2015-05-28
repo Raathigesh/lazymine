@@ -62,14 +62,18 @@ var SearchBox = React.createClass({
     _showResults: function () {
         this._toggleResultsPanel(true);
     },
+    _hideResults: function(){
+        //setTimeout is there to handle the special event hadling issue with onBlur
+        setTimeout(function (){this._toggleResultsPanel(false);}.bind(this), 100);
+    },  
 
     render: function () {
         return (
             <div className="row">
                 <div className="col-md-12 search-box">
-                    <input id="search" ref="searchBox" type="text" className="form-control search-control" onChange={this.filter}
-                           onKeyUp={this._navigate} onFocus={this._showResults}
-                           placeholder="Type name or use tags #p #id #t #a ..."/>
+                    <input id="search" ref="searchBox" type="text" className="form-control search-control" 
+                        onChange={this.filter} onKeyUp={this._navigate} onFocus={this._showResults} 
+                        onBlur={this._hideResults} placeholder="Type name or use tags #p #id #t #a ..."/>
                     {
                         this.state.showResults
                             ? <SearchResult ref="searchResult" results={this.props.items}
