@@ -99,12 +99,17 @@ li {
     margin-top: 10px;
 }
 
+.datePicker {
+    display: inline-block;
+    width: 50%;
+	-webkit-app-region: no-drag;
+}
 
 .datePicker input{
+    margin: auto;
     width : 80px;
     height: 24px;
     border-bottom-style: dashed !important;
-
 }
 
 .container-inner{

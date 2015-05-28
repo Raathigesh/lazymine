@@ -8,7 +8,6 @@ var TaskList = require('../components/app-TaskList');
 var Footer = require('../components/app-Footer');
 var Loader = require('../components/app-Loader');
 var Errors = require('../constants/store-errors');
-var InfoBar = require('../components/app-InfoBar');
 var Toast = require('../components/app-Toast');
 
 var Container = React.createClass({
@@ -38,7 +37,7 @@ var Container = React.createClass({
     },
 
     _updateTime: function () {
-        var dateSelected = this.refs.infoBar.getSelectedDate();
+        var dateSelected = this.refs.header.getSelectedDate();
         AppActions.createTimeEntries(dateSelected);
     },
 
@@ -49,12 +48,11 @@ var Container = React.createClass({
     render: function () {
         return (
             <div>
-                <Header search="show" />
+                <Header search="show" ref="header" />
                 <Loader isLoading={this.state.isLoading}/>
                 <Toast error={this.state.error}/>
                 <div className="container">
                     <div className="container-inner">
-                        <InfoBar ref="infoBar"/>
                         <TaskList items={this.state.activeItems} activities={this.state.activities}/>
                     </div>
                 </div>

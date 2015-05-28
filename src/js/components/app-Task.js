@@ -40,13 +40,14 @@ var Task = React.createClass({
         AppActions.updateTaskHours(this.props.item.id, spentHours);
         event.stopPropagation();
     },
-    _remove: function(){
+    _remove: function(event){
         AppActions.removeTimeEntry(this.props.item.id);
+        event.nativeEvent.stopImmediatePropagation();
     },
     _openExternalUrl: function(event){
         OpenExternalUrl(this.props.item.taskUrl);
         MinimizeWindow();
-        event.preventDefault();
+        event.nativeEvent.stopImmediatePropagation();
     },
     render : function(){
         debugger
@@ -115,6 +116,16 @@ var Task = React.createClass({
             </div>
         );
     }
+});
+//fix from
+// http://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
+$(function(){
+    $('.icon-launch').on('click', function(e){
+        e.stopPropagation();
+    });
+    $('.icon-delete').on('click', function(e){
+        e.stopPropagation();
+    });
 });
 
 module.exports = Task;
