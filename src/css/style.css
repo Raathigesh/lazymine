@@ -102,6 +102,7 @@ li {
 .datePicker {
     display: inline-block;
     width: 50%;
+	-webkit-app-region: no-drag;
 }
 
 .datePicker input{
