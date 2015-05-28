@@ -238,7 +238,7 @@ DataManager.prototype = (function () {
             }
 
             this.activeTaskCollection.push(TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this, task.id)));
-            this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');
+            this.activeTaskCollection = _.sortByAll(this.activeTaskCollection, ['projectName', 'issueName']);
         },
         removeActiveTask = function (timeEntryId) {
             _.remove(this.activeTaskCollection, function (entry) {
