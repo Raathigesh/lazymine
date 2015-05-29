@@ -24,15 +24,15 @@ li {
     margin-top: -14px;
 }
 
-#search-results.open ul {
-    padding: 10px;
-}
+    #search-results.open ul {
+        padding: 10px;
+    }
 
-#search-results.card {
-    margin-bottom: 0;
-}
+    #search-results.card {
+        margin-bottom: 0;
+    }
 
-.search-results-card-inner{
+.search-results-card-inner {
     padding: 0;
 }
 
@@ -40,21 +40,21 @@ li {
     color: #000000;
     padding: 10px 20px;
     display: block;
-    cursor:pointer;
+    cursor: pointer;
     background-color: white;
 }
 
-.result:hover {
-    background-color: #ececec;
-}
+    .result:hover {
+        background-color: #ececec;
+    }
 
-.result.active {
-    background-color: #bebebe;
-}
+    .result.active {
+        background-color: #bebebe;
+    }
 
-.result .title {
-    margin-left: 50px;
-}
+    .result .title {
+        margin-left: 50px;
+    }
 
 #search {
     width: 100%;
@@ -90,7 +90,7 @@ li {
 }
 
 .comment {
-    width : 100%;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -104,19 +104,48 @@ li {
     -webkit-app-region: no-drag;
 }
 
-.datePicker input{
-    margin: auto;
-    width : 80px;
-    height: 24px;
-    border-bottom-style: dashed !important;
-}
+    .datePicker input {
+        margin: auto;
+        width: 80px;
+        height: 24px;
+        border-bottom-style: dashed !important;
+    }
 
-.container-inner{
-    margin-top : 80px;
+.container-inner {
+    margin-top: 80px;
 }
 
 /* ---------- awads styles -------------*/
-.logo-img{
-    padding: 5px 0 0 5px;
+.logo-img {
+    padding: 2px 0 0 5px;
+}
+
+.btn-lazy {
+    background-color: #C85050;
+    color: #fff;
+}
+
+    .btn-lazy, .btn-lazy:active, .btn-lazy:focus, .btn-lazy:hover {
+        color: #fff;
+    }
+
+.navbar.navbar, .navbar-default.navbar {
+    background: #C85050;
+}
+
+.list-item-title {
+    font-size: 14px;
+    line-height: 0;
+    margin-bottom: 2px;
+}
+
+.list-item-description {
+    color: #9e9e9e;
+    font-size: 12px;
+    margin-bottom: -5px;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 /* ---------- awads styles end -------------*/
