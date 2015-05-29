@@ -35,7 +35,7 @@ var Header = React.createClass({
                 <div className="header-row">
                     <div className="header-brand">
                         <a className="navbar-brand" href="#">
-                            <img src="assets/top-logo.png" />
+                            <img className="logo-img" src="assets/top-logo.png" />
                         </a>
                     </div>
                     <InfoBar ref="infoBar"/>

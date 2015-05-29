@@ -6,7 +6,7 @@ body{
 }
 
 .container-inner{
-    margin-top: 48px;
+	margin-top: 48px;
 }
 
 .navbar.navbar, .navbar-default.navbar{
@@ -18,9 +18,9 @@ body{
 }
 
 .header{
-    top: 1px;
-    left: 1px;
-    right: 1px;
+	top: 1px;
+	left: 1px;
+	right: 1px;
 }
 
 .header-row {
@@ -30,21 +30,24 @@ body{
 }
 
 .icon-menu{
-    color: #666;
+	color: #666;
 }
 
 .header .nav>li>a .header-close:after{
-    background: #a2a1a1;
+	background: #a2a1a1;
 }
 
 .header .close-btn{
+	display:block;
+	width:20px;
+	height:20px;
+	line-height:20px;
 	border-radius: 50%;
 	background: #C85050;
-	padding: 3px;
-	margin: 4px;
-	width: 24px;
-	text-align: center;
-	-webkit-app-region: no-drag;
+	text-align:center;
+	text-decoration:none;
+	box-shadow: 0 0 3px gray;
+	margin: 10px;
 }
 
 .search-box{
@@ -53,8 +56,8 @@ body{
 }
 
 .header-brand{
-    display: inline-block;
-    width: 25%;
+	display: inline-block;
+	width: 25%;
 }
 
 .search-control{
@@ -94,7 +97,7 @@ body{
 	position:fixed;
 	top:20px;
 	right:20px;
-    z-index: 30;
+	z-index: 30;
 	bottom:inherit;
 }
 
@@ -133,8 +136,8 @@ body{
 }
 
 .list-group-item.updated{
-	 background:#EFEFEF;
- }
+	background:#EFEFEF;
+}
 
 .list-group-item.open{
 	overflow: visible;
@@ -153,7 +156,7 @@ body{
 .btn-group{
 	margin-bottom:0;
 	left: 1px;
-    right: 1px;
+	right: 1px;
 	background: #EFEFEF;
 }
 
@@ -196,11 +199,11 @@ body{
 
 .overlay{
 	background: #000;
-  	top: 0;
-  	left: 0;
-  	width: 100%;
-  	height: 100%;
-  	z-index: 10;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
 	-webkit-opacity: 1;
 	opacity: 1;
 	-webkit-transition: all 1s ease;
@@ -234,8 +237,8 @@ body{
 
 .expanded-details{
 	font-size: 16px;
-	  margin-top: 9px;
-	  margin-bottom: -15px;
+	margin-top: 9px;
+	margin-bottom: -15px;
 }
 
 .avatar-multi{

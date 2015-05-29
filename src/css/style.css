@@ -15,7 +15,6 @@ li {
     list-style: none;
 }
 
-
 #search-results {
     background: #e5e5e5;
     width: 100%;
@@ -102,7 +101,7 @@ li {
 .datePicker {
     display: inline-block;
     width: 50%;
-	-webkit-app-region: no-drag;
+    -webkit-app-region: no-drag;
 }
 
 .datePicker input{
@@ -115,3 +114,9 @@ li {
 .container-inner{
     margin-top : 80px;
 }
+
+/* ---------- awads styles -------------*/
+.logo-img{
+    padding: 5px 0 0 5px;
+}
+/* ---------- awads styles end -------------*/
