@@ -38,7 +38,7 @@ var Header = React.createClass({
                             <img className="logo-img" src="assets/top-logo.png" />
                         </a>
                     </div>
-                    <InfoBar ref="infoBar"/>
+                    { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     <a className="close-btn pull-right" href="#" onClick={this._close}>
                         <span className="access-hide">Close</span>
                         <span className="icon icon-close icon-lg"></span>
