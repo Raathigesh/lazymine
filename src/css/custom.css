@@ -56,6 +56,14 @@ body {
     overflow: visible;
 }
 
+.header .search-menu {
+    margin-top: -64px; !important;
+}
+
+.header .search-menu a {
+    color: #000;
+}
+
 .header-brand {
     display: inline-block;
     width: 25%;
