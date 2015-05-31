@@ -1,27 +1,27 @@
+/*global require, module, setTimeout*/
 /** @jsx React.DOM */
-var React = require('react');
-var AppStore = require('../stores/app-base-store');
-var AppActions = require('../actions/app-actions');
-var SearchResult = require('../components/app-SearchResult');
-var Menu = require('../components/app-Menu');
-var Rx = require('rx');
-var EventHandler = require('../util/eventHandler');
+var React = require('react'),
+    AppStore = require('../stores/app-base-store'),
+    AppActions = require('../actions/app-actions'),
+    SearchResult = require('../components/app-SearchResult'),
+    Menu = require('../components/app-Menu'),
+    Rx = require('rx'),
+    EventHandler = require('../util/eventHandler');
 
 var SearchBox = React.createClass({
-
     ActiveItem: 0,
     MinimumQueryLength: 2,
-
     getInitialState: function () {
+        "use strict";
         return {
             "showResults": true
         };
     },
     componentWillMount: function () {
+        "use strict";
         /*Search requests to the store are throttled with the help of RxJs to 
          * minimize the performance hit */
         var filter = EventHandler.create();
-
         filter.select(function (event) {
             return event.target.value;
         })
@@ -37,8 +37,7 @@ var SearchBox = React.createClass({
                     if (this.refs.searchResult._getCurrentActiveResult()) {
                         this.refs.searchResult._getCurrentActiveResult()._addActive();
                     }
-                }
-                else {
+                } else {
                     //clear the search results on the removing the filter text
                     //so that it'll not be picked when search box focused
                     AppActions.clearSearch();
@@ -49,23 +48,30 @@ var SearchBox = React.createClass({
         this.filter = filter;
     },
     _toggleResultsPanel: function (show) {
+        "use strict";
         this.setState({
             "showResults": show
         });
     },
 
     _navigate: function (event) {
+        "use strict";
         this.refs.searchResult._navigate(event);
     },
 
     _showResults: function () {
+        "use strict";
         this._toggleResultsPanel(true);
     },
-    _hideResults: function(){
+    _hideResults: function () {
+        "use strict";
         //setTimeout is there to handle the special event hadling issue with onBlur
-        setTimeout(function (){this._toggleResultsPanel(false);}.bind(this), 100);
+        setTimeout(function () {
+            this._toggleResultsPanel(false);
+        }.bind(this), 100);
     },
     render: function () {
+        "use strict";
         return (
             <div className="row">
                 <div className="col-md-12 search-box">

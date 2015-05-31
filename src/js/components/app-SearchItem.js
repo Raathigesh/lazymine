@@ -1,8 +1,8 @@
 /*global require, module, $*/
 /*Modification of http://tonyspiro.com/dev/react-typeahead-search*/
 /** @jsx React.DOM */
-var React = require('react');
-var AppActions = require('../actions/app-actions');
+var React = require('react'),
+    AppActions = require('../actions/app-actions');
 
 var SearchItem = React.createClass({
     getInitialState: function () {
