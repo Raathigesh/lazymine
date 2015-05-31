@@ -7,12 +7,7 @@ var React = require('react'),
 var TextField = React.createClass({
     formNormalClasses: "form-group form-group-label",
     formNormalClassesFocus: "form-group form-group-label control-focus",
-    formErrorClassesFocus: "form-group form-group-label form-group-red control-focus",
-
-    getTextBox: function () {
-        return React.findDOMNode(this.refs.textBox);
-    },
-
+    localValue: null,
     getValue: function (){
         return React.findDOMNode(this.refs.textBox).value;
     },
@@ -30,46 +25,42 @@ var TextField = React.createClass({
         };
     },
 
-    valueChange: function(event){
-        debugger
+    valueChange: function(event){        
+        var value = this.getValue();
+        this.localValue = value;
         if(this.props.isNumeric) {
-
-            var value = this.getValue();
-            value = parseFloat(value).toFixed(2);
-
             if (value === "" || Validator.isInt(value, { min: 0 }) || Validator.isFloat(value, { min: 0.00 })) {
                 this.setState({
                     "formClassCollection": this.formNormalClassesFocus
                 });
+                this.props.keyUp(value);
             } else {
-                this.setState({
-                    "formClassCollection": this.formErrorClassesFocus
-                });
+               
             }
         }
-
-        
-        this.props.keyUp(value);
     },
 
-    blurEventBase: function (event) {
-        /*  if (this.props.setFixedFloatingZeros) {
-                var textBox = this.getTextBox();
-                if (Validator.isInt(textBox.value) || Validator.isFloat(textBox.value)) {
-                    textBox.value = parseFloat(textBox.value).toFixed(2);
-                }
-            }
-        */
-    },
+    onLoosingFocus: function(event){
+         var value = this.getValue();
+
+         if(value != ""){
+            this.setState({
+                "formClassCollection": this.formNormalClassesFocus + " control-highlight"
+            });
+         }
+    }, 
 
     render : function(){
-	 var identifier = easyGid.new();
+	    var identifier = easyGid.new();
+        var textBoxValue = (this.localValue !== this.props.value) ? this.localValue : this.props.value;
+        textBoxValue = textBoxValue == 0 ? "" : textBoxValue;
+
         return (
            <div className={this.state.formClassCollection}>
               <div className="row">
                 <div className="col-lg-12 col-sm-12">
                   <label className="floating-label" htmlFor={identifier}>{this.props.label}</label>
-                  <input ref="textBox" className="form-control" id={identifier} value={this.props.value} type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase} onChange={this.valueChange}/>
+                  <input ref="textBox" className="form-control" id={identifier} value={textBoxValue} type="text" onBlur={this.onLoosingFocus} onChange={this.valueChange}/>
                 </div>
               </div>
            </div>
