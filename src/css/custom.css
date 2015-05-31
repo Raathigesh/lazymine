@@ -39,16 +39,9 @@ body {
 }
 
 .header .close-btn {
-    display: block;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    border-radius: 50%;
-    background: #fff;
-    text-align: center;
-    text-decoration: none;
     margin: 10px;
-    color: #C85050;
+    color: #fff;
+    font-weight: bold;
 }
 
 .search-box {
