@@ -47,14 +47,12 @@ var SearchItem = React.createClass({
       var item = this.props.item;
       var id = this.props.item.id;
       
-      return (
-        <li>
-          <div className={this.state.Classes} id={"result-" + id} data-id={id} onMouseOver={this._mouseOver} onMouseOut={this._mouseOut} onClick={this._click}>
-            <div className="searchResult-projectName" dangerouslySetInnerHTML={{__html: item.project.name}}></div>
-            <span className="searchResult-description" dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>
-          </div>
-        </li>
-      );
+      return(
+              <div className="col-xs-9 col-md-9 section-box" className={this.state.Classes} id={"result-" + id} data-id={id} onMouseOver={this._mouseOver} onMouseOut={this._mouseOut} onClick={this._click}>
+                  <p className="list-item-title" dangerouslySetInnerHTML={{__html: item.project.name}}></p>
+                  <p className="list-item-description" title={item.subject} dangerouslySetInnerHTML={{__html: item.formattedTitle}}></p>
+              </div>
+        );
     }
 });
 

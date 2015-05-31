@@ -43,14 +43,14 @@ var Settings = React.createClass({
         return (
             <div>
                 <Header />
-				<div className="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
+				<div className="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
 					<div className="card-wrap login-card-wrap">
 						<div className="card">
 							<div className="card-main">
 								<div className="card-inner">
 									<p className="text-center login-avatar-wrapper">
 										<span className="avatar avatar-inline avatar-lg">
-											<img alt="Login" src="assets/logo.jpg"></img>
+											<img alt="Login" src="assets/logo.png"></img>
 										</span>
 									</p>
 									<form className="form" action="index.html">
@@ -59,7 +59,7 @@ var Settings = React.createClass({
 										<div className="form-group">
 											<div className="row">
 												<div className="col-md-10 col-md-push-1">
-													<a className="btn btn-block btn-blue waves-button waves-effect waves-light" onClick={this._login}>Connect</a>
+													<a className="btn btn-block btn-lazy waves-button waves-effect waves-light" onClick={this._login}>Connect</a>
 												</div>
 											</div>
 										</div>

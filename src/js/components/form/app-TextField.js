@@ -1,6 +1,8 @@
+/*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Validator = require('validator');
+    Validator = require('validator'),
+    easyGid = require("easy-guid");
 
 var TextField = React.createClass({
     formNormalClasses: "form-group form-group-label",
@@ -16,10 +18,11 @@ var TextField = React.createClass({
     },
 
     getInitialState: function () {
+        "use strict";
         var intialClass =  this.formNormalClasses;
 
-        if(this.props.value != null){
-            intialClass =  this.formNormalClasses + " control-highlight"
+        if (this.props.value !== null) {
+            intialClass =  this.formNormalClasses + " control-highlight";
         }
 
         return {
@@ -60,12 +63,13 @@ var TextField = React.createClass({
     },
 
     render : function(){
+	 var identifier = easyGid.new();
         return (
            <div className={this.state.formClassCollection}>
               <div className="row">
                 <div className="col-lg-12 col-sm-12">
-                  <label className="floating-label" for="float-text">{this.props.label}</label>
-                  <input ref="textBox" className="form-control" id="float-text" value={this.props.value} type="text" onBlur={this.blurEventBase} onChange={this.valueChange}/>
+                  <label className="floating-label" htmlFor={identifier}>{this.props.label}</label>
+                  <input ref="textBox" className="form-control" id={identifier} value={this.props.value} type="text" onKeyUp={this.keyUpEventBase} onBlur={this.blurEventBase} onChange={this.valueChange}/>
                 </div>
               </div>
            </div>
