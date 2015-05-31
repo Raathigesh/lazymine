@@ -82,11 +82,11 @@ body {
 
 .login-card-wrap {
     margin-top: 0;
-    padding-top: 50px;
+    padding-top: 100px;
 }
 
 .login-avatar-wrapper {
-    height: 300px;
+    padding-top: 15px;
 }
 
     .login-avatar-wrapper span {
