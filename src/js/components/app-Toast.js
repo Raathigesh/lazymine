@@ -1,13 +1,14 @@
+/*global require, module*/
 /** @jsx React.DOM */
 var React = require('react');
 
 var Toast = React.createClass({
-    render : function(){
+    render : function () {
+        "use strict";
+        var output = null,
+            retry = null;
 
-        var output = null;
-        var retry = null;
-
-        if(this.props.error && this.props.error.retry){
+        if (this.props.error && this.props.error.retry) {
             retry = <a href={"javascript:" + this.props.error.retry}> Retry</a>;
         }
 
