@@ -1,18 +1,21 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var Datepicker = require('../components/form/app-DatePicker');
-var Moment = require('moment');
+var React = require('react'),
+    DatePicker = require('../components/form/app-DatePicker'),
+    moment = require('moment');
 
 var InfoBar = React.createClass({
-    getSelectedDate: function(){
+    getSelectedDate: function () {
+        "use strict";
         return this.refs.datePicker.getValue();
     },
 
     render: function () {
-        var today = Moment().format('D/M/YYYY');
+        "use strict";
+        var today = moment().format('D/M/YYYY');
         return (
             <div className="datePicker">
-                <Datepicker ref="datePicker" initialDate={today}/>
+                <DatePicker ref="datePicker" initialDate={today}/>
             </div>
         );
     }

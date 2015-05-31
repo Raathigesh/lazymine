@@ -1,17 +1,17 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var Router = require('react-router');
-var Link = Router.Link;
+var React = require('react'),
+    Router = require('react-router'),
+    Link = Router.Link;
 
 var Loader = React.createClass({
-    render : function(){
-
+    render : function () {
+        "use strict";
         var className = "overlay hide";
 
-        if(this.props.isLoading){
+        if (this.props.isLoading) {
             className = "overlay";
-        }
-        else {
+        } else {
             className = "overlay hide";
         }
 

@@ -6,38 +6,35 @@ var React = require('react'),
     Title = require('../components/app-Title'),
     Header = require('../components/app-Header'),
     Router = require('react-router'),
-	TextField = require('../components/form/app-TextField');
+    TextField = require('../components/form/app-TextField');
 
 var Settings = React.createClass({
     contextTypes: {
         router: React.PropTypes.func
     },
+    getInitialState: function () {
+        "use strict";
+        return AppStore.getState();
+    },
+    componentWillMount: function () {
+        "use strict";
+        AppStore.addChangeListener(this._change);
+    },
+    _login: function () {
+        "use strict";
+        var url = this.refs.url.getValue(),
+            apiKey = this.refs.apiKey.getValue();
 
-	getInitialState: function () {
-		return AppStore.getState();
-	},
-
-	componentWillMount: function () {
-		AppStore.addChangeListener(this._change);
-	},
-
-	_login: function () {
-		var url = this.refs.url.getValue();
-		var apiKey = this.refs.apiKey.getValue();
-
-		AppActions.saveSettings(url, apiKey);
-	},
-
-	_change: function () {
-		var storeState = AppStore.getState();
-		this.setState(storeState);
-
-		if(this.state.settings.BaseURL !== null && this.state.settings.BaseURL !== ""
-			&& this.state.settings.APIKey !== null && this.state.settings.APIKey !== ""){
-			this.context.router.transitionTo('home');
-		}
-	},
-
+        AppActions.saveSettings(url, apiKey);
+    },
+    _change: function () {
+        "use strict";
+        var storeState = AppStore.getState();
+        this.setState(storeState);
+        if (this.state.settings.BaseURL !== null && this.state.settings.BaseURL !== "" && this.state.settings.APIKey !== null && this.state.settings.APIKey !== "") {
+            this.context.router.transitionTo('home');
+        }
+    },
     render : function () {
         "use strict";
         return (

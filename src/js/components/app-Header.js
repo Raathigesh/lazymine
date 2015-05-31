@@ -1,35 +1,42 @@
+/*global require, module, minimizeWindow*/
 /** @jsx React.DOM */
-var React = require('react');
-var Router = require('react-router');
-var SearchBox = require('../components/app-SearchBox');
-var AppStore = require('../stores/app-base-store');
-var AppActions = require('../actions/app-actions');
-var InfoBar = require('../components/app-InfoBar');
-var Link = Router.Link;
+var React = require('react'),
+    Router = require('react-router'),
+    SearchBox = require('../components/app-SearchBox'),
+    AppStore = require('../stores/app-base-store'),
+    AppActions = require('../actions/app-actions'),
+    InfoBar = require('../components/app-InfoBar'),
+    Link = Router.Link;
 
 var Header = React.createClass({
     getInitialState: function () {
+        "use strict";
         return AppStore.getState();
     },
 
     componentWillMount: function () {
+        "use strict";
         AppStore.addChangeListener(this._change);
     },
 
     _change: function () {
+        "use strict";
         var storeState = AppStore.getState();
         this.setState(storeState);
     },
 
     _close: function () {
-        MinimizeWindow();
+        "use strict";
+        minimizeWindow();
     },
 
-    getSelectedDate: function(){
+    getSelectedDate: function () {
+        "use strict";
         return this.refs.infoBar.getSelectedDate();
     },
 
-    render : function(){
+    render : function () {
+        "use strict";
         return (
             <header className="header navbar navbar-default">
                 <div className="header-row">

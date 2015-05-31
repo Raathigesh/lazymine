@@ -1,16 +1,17 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var Router = require('react-router');
-var AppActions = require('../actions/app-actions');
-var Link = Router.Link;
+var React = require('react'),
+    Router = require('react-router'),
+    AppActions = require('../actions/app-actions'),
+    Link = Router.Link;
 
 var Menu = React.createClass({
-
-    _refreshTasks: function() {
+    _refreshTasks: function () {
+        "use strict";
         AppActions.refreshIssues();
     },
-
-    render: function(){
+    render: function () {
+        "use strict";
         return (
             <ul className="nav nav-list pull-right search-menu">
                 <li className="dropdown">

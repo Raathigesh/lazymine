@@ -1,15 +1,16 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var Router = require('react-router');
-var AppActions = require('../actions/app-actions');
-var TextField = require('../components/form/app-TextField');
-var RadioButton = require('../components/form/app-RadioButton');
-var Title = require('../components/app-Title');
-var Link = Router.Link;
+var React = require('react'),
+    Router = require('react-router'),
+    AppActions = require('../actions/app-actions'),
+    TextField = require('../components/form/app-TextField'),
+    RadioButton = require('../components/form/app-RadioButton'),
+    Title = require('../components/app-Title'),
+    Link = Router.Link;
 
 var NavBar = React.createClass({
-
-    render : function(){
+    render : function () {
+        "use strict";
         return (
             <nav id="navBar" className="menu full-height-menu">
                 <div className="menu-scroll">

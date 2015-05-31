@@ -1,10 +1,12 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var Mui = require('material-ui');
-var RaisedButton = Mui.RaisedButton;
+var React = require('react'),
+    Mui = require('material-ui'),
+    RaisedButton = Mui.RaisedButton;
 
 var Footer = React.createClass({
     render: function () {
+        "use strict";
         return (
             <div className="btn-group btn-group-justified" style={{position:'fixed', bottom:'0'}}>
                 <a className="btn btn-flat btn-cancel waves-button waves-effect waves-light"

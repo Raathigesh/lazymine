@@ -1,23 +1,21 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var AppActions = require('../actions/app-actions');
-var Container = require('../components/app-Container');
-var SearchBox = require('../components/app-SearchBox');
-var TaskList = require('../components/app-TaskList');
-var Login = require('../components/app-Login');
-var NavBar = require('../components/app-NavBar');
-
-
-var Router = require('react-router');
-
-var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
-
+var React = require('react'),
+    AppActions = require('../actions/app-actions'),
+    Container = require('../components/app-Container'),
+    SearchBox = require('../components/app-SearchBox'),
+    TaskList = require('../components/app-TaskList'),
+    Login = require('../components/app-Login'),
+    NavBar = require('../components/app-NavBar'),
+    Router = require('react-router'),
+    DefaultRoute = Router.DefaultRoute,
+    Link = Router.Link,
+    Route = Router.Route,
+    RouteHandler = Router.RouteHandler;
 
 var App = React.createClass({
     render: function () {
+        "use strict";
         return (<div>
                 	<RouteHandler/>
                 </div>);

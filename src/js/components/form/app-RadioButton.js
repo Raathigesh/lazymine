@@ -1,12 +1,12 @@
+/*global require, module*/
 /** @jsx React.DOM */
 var React = require('react');
 
 var RadioButton = React.createClass({
-    render : function(){
-
-        var keyUp= null;
-
-        if(this.props.keyUp){
+    render : function () {
+        "use strict";
+        var keyUp = null;
+        if (this.props.keyUp) {
             keyUp = this.props.keyUp;
         }
 
