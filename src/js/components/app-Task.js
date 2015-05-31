@@ -38,7 +38,7 @@ var Task = React.createClass({
         var updatedValue = (this.refs.spentHours.getValue() == "") ? "0" : this.refs.spentHours.getValue();
         var spentHours = parseFloat(updatedValue);
         AppActions.updateTaskHours(this.props.item.id, spentHours);
-        event.stopPropagation();
+       // event.stopPropagation();
     },
     _remove: function(event){
         AppActions.removeTimeEntry(this.props.item.id);
@@ -50,7 +50,6 @@ var Task = React.createClass({
         event.nativeEvent.stopImmediatePropagation();
     },
     render : function(){
-        debugger
         var activities = this.props.activities,
             item = this.props.item,
             tileClass = "tile tile-collapse",
