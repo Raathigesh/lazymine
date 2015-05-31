@@ -140,7 +140,7 @@ li {
 }
 
 .list-item-description {
-    color: #9e9e9e;
+    color: #666;
     font-size: 12px;
     margin-bottom: -5px;
     width: 80%;
@@ -151,5 +151,6 @@ li {
 
 .date-picker-container #datepicker-adv-1{
     color: #fff !important;
+    border-color: #fff;
 }
 /* ---------- awads styles end -------------*/
