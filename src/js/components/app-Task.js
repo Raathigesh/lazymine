@@ -70,7 +70,7 @@ var Task = React.createClass({
                 <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
                     <div className="pull-left tile-side">
                         <div className="avatar avatar-sm avatar-multi">
-                            <span className="icon">{icontext}</span>
+                            <span className="">{icontext}</span>
                         </div>
                     </div>
 
