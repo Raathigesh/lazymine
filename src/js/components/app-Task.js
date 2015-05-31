@@ -1,75 +1,84 @@
+/*global require, module, openExternalUrl, minimizeWindow*/
 /** @jsx React.DOM */
-var React = require('react');
-var AppActions = require('../actions/app-actions');
-var TextField = require('../components/form/app-TextField');
-var Dropdown = require('../components/form/app-Dropdown');
+var React = require('react'),
+    AppActions = require('../actions/app-actions'),
+    TextField = require('../components/form/app-TextField'),
+    DropDown = require('../components/form/app-Dropdown');
 
 var Task = React.createClass({
-
-    getInitialState: function() {
+    getInitialState: function () {
+        "use strict";
         return {
-            open:false
+            open: false
         };
     },
-    _handleClick: function(event) {
-        if(this.state.open) {
+    _handleClick: function () {
+        "use strict";
+        if (this.state.open) {
             this.setState({
                 open: false
             });
-        }else{
+        } else {
             this.setState({
                 open: true
             });
         }
     },
-    _elementClick: function(event){
+    _elementClick: function (event) {
+        "use strict";
         event.stopPropagation();
     },
-    _updateTaskActivityId: function(event){
+    _updateTaskActivityId: function (event) {
+        "use strict";
         var activityId = this.refs.activity.getValue();
         AppActions.updateTaskActivityId(this.props.item.id, activityId);
         event.stopPropagation();
     },
-    _updateTaskComments: function(comment){
+    _updateTaskComments: function (comment) {
+        "use strict";
         AppActions.updateTaskComments(this.props.item.id, comment);
-        event.stopPropagation();
     },
-    _updateTaskHours: function(event){
+    _updateTaskHours: function (event) {
+        "use strict";
         var spentHours = this.refs.spentHours.getValue();
         AppActions.updateTaskHours(this.props.item.id, spentHours);
         event.stopPropagation();
     },
-    _remove: function(event){
+    _remove: function (event) {
+        "use strict";
         AppActions.removeTimeEntry(this.props.item.id);
         event.nativeEvent.stopImmediatePropagation();
     },
-    _openExternalUrl: function(event){
-        OpenExternalUrl(this.props.item.taskUrl);
-        MinimizeWindow();
+    _openExternalUrl: function (event) {
+        "use strict";
+        openExternalUrl(this.props.item.taskUrl);
+        minimizeWindow();
         event.nativeEvent.stopImmediatePropagation();
     },
-    render : function(){
+    render : function () {
+        "use strict";
         var activities = this.props.activities,
             item = this.props.item,
             tileClass = "tile tile-collapse",
-            hoursText = "";
+            hoursText = "",
+            iconText,
+            dataTarget;
 
         if (item.updated) {
             tileClass = "tile tile-collapse selected";
-            hoursText = "[" + parseFloat(item.hours ).toFixed(2) + " Hours]"
+            hoursText = "[" + parseFloat(item.hours).toFixed(2) + " Hours]";
         }
-         
-        // Just get the first proper letter of the project
-        var icontext = this.props.item.projectName.replace(/[^a-z]/gi,'').charAt(0);
 
-        var dataTarget = "tile-collapse-" + item.id;
+        // Just get the first proper letter of the project
+        iconText = this.props.item.projectName.replace(/\W/g, '').charAt(0);
+        dataTarget = "tile-collapse-" + item.id;
 
         return (
             <div className={tileClass}>
                 <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
                     <div className="pull-left tile-side">
                         <div className="avatar avatar-sm avatar-multi">
-                            <span className="icon">{icontext}</span>
+                            <span className="icon">{iconText}</span>
                         </div>
                     </div>
 
@@ -103,7 +112,7 @@ var Task = React.createClass({
                         </div>
                         <div className="row">
                              <div className="col-lg-6 col-sm-6 tracker-dropdown">
-                                <Dropdown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
+                                <DropDown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
                                 <TextField ref="spentHours" label = "Hours" value={item.hours} keyUp={this._updateTaskHours} isNumeric={true} setFixedFloatingZeros={true}/>
@@ -115,6 +124,7 @@ var Task = React.createClass({
         );
     }
 });
+
 //fix from
 // http://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
 $(function(){

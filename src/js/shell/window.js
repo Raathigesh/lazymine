@@ -1,7 +1,8 @@
+/*global require, localStorage, screen*/
 var gui = require('nw.gui'); // Load native UI library
 
 
-(function() {
+(function () {
     "use strict";
     var win = gui.Window.get(), // Get the current window
         windowKey = "window",
@@ -48,13 +49,13 @@ var gui = require('nw.gui'); // Load native UI library
     });
 }());
 
-var MinimizeWindow = function(){
+var minimizeWindow = function () {
     "use strict";
     var win = gui.Window.get();
     win.hide();
 };
 
-var OpenExternalUrl = function(url){
+var openExternalUrl = function (url) {
     "use strict";
     gui.Shell.openExternal(url);
 };

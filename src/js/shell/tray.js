@@ -1,7 +1,7 @@
-// Load library
+/*global require*/
 var gui = require('nw.gui');
 
-(function() {
+(function () {
     "use strict";
     // Reference to window and tray
     var win = gui.Window.get(),
@@ -19,7 +19,7 @@ var gui = require('nw.gui');
 
     menu.append(new gui.MenuItem({
         label: "Show",
-        click: function() {            
+        click: function () {
             win.show();
         }
     }));
@@ -28,7 +28,7 @@ var gui = require('nw.gui');
 
     menu.append(new gui.MenuItem({
         label: "Exit",
-        click: function() {
+        click: function () {
             // Quit current app
             gui.App.quit();
         }
