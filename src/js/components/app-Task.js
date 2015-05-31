@@ -76,8 +76,8 @@ var Task = React.createClass({
             <div className={tileClass}>
                 <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
                     <div className="pull-left tile-side">
-                        <div className="avatar avatar-sm avatar-multi">
-                            <span className="" title={this.props.item.projectName}>{iconText}</span>
+                        <div className="avatar avatar-sm avatar-multi" title={this.props.item.projectName}>
+                            <span className="">{iconText}</span> 
                         </div>
                     </div>
 
