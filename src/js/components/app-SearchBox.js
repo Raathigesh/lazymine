@@ -17,7 +17,6 @@ var SearchBox = React.createClass({
             "showResults": true
         };
     },
-
     componentWillMount: function () {
         /*Search requests to the store are throttled with the help of RxJs to 
          * minimize the performance hit */
@@ -49,7 +48,6 @@ var SearchBox = React.createClass({
 
         this.filter = filter;
     },
-
     _toggleResultsPanel: function (show) {
         this.setState({
             "showResults": show
@@ -66,8 +64,7 @@ var SearchBox = React.createClass({
     _hideResults: function(){
         //setTimeout is there to handle the special event hadling issue with onBlur
         setTimeout(function (){this._toggleResultsPanel(false);}.bind(this), 100);
-    },  
-
+    },
     render: function () {
         return (
             <div className="row">

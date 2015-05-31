@@ -1,71 +1,69 @@
-var React = require('react');
-var SearchResultItem = require('../components/app-SearchItem');
-var AppActions = require('../actions/app-actions');
+/*global require, module, $*/
+var React = require('react'),
+    SearchResultItem = require('../components/app-SearchItem'),
+    AppActions = require('../actions/app-actions');
 
 var SearchResult = React.createClass({
-
     ActiveItem : 0,
-
-    _getCurrentActiveResult: function(){        
+    _getCurrentActiveResult: function () {
+        "use strict";
         return this.refs["searchItem" + this.ActiveItem];
     },
-
-    _getNextResult: function(){
+    _getNextResult: function () {
+        "use strict";
         this.ActiveItem += 1;
-        if(this.refs["searchItem" + this.ActiveItem]){
+        if (this.refs["searchItem" + this.ActiveItem]) {
             return this.refs["searchItem" + this.ActiveItem];
         }
-        else {
-            this.ActiveItem -= 1;
-            return null;
-        }
-    },
 
-    _getPreviousResult: function(){
-        if(this.ActiveItem > 0){
+        this.ActiveItem -= 1;
+        return null;
+    },
+    _getPreviousResult: function () {
+        "use strict";
+        if (this.ActiveItem > 0) {
             this.ActiveItem -= 1;
             return this.refs["searchItem" + this.ActiveItem];
         }
-        else {
-            return null;
+
+        return null;
+    },
+    _clearCurrentActiveResult: function () {
+        "use strict";
+        var currentActiveResult = this._getCurrentActiveResult();
+        if (currentActiveResult) {
+            currentActiveResult._removeActive();
         }
     },
-    
-    _clearCurrentActiveResult: function(){
-        var currentActiveResult = this._getCurrentActiveResult();
-        
-        if(currentActiveResult){
-          currentActiveResult._removeActive();
-        }       
-    },
+    _moveUp: function () {
+        "use strict";
+        var currentActiveResult = this._getCurrentActiveResult(),
+            previousResult = this._getPreviousResult();
 
-    _moveUp: function(){        
-        var currentActiveResult = this._getCurrentActiveResult();
-        var previousResult = this._getPreviousResult();
-
-        if(currentActiveResult){
+        if (currentActiveResult) {
             currentActiveResult._removeActive();
         }
 
-        if(previousResult){
+        if (previousResult) {
             previousResult._addActive();
-        }       
-    },
-
-    _moveDown: function(){
-        var currentActiveResult = this._getCurrentActiveResult();
-        var nextResult = this._getNextResult();
-
-        if(currentActiveResult){
-          currentActiveResult._removeActive();
-        }
-
-        if(nextResult){
-          nextResult._addActive();
         }
     },
-    
-    _navigate: function (event) {        
+
+    _moveDown: function () {
+        "use strict";
+        var currentActiveResult = this._getCurrentActiveResult(),
+            nextResult = this._getNextResult();
+
+        if (currentActiveResult) {
+            currentActiveResult._removeActive();
+        }
+
+        if (nextResult) {
+            nextResult._addActive();
+        }
+    },
+    _navigate: function (event) {
+        "use strict";
         switch (event.which) {
         case 38: // up
             this._moveUp();
@@ -87,24 +85,23 @@ var SearchResult = React.createClass({
             return; // exit this handler for other keys
         }
     },
-
-    _togglePanel: function(show){
+    _togglePanel: function (show) {
+        "use strict";
         this.props.toggleResultsPanel(show);
     },
 
-    render: function() {
+    render: function () {
+        "use strict";
         var rows,
             items = this.props.results,
             toggle = this._togglePanel,
             clear = this._clearCurrentActiveResult;
 
-        if(items){
-          rows = items.map(function(item, i) {
-            var searchItemRef = "searchItem" + i;
-            return(
-              <SearchResultItem item={item} togglePanel={toggle} clearCurrent={clear} ref={searchItemRef}/>
-            );
-          });
+        if (items) {
+            rows = items.map(function (item, i) {
+                var searchItemRef = "searchItem" + i;
+                return(<SearchResultItem item={item} togglePanel={toggle} clearCurrent={clear} ref={searchItemRef}/>);
+            });
         }
 
         return (
