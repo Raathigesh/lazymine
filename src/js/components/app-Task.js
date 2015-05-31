@@ -42,7 +42,6 @@ var Task = React.createClass({
         "use strict";
         var spentHours = this.refs.spentHours.getValue();
         AppActions.updateTaskHours(this.props.item.id, spentHours);
-        event.stopPropagation();
     },
     _remove: function (event) {
         "use strict";
