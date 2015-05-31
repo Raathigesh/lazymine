@@ -1,5 +1,6 @@
-var Promise = require('es6-promise').Promise;
-var merge = require('react/lib/Object.assign');
+/*global require, module*/
+var Promise = require('es6-promise').Promise,
+    merge = require('react/lib/Object.assign');
 
 var _callbacks = [];
 var _promises = [];
@@ -26,7 +27,10 @@ var _clearPromises = function () {
     _promises = [];
 };
 
-var Dispatcher = function () {};
+var Dispatcher = function () {
+    "use strict";
+};
+
 Dispatcher.prototype = merge(Dispatcher.prototype, {
 
     /**
@@ -49,7 +53,6 @@ Dispatcher.prototype = merge(Dispatcher.prototype, {
         });
         Promise.all(_promises).then(_clearPromises);
     }
-
 });
 
 module.exports = Dispatcher;
