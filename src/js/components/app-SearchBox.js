@@ -22,12 +22,12 @@ var SearchBox = React.createClass({
         /*Search requests to the store are throttled with the help of RxJs to 
          * minimize the performance hit */
         var filter = EventHandler.create();
-        filter.select(function (event) {
-            return event.target.value;
-        })
+            filter.select(function (event) {
+                return event.target.value;
+            })
             .skipWhile(function (query) {
                 return query.length < this.MinimumQueryLength;
-            })
+            }.bind(this))
             .throttle(500)
             .distinctUntilChanged()
             .subscribe(function (query) {
