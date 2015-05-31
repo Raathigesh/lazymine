@@ -1,16 +1,19 @@
+/*global require, module*/
 /** @jsx React.DOM */
-var React = require('react');
-var Moment = require('moment');
-var Router = require('react-router');
-var Link = Router.Link;
+var React = require('react'),
+    moment = require('moment'),
+    Router = require('react-router'),
+    Link = Router.Link;
 
 
 var DatePicker = React.createClass({
-    getValue: function(){
-        return Moment(React.findDOMNode(this.refs.date).value, "DD-MM-YYYY");
+    getValue: function () {
+        "use strict";
+        return moment(React.findDOMNode(this.refs.date).value, "DD-MM-YYYY");
     },
 
-    render : function(){
+    render : function () {
+        "use strict";
         return (
             <div className="date-picker-container">
                 <input ref="date" value={this.props.initialDate} className="datepicker-adv datepicker-adv-default form-control" id="datepicker-adv-1" type="text" readonly="" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="datepicker-adv-1_root"/>
