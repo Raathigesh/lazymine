@@ -83,10 +83,10 @@ var Task = React.createClass({
 
                     <div className="tile-action tile-action-show">
                         <ul className="nav nav-list pull-right">
-                            <li>
+                            <li title="Update time">
                                 <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
                             </li>
-                            <li>
+                            <li title="Remove task">
                                 <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
                             </li>
                         </ul>
@@ -98,7 +98,7 @@ var Task = React.createClass({
                             </li>
                         </ul>
                     </div>
-                    <div className="tile-inner">
+                    <div className="tile-inner" title={item.issueName}>
                         <div className="text-overflow">{item.issueName}</div>
                     </div>
                 </div>
