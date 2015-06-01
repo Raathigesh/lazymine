@@ -29,7 +29,7 @@ var paths = {
 	html: ['index.html'],
 	images: ['assets/*.*'],
 	extras: ['package.json'],
-    chrome_extension: ['extension/manifest.json', 'extension/background.js']
+    chrome_extension: ['extension/manifest.json', 'extension/background.js']	
 };
 
 var filesToMove = paths.libs.concat(paths.html)										
@@ -99,7 +99,8 @@ gulp.task('webkit-build', function () {
         version: '0.12.0',
         files: [ bases.dist + '**'],
         platforms: ['win'],
-		buildDir: bases.webkit
+		buildDir: bases.webkit,
+		winIco: 'lazymine.ico'
     });
 
     nw.on('log', function (msg) {
