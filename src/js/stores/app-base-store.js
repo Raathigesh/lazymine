@@ -253,8 +253,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
         removeChangeListeners = function (callback) {
             EventEmitter.prototype.removeListener(AppEvent.Change, callback);
         },        
-        dispatcherIndex = AppDispatcher.register(function (payload) {
-            debugger;
+        dispatcherIndex = AppDispatcher.register(function (payload) {           
             // Clear the current error as its shown to the user already.
             State.error = null;
 
