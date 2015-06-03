@@ -52,6 +52,12 @@ var gui = require('nw.gui'); // Load native UI library
 var minimizeWindow = function () {
     "use strict";
     var win = gui.Window.get();
+    win.minimize();
+};
+
+var closeWindow = function () {
+    "use strict";
+    var win = gui.Window.get();
     win.hide();
 };
 

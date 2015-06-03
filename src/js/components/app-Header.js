@@ -25,9 +25,14 @@ var Header = React.createClass({
         this.setState(storeState);
     },
 
-    _close: function () {
+    _minimize: function () {
         "use strict";
         minimizeWindow();
+    },
+
+    _close: function () {
+        "use strict";
+        closeWindow();
     },
 
     getSelectedDate: function () {
@@ -48,6 +53,9 @@ var Header = React.createClass({
                     { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     <a className="close-btn pull-right" href="#" onClick={this._close}>
                         <img className="" src="assets/close.png" />
+                    </a>
+                    <a className="close-btn pull-right" href="#" onClick={this._minimize}>
+                        _
                     </a>
                 </div>
                 { this.props.search == "show" ? <SearchBox items={this.state.filteredResult}/> : null }

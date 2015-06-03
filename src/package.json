@@ -7,9 +7,9 @@
         "title": "Lazymine",
         "frame": false,
         "toolbar": false,
-        "show_in_taskbar": false,
+        "show_in_taskbar": true,
         "show": false,
-        "always-on-top": true,
+        "always-on-top": false,
         "transparent": true
     }
 }
