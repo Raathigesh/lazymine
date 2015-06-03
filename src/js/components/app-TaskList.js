@@ -8,7 +8,8 @@ var TaskList = React.createClass({
     getInitialState: function () {
         "use strict";
         return {
-            "items": null
+            "items": null,
+            "containerHeight": 0
         };
     },
     render : function () {
@@ -23,8 +24,11 @@ var TaskList = React.createClass({
             });
         }
 
+    var containerHeight = {
+      height: document.documentElement.clientHeight - 138
+    };
         return (
-            <div className="tile-wrap">
+            <div className="tile-wrap" style={containerHeight}>
                {rows}
             </div>
         );

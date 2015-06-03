@@ -2,12 +2,6 @@
 The -webkit-app-region property blocks all other input so any child elements which
 require inputs need to set '-webkit-app-region: no-drag' property */
 
-body {
-    font-size: 15px;
-    overflow: auto;
-    border: 1px solid #D3D3D3;
-}
-
 ul,
 li {
     padding: 0;
@@ -153,4 +147,15 @@ li {
     color: #fff !important;
     border-color: #fff;
 }
+
+.tile-wrap{
+    overflow-x: hidden; /*hide horizontal scroll*/
+    overflow-y: auto;
+}
+
+.tile-collapse.active {
+    margin-right: 0;
+    margin-left: 0;
+}
+
 /* ---------- awads styles end -------------*/

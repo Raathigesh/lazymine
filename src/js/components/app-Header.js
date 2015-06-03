@@ -47,7 +47,7 @@ var Header = React.createClass({
                     </div>
                     { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     <a className="close-btn pull-right" href="#" onClick={this._close}>
-X
+                        <img className="" src="assets/close.png" />
                     </a>
                 </div>
                 { this.props.search == "show" ? <SearchBox items={this.state.filteredResult}/> : null }
