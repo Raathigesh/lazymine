@@ -129,15 +129,18 @@ li {
 
 .list-item-title {
     font-size: 14px;
-    line-height: 0;
     margin-bottom: 2px;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .list-item-description {
     color: #666;
     font-size: 12px;
     margin-bottom: -5px;
-    width: 80%;
+    width: 90%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
