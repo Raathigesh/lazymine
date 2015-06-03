@@ -89,6 +89,12 @@ var AppActions = (function () {
                 actionType: AppConstants.StoreError,
                 error: error
             });
+        },
+        logout = function () {
+            AppDispatcher.handleViewAction({
+                //actionType: AppConstants.Logout
+                actionType: AppConstants.Logout
+            });
         };
     return {
         fetchIssues: fetchIssues,
@@ -103,7 +109,8 @@ var AppActions = (function () {
         saveSettings: saveSettings,
         removeTimeEntry: removeTimeEntry,
         refreshIssues: refreshIssues,
-        storeError: storeError
+        storeError: storeError,
+        logout: logout
     };
 }());
 

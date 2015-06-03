@@ -229,13 +229,32 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
+        clearSettings = function () {
+            try {                
+                settings.clearSettings();
+                State = {
+                            fetchInProgress: false, // denotes weather issues are being fetched.
+                            filteredResult: [], // filtered search results.
+                            activeItems: [], // active tasks selected by the user.
+                            activities: [], // activities available to enter time against. Fetched from server.
+                            isLoading: true,
+                            settings: settings,
+                            error: null
+                        };
+                EventEmitter.prototype.emit(AppEvent.Change);                  
+            } catch (error) {
+                handleError(StoreError.InternalServerError);
+                console.error(prettify(error) || error);
+            }
+        },
         addChangeListener = function (callback) {
             EventEmitter.prototype.on(AppEvent.Change, callback);
         },
         removeChangeListeners = function (callback) {
             EventEmitter.prototype.removeListener(AppEvent.Change, callback);
-        },
+        },        
         dispatcherIndex = AppDispatcher.register(function (payload) {
+            debugger;
             // Clear the current error as its shown to the user already.
             State.error = null;
 
@@ -277,6 +296,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
             case AppConstants.RefreshIssues:
                 fetchLatest.call(this);
                 break;
+            case AppConstants.Logout:
+                clearSettings.call(this);
+               break;
             }
         });
 

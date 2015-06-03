@@ -12,5 +12,6 @@ module.exports = {
     SaveSettings: "SaveSettings",
     RemoveTimeEntry: "RemoveTimeEntry",
     RefreshIssues: "RefreshIssues",
-    StoreError: "StoreError"
+    StoreError: "StoreError",
+    Logout: "Logout"
 };

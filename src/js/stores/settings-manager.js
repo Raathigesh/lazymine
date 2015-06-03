@@ -52,6 +52,16 @@ SettingsManager.prototype = (function () {
             }.bind(this));
             return deferred.promise();
         },
+        clearSettings = function () {
+            localStorage.removeItem(this.settingsKey);
+            localStorage.removeItem(this.taskCollectionKey);
+            this.BaseURL = "";
+            this.APIKey = "";
+            this.timeEntryDay = moment();
+            this.activeTaskCollection = [];
+            this.available  = false;
+            this.forceLoad = false;
+        },
         setSettings = function (baseUrl, apiKey) {
             var deferred = $.Deferred(),
                 settings;
@@ -96,6 +106,7 @@ SettingsManager.prototype = (function () {
         };
     return {
         setSettings: setSettings,
+        clearSettings: clearSettings,
         fetchSettings: fetchSettings,
         setTaskCollection: setTaskCollection,
         fetchTaskCollection: fetchTaskCollection

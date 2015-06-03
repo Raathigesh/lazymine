@@ -34,6 +34,10 @@ var Container = React.createClass({
         "use strict";
         var storeState = AppStore.getState();
         this.setState(storeState);
+
+        if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
+            this.context.router.transitionTo('login');
+        }
     },
     _updateTime: function () {
         "use strict";

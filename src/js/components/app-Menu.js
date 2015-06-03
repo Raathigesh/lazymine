@@ -10,6 +10,10 @@ var Menu = React.createClass({
         "use strict";
         AppActions.refreshIssues();
     },
+    _logout: function () {
+        "use strict";
+        AppActions.logout();
+    },
     render: function () {
         "use strict";
         return (
@@ -26,7 +30,7 @@ var Menu = React.createClass({
                             </a>
                         </li>
                         <li>
-                            <a href="#/login">
+                            <a href="javascript:void(0)" onClick={this._logout}>
                                 <span className="icon icon-exit-to-app margin-right-half"></span>Disconnect
                             </a>
                         </li>
