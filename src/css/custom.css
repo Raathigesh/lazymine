@@ -39,6 +39,7 @@ body {
     margin: 4px;
     color: #fff;
     font-weight: bold;
+    -webkit-app-region: no-drag;
 }
 
 .search-box {

@@ -95,7 +95,6 @@ li {
 .datePicker {
     display: inline-block;
     width: 50%;
-    -webkit-app-region: no-drag;
 }
 
     .datePicker input {
@@ -103,6 +102,7 @@ li {
         width: 80px;
         height: 24px;
         border-bottom-style: dashed !important;
+        -webkit-app-region: no-drag;
     }
 
 .container-inner {
@@ -112,6 +112,7 @@ li {
 /* ---------- awads styles -------------*/
 .logo-img {
     padding: 2px 0 0 5px;
+    -webkit-app-region: no-drag; /* Isurus Hacks ;) */
 }
 
 .btn-lazy {
