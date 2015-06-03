@@ -16,7 +16,7 @@ var DatePicker = React.createClass({
         "use strict";
         return (
             <div className="date-picker-container">
-                <input ref="date" value={this.props.initialDate} className="datepicker-adv datepicker-adv-default form-control" id="datepicker-adv-1" type="text" readonly="" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="datepicker-adv-1_root"/>
+                <input ref="date" value={this.props.initialDate} className="datepicker-adv datepicker-adv-default form-control" id="datepicker-adv-1" type="text" />
             </div>
 
         );

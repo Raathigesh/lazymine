@@ -124,15 +124,4 @@ var Task = React.createClass({
     }
 });
 
-//fix from
-// http://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
-$(function(){
-    $('.icon-launch').on('click', function(e){
-        e.stopPropagation();
-    });
-    $('.icon-delete').on('click', function(e){
-        e.stopPropagation();
-    });
-});
-
 module.exports = Task;
