@@ -83,7 +83,7 @@ var Task = React.createClass({
 
                     <div className="tile-action tile-action-show">
                         <ul className="nav nav-list pull-right">
-                            <li title="Update time">
+                            <li title="Open task in Track">
                                 <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
                             </li>
                             <li title="Remove task">
