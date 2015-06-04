@@ -2,12 +2,13 @@
 /** @jsx React.DOM */
 var React = require('react'),
     Validator = require('validator'),
-    easyGid = require("easy-guid");
+    easyGid = require("easy-guid"),
+    _ = require('lodash');
 
 var TextField = React.createClass({
     formNormalClasses: "form-group form-group-label",
     formNormalClassesFocus: "form-group form-group-label control-focus",
-    localValue: null,
+    isPointRequired: false,
     getValue: function (){
         return React.findDOMNode(this.refs.textBox).value;
     },
@@ -16,34 +17,41 @@ var TextField = React.createClass({
         "use strict";
         var intialClass =  this.formNormalClasses;
 
-        if (this.props.value !== null) {
+        if (this.props.value !== null || this.props.value === "") {
+            
             intialClass =  this.formNormalClasses + " control-highlight";
         }
 
         return {
-            "formClassCollection": intialClass
+            formClassCollection: intialClass
         };
     },
 
     valueChange: function(event){        
         var value = this.getValue();
-        this.localValue = value;
+
         if(this.props.isNumeric) {
-            if (value === "" || Validator.isInt(value, { min: 0 }) || Validator.isFloat(value, { min: 0.00 })) {
-                this.setState({
-                    "formClassCollection": this.formNormalClassesFocus
-                });
-                this.props.keyUp(value);
-            } else {
-               
-            }
+           value = (value === "") ? 0 : value;
         }
+        
+        if(this.props.isNumeric){
+            if(_.endsWith(value, '.')){
+                this.isPointRequired = true;
+               // value = parseInt(value).toFixed(2);
+                this.props.onChange(value);    
+            }
+            else{
+                this.isPointRequired = false;
+                this.props.onChange(value);
+            }            
+        } else {
+             this.props.onChange(value);   
+        }    
     },
 
     onLoosingFocus: function(event){
          var value = this.getValue();
-
-         if(value != ""){
+         if(value !== ""){
             this.setState({
                 "formClassCollection": this.formNormalClassesFocus + " control-highlight"
             });
@@ -51,16 +59,15 @@ var TextField = React.createClass({
     }, 
 
     render : function(){
-	    var identifier = easyGid.new();
-        var textBoxValue = (this.localValue !== this.props.value) ? this.localValue : this.props.value;
-        textBoxValue = textBoxValue == 0 ? "" : textBoxValue;
-
+	    var identifier = easyGid.new();        
+        var textValue = (this.isPointRequired) ? this.props.value + "." : this.props.value;
+        textValue = (textValue === 0) ? "" : textValue;
         return (
            <div className={this.state.formClassCollection}>
               <div className="row">
                 <div className="col-lg-12 col-sm-12">
                   <label className="floating-label" htmlFor={identifier}>{this.props.label}</label>
-                  <input ref="textBox" className="form-control" id={identifier} value={textBoxValue} type="text" onBlur={this.onLoosingFocus} onChange={this.valueChange}/>
+                  <input ref="textBox" className="form-control" id={identifier} value={textValue} type="text" onBlur={this.onLoosingFocus} onChange={this.valueChange}/>
                 </div>
               </div>
            </div>

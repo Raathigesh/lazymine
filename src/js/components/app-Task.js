@@ -38,10 +38,9 @@ var Task = React.createClass({
         "use strict";
         AppActions.updateTaskComments(this.props.item.id, comment);
     },
-    _updateTaskHours: function (event) {
-        "use strict";
-        var spentHours = this.refs.spentHours.getValue();
-        AppActions.updateTaskHours(this.props.item.id, spentHours);
+    _updateTaskHours: function (hours) {
+        "use strict";        
+        AppActions.updateTaskHours(this.props.item.id, hours);
     },
     _remove: function (event) {
         "use strict";
@@ -106,7 +105,7 @@ var Task = React.createClass({
                     <div className="tile-sub">
                         <div className="row">
                             <div className="col-lg-12 col-sm-12">
-                                <TextField ref="comment" label = "Comment" value={item.comments} keyUp={this._updateTaskComments}/>
+                                <TextField ref="comment" label = "Comment" value={item.comments} onChange={this._updateTaskComments}/>
                             </div>    
                         </div>
                         <div className="row">
@@ -114,7 +113,7 @@ var Task = React.createClass({
                                 <DropDown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-lg-6 col-sm-6 hours-input">
-                                <TextField ref="spentHours" label = "Hours" value={item.hours} keyUp={this._updateTaskHours} isNumeric={true} setFixedFloatingZeros={true}/>
+                                <TextField ref="spentHours" label = "Hours" value={item.hours} onChange={this._updateTaskHours} isNumeric={true}/>
                              </div>
                         </div>
                     </div>
