@@ -104,6 +104,10 @@ li {
         border-bottom-style: dashed !important;
         -webkit-app-region: no-drag;
     }
+	
+.picker__button--clear { /* We really dont need this button :P */
+	display: none;
+}
 
 .container-inner {
     margin-top: 100px;
