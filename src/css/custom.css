@@ -37,8 +37,11 @@ body {
 
 .header .close-btn {
     margin: 4px;
-    color: #fff;
-    font-weight: bold;
+    -webkit-app-region: no-drag;
+}
+
+.header .minimize-btn {
+    margin: 4px -5px;
     -webkit-app-region: no-drag;
 }
 

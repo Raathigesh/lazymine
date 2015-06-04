@@ -52,10 +52,10 @@ var Header = React.createClass({
                     </div>
                     { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     <a className="close-btn pull-right" href="#" onClick={this._close}>
-                        <img className="" src="assets/close.png" />
+                        <img src="assets/close.png" />
                     </a>
-                    <a className="close-btn pull-right" href="#" onClick={this._minimize}>
-                        _
+                    <a className="minimize-btn pull-right" href="#" onClick={this._minimize}>
+                        <img src="assets/minimize.png" />
                     </a>
                 </div>
                 { this.props.search == "show" ? <SearchBox items={this.state.filteredResult}/> : null }
