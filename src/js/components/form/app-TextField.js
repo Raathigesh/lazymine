@@ -27,6 +27,10 @@ var TextField = React.createClass({
         };
     },
 
+    getDefaultProps: function () {
+        return { isNumeric: false };
+    },
+
     valueChange: function(event){        
         var value = this.getValue();
 
