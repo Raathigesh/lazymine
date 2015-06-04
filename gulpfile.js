@@ -137,7 +137,7 @@ gulp.task('default', function(callback) {
 
 gulp.task('ci', function(callback) {
     runSequence('clean',
-        ['browserify-With-Watch', 'build-scripts', 'build-css', 'copy-extras'],
+        ['browserify-Without-Watch', 'build-scripts', 'build-css', 'copy-extras'],
         'webkit-build',
         callback);
 });
@@ -181,4 +181,19 @@ gulp.task('browserify-With-Watch', function() {
         .pipe(source('main.js'))
         .pipe(gulp.dest(bases.concat + 'js/'));
 });
+
+gulp.task('browserify-Without-Watch', function() {
+    var bundler = browserify({
+        entries: [paths.main], // Only need initial file, browserify finds the deps
+        transform: [reactify], // We want to convert JSX to normal javascript
+        debug: true, // Gives us sourcemapping
+        cache: {}, packageCache: {}, fullPaths: true // Requirement of watchify
+    });
+    
+    return bundler
+        .bundle() // Create the initial bundle when starting the task
+        .pipe(source('main.js'))
+        .pipe(gulp.dest(bases.concat + 'js/'));
+});
+
 // ===========================================================
