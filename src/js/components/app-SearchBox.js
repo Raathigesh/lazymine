@@ -65,10 +65,10 @@ var SearchBox = React.createClass({
     },
     _hideResults: function () {
         "use strict";
-        //setTimeout is there to handle the special event hadling issue with onBlur
+        //setTimeout is there to handle the special event handling issue with onBlur
         setTimeout(function () {
             this._toggleResultsPanel(false);
-        }.bind(this), 100);
+        }.bind(this), 200);
     },
     render: function () {
         "use strict";
