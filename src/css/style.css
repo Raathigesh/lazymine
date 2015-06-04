@@ -130,8 +130,9 @@ li {
 
 .list-item-title {
     font-size: 14px;
+    font-weight: bold;
     margin-bottom: 2px;
-    width: 90%;
+    width: 85%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -141,10 +142,23 @@ li {
     color: #666;
     font-size: 12px;
     margin-bottom: -5px;
-    width: 90%;
+    width: 60%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.list-item-tracker{
+    color: #222;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: -5px;
+    width: 20%;
+}
+
+.list-item-task-id{
+    color: #666;
+    font-size: 12px;
 }
 
 .date-picker-container #datepicker-adv-1{

@@ -47,8 +47,10 @@ var SearchItem = React.createClass({
         var item = this.props.item,
             id = this.props.item.id;
         return(<div className={this.state.Classes} id={"result-" + id} data-id={id} onMouseOver={this._mouseOver} onMouseOut={this._mouseOut} onClick={this._click}>
-                  <p className="list-item-title" dangerouslySetInnerHTML={{__html: item.project.name}}></p>
-                  <p className="list-item-description" title={item.subject} dangerouslySetInnerHTML={{__html: item.formattedTitle}}></p>
+                  <p className="pull-right list-item-task-id" title="Task ID" dangerouslySetInnerHTML={{__html: id}}></p>
+                  <p className="list-item-title" title={item.project.name} dangerouslySetInnerHTML={{__html: item.project.name}}></p>
+                  <span className="list-item-tracker" title="Tracker name" dangerouslySetInnerHTML={{__html: item.tracker.name + " - "}}></span>
+                  <span className="list-item-description" title={item.subject} dangerouslySetInnerHTML={{__html: item.formattedTitle}}></span>
                </div>);
     }
 });
