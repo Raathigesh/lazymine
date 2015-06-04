@@ -73,7 +73,7 @@ var SearchBox = React.createClass({
     render: function () {
         "use strict";
         return (
-            <div className="row">
+            <div className="search-row">
                 <div className="col-md-12 search-box">
                     <input id="search" ref="searchBox" type="text" className="form-control search-control" 
                         onChange={this.filter} onKeyUp={this._navigate} onFocus={this._showResults} 

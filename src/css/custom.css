@@ -5,6 +5,7 @@ body {
     color: #666666;
     background: #f8f7f7;
     overflow: hidden;
+    border: 3px solid #EA5E5D;
 }
 
 .container-inner {
@@ -36,12 +37,12 @@ body {
 }
 
 .header .close-btn {
-    margin: 4px;
+    margin: 0;
     -webkit-app-region: no-drag;
 }
 
 .header .minimize-btn {
-    margin: 4px -5px;
+    margin: 0 -5px;
     -webkit-app-region: no-drag;
 }
 
