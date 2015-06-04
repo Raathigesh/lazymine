@@ -51,10 +51,10 @@ var Header = React.createClass({
                         </a>
                     </div>
                     { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
-                    <a className="close-btn pull-right" href="#" onClick={this._close}>
+                    <a className="close-btn pull-right" href="#" onClick={this._close} title="Close">
                         <img src="assets/close.png" />
                     </a>
-                    <a className="minimize-btn pull-right" href="#" onClick={this._minimize}>
+                    <a className="minimize-btn pull-right" href="#" onClick={this._minimize} title="Minimize">
                         <img src="assets/minimize.png" />
                     </a>
                 </div>
