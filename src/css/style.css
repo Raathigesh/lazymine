@@ -99,7 +99,7 @@ li {
 
     .datePicker input {
         margin: auto;
-        width: 80px;
+        width: 70px;
         height: 24px;
         border-bottom-style: dashed !important;
         -webkit-app-region: no-drag;
@@ -165,6 +165,7 @@ li {
 .date-picker-container #datepicker-adv-1{
     color: #fff !important;
     border-color: #fff;
+    border-bottom-style: solid !important;
 }
 
 .tile-wrap{
