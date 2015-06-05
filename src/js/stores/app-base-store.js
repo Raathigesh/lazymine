@@ -1,4 +1,4 @@
-/*global require, module, setInterval, clearInterval, console*/
+/*global require, module, setInterval, setTimeout, clearInterval, console*/
 var AppConstants = require('../constants/app-action-name'),
     AppEvent = require('../constants/app-event'),
     AppDispatcher = require('../dispatchers/app-dispatcher'),
@@ -98,8 +98,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         fetchLatestBackground.call(this);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
+                        setTimeout(function () {
+                            fetchData.call(this);
+                        }, settings.retryInterval);
                         handleError(error);
-                    });
+                    }.bind(this));
                 }
             } catch (error) {
                 handleError(StoreError.InternalServerError);
@@ -299,7 +302,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 break;
             case AppConstants.Logout:
                 clearSettings.call(this);
-               break;
+                break;
             }
         });
 
