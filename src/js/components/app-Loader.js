@@ -17,10 +17,9 @@ var Loader = React.createClass({
 
         return (
             <div className={className}>
-                <div>
-                    <img src="assets/Cat.GIF"/>
-                    <h4>Fetching Your Data</h4>
-                </div>
+                <div className="overlay_black"></div>
+                <img src="assets/Cat.GIF"/>
+                <h4>Fetching Your Data</h4>
             </div>
         );
     }
