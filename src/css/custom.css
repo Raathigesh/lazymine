@@ -29,6 +29,7 @@ body {
 .header-row {
     display: inline-block;
     width: 100%;
+    padding-right: 3px;
     -webkit-app-region: drag;
 }
 
@@ -44,6 +45,14 @@ body {
 .header .minimize-btn {
     margin: 0 -5px;
     -webkit-app-region: no-drag;
+}
+
+.close-btn:hover{
+    background-color: #EA2221;
+}
+
+.minimize-btn:hover{
+    background-color: #EA2221;
 }
 
 .search-box {
