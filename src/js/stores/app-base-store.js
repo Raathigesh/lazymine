@@ -62,7 +62,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
-                    $.when(manager.fetchLatest()).done(function () {
+                    State.isLoading = true;
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                    $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
                         EventEmitter.prototype.emit(AppEvent.Change);
@@ -107,7 +109,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
         filterTaskCollection = function (query) {
             try {
                 var manager = getDataManager();
-                if (manager !== null) {
+                if (!State.isLoading && manager !== null) {
                     State.filteredResult = manager.filterTaskCollection(query);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -230,18 +232,18 @@ module.exports = merge(EventEmitter.prototype, (function () {
             }
         },
         clearSettings = function () {
-            try {                
+            try {
                 settings.clearSettings();
                 State = {
-                            fetchInProgress: false, // denotes weather issues are being fetched.
-                            filteredResult: [], // filtered search results.
-                            activeItems: [], // active tasks selected by the user.
-                            activities: [], // activities available to enter time against. Fetched from server.
-                            isLoading: true,
-                            settings: settings,
-                            error: null
-                        };
-                EventEmitter.prototype.emit(AppEvent.Change);                  
+                    fetchInProgress: false, // denotes weather issues are being fetched.
+                    filteredResult: [], // filtered search results.
+                    activeItems: [], // active tasks selected by the user.
+                    activities: [], // activities available to enter time against. Fetched from server.
+                    isLoading: true,
+                    settings: settings,
+                    error: null
+                };
+                EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
                 handleError(StoreError.InternalServerError);
                 console.error(prettify(error) || error);
@@ -252,8 +254,8 @@ module.exports = merge(EventEmitter.prototype, (function () {
         },
         removeChangeListeners = function (callback) {
             EventEmitter.prototype.removeListener(AppEvent.Change, callback);
-        },        
-        dispatcherIndex = AppDispatcher.register(function (payload) {           
+        },
+        dispatcherIndex = AppDispatcher.register(function (payload) {
             // Clear the current error as its shown to the user already.
             State.error = null;
 
