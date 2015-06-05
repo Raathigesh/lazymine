@@ -1,6 +1,7 @@
 /*global require, module, openExternalUrl, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react'),
+    randomMC = require('random-material-color'),
     AppActions = require('../actions/app-actions'),
     TextField = require('../components/form/app-TextField'),
     DropDown = require('../components/form/app-Dropdown');
@@ -60,7 +61,8 @@ var Task = React.createClass({
             tileClass = "tile tile-collapse",
             hoursText = "",
             iconText,
-            dataTarget;
+            dataTarget,
+            iconStyle;
 
         if (item.updated) {
             tileClass = "tile tile-collapse selected";
@@ -71,11 +73,16 @@ var Task = React.createClass({
         iconText = this.props.item.projectName.replace(/\W/g, '').charAt(0);
         dataTarget = "tile-collapse-" + item.id;
 
+        //debugger;
+        iconStyle = {
+            backgroundColor: randomMC.getColor({ text: this.props.item.projectName })
+        };
+
         return (
             <div className={tileClass}>
                 <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
                     <div className="pull-left tile-side">
-                        <div className="avatar avatar-sm avatar-multi" title={this.props.item.projectName}>
+                        <div className="avatar avatar-sm avatar-multi" title={this.props.item.projectName} style={iconStyle}>
                             <span className="">{iconText}</span> 
                         </div>
                     </div>
