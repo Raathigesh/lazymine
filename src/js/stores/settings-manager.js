@@ -21,6 +21,7 @@ var SettingsManager = function () {
     this.available  = this.fetchSettings();
     this.forceLoad = false;
     this.backgroundFetchTimerInterval = 900000;
+    this.retryInterval = 10000;
 };
 
 SettingsManager.prototype = (function () {
