@@ -170,6 +170,7 @@ li {
     color: #fff !important;
     border-color: #fff;
     border-bottom-style: solid !important;
+    cursor: pointer !important;
 }
 
 .tile-wrap{
