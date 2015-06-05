@@ -170,6 +170,7 @@ li {
     color: #fff !important;
     border-color: #fff;
     border-bottom-style: solid !important;
+    cursor: pointer !important;
 }
 
 .tile-wrap{
@@ -192,4 +193,7 @@ li {
     right: 3px;
 }
 
+.tile-action{
+    border: none;
+}
 /* ---------- awads styles end -------------*/
