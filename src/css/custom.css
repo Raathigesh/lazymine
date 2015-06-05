@@ -238,16 +238,16 @@ body {
     height: 100%;
     -webkit-opacity: 1;
     opacity: 1;
-    -webkit-transition: all 1s ease;
-    transition: all 1s ease;
+    /*-webkit-transition: all 1s ease;
+    transition: all 1s ease;*/
     z-index: 1;
 }
 
     .overlay.hide {
         -webkit-opacity: 0;
         opacity: 0;
-        -webkit-transition: all 1s ease;
-        transition: all 1s ease;
+/*        -webkit-transition: all 1s ease;
+        transition: all 1s ease;*/
     }
 
     .overlay div {
