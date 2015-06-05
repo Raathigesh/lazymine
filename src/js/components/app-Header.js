@@ -1,4 +1,4 @@
-/*global require, module, minimizeWindow*/
+/*global require, module, openExternalUrl, closeWindow, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react'),
     Router = require('react-router'),
@@ -39,14 +39,19 @@ var Header = React.createClass({
         "use strict";
         return this.refs.infoBar.getSelectedDate();
     },
-
+    _openExternalUrl: function (event) {
+        "use strict";
+        openExternalUrl("http://lazymine.github.io/");
+        minimizeWindow();
+        event.nativeEvent.stopImmediatePropagation();
+    },
     render : function () {
         "use strict";
         return (
             <header className="header navbar navbar-default">
                 <div className="header-row">
                     <div className="header-brand">
-                        <a className="navbar-brand" href="#">
+                        <a className="navbar-brand" href="#" onClick={this._openExternalUrl}>
                             <img className="logo-img" src="assets/top-logo.png" />
                         </a>
                     </div>
