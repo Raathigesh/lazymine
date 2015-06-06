@@ -12,7 +12,7 @@ var InfoBar = React.createClass({
 
     render: function () {
         "use strict";
-        var today = moment().format('D/M/YYYY');
+        var today = moment().format('ddd, DD MMM YYYY');
         return (
             <div className="datePicker">
                 <DatePicker ref="datePicker" initialDate={today}/>

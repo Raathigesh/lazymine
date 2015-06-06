@@ -99,9 +99,9 @@ li {
 
     .datePicker input {
         margin: auto;
-        width: 70px;
+        width: 128px;
         height: 24px;
-        border-bottom-style: dashed !important;
+        text-align: center;
         -webkit-app-region: no-drag;
     }
 	
