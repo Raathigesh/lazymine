@@ -33,5 +33,9 @@ module.exports = {
     DataFetchInProgress: {
         code: "S008",
         message: "Cannot perform this operation, Data fetch in progress."
+    },
+    NoTimeEntryAvailable: {
+        code: "S009",
+        message: "You don't have tasks ready to update."
     }
 };
