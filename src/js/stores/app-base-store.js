@@ -72,10 +72,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
 
                 if (manager !== null) {
                     State.isLoading = true;
+                    State.filteredResult = [];
                     EventEmitter.prototype.emit(AppEvent.Change);
                     $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
-                        State.filteredResult = [];
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         handleError(error);
