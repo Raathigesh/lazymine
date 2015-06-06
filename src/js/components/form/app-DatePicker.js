@@ -6,6 +6,7 @@ var React = require('react'),
     Link = Router.Link;
 
 var DatePicker = React.createClass({
+
     getInitialState: function () {
         "use strict";
         return {
@@ -16,14 +17,17 @@ var DatePicker = React.createClass({
         "use strict";
         return moment(this.state.selectedDate, 'ddd, DD MMM YYYY');
     },
-    render : function () {
+    componentWillReceiveProps: function () {
         "use strict";
+        // Since the input does not fire a proper change event, we have to set the state before rendering.
         if(React.findDOMNode(this.refs.date)) {
             this.setState({
-                open: React.findDOMNode(this.refs.date).value
+                selectedDate: React.findDOMNode(this.refs.date).value
             });
         }
-
+    },
+    render : function () {
+        "use strict";
         return (
             <div className="date-picker-container">
                 <input ref="date" value={this.state.selectedDate} className="datepicker-adv datepicker-adv-default form-control" id="datepicker-adv-1" type="text" />
