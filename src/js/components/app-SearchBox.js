@@ -56,6 +56,7 @@ var SearchBox = React.createClass({
 
     _navigate: function (event) {
         "use strict";
+        this._showResults();
         this.refs.searchResult._navigate(event);
     },
 
