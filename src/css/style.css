@@ -93,18 +93,23 @@ li {
 }
 
 .datePicker {
-    display: inline-block;
-    width: 50%;
+    padding-left: 25%;
 }
 
     .datePicker input {
-        margin: auto;
-        width: 70px;
         height: 24px;
-        border-bottom-style: dashed !important;
+        width: 90px;
+        text-align: center;
+        border-bottom-style: 1px solid #fff;
         -webkit-app-region: no-drag;
     }
 	
+.date-picker-container #datepicker-adv-1{
+    color: #fff !important;
+    border-color: #fff;
+    cursor: pointer !important;
+}
+
 .picker__button--clear { /* We really dont need this button :P */
 	display: none;
 }
@@ -165,13 +170,6 @@ li {
 .list-item-task-id{
     color: #666;
     font-size: 12px;
-}
-
-.date-picker-container #datepicker-adv-1{
-    color: #fff !important;
-    border-color: #fff;
-    border-bottom-style: solid !important;
-    cursor: pointer !important;
 }
 
 .tile-wrap{
