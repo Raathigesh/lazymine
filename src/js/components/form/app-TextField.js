@@ -74,8 +74,9 @@ var TextField = React.createClass({
     }, 
 
     render : function(){
-	    var identifier = easyGid.new();        
-        var textValue = (this.isPointRequired) ? this.props.value + "." : this.props.value;
+	      var identifier = easyGid.new();       
+        var textValue = (this.props.value === null) ? 0 : this.props.value;
+        textValue = (this.isPointRequired) ? textValue + "." : textValue;
         textValue = (textValue === 0) ? "" : textValue;
         return (
            <div className={this.state.formClassCollection}>
