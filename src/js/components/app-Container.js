@@ -9,7 +9,8 @@ var React = require('react'),
     Footer = require('../components/app-Footer'),
     Loader = require('../components/app-Loader'),
     Errors = require('../constants/store-errors'),
-    Toast = require('../components/app-Toast');
+    Toast = require('../components/app-Toast'),
+    About = require('../components/app-About');
 
 var Container = React.createClass({
     contextTypes: {
@@ -62,6 +63,7 @@ var Container = React.createClass({
                         <TaskList items={this.state.activeItems} activities={this.state.activities}/>
                     </div>
                 </div>
+                <About />
                 <Footer
                     primaryText="UPDATE"
                     primaryClick={this._updateTime}

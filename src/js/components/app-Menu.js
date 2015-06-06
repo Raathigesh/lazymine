@@ -30,6 +30,11 @@ var Menu = React.createClass({
                             </a>
                         </li>
                         <li>
+                            <a href="#about" data-toggle="modal">
+                                <span className="icon icon-info-outline margin-right-half"></span>About
+                            </a>
+                        </li>
+                        <li>
                             <a href="javascript:void(0)" onClick={this._logout}>
                                 <span className="icon icon-exit-to-app margin-right-half"></span>Disconnect
                             </a>
