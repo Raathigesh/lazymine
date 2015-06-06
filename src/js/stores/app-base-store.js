@@ -142,6 +142,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
         },
         createActiveTask = function (issueId) {
             try {
+                if (!issueId) {
+                    return null;
+                }
+
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.createActiveTask(issueId);
