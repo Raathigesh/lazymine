@@ -36,7 +36,7 @@ var TaskList = React.createClass({
 
         if (items) {
             rows = items.map(function (item) {
-                return(<Task updatedTime="15" item={item} activities={activities} />);
+                return(<Task item={item} activities={activities} />);
             });
         }
 
