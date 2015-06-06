@@ -198,7 +198,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
-                        EventEmitter.prototype.emit(AppEvent.Change);
+                        handleError("Updated Successfully!");
                     }.bind(this)).fail(function (error) {
                         handleError(error);
                     });
