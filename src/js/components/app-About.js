@@ -7,20 +7,32 @@ var About = React.createClass({
         "use strict";
         return (
             <div aria-hidden="true" className="modal fade" id="about" role="dialog" tabindex="-1">
-                <div className="modal-dialog">
+                <div className="modal-dialog-about">
                     <div className="modal-content">
-                        <div className="modal-heading">
-                            <a className="modal-close" data-dismiss="modal">X</a>
-                            <h2 className="modal-title">Lazymine!</h2>
-                        </div>
                         <div className="modal-inner">
-                            <p>A god sent redmine client which will make you smile everytime you enter time.</p>
-                        </div>
-                        <div className="modal-footer">
-                            <p className="text-right">
-                                <button className="btn btn-flat btn-alt" data-dismiss="modal" type="button">Close</button>
-                                <button className="btn btn-flat btn-alt" data-dismiss="modal" type="button">OK</button>
-                            </p>
+                            <div className="row clearfix text-center">
+                                <div className="col-md-12 column">
+                                    <div className="row clearfix">
+                                        <div className="col-md-12 column">
+                                            <img alt="Login" className="cloudy" src="assets/icon_128.png"></img>
+                                        </div>
+                                    </div>
+                                    <div className="row clearfix">
+                                        <div className="col-md-12 column text-center">
+                                            <h2>Lazymine</h2>
+                                            <p className="version">V 0.0.1 - Dragon - Li</p>
+                                        </div>
+                                    </div>
+                                    <div className="row clearfix">
+                                        <div className="col-md-12 column text-center">
+                                            <p>
+                                                A god sent redmine client which will make you smile everytime you enter time.
+                                                <br/><a href="http://lazymine.github.io/">lazymine.github.io</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
                         </div>
                     </div>
                 </div>
