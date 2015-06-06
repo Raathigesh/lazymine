@@ -4,7 +4,6 @@ var React = require('react'),
     moment = require('moment');
 
 var DatePicker = React.createClass({
-
     getInitialState: function () {
         "use strict";
         return {

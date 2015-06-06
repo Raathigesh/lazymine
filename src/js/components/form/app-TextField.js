@@ -53,16 +53,10 @@ var TextField = React.createClass({
     },
     allowKeypress: function (event) {
         "use strict";
-        if (this.props.isNumeric === false) {
-            return true;
-        }
-
         var charCode = event.which || event.keyCode;
-        if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
+        if (this.props.isNumeric && charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            event.preventDefault();
         }
-
-        return true;
     },
     onLoosingFocus: function () {
         "use strict";
