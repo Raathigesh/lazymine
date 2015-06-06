@@ -9,16 +9,15 @@ var TextField = React.createClass({
     formNormalClasses: "form-group form-group-label",
     formNormalClassesFocus: "form-group form-group-label control-focus",
     isPointRequired: false,
-    getValue: function (){
+    getValue: function () {
+        "use strict";
         return React.findDOMNode(this.refs.textBox).value;
     },
-
     getInitialState: function () {
         "use strict";
         var intialClass =  this.formNormalClasses;
 
         if (this.props.value !== null || this.props.value === "") {
-            
             intialClass =  this.formNormalClasses + " control-highlight";
         }
 
@@ -26,56 +25,57 @@ var TextField = React.createClass({
             formClassCollection: intialClass
         };
     },
-
     getDefaultProps: function () {
+        "use strict";
         return { isNumeric: false };
     },
-
-    valueChange: function(event){        
+    valueChange: function () {
+        "use strict";
         var value = this.getValue();
 
-        if(this.props.isNumeric) {
-           value = (value === "") ? 0 : value;
+        if (this.props.isNumeric) {
+            value = (value === "") ? 0 : value;
         }
-        
-        if(this.props.isNumeric){
-            if(_.endsWith(value, '.')){
+
+        if (this.props.isNumeric) {
+            if (_.endsWith(value, '.')) {
                 this.isPointRequired = true;
                // value = parseInt(value).toFixed(2);
-                this.props.onChange(value);    
-            }
-            else{
+                this.props.onChange(value);
+            } else {
                 this.isPointRequired = false;
                 this.props.onChange(value);
-            }            
+            }
         } else {
-             this.props.onChange(value);   
-        }    
+            this.props.onChange(value);
+        }
     },
-
-    allowKeypress: function(event){
-        if(this.props.isNumeric === false)
+    allowKeypress: function (event) {
+        "use strict";
+        if (this.props.isNumeric === false) {
             return true;
+        }
 
-         var charCode = (event.which) ? event.which : event.keyCode;
-         if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+        var charCode = event.which || event.keyCode;
+        if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
+        }
 
-         return true;
+        return true;
     },
-
-    onLoosingFocus: function(event){
-         var value = this.getValue();
-         if(value !== ""){
+    onLoosingFocus: function () {
+        "use strict";
+        var value = this.getValue();
+        if (value !== "") {
             this.setState({
                 "formClassCollection": this.formNormalClassesFocus + " control-highlight"
             });
-         }
-    }, 
-
-    render : function(){
-	      var identifier = easyGid.new();       
-        var textValue = (this.props.value === null) ? 0 : this.props.value;
+        }
+    },
+    render : function () {
+        "use strict";
+        var identifier = easyGid.new(),
+            textValue = (this.props.value === null) ? 0 : this.props.value;
         textValue = (this.isPointRequired) ? textValue + "." : textValue;
         textValue = (textValue === 0) ? "" : textValue;
         return (
