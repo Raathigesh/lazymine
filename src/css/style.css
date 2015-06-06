@@ -10,12 +10,12 @@ li {
 }
 
 #search-results {
-    background: #e5e5e5;
     width: 85%;
     z-index: 1000;
     padding-left: 1px;
     padding-right: 1px;
     margin-top: -14px;
+    padding-left: 15%;
 }
 
     #search-results.open ul {

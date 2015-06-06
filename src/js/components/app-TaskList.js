@@ -9,7 +9,7 @@ var TaskList = React.createClass({
         "use strict";
 
         var height = {
-          'height': document.documentElement.clientHeight - 140
+          'height': document.documentElement.clientHeight - 160
       };
 
         return {
@@ -20,7 +20,7 @@ var TaskList = React.createClass({
 
     handleResize: function(e) {
         var height = {
-          'height': document.documentElement.clientHeight - 140
+          'height': document.documentElement.clientHeight - 160
       };
 
       this.setState({componentHeight: height});
