@@ -106,7 +106,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                             State.activeItems = manager.activeTaskCollection;
                         }
                         fetchLatestBackground.call(this);
-                        EventEmitter.prototype.emit(AppEvent.Change);
+                        clearError.call(this);
                     }.bind(this)).fail(function (error) {
                         handleError(error);
                         setTimeout(function () {
