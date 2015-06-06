@@ -41,9 +41,9 @@ var Header = React.createClass({
     },
     _openExternalUrl: function (event) {
         "use strict";
+        event.nativeEvent.stopImmediatePropagation();
         openExternalUrl("http://lazymine.github.io/");
         minimizeWindow();
-        event.nativeEvent.stopImmediatePropagation();
     },
     render : function () {
         "use strict";

@@ -37,17 +37,19 @@ var TextField = React.createClass({
             value = (value === "") ? 0 : value;
         }
 
-        if (this.props.isNumeric) {
-            if (_.endsWith(value, '.')) {
-                this.isPointRequired = true;
-               // value = parseInt(value).toFixed(2);
-                this.props.onChange(value);
+        if (this.props.onChange) {
+            if (this.props.isNumeric) {
+                if (_.endsWith(value, '.')) {
+                    this.isPointRequired = true;
+                    // value = parseInt(value).toFixed(2);
+                    this.props.onChange(value);
+                } else {
+                    this.isPointRequired = false;
+                    this.props.onChange(value);
+                }
             } else {
-                this.isPointRequired = false;
                 this.props.onChange(value);
             }
-        } else {
-            this.props.onChange(value);
         }
     },
     allowKeypress: function (event) {
