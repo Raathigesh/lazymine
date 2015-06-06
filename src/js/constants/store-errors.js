@@ -8,8 +8,7 @@ module.exports = {
     },
     DataLoadFailure: {
         code: "S002",
-        message: "Data load failure.",
-        retry: "AppActions.fetchIssues()"
+        message: "Data load failure, Please connect to a network."
     },
     TimeEntryFailure : {
         code: "S003",
