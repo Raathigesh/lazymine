@@ -28,6 +28,7 @@ var ServiceAccessor = function (serviceBaseUrl, httpHelper) {
         ItemStatus.Sandbox
     ];
     this.lastTaskFetch = null;
+    this.isDeveloperMode = false;
 };
 
 ServiceAccessor.prototype = (function () {
@@ -44,7 +45,12 @@ ServiceAccessor.prototype = (function () {
                     totalPageCount = Math.ceil(totalRows / urlBuilder.getPageSize());
 
                 taskCollection = taskCollection.concat(data.issues);
-                if (totalPageCount > 1) {
+                if(this.isDeveloperMode)
+                {
+                    console.warn("Fetching only a single page of data in Developer Mode");
+                    deferred.resolve(taskCollection);
+                }
+                else if (totalPageCount > 1) {
                     for (index = 2; index <= totalPageCount; index = index + 1) {
                         issuesUrl = urlBuilder.withNextOffset().buildIssuesUrl();
                         promises.push(this.httpHelper.getRequest(issuesUrl));

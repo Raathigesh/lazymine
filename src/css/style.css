@@ -11,7 +11,7 @@ li {
 
 #search-results {
     background: #e5e5e5;
-    width: 100%;
+    width: 85%;
     z-index: 1000;
     padding-left: 1px;
     padding-right: 1px;
@@ -93,18 +93,24 @@ li {
 }
 
 .datePicker {
-    display: inline-block;
-    width: 50%;
+    padding-left: 25%;
 }
 
     .datePicker input {
         margin: auto;
-        width: 128px;
         height: 24px;
+        width: 128px;
         text-align: center;
+        border-bottom-style: 1px solid #fff;
         -webkit-app-region: no-drag;
     }
 	
+.date-picker-container #datepicker-adv-1{
+    color: #fff !important;
+    border-color: #fff;
+    cursor: pointer !important;
+}
+
 .picker__button--clear { /* We really dont need this button :P */
 	display: none;
 }
@@ -146,7 +152,8 @@ li {
     display: inline-block;
     color: #666;
     font-size: 12px;
-    margin-bottom: -5px;
+    margin-bottom: -6px;
+    padding-left: 2px;
     width: 75%;
     white-space: nowrap;
     overflow: hidden;
@@ -164,13 +171,6 @@ li {
 .list-item-task-id{
     color: #666;
     font-size: 12px;
-}
-
-.date-picker-container #datepicker-adv-1{
-    color: #fff !important;
-    border-color: #fff;
-    border-bottom-style: solid !important;
-    cursor: pointer !important;
 }
 
 .tile-wrap{
