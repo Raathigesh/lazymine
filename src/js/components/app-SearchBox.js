@@ -1,11 +1,9 @@
 /*global require, module, setTimeout*/
 /** @jsx React.DOM */
 var React = require('react'),
-    AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
     SearchResult = require('../components/app-SearchResult'),
     Menu = require('../components/app-Menu'),
-    Rx = require('rx'),
     EventHandler = require('../util/eventHandler');
 
 var SearchBox = React.createClass({
@@ -22,9 +20,9 @@ var SearchBox = React.createClass({
         /*Search requests to the store are throttled with the help of RxJs to 
          * minimize the performance hit */
         var filter = EventHandler.create();
-            filter.select(function (event) {
-                return event.target.value;
-            })
+        filter.select(function (event) {
+            return event.target.value;
+        })
             .skipWhile(function (query) {
                 return query.length < this.MinimumQueryLength;
             }.bind(this))

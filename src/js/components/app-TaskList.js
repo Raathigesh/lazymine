@@ -1,8 +1,7 @@
 /*global require, module, document, window*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Task = require('../components/app-Task'),
-    AppStore = require('../stores/app-base-store');
+    Task = require('../components/app-Task');
 
 var TaskList = React.createClass({
     getInitialState: function () {

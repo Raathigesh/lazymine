@@ -1,15 +1,10 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    AppActions = require('../actions/app-actions'),
     Container = require('../components/app-Container'),
-    SearchBox = require('../components/app-SearchBox'),
-    TaskList = require('../components/app-TaskList'),
     Login = require('../components/app-Login'),
-    NavBar = require('../components/app-NavBar'),
     Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
     Route = Router.Route,
     RouteHandler = Router.RouteHandler;
 

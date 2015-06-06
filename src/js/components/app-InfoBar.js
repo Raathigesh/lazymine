@@ -1,8 +1,7 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    DatePicker = require('../components/form/app-DatePicker'),
-    moment = require('moment');
+    DatePicker = require('../components/form/app-DatePicker');
 
 var InfoBar = React.createClass({
     getSelectedDate: function () {

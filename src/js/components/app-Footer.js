@@ -1,8 +1,6 @@
 /*global require, module*/
 /** @jsx React.DOM */
-var React = require('react'),
-    Mui = require('material-ui'),
-    RaisedButton = Mui.RaisedButton;
+var React = require('react');
 
 var Footer = React.createClass({
     render: function () {

@@ -1,9 +1,7 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Router = require('react-router'),
-    AppActions = require('../actions/app-actions'),
-    Link = Router.Link;
+    AppActions = require('../actions/app-actions');
 
 var Refresh = React.createClass({
     _refreshTasks: function () {

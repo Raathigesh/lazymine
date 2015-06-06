@@ -1,12 +1,9 @@
 /*global require, module, openExternalUrl, closeWindow, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Router = require('react-router'),
     SearchBox = require('../components/app-SearchBox'),
     AppStore = require('../stores/app-base-store'),
-    AppActions = require('../actions/app-actions'),
-    InfoBar = require('../components/app-InfoBar'),
-    Link = Router.Link;
+    InfoBar = require('../components/app-InfoBar');
 
 var Header = React.createClass({
     getInitialState: function () {

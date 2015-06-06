@@ -4,11 +4,9 @@ var React = require('react'),
     AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
     Header = require('../components/app-Header'),
-    Title = require('../components/app-Title'),
     TaskList = require('../components/app-TaskList'),
     Footer = require('../components/app-Footer'),
     Loader = require('../components/app-Loader'),
-    Errors = require('../constants/store-errors'),
     Toast = require('../components/app-Toast'),
     About = require('../components/app-About');
 

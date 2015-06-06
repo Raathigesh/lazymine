@@ -1,7 +1,6 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Validator = require('validator'),
     easyGid = require("easy-guid"),
     _ = require('lodash');
 
