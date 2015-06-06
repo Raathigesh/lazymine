@@ -196,4 +196,10 @@ li {
 .tile-action{
     border: none;
 }
+
+.nav.pull-right .dropdown-menu{
+    right: 17px;
+    left: -93px;
+    top: 20px;
+}
 /* ---------- awads styles end -------------*/
