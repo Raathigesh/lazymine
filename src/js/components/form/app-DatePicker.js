@@ -26,7 +26,7 @@ var DatePicker = React.createClass({
     render : function () {
         "use strict";
         return (
-            <div className="date-picker-container">
+            <div className="date-picker-container" title="Click to select date to enter time for">
                 <input ref="date" value={this.state.selectedDate} className="datepicker-adv datepicker-adv-default form-control" id="datepicker-adv-1" type="text" />
             </div>
 

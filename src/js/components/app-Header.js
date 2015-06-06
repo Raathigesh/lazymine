@@ -49,7 +49,7 @@ var Header = React.createClass({
                 <div className="row">
                     <div className="col-xs-5">
                         <a href="#" onClick={this._openExternalUrl}>
-                            <img className="logo-img" src="assets/top-logo.png" />
+                            <img className="logo-img" src="assets/top-logo.png" title="Lazymine" />
                         </a>
                     </div>
                     <div className="col-xs-2">

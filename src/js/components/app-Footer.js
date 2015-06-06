@@ -8,11 +8,11 @@ var Footer = React.createClass({
         return (
             <div className="btn-group btn-group-justified bottom-button-group" style={{position:'fixed', bottom:'3'}}>
                 <a className="btn btn-flat btn-cancel waves-button waves-effect waves-light"
-                   onClick={this.props.secondaryClick}>
+                   onClick={this.props.secondaryClick} title="Clear task list">
                     {this.props.secondaryText}
                 </a>
                 <a className="btn btn-flat btn-success waves-button waves-effect waves-light"
-                   onClick={this.props.primaryClick}>
+                   onClick={this.props.primaryClick} title="Update entered values to Redmine">
                     {this.props.primaryText}
                 </a>
             </div>
