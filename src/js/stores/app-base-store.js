@@ -38,6 +38,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
         },
+        clearError = function () {
+            State.error = null;
+            EventEmitter.prototype.emit(AppEvent.Change);
+        },
         getState = function () {
             return State;
         },
@@ -86,6 +90,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
+                    clearError.call(this);
                     $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
@@ -103,10 +108,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         fetchLatestBackground.call(this);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
+                        handleError(error);
                         setTimeout(function () {
                             fetchData.call(this);
                         }, settings.retryInterval);
-                        handleError(error);
                     }.bind(this));
                 }
             } catch (error) {
