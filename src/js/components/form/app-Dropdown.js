@@ -1,7 +1,6 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    AppActions = require('../../actions/app-actions'),
     easyGid = require("easy-guid");
 
 var DropDown = React.createClass({

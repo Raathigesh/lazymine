@@ -1,15 +1,11 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    AppActions = require('../actions/app-actions'),
+    AppStore = require('../stores/app-base-store'),
     Container = require('../components/app-Container'),
-    SearchBox = require('../components/app-SearchBox'),
-    TaskList = require('../components/app-TaskList'),
     Login = require('../components/app-Login'),
-    NavBar = require('../components/app-NavBar'),
     Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
     Route = Router.Route,
     RouteHandler = Router.RouteHandler;
 
@@ -21,12 +17,14 @@ var App = React.createClass({
                 </div>);
     }
 });
-
+var getDefaultRoute = function () {
+    return AppStore.getState().settings.available ? Container : Login;
+};
 var routes = (
   <Route name="app" path="/" handler={App}>
     <Route name="home" handler={Container}/>
     <Route name="login" handler={Login}/>
-    <DefaultRoute handler={Container}/>
+    <DefaultRoute handler={getDefaultRoute()}/>
   </Route>
 );
 

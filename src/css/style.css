@@ -10,12 +10,12 @@ li {
 }
 
 #search-results {
-    background: #e5e5e5;
     width: 85%;
     z-index: 1000;
     padding-left: 1px;
     padding-right: 1px;
     margin-top: -14px;
+    padding-left: 15%;
 }
 
     #search-results.open ul {
@@ -93,12 +93,13 @@ li {
 }
 
 .datePicker {
-    padding-left: 25%;
+    /* padding-left: 25%; */
 }
 
     .datePicker input {
+        margin: auto;
         height: 24px;
-        width: 90px;
+        width: 128px;
         text-align: center;
         border-bottom-style: 1px solid #fff;
         -webkit-app-region: no-drag;
@@ -194,5 +195,58 @@ li {
 
 .tile-action{
     border: none;
+}
+
+.nav.pull-right .dropdown-menu{
+    right: 17px;
+    left: -93px;
+    top: 20px;
+}
+
+.modal-dialog-about{
+    margin-right: auto;
+    margin-left: auto;
+    padding: 60px 16px;
+    width: 400px;
+    color: #777;
+}
+
+.modal-dialog-about .version{
+    margin-top: -15px;
+}
+
+.modal-dialog-about p{
+    font-size: 11px;
+}
+
+.modal-dialog-about a{
+    color: #2196f3;
+}
+
+.cloudy {
+    animation: cloudy 5s ease-in-out infinite;
+    background: #FFF;
+    border-radius: 50%;
+    height: 80px;
+    margin-top: 10px;
+}
+
+.cloudy:after {
+    animation: cloudy_shadow 5s ease-in-out infinite;
+    background: #999;
+    border-radius: 50%;
+    content: '';
+    height: 15px;
+    width: 120px;
+    opacity: .2;
+    transform: scale(.7);
+}
+
+@keyframes cloudy {
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes cloudy_shadow {
+    50% { transform: translateY(20px) scale(1); opacity:.05; }
 }
 /* ---------- awads styles end -------------*/

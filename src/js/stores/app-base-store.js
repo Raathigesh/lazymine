@@ -38,6 +38,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
         },
+        clearError = function () {
+            State.error = null;
+            EventEmitter.prototype.emit(AppEvent.Change);
+        },
         getState = function () {
             return State;
         },
@@ -61,12 +65,17 @@ module.exports = merge(EventEmitter.prototype, (function () {
         fetchLatest = function () {
             try {
                 var manager = getDataManager();
+                if (State.isLoading) {
+                    handleError(StoreError.DataFetchInProgress);
+                    return null;
+                }
+
                 if (manager !== null) {
                     State.isLoading = true;
+                    State.filteredResult = [];
                     EventEmitter.prototype.emit(AppEvent.Change);
                     $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
-                        State.filteredResult = [];
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         handleError(error);
@@ -81,6 +90,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
+                    clearError.call(this);
                     $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
                         State.filteredResult = [];
@@ -96,12 +106,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
                             State.activeItems = manager.activeTaskCollection;
                         }
                         fetchLatestBackground.call(this);
-                        EventEmitter.prototype.emit(AppEvent.Change);
+                        clearError.call(this);
                     }.bind(this)).fail(function (error) {
+                        handleError(error);
                         setTimeout(function () {
                             fetchData.call(this);
                         }, settings.retryInterval);
-                        handleError(error);
                     }.bind(this));
                 }
             } catch (error) {
@@ -132,6 +142,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
         },
         createActiveTask = function (issueId) {
             try {
+                if (!issueId) {
+                    return null;
+                }
+
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.createActiveTask(issueId);
@@ -234,18 +248,26 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
+        resetState = function () {
+            State = {
+                fetchInProgress: false,
+                filteredResult: [],
+                activeItems: [],
+                activities: [],
+                isLoading: true,
+                settings: settings,
+                error: null
+            };
+        },
         clearSettings = function () {
             try {
+                if (State.isLoading) {
+                    handleError(StoreError.DataFetchInProgress);
+                    return null;
+                }
+
                 settings.clearSettings();
-                State = {
-                    fetchInProgress: false, // denotes weather issues are being fetched.
-                    filteredResult: [], // filtered search results.
-                    activeItems: [], // active tasks selected by the user.
-                    activities: [], // activities available to enter time against. Fetched from server.
-                    isLoading: true,
-                    settings: settings,
-                    error: null
-                };
+                resetState.call(this);
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
                 handleError(StoreError.InternalServerError);

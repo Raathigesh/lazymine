@@ -268,6 +268,11 @@ DataManager.prototype = (function () {
             this.timePostedTaskCollection = _.filter(this.activeTaskCollection, function (entry) {
                 return entry.updated;
             });
+
+            if (this.timePostedTaskCollection.length === 0) {
+                deferred.reject(StoreError.NoTimeEntryAvailable);
+            }
+
             $.when(this.serviceAccessor.createTimeEntries(this.timePostedTaskCollection, spentOn)).done(function () {
                 this.timePostedTaskCollection.map(function (timeEntry) {
                     timeEntry.clearTimeEntry();

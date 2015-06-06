@@ -40,7 +40,7 @@ var Task = React.createClass({
         AppActions.updateTaskComments(this.props.item.id, comment);
     },
     _updateTaskHours: function (hours) {
-        "use strict";        
+        "use strict";
         AppActions.updateTaskHours(this.props.item.id, hours);
     },
     _remove: function (event) {

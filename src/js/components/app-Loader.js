@@ -1,8 +1,6 @@
 /*global require, module*/
 /** @jsx React.DOM */
-var React = require('react'),
-    Router = require('react-router'),
-    Link = Router.Link;
+var React = require('react');
 
 var Loader = React.createClass({
     render : function () {

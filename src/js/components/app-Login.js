@@ -3,7 +3,6 @@
 var React = require('react'),
     AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
-    Title = require('../components/app-Title'),
     Header = require('../components/app-Header'),
     Router = require('react-router'),
     TextField = require('../components/form/app-TextField');

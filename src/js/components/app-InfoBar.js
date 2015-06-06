@@ -1,8 +1,7 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    DatePicker = require('../components/form/app-DatePicker'),
-    moment = require('moment');
+    DatePicker = require('../components/form/app-DatePicker');
 
 var InfoBar = React.createClass({
     getSelectedDate: function () {
@@ -12,10 +11,9 @@ var InfoBar = React.createClass({
 
     render: function () {
         "use strict";
-        var today = moment().format('D/M/YYYY');
         return (
             <div className="datePicker">
-                <DatePicker ref="datePicker" initialDate={today}/>
+                <DatePicker ref="datePicker" />
             </div>
         );
     }

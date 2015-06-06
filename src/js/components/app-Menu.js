@@ -1,9 +1,7 @@
 /*global require, module*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Router = require('react-router'),
-    AppActions = require('../actions/app-actions'),
-    Link = Router.Link;
+    AppActions = require('../actions/app-actions');
 
 var Menu = React.createClass({
     _refreshTasks: function () {
@@ -27,6 +25,11 @@ var Menu = React.createClass({
                         <li>
                             <a href="javascript:void(0)" onClick={this._refreshTasks}>
                                 <span className="icon icon-refresh margin-right-half"></span>Refresh
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#about" data-toggle="modal">
+                                <span className="icon icon-info-outline margin-right-half"></span>About
                             </a>
                         </li>
                         <li>

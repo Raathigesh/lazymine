@@ -1,6 +1,6 @@
 /*global require, console, process, __dirname*/
 var browserSync = require('browser-sync').create(),
-    clean = require('gulp-clean'),
+    rimraf = require('gulp-rimraf'),
     concat = require('gulp-concat'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -40,7 +40,7 @@ var filesToMove = paths.libs.concat(paths.html)
 gulp.task('clean', function () {
     "use strict";
     return gulp.src(bases.dist)
-        .pipe(clean());
+        .pipe(rimraf());
 });
 
 gulp.task('browserify', function () {
@@ -167,7 +167,7 @@ gulp.task('build', function (callback) {
 
 gulp.task('watch', function () {
     "use strict";
-    gulp.watch('src/css/*.*', ['dev-build-css']);
+    gulp.watch('src/css/*.*', [ 'dev-build-css' ]);
 });
 
 

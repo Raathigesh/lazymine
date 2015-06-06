@@ -1,12 +1,9 @@
 /*global require, module, openExternalUrl, closeWindow, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Router = require('react-router'),
     SearchBox = require('../components/app-SearchBox'),
     AppStore = require('../stores/app-base-store'),
-    AppActions = require('../actions/app-actions'),
-    InfoBar = require('../components/app-InfoBar'),
-    Link = Router.Link;
+    InfoBar = require('../components/app-InfoBar');
 
 var Header = React.createClass({
     getInitialState: function () {
@@ -41,9 +38,9 @@ var Header = React.createClass({
     },
     _openExternalUrl: function (event) {
         "use strict";
+        event.nativeEvent.stopImmediatePropagation();
         openExternalUrl("http://lazymine.github.io/");
         minimizeWindow();
-        event.nativeEvent.stopImmediatePropagation();
     },
     render : function () {
         "use strict";

@@ -8,8 +8,7 @@ module.exports = {
     },
     DataLoadFailure: {
         code: "S002",
-        message: "Data load failure.",
-        retry: "AppActions.fetchIssues()"
+        message: "Data load failure, Please connect to a network."
     },
     TimeEntryFailure : {
         code: "S003",
@@ -30,5 +29,13 @@ module.exports = {
     SettingsNotSet: {
         code: "S007",
         message: "Settings not available in local storage."
+    },
+    DataFetchInProgress: {
+        code: "S008",
+        message: "Cannot perform this operation, Data fetch in progress."
+    },
+    NoTimeEntryAvailable: {
+        code: "S009",
+        message: "You don't have tasks ready to update."
     }
 };

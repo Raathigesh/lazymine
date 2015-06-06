@@ -48,12 +48,18 @@ TimeEntry.prototype = (function () {
             return this.activityId !== null && this.hours !== null;
         },
         setHours = function (hours) {
-            if (!(validator.isInt(hours, { min: 0 }) || validator.isFloat(hours, { min: 0.00 }))) {
+            if (!(validator.isInt(hours) || validator.isFloat(hours))) {
                 this.updated = false;
                 return this;
             }
 
             this.hours = parseFloat(hours);
+            if (this.hours <= 0) {
+                this.hours = null;
+                this.updated = false;
+                return this;
+            }
+
             this.updated = isUpdated.call(this);
             return this;
         },

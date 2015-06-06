@@ -1,11 +1,9 @@
 /*global require, module, setTimeout*/
 /** @jsx React.DOM */
 var React = require('react'),
-    AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
     SearchResult = require('../components/app-SearchResult'),
     Menu = require('../components/app-Menu'),
-    Rx = require('rx'),
     EventHandler = require('../util/eventHandler');
 
 var SearchBox = React.createClass({
@@ -22,9 +20,9 @@ var SearchBox = React.createClass({
         /*Search requests to the store are throttled with the help of RxJs to 
          * minimize the performance hit */
         var filter = EventHandler.create();
-            filter.select(function (event) {
-                return event.target.value;
-            })
+        filter.select(function (event) {
+            return event.target.value;
+        })
             .skipWhile(function (query) {
                 return query.length < this.MinimumQueryLength;
             }.bind(this))
@@ -56,6 +54,7 @@ var SearchBox = React.createClass({
 
     _navigate: function (event) {
         "use strict";
+        this._showResults();
         this.refs.searchResult._navigate(event);
     },
 
@@ -76,7 +75,7 @@ var SearchBox = React.createClass({
             <div className="search-row">
                 <div className="col-md-12 search-box">
                     <input id="search" ref="searchBox" type="text" className="form-control search-control" 
-                        onChange={this.filter} onKeyUp={this._navigate} onFocus={this._showResults} 
+                        onChange={this.filter} onKeyUp={this._navigate} onFocus={this._showResults} onClick={this._showResults}
                         onBlur={this._hideResults} placeholder="Type name or use tags #p #id #t #a ..."/>
                     <Menu />
                     {
