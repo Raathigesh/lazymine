@@ -30,5 +30,9 @@ module.exports = {
     SettingsNotSet: {
         code: "S007",
         message: "Settings not available in local storage."
+    },
+    DataFetchInProgress: {
+        code: "S008",
+        message: "Cannot perform this operation, Data fetch in progress."
     }
 };

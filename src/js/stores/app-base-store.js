@@ -61,6 +61,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
         fetchLatest = function () {
             try {
                 var manager = getDataManager();
+                if (State.isLoading) {
+                    handleError(StoreError.DataFetchInProgress);
+                    return null;
+                }
+
                 if (manager !== null) {
                     State.isLoading = true;
                     EventEmitter.prototype.emit(AppEvent.Change);
@@ -234,18 +239,26 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 console.error(prettify(error) || error);
             }
         },
+        resetState = function () {
+            State = {
+                fetchInProgress: false,
+                filteredResult: [],
+                activeItems: [],
+                activities: [],
+                isLoading: true,
+                settings: settings,
+                error: null
+            };
+        },
         clearSettings = function () {
             try {
+                if (State.isLoading) {
+                    handleError(StoreError.DataFetchInProgress);
+                    return null;
+                }
+
                 settings.clearSettings();
-                State = {
-                    fetchInProgress: false, // denotes weather issues are being fetched.
-                    filteredResult: [], // filtered search results.
-                    activeItems: [], // active tasks selected by the user.
-                    activities: [], // activities available to enter time against. Fetched from server.
-                    isLoading: true,
-                    settings: settings,
-                    error: null
-                };
+                resetState.call(this);
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
                 handleError(StoreError.InternalServerError);
