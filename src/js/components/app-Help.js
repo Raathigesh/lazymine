@@ -8,8 +8,8 @@ var Help = React.createClass({
        "use strict";
 
         return (
-            <div> 
-                You could use the following filter to search.
+            <div className="help-text text-center"> 
+                Tip: Use filters to refine your search
                 <ul>
                     <li> #p : #p 'Project Name' 'Search Term' : #P Spartan Meeting </li>
                     <li> #id : #id 'Issue Id' : #id 2015 </li>

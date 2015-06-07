@@ -249,4 +249,10 @@ li {
 @keyframes cloudy_shadow {
     50% { transform: translateY(20px) scale(1); opacity:.05; }
 }
+
+.help-text{
+    font-size: 16px;
+    color: #bbb;
+    padding-top: 50px;
+}
 /* ---------- awads styles end -------------*/
