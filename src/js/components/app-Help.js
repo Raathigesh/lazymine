@@ -2,9 +2,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-var Help = React.createClass({
-
-    
+var Help = React.createClass({  
 
     render: function () {
        "use strict";
