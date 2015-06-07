@@ -15,24 +15,24 @@ var Menu = React.createClass({
     render: function () {
         "use strict";
         return (
-            <ul className="nav nav-list pull-right search-menu">
+            <ul className="nav nav-list pull-right search-menu" title="More options">
                 <li className="dropdown">
                     <a className="" data-toggle="dropdown" aria-expanded="false">
                         <span className="access-hide">Card Dropdown</span>
                         <span className="icon icon-more-vert"></span>
                     </a>
                     <ul className="dropdown-menu">
-                        <li>
+                        <li title="Refresh tasks">
                             <a href="javascript:void(0)" onClick={this._refreshTasks}>
                                 <span className="icon icon-refresh margin-right-half"></span>Refresh
                             </a>
                         </li>
-                        <li>
+                        <li title="About Lazymine">
                             <a href="#about" data-toggle="modal">
                                 <span className="icon icon-info-outline margin-right-half"></span>About
                             </a>
                         </li>
-                        <li>
+                        <li title="Disconnect from redmine">
                             <a href="javascript:void(0)" onClick={this._logout}>
                                 <span className="icon icon-exit-to-app margin-right-half"></span>Disconnect
                             </a>
