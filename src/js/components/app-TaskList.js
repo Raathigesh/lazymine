@@ -1,7 +1,8 @@
 /*global require, module, document, window*/
 /** @jsx React.DOM */
 var React = require('react'),
-    Task = require('../components/app-Task');
+    Task = require('../components/app-Task'),
+    Help = require('../components/app-Help');
 
 var TaskList = React.createClass({
     getInitialState: function () {
@@ -33,10 +34,12 @@ var TaskList = React.createClass({
             items = this.props.items,
             activities = this.props.activities;
 
-        if (items) {
+        if (items && items.length > 0) {
             rows = items.map(function (item) {
                 return(<Task item={item} activities={activities} />);
             });
+        } else {
+            rows = (<Help />);
         }
 
         return (

@@ -78,11 +78,10 @@ var SearchBox = React.createClass({
                         onChange={this.filter} onKeyUp={this._navigate} onFocus={this._showResults} onClick={this._showResults}
                         onBlur={this._hideResults} placeholder="Type name or use tags #p #id #t #a ..."/>
                     <Menu />
+                    
                     {
-                        this.state.showResults
-                            ? <SearchResult ref="searchResult" results={this.props.items}
-                                            toggleResultsPanel={this._toggleResultsPanel}/>
-                            : null
+                        this.state.showResults ? <SearchResult ref="searchResult" results={this.props.items} toggleResultsPanel={this._toggleResultsPanel}/>
+                                               : null
                     }
                 </div>
             </div>
