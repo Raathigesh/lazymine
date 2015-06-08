@@ -29,7 +29,7 @@ var Toast = React.createClass({
         var output = null,
             identifier = easyGid.new();
 
-        if (this.state.display) {
+        if (this.state.display && this.props.error) {
             output = <div className="toast toast-show">
                 <div className="tooltip bottom in lazy-tooltip" id={identifier}>
                     <div className="toast-inner tooltip-inner">
