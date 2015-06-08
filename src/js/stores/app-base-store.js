@@ -81,6 +81,10 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
+                        State.isLoading = false;
+                        setTimeout(function () {
+                            fetchLatest.call(this);
+                        }.bind(this), settings.retryInterval);
                     }.bind(this));
                 }
             } catch (error) {
@@ -113,7 +117,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         showToast.call(this, error);
                         setTimeout(function () {
                             fetchData.call(this);
-                        }, settings.retryInterval);
+                        }.bind(this), settings.retryInterval);
                     }.bind(this));
                 }
             } catch (error) {
