@@ -5,18 +5,21 @@ var React = require('react'),
 
 var Toast = React.createClass({
     getInitialState: function () {
+        "use strict";
         return {
             display: false
         };
     },
     componentWillReceiveProps: function (nextProps) {
-        if (nextProps.error !== null){
+        "use strict";
+        if (nextProps.error !== null) {
             this.setState({
                 display: true
             });
         }
     },
-    _closeToast: function() {
+    _closeToast: function () {
+        "use strict";
         this.setState({
             display: false
         });
