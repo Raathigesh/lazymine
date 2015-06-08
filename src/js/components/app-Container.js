@@ -8,7 +8,8 @@ var React = require('react'),
     Footer = require('../components/app-Footer'),
     Loader = require('../components/app-Loader'),
     Toast = require('../components/app-Toast'),
-    About = require('../components/app-About');
+    About = require('../components/app-About'),
+    KeyMaster = require('keymaster');
 
 var Container = React.createClass({
     contextTypes: {
@@ -28,6 +29,13 @@ var Container = React.createClass({
         if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
             this.context.router.transitionTo('login');
         }
+
+        KeyMaster('ctrl+shift+s', this._updateTime);
+        KeyMaster('ctrl+shift+d', this._cancel);
+    },
+    componentWillUnmount: function() {
+        KeyMaster.unbind('ctrl+shift+s', this._updateTime);
+        KeyMaster.unbind('ctrl+shift+d', this._cancel);
     },
     _change: function () {        
         "use strict";

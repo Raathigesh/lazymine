@@ -58,7 +58,7 @@ var minimizeWindow = function () {
 var closeWindow = function () {
     "use strict";
     var win = gui.Window.get();
-    win.hide();
+    win.close();
 };
 
 var openExternalUrl = function (url) {
