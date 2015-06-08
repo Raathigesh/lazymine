@@ -34,7 +34,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             settings: settings,
             error: null
         },
-        handleError = function (error) {
+        showToast = function (error) {
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
         },
@@ -52,14 +52,14 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     if (manager !== null) {
                         if (!State.isLoading) {
                             $.when(manager.fetchLatest()).fail(function (error) {
-                                handleError(error);
-                            });
+                                showToast.call(this, error);
+                            }.bind(this));
                         }
                     } else {
                         clearInterval(intervalId);
                     }
                 } catch (error) {
-                    handleError(StoreError.InternalServerError);
+                    showToast.call(this, StoreError.InternalServerError);
                     console.error(prettify(error) || error);
                 }
             }.bind(this), settings.backgroundFetchTimerInterval);
@@ -68,7 +68,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 var manager = getDataManager();
                 if (State.isLoading) {
-                    handleError(StoreError.DataFetchInProgress);
+                    showToast.call(this, StoreError.DataFetchInProgress);
                     return null;
                 }
 
@@ -80,11 +80,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         State.isLoading = false;
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
-                        handleError(error);
-                    });
+                        showToast.call(this, error);
+                    }.bind(this));
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -110,14 +110,14 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         fetchLatestBackground.call(this);
                         clearError.call(this);
                     }.bind(this)).fail(function (error) {
-                        handleError(error);
+                        showToast.call(this, error);
                         setTimeout(function () {
                             fetchData.call(this);
                         }, settings.retryInterval);
                     }.bind(this));
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -129,7 +129,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -138,7 +138,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 State.filteredResult = [];
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -156,7 +156,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -168,7 +168,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -180,7 +180,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -192,7 +192,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -205,7 +205,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -214,13 +214,13 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
-                        handleError("Updated Successfully!");
+                        showToast.call(this, "Updated Successfully!");
                     }.bind(this)).fail(function (error) {
-                        handleError(error);
-                    });
+                        showToast.call(this, error);
+                    }.bind(this));
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -234,7 +234,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -242,11 +242,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
             try {
                 $.when(settings.setSettings(data.url, data.apiKey)).done(function () {
                     EventEmitter.prototype.emit(AppEvent.Change);
-                }).fail(function (error) {
-                    handleError(error);
-                });
+                }.bind(this)).fail(function (error) {
+                    showToast.call(this, error);
+                }.bind(this));
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
@@ -264,7 +264,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
         clearSettings = function () {
             try {
                 if (State.isLoading) {
-                    handleError(StoreError.DataFetchInProgress);
+                    showToast.call(this, StoreError.DataFetchInProgress);
                     return null;
                 }
 
@@ -272,7 +272,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 resetState.call(this);
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
-                handleError(StoreError.InternalServerError);
+                showToast.call(this, StoreError.InternalServerError);
                 console.error(prettify(error) || error);
             }
         },
