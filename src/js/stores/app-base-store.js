@@ -50,9 +50,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 try {
                     var manager = getDataManager();
                     if (manager !== null) {
-                        $.when(manager.fetchLatest()).fail(function (error) {
-                            handleError(error);
-                        });
+                        if (!State.isLoading) {
+                            $.when(manager.fetchLatest()).fail(function (error) {
+                                handleError(error);
+                            });
+                        }
                     } else {
                         clearInterval(intervalId);
                     }
