@@ -39,10 +39,7 @@ body {
     right: 1px;
 }
 
-.header-row {
-    display: inline-block;
-    width: 100%;
-    padding-right: 3px;
+.header-draggable-area {
     -webkit-app-region: drag;
 }
 
