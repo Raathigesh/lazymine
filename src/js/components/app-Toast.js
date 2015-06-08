@@ -30,11 +30,11 @@ var Toast = React.createClass({
             identifier = easyGid.new();
 
         if (this.state.display && this.props.error) {
-            output = <div className="toast toast-show">
+            output = <div className="lazy-toast lazy-toast-show">
                 <div className="tooltip bottom in lazy-tooltip" id={identifier}>
-                    <div className="toast-inner tooltip-inner">
-                        <a href="javascript:void(0)" className="pull-right" onClick={this._closeToast}>Dismiss</a>
-                        <div className="toast-text">{ this.props.error.message }</div>
+                    <div className="lazy-toast-inner tooltip-inner">
+                        <a href="javascript:void(0)" className="pull-right" onClick={this._closeToast}> Dismiss</a>
+                        <div className="lazy-toast-text">{ this.props.error.message }</div>
                     </div>
                 </div>
             </div>

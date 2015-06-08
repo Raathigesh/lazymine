@@ -29,7 +29,7 @@ var Container = React.createClass({
             this.context.router.transitionTo('login');
         }
     },
-    _change: function () {
+    _change: function () {        
         "use strict";
         var storeState = AppStore.getState();
         this.setState(storeState);
