@@ -1,4 +1,6 @@
 # Lazymine
+![Badge](https://raw.githubusercontent.com/Raathigesh/Lazymine/master/wiki/images/Lazymine.jpg)
+
 Lazymine is a simple Redmine client which focuses on providing pleasant user experience while entering time to Redmine.
 
 [![MIT License][license-image]][license-url]
