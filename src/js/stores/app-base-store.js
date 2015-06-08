@@ -10,6 +10,7 @@ var AppConstants = require('../constants/app-action-name'),
     HttpHelper = require('./http-helper'),
     prettify = require('prettify-error'),
     StoreError = require('../constants/store-errors'),
+    StoreMessage = require('../constants/store-message'),
     $ = require("jquery"),
     dataManager = null;
 
@@ -218,7 +219,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
-                        showToast.call(this, "Updated Successfully!");
+                        showToast.call(this, StoreMessage.TimeUpdateSuccessful);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
                     }.bind(this));
