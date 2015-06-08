@@ -31,8 +31,7 @@ var Toast = React.createClass({
 
         if (this.state.display) {
             output = <div className="toast toast-show">
-                <div className="tooltip bottom in" id={identifier}
-                     style={{top: '-654px', left: '223.703125px', display: 'block', position: 'relative'}}>
+                <div className="tooltip bottom in lazy-tooltip" id={identifier}>
                     <div className="toast-inner tooltip-inner">
                         <a href="javascript:void(0)" className="pull-right" onClick={this._closeToast}>Dismiss</a>
                         <div className="toast-text">{ this.props.error.message }</div>

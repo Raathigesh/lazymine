@@ -255,4 +255,11 @@ li {
     color: #bbb;
     padding-top: 50px;
 }
+
+.lazy-tooltip{
+    top:-654px;
+    left: 223.703125px;
+    display: block;
+    position: relative;
+}
 /* ---------- awads styles end -------------*/
