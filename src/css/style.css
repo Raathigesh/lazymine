@@ -139,7 +139,6 @@ li {
 }
 
 .list-item-title {
-    font-size: 14px;
     font-weight: bold;
     margin-bottom: 2px;
     width: 85%;
@@ -151,7 +150,6 @@ li {
 .list-item-description {
     display: inline-block;
     color: #666;
-    font-size: 12px;
     margin-bottom: -6px;
     padding-left: 2px;
     width: 75%;
@@ -163,14 +161,12 @@ li {
 .list-item-tracker{
     display: inline-block;
     color: #222;
-    font-size: 12px;
     font-weight: bold;
     margin-bottom: -5px;
 }
 
 .list-item-task-id{
     color: #666;
-    font-size: 12px;
 }
 
 .tile-wrap{
