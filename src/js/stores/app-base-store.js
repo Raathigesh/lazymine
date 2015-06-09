@@ -76,7 +76,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 if (manager !== null) {
                     State.isLoading = true;
                     State.filteredResult = [];
-                    EventEmitter.prototype.emit(AppEvent.Change);
+                    clearError.call(this);
                     $.when(manager.fetchData()).done(function () {
                         State.isLoading = false;
                         EventEmitter.prototype.emit(AppEvent.Change);
@@ -113,7 +113,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                             State.activeItems = manager.activeTaskCollection;
                         }
                         fetchLatestBackground.call(this);
-                        clearError.call(this);
+                        EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
                         setTimeout(function () {
