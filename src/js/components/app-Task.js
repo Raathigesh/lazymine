@@ -13,6 +13,13 @@ var Task = React.createClass({
             open: false
         };
     },
+    componentDidMount: function(){
+        debugger;
+        if (this.props.item.isNew) {
+            React.findDOMNode(this.refs.tiletoggle).click();
+            React.findDOMNode(this.refs.comment.refs.textBox).focus();
+        }
+    },
     _handleClick: function () {
         "use strict";
         if (this.state.open) {
@@ -73,14 +80,13 @@ var Task = React.createClass({
         iconText = this.props.item.projectName.replace(/\W/g, '').charAt(0);
         dataTarget = "tile-collapse-" + item.id;
 
-        //debugger;
         iconStyle = {
             backgroundColor: randomMC.getColor({ text: this.props.item.projectName })
         };
 
         return (
             <div className={tileClass}>
-                <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body">
+                <div className="tile-toggle" data-target={"#" + dataTarget} data-toggle="tile" data-parent="body" ref="tiletoggle">
                     <div className="pull-left tile-side">
                         <div className="avatar avatar-sm avatar-multi" title={this.props.item.projectName} style={iconStyle}>
                             <span className="">{iconText}</span> 
@@ -112,7 +118,7 @@ var Task = React.createClass({
                     <div className="tile-sub">
                         <div className="row">
                             <div className="col-lg-12 col-sm-12">
-                                <TextField ref="comment" label = "Comment" value={item.comments} onChange={this._updateTaskComments}/>
+                                <TextField ref="comment" label = "Comment" value={item.comments} focus={item.isNew} onChange={this._updateTaskComments}/>
                             </div>    
                         </div>
                         <div className="row">

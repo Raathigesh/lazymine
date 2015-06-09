@@ -12,6 +12,11 @@ var TextField = React.createClass({
         "use strict";
         return React.findDOMNode(this.refs.textBox).value;
     },
+    componentDidMount: function(){
+        if (this.props.focus){
+
+        }
+    },
     getInitialState: function () {
         "use strict";
         var intialClass =  this.formNormalClasses;

@@ -237,7 +237,7 @@ DataManager.prototype = (function () {
                 throw new InvalidOperationError("Task not available.");
             }
 
-            this.activeTaskCollection.unshift(TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this, task.id)));
+            this.activeTaskCollection.unshift(TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this, task.id), true));
         },
         removeActiveTask = function (timeEntryId) {
             _.remove(this.activeTaskCollection, function (entry) {
@@ -303,7 +303,7 @@ DataManager.prototype = (function () {
                     return;
                 }
 
-                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name, getTaskUrl.call(this, task.id)));
+                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name, getTaskUrl.call(this, task.id), false));
             }.bind(this));
 
             this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');

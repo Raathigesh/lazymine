@@ -3,7 +3,7 @@ var InvalidArgumentError = require("../error/invalid-argument-error"),
     easyGid = require("easy-guid"),
     validator = require('validator');
 
-var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
+var TimeEntry = function (issueId, issueName, projectName, taskUrl, isNew) {
     "use strict";
     if (!validator.isInt(issueId)) {
         throw new InvalidArgumentError("Parameter issueId must be an integer.");
@@ -26,6 +26,7 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     this.issueName = issueName;
     this.projectName = projectName;
     this.taskUrl = taskUrl;
+    this.isNew = isNew;
     this.spentOn = null;
     this.hours = null;
     this.activityId = null;
@@ -41,6 +42,7 @@ TimeEntry.prototype = (function () {
                 throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
             }
 
+            this.isNew = false;
             this.spentOn = spentOn;
             return this;
         },
@@ -60,6 +62,7 @@ TimeEntry.prototype = (function () {
                 return this;
             }
 
+            this.isNew = false;
             this.updated = isUpdated.call(this);
             return this;
         },
@@ -69,11 +72,13 @@ TimeEntry.prototype = (function () {
                 return this;
             }
 
+            this.isNew = false;
             this.activityId = parseInt(activityId, 10);
             this.updated = isUpdated.call(this);
             return this;
         },
         setComments = function (comments) {
+            this.isNew = false;
             this.comments = comments;
             return this;
         },
@@ -105,9 +110,9 @@ TimeEntry.prototype = (function () {
     };
 }());
 
-TimeEntry.createInstance = function (issueId, issueName, projectName, taskUrl) {
+TimeEntry.createInstance = function (issueId, issueName, projectName, taskUrl, isNew) {
     "use strict";
-    return new TimeEntry(issueId, issueName, projectName, taskUrl);
+    return new TimeEntry(issueId, issueName, projectName, taskUrl, isNew);
 };
 
 module.exports = TimeEntry;
