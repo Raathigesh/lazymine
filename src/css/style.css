@@ -217,6 +217,7 @@ li {
 
 .modal-dialog-about a{
     color: #2196f3;
+    cursor: pointer;
 }
 
 .cloudy {
