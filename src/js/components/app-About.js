@@ -3,6 +3,14 @@
 var React = require('react');
 
 var About = React.createClass({
+    
+    _openExternalUrl: function (event) {
+        "use strict";
+        openExternalUrl("http://lazymine.github.io/");
+        minimizeWindow();
+        event.nativeEvent.stopImmediatePropagation();
+    },
+
     render: function () {
         "use strict";
         return (
@@ -27,7 +35,7 @@ var About = React.createClass({
                                         <div className="col-md-12 column text-center">
                                             <p>
                                                 A god sent redmine client which will make you smile everytime you enter time.
-                                                <br/><a href="http://lazymine.github.io/">lazymine.github.io</a>
+                                                <br/><a onClick={this._openExternalUrl}>lazymine.github.io</a>
                                             </p>
                                         </div>
                                     </div>
