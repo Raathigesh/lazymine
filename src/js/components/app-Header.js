@@ -47,15 +47,15 @@ var Header = React.createClass({
         return (
             <header className="header navbar navbar-default">
                 <div className="row">
-                    <div className="col-xs-5 header-draggable-area">
+                    <div className="col-xs-4 header-draggable-area">
                         <a href="#" onClick={this._openExternalUrl}>
                             <img className="logo-img" src="assets/top-logo.png" title="Lazymine" />
                         </a>
                     </div>
-                    <div className="col-xs-2 header-draggable-area">
+                    <div className="col-xs-4 header-draggable-area">
                         { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     </div>
-                    <div className="col-xs-5 header-draggable-area">
+                    <div className="col-xs-4 header-draggable-area">
                         <a className="close-btn pull-right" href="#" onClick={this._close} title="Close">
                             <img src="assets/close.png" />
                         </a>
