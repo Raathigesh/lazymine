@@ -18,9 +18,11 @@ var DatePicker = React.createClass({
         "use strict";
         // Since the input does not fire a proper change event, we have to set the state before rendering.
         if (React.findDOMNode(this.refs.date)) {
-            this.setState({
-                selectedDate: React.findDOMNode(this.refs.date).value
-            });
+            if (this.isMounted()) {
+                this.setState({
+                    selectedDate: React.findDOMNode(this.refs.date).value
+                });
+            }
         }
     },
     render : function () {

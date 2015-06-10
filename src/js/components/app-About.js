@@ -1,20 +1,18 @@
-/*global require, module*/
+/*global require, module, openExternalUrl, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react');
 
 var About = React.createClass({
-    
     _openExternalUrl: function (event) {
         "use strict";
         openExternalUrl("http://lazymine.github.io/");
         minimizeWindow();
         event.nativeEvent.stopImmediatePropagation();
     },
-
     render: function () {
         "use strict";
         return (
-            <div aria-hidden="true" className="modal fade" id="about" role="dialog" tabindex="-1">
+            <div aria-hidden="true" className="modal fade" id="about" role="dialog" tabIndex="-1">
                 <div className="modal-dialog-about">
                     <div className="modal-content">
                         <div className="modal-inner">

@@ -13,22 +13,28 @@ var SearchItem = React.createClass({
     },
     _removeActive: function () {
         "use strict";
-        this.setState({
-            "Classes": "tile result"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "tile result"
+            });
+        }
     },
     _addActive: function () {
         "use strict";
-        this.setState({
-            "Classes": "result active"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "result active"
+            });
+        }
     },
     _mouseOver: function () {
         "use strict";
         this.props.clearCurrent();
-        this.setState({
-            "Classes": "result active"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "result active"
+            });
+        }
     },
     _click: function () {
         "use strict";
@@ -38,9 +44,11 @@ var SearchItem = React.createClass({
     },
     _mouseOut: function () {
         "use strict";
-        this.setState({
-            "Classes": "tile result"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "tile result"
+            });
+        }
     },
     render : function () {
         "use strict";

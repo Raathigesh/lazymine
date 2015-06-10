@@ -77,7 +77,7 @@ DataManager.prototype = (function () {
             $.when(this.serviceAccessor.getTaskCollection(false)).done(function (taskCollection) {
                 taskCollection.map(function (task) {
                     var taskIndex = _.findIndex(this.taskCollection, { 'id' : task.id });
-                    if (typeof taskIndex === "number") {
+                    if (taskIndex >= 0) {
                         this.taskCollection[taskIndex] = task;
                         oldActiveTask = _.filter(this.activeTaskCollection, { 'issueId' : task.id });
                         if (oldActiveTask.length > 0) {
@@ -223,7 +223,7 @@ DataManager.prototype = (function () {
                 return [];
             }
 
-            sortedList = _.take(_.sortByOrder(filteredTasks, ['matchCount'], [false]), this.resultCount);
+            sortedList = _.take(_.sortByOrder(filteredTasks, ['matchCount', 'created_on', 'updated_on'], [false, false, false]), this.resultCount);
             applyTitleHighlighter.call(this, sortedList, upperQueryParts);
 
             return sortedList;

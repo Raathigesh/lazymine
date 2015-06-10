@@ -22,7 +22,9 @@ var TaskList = React.createClass({
             'height': document.documentElement.clientHeight - 160
         };
 
-        this.setState({componentHeight: height});
+        if (this.isMounted()) {
+            this.setState({componentHeight: height});
+        }
     },
     componentDidMount: function () {
         "use strict";
@@ -35,8 +37,8 @@ var TaskList = React.createClass({
             activities = this.props.activities;
 
         if (items && items.length > 0) {
-            rows = items.map(function (item) {
-                return(<Task item={item} activities={activities} />);
+            rows = items.map(function (item, i) {
+                return(<Task item={item} key={i} activities={activities} />);
             });
         } else {
             rows = (<Help />);

@@ -47,17 +47,17 @@ var SearchBox = React.createClass({
     },
     _toggleResultsPanel: function (show) {
         "use strict";
-        this.setState({
-            "showResults": show
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "showResults": show
+            });
+        }
     },
-
     _navigate: function (event) {
         "use strict";
         this._showResults();
         this.refs.searchResult._navigate(event);
     },
-
     _showResults: function () {
         "use strict";
         this._toggleResultsPanel(true);

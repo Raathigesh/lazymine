@@ -15,14 +15,19 @@ var Task = React.createClass({
     },
     _handleClick: function () {
         "use strict";
+        var state;
         if (this.state.open) {
-            this.setState({
+            state = {
                 open: false
-            });
+            };
         } else {
-            this.setState({
+            state = {
                 open: true
-            });
+            };
+        }
+
+        if (this.isMounted()) {
+            this.setState(state);
         }
     },
     _elementClick: function (event) {
