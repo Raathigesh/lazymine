@@ -1,16 +1,14 @@
-/*global require, module*/
+/*global require, module, openExternalUrl, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react');
 
 var About = React.createClass({
-    
     _openExternalUrl: function (event) {
         "use strict";
         openExternalUrl("http://lazymine.github.io/");
         minimizeWindow();
         event.nativeEvent.stopImmediatePropagation();
     },
-
     render: function () {
         "use strict";
         return (
