@@ -89,7 +89,6 @@ var SearchResult = React.createClass({
         "use strict";
         this.props.toggleResultsPanel(show);
     },
-
     render: function () {
         "use strict";
         var rows,

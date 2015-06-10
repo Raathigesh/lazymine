@@ -29,7 +29,7 @@ var Container = React.createClass({
             this.context.router.transitionTo('login');
         }
     },
-    _change: function () {        
+    _change: function () {
         "use strict";
         var storeState = AppStore.getState();
         this.setState(storeState);
@@ -43,12 +43,10 @@ var Container = React.createClass({
         var dateSelected = this.refs.header.getSelectedDate();
         AppActions.createTimeEntries(dateSelected);
     },
-
     _cancel: function () {
         "use strict";
         AppActions.clearTimeEntries();
     },
-
     render: function () {
         "use strict";
         return (
