@@ -20,7 +20,7 @@ var SettingsManager = function () {
     this.activeTaskCollection = [];
     this.available  = this.fetchSettings();
     this.forceLoad = false;
-    this.backgroundFetchTimerInterval = 900000;
+    this.backgroundFetchTimerInterval = 300000;
     this.retryInterval = 10000;
 };
 

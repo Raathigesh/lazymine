@@ -2,11 +2,9 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-var Help = React.createClass({  
-
+var Help = React.createClass({
     render: function () {
-       "use strict";
-
+        "use strict";
         return (
             <div className="help-text text-center"> 
                 Tip: Use filters to refine your search

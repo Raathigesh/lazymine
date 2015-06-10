@@ -29,10 +29,12 @@ var Container = React.createClass({
             this.context.router.transitionTo('login');
         }
     },
-    _change: function () {        
+    _change: function () {
         "use strict";
         var storeState = AppStore.getState();
-        this.setState(storeState);
+        if (this.isMounted()) {
+            this.setState(storeState);
+        }
 
         if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
             this.context.router.transitionTo('login');
@@ -43,12 +45,10 @@ var Container = React.createClass({
         var dateSelected = this.refs.header.getSelectedDate();
         AppActions.createTimeEntries(dateSelected);
     },
-
     _cancel: function () {
         "use strict";
         AppActions.clearTimeEntries();
     },
-
     render: function () {
         "use strict";
         return (

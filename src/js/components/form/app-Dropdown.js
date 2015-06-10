@@ -21,9 +21,9 @@ var DropDown = React.createClass({
         }
 
         items =  this.props.data.map(function (item, i) {
-            opt = <option value={item.id}>{item.text}</option>;
+            opt = <option value={item.id} key={i}>{item.text}</option>;
             if(this.props.initialValue === item.id){
-                opt = <option value={item.id} selected="selected">{item.text}</option>;
+                opt = <option value={item.id} key={i} selected="selected">{item.text}</option>;
                 className = className + "  control-highlight";
             }
             return(

@@ -99,7 +99,7 @@ li {
     .datePicker input {
         margin: auto;
         height: 24px;
-        width: 128px;
+        width: 140px;
         text-align: center;
         border-bottom-style: 1px solid #fff;
         -webkit-app-region: no-drag;
@@ -147,22 +147,14 @@ li {
     text-overflow: ellipsis;
 }
 
-.list-item-description {
-    display: inline-block;
-    color: #666;
-    margin-bottom: -6px;
-    padding-left: 2px;
-    width: 75%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .list-item-tracker{
     display: inline-block;
     color: #222;
-    font-weight: bold;
     margin-bottom: -5px;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .list-item-task-id{

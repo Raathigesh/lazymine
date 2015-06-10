@@ -89,7 +89,6 @@ var SearchResult = React.createClass({
         "use strict";
         this.props.toggleResultsPanel(show);
     },
-
     render: function () {
         "use strict";
         var rows,
@@ -100,7 +99,7 @@ var SearchResult = React.createClass({
         if (items) {
             rows = items.map(function (item, i) {
                 var searchItemRef = "searchItem" + i;
-                return(<SearchResultItem item={item} togglePanel={toggle} clearCurrent={clear} ref={searchItemRef}/>);
+                return(<SearchResultItem item={item} togglePanel={toggle} key={i} clearCurrent={clear} ref={searchItemRef}/>);
             });
         }
 

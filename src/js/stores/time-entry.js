@@ -50,6 +50,7 @@ TimeEntry.prototype = (function () {
         setHours = function (hours) {
             if (!(validator.isInt(hours) || validator.isFloat(hours))) {
                 this.updated = false;
+                this.hours = null;
                 return this;
             }
 
@@ -66,6 +67,7 @@ TimeEntry.prototype = (function () {
         setActivityId = function (activityId) {
             if (!validator.isInt(activityId)) {
                 this.updated = false;
+                this.activityId = null;
                 return this;
             }
 

@@ -13,16 +13,20 @@ var Toast = React.createClass({
     componentWillReceiveProps: function (nextProps) {
         "use strict";
         if (nextProps.error !== null) {
-            this.setState({
-                display: true
-            });
+            if (this.isMounted()) {
+                this.setState({
+                    display: true
+                });
+            }
         }
     },
     _closeToast: function () {
         "use strict";
-        this.setState({
-            display: false
-        });
+        if (this.isMounted()) {
+            this.setState({
+                display: false
+            });
+        }
     },
     render: function () {
         "use strict";
