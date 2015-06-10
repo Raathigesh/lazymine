@@ -19,7 +19,9 @@ var Header = React.createClass({
     _change: function () {
         "use strict";
         var storeState = AppStore.getState();
-        this.setState(storeState);
+        if (this.isMounted()) {
+            this.setState(storeState);
+        }
     },
 
     _minimize: function () {

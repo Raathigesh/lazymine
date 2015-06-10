@@ -22,7 +22,9 @@ var TaskList = React.createClass({
             'height': document.documentElement.clientHeight - 160
         };
 
-        this.setState({componentHeight: height});
+        if (this.isMounted()) {
+            this.setState({componentHeight: height});
+        }
     },
     componentDidMount: function () {
         "use strict";

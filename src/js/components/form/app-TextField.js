@@ -62,9 +62,11 @@ var TextField = React.createClass({
         "use strict";
         var value = this.getValue();
         if (value !== "") {
-            this.setState({
-                "formClassCollection": this.formNormalClassesFocus + " control-highlight"
-            });
+            if (this.isMounted()) {
+                this.setState({
+                    "formClassCollection": this.formNormalClassesFocus + " control-highlight"
+                });
+            }
         }
     },
     render : function () {
