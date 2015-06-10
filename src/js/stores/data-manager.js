@@ -223,7 +223,7 @@ DataManager.prototype = (function () {
                 return [];
             }
 
-            sortedList = _.take(_.sortByOrder(filteredTasks, ['matchCount'], [false]), this.resultCount);
+            sortedList = _.take(_.sortByOrder(filteredTasks, ['matchCount', 'created_on', 'updated_on'], [false, false, false]), this.resultCount);
             applyTitleHighlighter.call(this, sortedList, upperQueryParts);
 
             return sortedList;
