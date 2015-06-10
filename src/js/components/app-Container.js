@@ -34,8 +34,8 @@ var Container = React.createClass({
         KeyMaster('ctrl+shift+d', this._cancel);
     },
     componentWillUnmount: function() {
-        KeyMaster.unbind('ctrl+shift+s', this._updateTime);
-        KeyMaster.unbind('ctrl+shift+d', this._cancel);
+        KeyMaster.unbind('ctrl+s', this._updateTime);
+        KeyMaster.unbind('ctrl+d', this._cancel);
     },
     _change: function () {        
         "use strict";
