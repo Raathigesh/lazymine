@@ -51,13 +51,11 @@ var SearchBox = React.createClass({
             "showResults": show
         });
     },
-
     _navigate: function (event) {
         "use strict";
         this._showResults();
         this.refs.searchResult._navigate(event);
     },
-
     _showResults: function () {
         "use strict";
         this._toggleResultsPanel(true);

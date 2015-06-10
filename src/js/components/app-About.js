@@ -12,7 +12,7 @@ var About = React.createClass({
     render: function () {
         "use strict";
         return (
-            <div aria-hidden="true" className="modal fade" id="about" role="dialog" tabindex="-1">
+            <div aria-hidden="true" className="modal fade" id="about" role="dialog" tabIndex="-1">
                 <div className="modal-dialog-about">
                     <div className="modal-content">
                         <div className="modal-inner">
