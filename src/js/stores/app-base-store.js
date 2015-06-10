@@ -8,7 +8,6 @@ var AppConstants = require('../constants/app-action-name'),
     DataManager = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
     HttpHelper = require('./http-helper'),
-    prettify = require('prettify-error'),
     StoreError = require('../constants/store-errors'),
     StoreMessage = require('../constants/store-message'),
     $ = require("jquery"),
@@ -61,7 +60,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     }
                 } catch (error) {
                     showToast.call(this, StoreError.InternalServerError);
-                    console.error(prettify(error) || error);
+                    console.error(error);
                 }
             }.bind(this), settings.backgroundFetchTimerInterval);
         },
@@ -90,7 +89,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         fetchData = function () {
@@ -123,7 +122,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         filterTaskCollection = function (query) {
@@ -135,7 +134,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         clearSearch = function () {
@@ -144,7 +143,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         createActiveTask = function (issueId) {
@@ -162,7 +161,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         updateActiveTaskActivityId = function (entry) {
@@ -174,7 +173,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         updateActiveTaskComments = function (entry) {
@@ -186,7 +185,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         updateActiveTaskHours = function (entry) {
@@ -198,7 +197,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         removeActiveTask = function (entryId) {
@@ -211,7 +210,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         postUpdatedActiveTaskCollection = function (spentOn) {
@@ -226,7 +225,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         clearActiveTaskCollection = function () {
@@ -240,7 +239,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         setSettings = function (data) {
@@ -252,7 +251,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }.bind(this));
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         resetState = function () {
@@ -278,7 +277,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         addChangeListener = function (callback) {
