@@ -347,5 +347,44 @@ li {
   margin-left: 16px;
   text-transform: uppercase;
 }
+
 /*---Overriding Toast styles with custom classes---*/
 
+.task-icon{
+  font-size: 14px;
+}
+
+.walkthrough-icon{
+  font-size: 24px;
+  padding-top: 25px;
+  color: #EA5E5D;
+}
+
+.walkthrough{
+  position: absolute;
+  z-index: 2;
+  top: -260px;
+  left: 60px;
+  opacity: 0;
+  -webkit-animation: none;
+}
+
+.walkthrough-hover{
+  -webkit-animation: fadein 2s;
+  opacity: 1;
+}
+
+.walkthrough-hoverout{
+   -webkit-animation: fadeout 2s;
+   opacity: 0;
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@-webkit-keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}

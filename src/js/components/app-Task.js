@@ -95,10 +95,10 @@ var Task = React.createClass({
                     <div className="tile-action tile-action-show">
                         <ul className="nav nav-list pull-right">
                             <li title={"Open task #" + item.issueId + " in Redmine"}>
-                                <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
+                                <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch task-icon"></span></a>
                             </li>
                             <li title="Remove task">
-                                <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
+                                <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete task-icon"></span></a>
                             </li>
                         </ul>
                     </div>
