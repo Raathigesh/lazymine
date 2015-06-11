@@ -50,7 +50,7 @@ var Header = React.createClass({
             <header className="header navbar navbar-default">
                 <div className="row">
                     <div className="col-xs-4 header-draggable-area">
-                        <a href="#" onClick={this._openExternalUrl}>
+                        <a href="javascript:void(0)" onClick={this._openExternalUrl}>
                             <img className="logo-img" src="assets/top-logo.png" title="Lazymine" />
                         </a>
                     </div>

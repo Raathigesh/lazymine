@@ -8,9 +8,11 @@ var React = require('react'),
     Footer = require('../components/app-Footer'),
     Loader = require('../components/app-Loader'),
     Toast = require('../components/app-Toast'),
-    About = require('../components/app-About');
+    About = require('../components/app-About'),
+    AuthMixin = require('../mixins/app-AuthMixin');
 
 var Container = React.createClass({
+    mixins: [AuthMixin],
     contextTypes: {
         router: React.PropTypes.func
     },
@@ -23,21 +25,11 @@ var Container = React.createClass({
         AppStore.addChangeListener(this._change);
         AppActions.fetchIssues();
     },
-    componentDidMount: function () {
-        "use strict";
-        if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
-            this.context.router.transitionTo('login');
-        }
-    },
     _change: function () {
         "use strict";
         var storeState = AppStore.getState();
         if (this.isMounted()) {
             this.setState(storeState);
-        }
-
-        if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
-            this.context.router.transitionTo('login');
         }
     },
     _updateTime: function () {

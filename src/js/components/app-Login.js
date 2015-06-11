@@ -6,9 +6,11 @@ var React = require('react'),
     Header = require('../components/app-Header'),
     WalkThrough = require('../components/app-WalkThrough'),
     Router = require('react-router'),
-    TextField = require('../components/form/app-TextField');
+    TextField = require('../components/form/app-TextField'),
+    AuthMixin = require('../mixins/app-AuthMixin');
 
 var Settings = React.createClass({
+    mixins: [AuthMixin],
     contextTypes: {
         router: React.PropTypes.func
     },
@@ -32,9 +34,6 @@ var Settings = React.createClass({
         var storeState = AppStore.getState();
         if (this.isMounted()) {
             this.setState(storeState);
-        }
-        if (this.state.settings.BaseURL !== null && this.state.settings.BaseURL !== "" && this.state.settings.APIKey !== null && this.state.settings.APIKey !== "") {
-            this.context.router.transitionTo('home');
         }
     },
     render : function () {
