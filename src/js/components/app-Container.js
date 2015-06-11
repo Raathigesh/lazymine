@@ -9,28 +9,17 @@ var React = require('react'),
     Loader = require('../components/app-Loader'),
     Toast = require('../components/app-Toast'),
     About = require('../components/app-About'),
-    AuthMixin = require('../mixins/app-AuthMixin');
+    AuthMixin = require('../mixins/app-AuthMixin'),
+    StateMixin = require('../mixins/app-StateMixin');
 
 var Container = React.createClass({
-    mixins: [AuthMixin],
+    mixins: [AuthMixin, StateMixin],
     contextTypes: {
         router: React.PropTypes.func
     },
-    getInitialState: function () {
-        "use strict";
-        return AppStore.getState();
-    },
     componentWillMount: function () {
         "use strict";
-        AppStore.addChangeListener(this._change);
         AppActions.fetchIssues();
-    },
-    _change: function () {
-        "use strict";
-        var storeState = AppStore.getState();
-        if (this.isMounted()) {
-            this.setState(storeState);
-        }
     },
     _updateTime: function () {
         "use strict";

@@ -3,26 +3,12 @@
 var React = require('react'),
     SearchBox = require('../components/app-SearchBox'),
     AppStore = require('../stores/app-base-store'),
-    InfoBar = require('../components/app-InfoBar');
+    InfoBar = require('../components/app-InfoBar'),
+    StateMixin = require('../mixins/app-StateMixin');
+
 
 var Header = React.createClass({
-    getInitialState: function () {
-        "use strict";
-        return AppStore.getState();
-    },
-
-    componentWillMount: function () {
-        "use strict";
-        AppStore.addChangeListener(this._change);
-    },
-
-    _change: function () {
-        "use strict";
-        var storeState = AppStore.getState();
-        if (this.isMounted()) {
-            this.setState(storeState);
-        }
-    },
+    mixins: [StateMixin],
 
     _minimize: function () {
         "use strict";

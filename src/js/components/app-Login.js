@@ -7,20 +7,13 @@ var React = require('react'),
     WalkThrough = require('../components/app-WalkThrough'),
     Router = require('react-router'),
     TextField = require('../components/form/app-TextField'),
-    AuthMixin = require('../mixins/app-AuthMixin');
+    AuthMixin = require('../mixins/app-AuthMixin'),
+    StateMixin = require('../mixins/app-StateMixin');
 
 var Settings = React.createClass({
-    mixins: [AuthMixin],
+    mixins: [AuthMixin, StateMixin],
     contextTypes: {
         router: React.PropTypes.func
-    },
-    getInitialState: function () {
-        "use strict";
-        return AppStore.getState();
-    },
-    componentWillMount: function () {
-        "use strict";
-        AppStore.addChangeListener(this._change);
     },
     _login: function () {
         "use strict";
@@ -28,13 +21,6 @@ var Settings = React.createClass({
             apiKey = this.refs.apiKey.getValue();
 
         AppActions.saveSettings(url, apiKey);
-    },
-    _change: function () {
-        "use strict";
-        var storeState = AppStore.getState();
-        if (this.isMounted()) {
-            this.setState(storeState);
-        }
     },
     render : function () {
         "use strict";
