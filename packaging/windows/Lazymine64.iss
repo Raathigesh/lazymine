@@ -27,6 +27,7 @@ SetupIconFile=..\..\lazymine.ico
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
+ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
