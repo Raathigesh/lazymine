@@ -347,5 +347,9 @@ li {
   margin-left: 16px;
   text-transform: uppercase;
 }
+
+.task-icon{
+  font-size: 14px;
+}
 /*---Overriding Toast styles with custom classes---*/
 
