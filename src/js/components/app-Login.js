@@ -4,6 +4,7 @@ var React = require('react'),
     AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
     Header = require('../components/app-Header'),
+    WalkThrough = require('../components/app-WalkThrough'),
     Router = require('react-router'),
     TextField = require('../components/form/app-TextField');
 
@@ -59,6 +60,9 @@ var Settings = React.createClass({
 												<div className="col-md-10 col-md-push-1">
 													<a className="btn btn-block btn-lazy waves-button waves-effect waves-light" onClick={this._login}>Connect</a>
 												</div>
+                                                <div className="col-md-10 col-md-push-1 text-center">
+                                                    <WalkThrough />
+                                                </div>
 											</div>
 										</div>
 									</form>
