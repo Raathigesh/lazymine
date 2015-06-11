@@ -355,7 +355,7 @@ li {
 }
 
 .walkthrough-icon{
-  font-size: 24px;
+  font-size: 30px;
   padding-top: 25px;
   color: #EA5E5D;
 }
@@ -363,20 +363,22 @@ li {
 .walkthrough{
   position: absolute;
   z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
   top: -260px;
-  left: 60px;
   opacity: 0;
   -webkit-animation: none;
 }
 
 .walkthrough-hover{
-  -webkit-animation: fadein 2s;
+  -webkit-animation: fadein 1s;
   opacity: 1;
+  display: block;
 }
 
 .walkthrough-hoverout{
-   -webkit-animation: fadeout 2s;
-   opacity: 0;
+   -webkit-animation: fadeout 1s;
+  display: none;
 }
 
 @-webkit-keyframes fadein {

@@ -13,7 +13,7 @@ var WalkThrough = React.createClass({
         "use strict";
         if (this.isMounted()) {
             this.setState({
-                "Classes": "walkthrough walkthrough-hover"
+                "Classes": "walkthrough walkthrough-hover card"
             });
         }
     },
@@ -29,8 +29,8 @@ var WalkThrough = React.createClass({
         "use strict";
         return (
             <div>
-                <span onMouseOver={this._mouseOver} onMouseOut={this._mouseOut} className="icon icon-info walkthrough-icon"></span>
                 <img className={this.state.Classes} src="assets/login_help.png" />
+                <span onMouseOver={this._mouseOver} onMouseOut={this._mouseOut} className="icon icon-info walkthrough-icon"></span>
             </div>
         );
     }
