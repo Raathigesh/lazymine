@@ -7,14 +7,24 @@ var AuthMixin = {
         willTransitionTo: function (transition, params, query) {
             "use strict";
             switch(transition.path) {
+
                 case AppRoutes.App:
                     if (AppStore.getState().settings.available) {
-                        transition.abort();
+                        transition.redirect(AppRoutes.Home, params, query);
                     }
                     break;
                 default:
                     if (!AppStore.getState().settings.available) {
                         transition.redirect(AppRoutes.App, params, query);
+                    }
+                    break;
+            }
+        },
+        willTransitionFrom: function (transition, component) {
+            switch(transition.path) {
+                case AppRoutes.App:
+                    if (AppStore.getState().settings.available) {
+                        transition.abort();
                     }
                     break;
             }
