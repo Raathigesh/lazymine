@@ -20,7 +20,7 @@ var About = React.createClass({
                                 <div className="col-md-12 column">
                                     <div className="row clearfix">
                                         <div className="col-md-12 column">
-                                            <img alt="Login" className="cloudy" src="assets/icon_128.png"></img>
+                                            <img alt="Login" className="cloudy" src="assets/icon_about.png"></img>
                                         </div>
                                     </div>
                                     <div className="row clearfix">
