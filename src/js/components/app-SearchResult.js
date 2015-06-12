@@ -21,7 +21,7 @@ var SearchResult = React.createClass({
     },
     _getPreviousResult: function () {
         "use strict";
-        if (this.ActiveItem > 0) {
+        if (this.ActiveItem > -1) {
             this.ActiveItem -= 1;
             return this.refs["searchItem" + this.ActiveItem];
         }
@@ -54,11 +54,11 @@ var SearchResult = React.createClass({
         var currentActiveResult = this._getCurrentActiveResult(),
             nextResult = this._getNextResult();
 
-        if (currentActiveResult) {
+        if (currentActiveResult && nextResult) {
             currentActiveResult._removeActive();
+            nextResult._addActive();
         }
-
-        if (nextResult) {
+        else if(nextResult) {
             nextResult._addActive();
         }
     },
