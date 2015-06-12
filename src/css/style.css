@@ -367,6 +367,7 @@ li {
   transform: translateX(-50%);
   top: -260px;
   opacity: 0;
+  display: none;
   -webkit-animation: none;
 }
 
