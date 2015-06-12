@@ -121,10 +121,10 @@ var Task = React.createClass({
                             </div>    
                         </div>
                         <div className="row">
-                             <div className="col-lg-6 col-sm-6 tracker-dropdown">
+                             <div className="col-xs-6 tracker-dropdown">
                                 <DropDown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
                              </div>
-                             <div className="col-lg-6 col-sm-6 hours-input">
+                             <div className="col-xs-6 hours-input">
                                 <TextField ref="spentHours" label = "Hours" value={item.hours} onChange={this._updateTaskHours} isNumeric={true}/>
                              </div>
                         </div>
