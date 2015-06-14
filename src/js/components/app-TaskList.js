@@ -47,7 +47,7 @@ var TaskList = React.createClass({
 
         return (
             <div className="tile-wrap" style={this.state.componentHeight}>
-            {rows}
+                {rows}
             </div>
         );
     }

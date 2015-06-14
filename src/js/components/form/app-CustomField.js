@@ -5,6 +5,9 @@ var React = require('react'),
     DropDown = require('./app-Dropdown');
 
 var CustomField = React.createClass({
+    propTypes: {
+        field:  React.PropTypes.object.isRequired // Custom filed object
+    },        
     onUpdate: function(){
 
     },

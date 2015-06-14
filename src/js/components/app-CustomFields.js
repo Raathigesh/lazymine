@@ -4,6 +4,9 @@ var React = require('react'),
     CustomField = require('./form/app-CustomField');
 
 var CustomFields = React.createClass({
+    propTypes: {
+        fields:  React.PropTypes.array.isRequired // Custom fields that should be rendered
+    }, 
     onUpdate: function(){
 
     },
