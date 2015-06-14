@@ -34,11 +34,12 @@ var TaskList = React.createClass({
         "use strict";
         var rows,
             items = this.props.items,
-            activities = this.props.activities;
+            activities = this.props.activities,
+            customFields = this.props.customFields;
 
         if (items && items.length > 0) {
             rows = items.map(function (item, i) {
-                return(<Task item={item} key={i} activities={activities} />);
+                return(<Task item={item} key={i} activities={activities} customFields={customFields}/>);
             });
         } else {
             rows = (<Help />);

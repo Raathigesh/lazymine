@@ -4,7 +4,8 @@ var React = require('react'),
     randomMC = require('random-material-color'),
     AppActions = require('../actions/app-actions'),
     TextField = require('../components/form/app-TextField'),
-    DropDown = require('../components/form/app-Dropdown');
+    DropDown = require('../components/form/app-Dropdown'),
+    CustomFields = require('./app-CustomFields');
 
 var Task = React.createClass({
     getInitialState: function () {
@@ -122,12 +123,13 @@ var Task = React.createClass({
                         </div>
                         <div className="row">
                              <div className="col-xs-6 tracker-dropdown">
-                                <DropDown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
+                                <DropDown ref="activity" data={activities} initialValue={item.activityId} label="Activity" onChange={this._updateTaskActivityId}/>
                              </div>
                              <div className="col-xs-6 hours-input">
                                 <TextField ref="spentHours" label = "Hours" value={item.hours} onChange={this._updateTaskHours} isNumeric={true}/>
                              </div>
                         </div>
+                        <CustomFields fields={this.props.customFields}/>
                     </div>
                 </div>
             </div>

@@ -32,7 +32,8 @@ module.exports = merge(EventEmitter.prototype, (function () {
             activities: [], // activities available to enter time against. Fetched from server.
             isLoading: true,
             settings: settings,
-            error: null
+            error: null,
+            customFields: []
         },
         showToast = function (error) {
             State.error = error;
@@ -43,6 +44,31 @@ module.exports = merge(EventEmitter.prototype, (function () {
             EventEmitter.prototype.emit(AppEvent.Change);
         },
         getState = function () {
+            // Added to test custom field UI implementation. SHOULD BE REMOVED.
+             State.customFields = [];
+             State.customFields.push({            
+                "customized_type": "issue",
+                "field_format": "list",
+                "id": "1",
+                "is_filter": "true",
+                "is_required": "true",
+                "multiple": "true",
+                "name": "Affected version",
+                "possible_values": {
+                    "type": "array",
+                    "possible_values": [
+                        {
+                            "value": "0.5.x"
+                        },
+                        {
+                            "value": "0.6.x"
+                        }
+                    ]
+                },
+                "searchable": "true",
+                "visible": "false"
+            });
+
             return State;
         },
         fetchLatestBackground = function () {
