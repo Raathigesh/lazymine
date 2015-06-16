@@ -34,6 +34,8 @@ var Toast = React.createClass({
             identifier = easyGid.new();
 
         if (this.state.display && this.props.error) {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(this._closeToast, 3000);
             output = <div className="lazy-toast lazy-toast-show">
                 <div className="tooltip bottom in lazy-tooltip" id={identifier}>
                     <div className="lazy-toast-inner tooltip-inner">
