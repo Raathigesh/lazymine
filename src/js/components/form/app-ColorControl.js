@@ -21,7 +21,7 @@ var ColorControl = React.createClass({
 
         return (
             <div className="row">
-                <div className="col-lg-6 col-sm-6 col-xs-6">
+                <div className="col-lg-12 col-sm-12 col-xs-12">
                   {radioButtons}
                 </div>
             </div>

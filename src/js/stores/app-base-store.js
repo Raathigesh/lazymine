@@ -49,25 +49,33 @@ module.exports = merge(EventEmitter.prototype, (function () {
              State.customFields.push({            
                 "customized_type": "issue",
                 "field_format": "list",
-                "id": "1",
-                "is_filter": "true",
+                "id": "159",
+                "is_filter": "false",
                 "is_required": "true",
                 "multiple": "true",
-                "name": "Affected version",
+                "name": "Value/Benefit",
                 "possible_values": {
                     "type": "array",
                     "possible_values": [
                         {
-                            "value": "Red",
-                            "color": "red"
+                            "value": "Green",
+                            "color": "Green"
                         },
                         {
-                            "value": "Green",
-                            "color": "green"
+                            "value": "Orange",
+                            "color": "Orange"
                         },
                         {
                             "value": "Yellow",
                             "color": "Yellow"
+                        },
+                        {
+                            "value": "Red",
+                            "color": "Red"
+                        },
+                        {
+                            "value": "Black",
+                            "color": "Black"
                         }
                     ]
                 },
