@@ -226,6 +226,18 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 console.error(error);
             }
         },
+        updateActiveTaskCustomField = function (entry) {
+            try {
+                var manager = getDataManager();
+                if (manager !== null) {
+                    manager.updateActiveTaskCustomField(entry.id, entry.customFieldId, entry.customFieldValue);
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
+            } catch (error) {
+                showToast.call(this, StoreError.InternalServerError);
+                console.error(error);
+            }
+        },
         removeActiveTask = function (entryId) {
             try {
                 var manager = getDataManager();
@@ -338,6 +350,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 break;
             case AppConstants.UpdateTaskHours:
                 updateActiveTaskHours.call(this, action.entry);
+                break;
+            case AppConstants.UpdateTaskCustomField:
+                updateActiveTaskCustomField.call(this, action.entry);
                 break;
             case AppConstants.CreateTimeEntries:
                 postUpdatedActiveTaskCollection.call(this, action.spentOn);
