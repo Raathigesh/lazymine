@@ -129,7 +129,7 @@ var Task = React.createClass({
                                 <TextField ref="spentHours" label = "Hours" value={item.hours} onChange={this._updateTaskHours} isNumeric={true}/>
                              </div>
                         </div>
-                        <CustomFields fields={this.props.customFields}/>
+                        <CustomFields issue={item} fields={this.props.customFields}/>
                     </div>
                 </div>
             </div>

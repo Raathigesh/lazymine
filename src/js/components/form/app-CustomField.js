@@ -2,14 +2,18 @@
 /** @jsx React.DOM */
 var React = require('react'),
     TextField = require('./app-TextField'),
-    DropDown = require('./app-Dropdown');
+    DropDown = require('./app-Dropdown'),
+    ColorControl = require('./app-ColorControl');
 
 var CustomField = React.createClass({
     propTypes: {
-        field:  React.PropTypes.object.isRequired // Custom filed object
+        field:  React.PropTypes.object.isRequired, // Custom filed object
+        issue:  React.PropTypes.object.isRequired,
+        onUpdate: React.PropTypes.func
     },        
-    onUpdate: function(){
-
+    onUpdate: function(){     
+        var value   =  this.refs.field.getValue();
+        this.props.onUpdate(value);
     },
     render : function () {
         "use strict";
@@ -18,17 +22,24 @@ var CustomField = React.createClass({
 
         if(this.props.field.field_format === "list"){
 
-            var dropdownValues = this.props.field.possible_values.possible_values.map(function(item, i){
-                return {
-                    id: i,
-                    text: item.value
-                };
-            });           
+            var isCustomColorControlRequired = (this.props.field.possible_values.possible_values[0].color) ? true : false;
 
-            component = <DropDown data={dropdownValues} label={this.props.field.name} onChange={this.onUpdate}/>;
+            if(isCustomColorControlRequired){
+                component = <ColorControl issue={this.props.issue} field={this.props.field} />;
+            }
+            else{
+                var dropdownValues = this.props.field.possible_values.possible_values.map(function(item, i){
+                    return {
+                        id: item.value,
+                        text: item.value
+                    };
+                });           
+
+                component = <DropDown ref="field" data={dropdownValues} label={this.props.field.name} onChange={this.onUpdate}/>;
+            }           
         }
         else{
-            component = <TextField label={this.props.field.name} onChange={this.onUpdate} />;   
+            component = <TextField ref="field" label={this.props.field.name} onChange={this.onUpdate} />;   
         }
 
         return (

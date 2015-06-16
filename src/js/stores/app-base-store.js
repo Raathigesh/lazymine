@@ -58,10 +58,16 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     "type": "array",
                     "possible_values": [
                         {
-                            "value": "0.5.x"
+                            "value": "Red",
+                            "color": "red"
                         },
                         {
-                            "value": "0.6.x"
+                            "value": "Green",
+                            "color": "green"
+                        },
+                        {
+                            "value": "Yellow",
+                            "color": "Yellow"
                         }
                     ]
                 },
@@ -227,6 +233,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             }
         },
         updateActiveTaskCustomField = function (entry) {
+            debugger
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
@@ -371,6 +378,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 break;
             case AppConstants.Logout:
                 clearSettings.call(this);
+                break;
+            case AppConstants.UpdateTaskCustomField:
+                updateActiveTaskCustomField.call(this, action.entry);
                 break;
             }
         });
