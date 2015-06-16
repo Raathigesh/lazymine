@@ -251,6 +251,10 @@ DataManager.prototype = (function () {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
             entry.setHours(hours);
         },
+        updateActiveTaskCustomField = function (timeEntryId, customFieldId, customFieldValue) {
+            var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
+            entry.setCustomField(customFieldId, customFieldValue);
+        },
         updateActiveTaskActivityId = function (timeEntryId, activityId) {
             var entry = _.find(this.activeTaskCollection, { 'id': timeEntryId });
             entry.setActivityId(activityId);
@@ -314,6 +318,7 @@ DataManager.prototype = (function () {
         filterTaskCollection: filterTaskCollection,
         createActiveTask: createActiveTask,
         updateActiveTaskHours: updateActiveTaskHours,
+        updateActiveTaskCustomField: updateActiveTaskCustomField,
         updateActiveTaskActivityId: updateActiveTaskActivityId,
         updateActiveTaskComments: updateActiveTaskComments,
         postUpdatedActiveTaskCollection: postUpdatedActiveTaskCollection,

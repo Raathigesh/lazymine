@@ -1,7 +1,8 @@
 /*global require, module*/
 var InvalidArgumentError = require("../error/invalid-argument-error"),
     easyGid = require("easy-guid"),
-    validator = require('validator');
+    validator = require('validator'),
+    _ = require("lodash");
 
 var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     "use strict";
@@ -31,11 +32,25 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     this.activityId = null;
     this.comments = null;
     this.updated = false;
+    this.customFields = []
 };
 
 TimeEntry.prototype = (function () {
     "use strict";
     var dateFormat = "YYYY-MM-DD",
+        setCustomField = function (id, value) {
+            var field = _.find(this.customFields, { 'id': id });
+            if (field) {
+                field.value = value;
+            } else {
+                this.customFields.push({
+                    id: id,
+                    value: value
+                });
+            }
+
+            return this;
+        },
         setSpentOn = function (spentOn) {
             if (!spentOn || !spentOn._isAMomentObject) {
                 throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
@@ -87,17 +102,24 @@ TimeEntry.prototype = (function () {
             this.updated = false;
         },
         buildPostEntry = function () {
+            var entry = {
+                issue_id: this.issueId,
+                spent_on: this.spentOn.format(dateFormat),
+                hours: this.hours,
+                activity_id: this.activityId,
+                comments: this.comments
+            };
+
+            if (this.customFields.length) {
+                entry.custom_fields = this.customFields;
+            }
+
             return {
-                time_entry: {
-                    issue_id: this.issueId,
-                    spent_on: this.spentOn.format(dateFormat),
-                    hours: this.hours,
-                    activity_id: this.activityId,
-                    comments: this.comments
-                }
+                time_entry: entry
             };
         };
     return {
+        setCustomField: setCustomField,
         setHours: setHours,
         setActivityId: setActivityId,
         setComments: setComments,
