@@ -25,6 +25,21 @@ var DatePicker = React.createClass({
             }
         }
     },
+    componentDidMount: function () {
+        $('.datepicker-adv-default').each(function(index) {
+            var datepickerAdv = $(this).pickadate({container: 'body'}),
+                datepickerApi = datepickerAdv.pickadate('picker');
+
+            datepickerApi.on({
+                close: function() {
+                    $(document.activeElement).blur();
+                },
+                open: function() {
+                    datepickerApi.set('select', datepickerApi.get(), {format: 'ddd, dd mmm yyyy'});
+                }
+            });
+        });
+    },
     render : function () {
         "use strict";
         return (
