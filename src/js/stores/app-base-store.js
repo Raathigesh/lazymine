@@ -195,7 +195,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.createActiveTask(issueId);
-                    settings.setTaskCollection(manager.getActiveTaskCollection());
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -209,6 +209,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskActivityId(entry.id, entry.activityId);
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -221,6 +222,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskComments(entry.id, entry.comments);
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -233,6 +235,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskHours(entry.id, entry.hours);
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -241,11 +244,11 @@ module.exports = merge(EventEmitter.prototype, (function () {
             }
         },
         updateActiveTaskCustomField = function (entry) {
-            debugger
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskCustomField(entry.id, entry.customFieldId, entry.customFieldValue);
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -287,7 +290,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 if (manager !== null) {
                     manager.clearActiveTaskCollection();
                     State.activeItems = manager.activeTaskCollection;
-                    settings.setTaskCollection(manager.getActiveTaskCollection());
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -320,14 +323,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
         },
         clearSettings = function () {
             try {
-                if (State.isLoading) {
-                    showToast.call(this, StoreError.DataFetchInProgress);
-                    return null;
-                }
-
                 settings.clearSettings();
                 resetState.call(this);
-                EventEmitter.prototype.emit(AppEvent.Change);
+                location.reload();
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
                 console.error(error);

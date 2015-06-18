@@ -11,6 +11,7 @@ var Validator = require('validator'),
 
 var SettingsManager = function () {
     "use strict";
+    this.AppVersion = "1.0.0";
     this.settingsKey = "login_credentials";
     this.taskCollectionKey = "task_collection";
 
@@ -31,14 +32,22 @@ SettingsManager.prototype = (function () {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
             }
 
-            localStorage.setItem(this.taskCollectionKey, JSON.stringify(timeEntryCollection));
+            localStorage.setItem(this.taskCollectionKey, JSON.stringify({
+                version: this.AppVersion,
+                value: timeEntryCollection
+            }));
             this.activeTaskCollection = timeEntryCollection;
         },
         fetchTaskCollection = function () {
             var timeEntryCollectionJson = localStorage.getItem(this.taskCollectionKey);
             if (timeEntryCollectionJson) {
-                this.activeTaskCollection = JSON.parse(timeEntryCollectionJson);
-                return true;
+                var data = JSON.parse(timeEntryCollectionJson);
+                if (data.version === this.AppVersion) {
+                    this.activeTaskCollection = data.value;
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
             return false;
@@ -83,7 +92,10 @@ SettingsManager.prototype = (function () {
             };
 
             $.when(validateSettings.call(this, settings)).done(function () {
-                localStorage.setItem(this.settingsKey, JSON.stringify(settings));
+                localStorage.setItem(this.settingsKey, JSON.stringify({
+                    version: this.AppVersion,
+                    value: settings
+                }));
                 this.BaseURL = baseUrl;
                 this.APIKey = apiKey;
                 this.available = true;
@@ -96,12 +108,16 @@ SettingsManager.prototype = (function () {
         },
         fetchSettings = function () {
             var storeSettings = localStorage.getItem(this.settingsKey),
-                settings;
+                data;
             if (storeSettings) {
-                settings = JSON.parse(storeSettings);
-                this.BaseURL = settings.BaseURL;
-                this.APIKey = settings.APIKey;
-                return true;
+                data = JSON.parse(storeSettings)
+                if (data.version === this.AppVersion) {
+                    this.BaseURL = data.value.BaseURL;
+                    this.APIKey = data.value.APIKey;
+                    return true;
+                } else {
+                    return false;
+                }
             }
             return false;
         };
