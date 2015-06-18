@@ -298,19 +298,24 @@ DataManager.prototype = (function () {
                 throw new InvalidArgumentError("Parameter taskIdCollection must be an array.");
             }
 
-            taskIdCollection.map(function (taskId) {
-                var task = _.find(this.taskCollection, function (task) {
-                    return task.id === parseInt(taskId, 10);
-                });
+            taskIdCollection.map(function (entry) {
+                var task = _.find(this.taskCollection, { "id" :  entry.issueId});
 
                 if (!task) {
                     return;
                 }
 
-                this.activeTaskCollection.push(TimeEntry.createInstance(taskId, task.subject, task.project.name, getTaskUrl.call(this, task.id)));
+                entry.issueName = task.subject;
+                entry.projectName = task.project.name;
+                var timeEntry = TimeEntry.createInstance(task.id, task.subject, task.project.name, getTaskUrl.call(this, task.id));
+                timeEntry.spentOn = entry.spentOn;
+                timeEntry.hours = entry.hours;
+                timeEntry.activityId = entry.activityId;
+                timeEntry.comments = entry.comments;
+                timeEntry.updated = entry.updated;
+                timeEntry.customFields = entry.customFields;
+                this.activeTaskCollection.push(timeEntry);
             }.bind(this));
-
-            this.activeTaskCollection = _.sortBy(this.activeTaskCollection, 'projectName');
         };
     return {
         fetchData: fetchData,
