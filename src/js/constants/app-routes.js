@@ -1,5 +1,5 @@
 /*global module*/
 module.exports = {
-    App: "/",
-    Home: "/home"
+    Home: "/",
+    Login: "/login"
 };
