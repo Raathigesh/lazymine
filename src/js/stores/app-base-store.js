@@ -244,7 +244,6 @@ module.exports = merge(EventEmitter.prototype, (function () {
             }
         },
         updateActiveTaskCustomField = function (entry) {
-            debugger
             try {
                 var manager = getDataManager();
                 if (manager !== null) {
