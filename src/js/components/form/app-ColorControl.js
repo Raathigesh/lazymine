@@ -19,10 +19,15 @@ var ColorControl = React.createClass({
         var uniqueName = easyGid.new();
         
         var radioButtons = this.props.field.possible_values.possible_values.map(function(item, i){
-                var isChecked = (issue.customFields[0].id === item.id);
+
+                var isChecked = false;
+
+                if(this.props.issue.customFields[0]){
+                    isChecked = (this.props.issue.customFields[0].value === item.value);
+                }
 
                 return <RadioButton name={uniqueName} label={item.value} labelColor={item.color} onChange ={this.onChange} isChecked={isChecked}/>;
-        }.bind(this));           
+        }.bind(this));            
 
         return (
             <div className="row">
