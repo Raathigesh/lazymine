@@ -21,12 +21,8 @@ var RadioButton = React.createClass({
                 isSelected: isSelected
             });
         }
-
-       // React.findDOMNode(this.refs.radioButton).checked = false;
-    },
-    componentDidUpdate: function(){
-       // React.findDOMNode(this.refs.radioButton).checked = true;
-    },
+       
+    },    
     render : function () {
         "use strict";      
 
