@@ -59,23 +59,28 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     "possible_values": [
                         {
                             "value": "Green",
-                            "color": "#4CAF50"
+                            "color": "#4CAF50",
+                            "title": "Task is in line with your job description and project role. You believe that you are adding value to you, Zone24x7 and our client by you performing this task."
                         },
                         {
                             "value": "Orange",
-                            "color": "#FF9800"
+                            "color": "#FF9800",
+                            "title": "Task is in line with your job description and project role. You believe that you are NOT adding value to YOU, but adding value for Zone24x7 and/or our client(s) by you performing this task."
                         },
                         {
                             "value": "Yellow",
-                            "color": "#FFEB3B"
+                            "color": "#FFEB3B",
+                            "title": "Task is NOT in line with your job description and project role. You believe that you are NOT adding value to YOU, but adding value for Zone24x7 and/or our client(s) by you performing this task."
                         },
                         {
                             "value": "Red",
-                            "color": "#F44336"
+                            "color": "#F44336",
+                            "title": "Task is NOT in line with your job description and project role. You believe that you are not adding value."
                         },
                         {
                             "value": "Black",
-                            "color": "Black"
+                            "color": "Black",
+                            "title": "Cannot decide."
                         }
                     ]
                 },

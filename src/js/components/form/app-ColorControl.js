@@ -26,7 +26,14 @@ var ColorControl = React.createClass({
                     isChecked = (this.props.issue.customFields[0].value === item.value);
                 }
 
-                return <RadioButton name={uniqueName} label={item.value} labelColor={item.color} onChange ={this.onChange} isChecked={isChecked}/>;
+                return <RadioButton 
+                        name={uniqueName} 
+                        label={item.value} 
+                        labelColor={item.color} 
+                        backgoundColor={item.color}  
+                        tooltip={item.title} 
+                        onChange ={this.onChange} 
+                        isChecked={isChecked}/>;
         }.bind(this));            
 
         return (
