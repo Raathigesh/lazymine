@@ -11,7 +11,6 @@ var RadioButton = React.createClass({
         onChange : React.PropTypes.func
     },
     onChange: function(event){
-        debugger
         var isSelected = React.findDOMNode(this.refs.radioButton).checked;
 
         if (this.props.onChange) {

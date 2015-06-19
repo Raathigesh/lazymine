@@ -20,9 +20,9 @@ var App = React.createClass({
 });
 
 var routes = (
-  <Route name={AppRoutes.App} path="/" handler={App}>
-    <Route name={AppRoutes.Home} handler={Container}/>
-    <DefaultRoute handler={Login}/>
+  <Route name={AppRoutes.Home} path="/" handler={App}>
+    <Route name={AppRoutes.Login} handler={Login}/>
+    <DefaultRoute handler={Container}/>
   </Route>
 );
 

@@ -8,21 +8,21 @@ var AuthMixin = {
             "use strict";
             switch(transition.path) {
 
-                case AppRoutes.App:
+                case AppRoutes.Login:
                     if (AppStore.getState().settings.available) {
                         transition.redirect(AppRoutes.Home, params, query);
                     }
                     break;
                 default:
                     if (!AppStore.getState().settings.available) {
-                        transition.redirect(AppRoutes.App, params, query);
+                        transition.redirect(AppRoutes.Login, params, query);
                     }
                     break;
             }
         },
         willTransitionFrom: function (transition, component) {
             switch(transition.path) {
-                case AppRoutes.App:
+                case AppRoutes.Login:
                     if (AppStore.getState().settings.available) {
                         transition.abort();
                     }
@@ -46,14 +46,14 @@ var AuthMixin = {
         var currentRouteName = this.context.router.getCurrentPathname();
 
         switch(currentRouteName) {
-            case AppRoutes.App:
+            case AppRoutes.Login:
                 if(AppStore.getState().settings.available) {
                     this.context.router.transitionTo(AppRoutes.Home);
                 }
                 break;
             default:
                 if(!AppStore.getState().settings.available) {
-                    this.context.router.transitionTo(AppRoutes.App);
+                    this.context.router.transitionTo(AppRoutes.Login);
                 }
                 break;
         }
