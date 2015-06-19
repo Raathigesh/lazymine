@@ -16,7 +16,7 @@ var CustomField = React.createClass({
         this.props.onUpdate(value);
     },
     render : function () {
-        "use strict";
+        "use strict"; 
         
         var component = null;
 
