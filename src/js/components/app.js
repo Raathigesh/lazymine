@@ -7,6 +7,7 @@ var React = require('react'),
     AppRoutes = require('../constants/app-routes'),
     Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
+    NotFoundRoute = Router.NotFoundRoute,
     Route = Router.Route,
     RouteHandler = Router.RouteHandler;
 
@@ -21,8 +22,9 @@ var App = React.createClass({
 
 var routes = (
   <Route name={AppRoutes.Home} path="/" handler={App}>
-    <Route name={AppRoutes.Login} handler={Login}/>
-    <DefaultRoute handler={Container}/>
+    <Route name={AppRoutes.Login} handler={Login} />
+    <DefaultRoute handler={Container} />
+    <NotFoundRoute handler={Container} />
   </Route>
 );
 
