@@ -6,7 +6,7 @@ var AuthMixin = {
     statics: {
         willTransitionTo: function (transition, params, query) {
             "use strict";
-            switch(transition.path) {
+            switch(transition.path.toLowerCase()) {
 
                 case AppRoutes.Login:
                     if (AppStore.getState().settings.available) {
@@ -21,7 +21,7 @@ var AuthMixin = {
             }
         },
         willTransitionFrom: function (transition, component) {
-            switch(transition.path) {
+            switch(transition.path.toLowerCase()) {
                 case AppRoutes.Login:
                     if (AppStore.getState().settings.available) {
                         transition.abort();
@@ -45,7 +45,7 @@ var AuthMixin = {
         "use strict";
         var currentRouteName = this.context.router.getCurrentPathname();
 
-        switch(currentRouteName) {
+        switch(currentRouteName.toLowerCase()) {
             case AppRoutes.Login:
                 if(AppStore.getState().settings.available) {
                     this.context.router.transitionTo(AppRoutes.Home);
