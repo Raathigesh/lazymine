@@ -59,19 +59,19 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     "possible_values": [
                         {
                             "value": "Green",
-                            "color": "Green"
+                            "color": "#4CAF50"
                         },
                         {
                             "value": "Orange",
-                            "color": "Orange"
+                            "color": "#FF9800"
                         },
                         {
                             "value": "Yellow",
-                            "color": "Yellow"
+                            "color": "#FFEB3B"
                         },
                         {
                             "value": "Red",
-                            "color": "Red"
+                            "color": "#F44336"
                         },
                         {
                             "value": "Black",
