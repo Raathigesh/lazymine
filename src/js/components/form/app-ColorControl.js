@@ -3,6 +3,7 @@
 var React = require('react');
 var RadioButton = require('./app-RadioButton');
 var AppActions = require('../../actions/app-actions');
+var easyGid = require("easy-guid");
 
 var ColorControl = React.createClass({
     propTypes: {
@@ -15,13 +16,29 @@ var ColorControl = React.createClass({
     render : function () {
         "use strict";
         
+        var uniqueName = easyGid.new();
+        
         var radioButtons = this.props.field.possible_values.possible_values.map(function(item, i){
-                return <RadioButton label={item.value} labelColor={item.color} onChange ={this.onChange}/>;
-        }.bind(this));           
+
+                var isChecked = false;
+
+                if(this.props.issue.customFields[0]){
+                    isChecked = (this.props.issue.customFields[0].value === item.value);
+                }
+
+                return <RadioButton 
+                        name={uniqueName} 
+                        label={item.value} 
+                        labelColor={item.color} 
+                        backgoundColor={item.color}  
+                        tooltip={item.title} 
+                        onChange ={this.onChange} 
+                        isChecked={isChecked}/>;
+        }.bind(this));            
 
         return (
             <div className="row">
-                <div className="col-lg-12 col-sm-12 col-xs-12">
+                <div className="col-lg-12 col-sm-12 col-xs-12 form-group">
                   {radioButtons}
                 </div>
             </div>
