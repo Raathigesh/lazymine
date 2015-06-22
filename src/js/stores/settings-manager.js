@@ -1,4 +1,4 @@
-/*global require, module, localStorage*/
+/*global require, module, localStorage, window*/
 var Validator = require('validator'),
     InvalidArgumentError = require('../error/invalid-argument-error'),
     HttpHelper = require('./http-helper'),
@@ -7,18 +7,21 @@ var Validator = require('validator'),
     StoreError = require('../constants/store-errors'),
     $ = require('jquery'),
     _ = require('lodash'),
-    moment = require('moment');
+    moment = require('moment'),
+    fs = global.require('fs');
 
 var SettingsManager = function () {
     "use strict";
     this.AppVersion = "1.0.0";
     this.settingsKey = "login_credentials";
     this.taskCollectionKey = "task_collection";
+    this.configKey = "config_file_path";
 
     this.BaseURL = "";
     this.APIKey = "";
     this.timeEntryDay = moment();
     this.activeTaskCollection = [];
+    this.customFields = null;
     this.available  = this.fetchSettings();
     this.forceLoad = false;
     this.backgroundFetchTimerInterval = 300000;
@@ -107,10 +110,14 @@ SettingsManager.prototype = (function () {
             return deferred.promise();
         },
         fetchSettings = function () {
-            var storeSettings = localStorage.getItem(this.settingsKey),
+            debugger;
+            var configurationPath = localStorage.getItem(this.configKey),
+                storeSettings = localStorage.getItem(this.settingsKey),
                 data;
+
+            this.customFields = JSON.parse(fs.readFileSync(configurationPath + "/CustomField.json"));
             if (storeSettings) {
-                data = JSON.parse(storeSettings)
+                data = JSON.parse(storeSettings);
                 if (data.version === this.AppVersion) {
                     this.BaseURL = data.value.BaseURL;
                     this.APIKey = data.value.APIKey;

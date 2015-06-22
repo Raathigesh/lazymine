@@ -14,6 +14,7 @@
     "material-ui": "^0.7.3",
     "moment": "^2.10.2",
     "nw": "^0.12.0",
+    "path": "^0.11.14",
     "random-material-color": "^1.0.2",
     "react": "^0.13.1",
     "react-bootstrap": "^0.19.1",
