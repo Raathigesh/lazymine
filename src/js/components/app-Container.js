@@ -39,7 +39,7 @@ var Container = React.createClass({
                 <Toast error={this.state.error}/>
                 <div className="container">
                     <div className="container-inner">
-                        <TaskList items={this.state.activeItems} activities={this.state.activities} customFields={this.state.customFields}/>
+                        <TaskList items={this.state.activeItems} activities={this.state.activities} customFields={this.state.settings.customFields}/>
                     </div>
                 </div>
                 <About />

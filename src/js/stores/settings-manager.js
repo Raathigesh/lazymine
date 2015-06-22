@@ -115,7 +115,12 @@ SettingsManager.prototype = (function () {
                 storeSettings = localStorage.getItem(this.settingsKey),
                 data;
 
-            this.customFields = JSON.parse(fs.readFileSync(configurationPath + "/CustomField.json"));
+            try {
+                this.customFields = JSON.parse(fs.readFileSync(configurationPath + "/CustomField.json")).custom_fields;
+            } catch (error){
+                this.customFields = [];
+            }
+
             if (storeSettings) {
                 data = JSON.parse(storeSettings);
                 if (data.version === this.AppVersion) {

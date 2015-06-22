@@ -32,8 +32,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             activities: [], // activities available to enter time against. Fetched from server.
             isLoading: true,
             settings: settings,
-            error: null,
-            customFields: []
+            error: null
         },
         showToast = function (error) {
             State.error = error;
@@ -44,50 +43,6 @@ module.exports = merge(EventEmitter.prototype, (function () {
             EventEmitter.prototype.emit(AppEvent.Change);
         },
         getState = function () {
-            // Added to test custom field UI implementation. SHOULD BE REMOVED.
-             State.customFields = [];
-             State.customFields.push({            
-                "customized_type": "issue",
-                "field_format": "list",
-                "id": "159",
-                "is_filter": "false",
-                "is_required": "true",
-                "multiple": "true",
-                "name": "Value/Benefit",
-                "possible_values": {
-                    "type": "array",
-                    "possible_values": [
-                        {
-                            "value": "Green",
-                            "color": "#4CAF50",
-                            "title": "Task is in line with your job description and project role. You believe that you are adding value to you, Zone24x7 and our client by you performing this task."
-                        },
-                        {
-                            "value": "Orange",
-                            "color": "#FF9800",
-                            "title": "Task is in line with your job description and project role. You believe that you are NOT adding value to YOU, but adding value for Zone24x7 and/or our client(s) by you performing this task."
-                        },
-                        {
-                            "value": "Yellow",
-                            "color": "#FFEB3B",
-                            "title": "Task is NOT in line with your job description and project role. You believe that you are NOT adding value to YOU, but adding value for Zone24x7 and/or our client(s) by you performing this task."
-                        },
-                        {
-                            "value": "Red",
-                            "color": "#F44336",
-                            "title": "Task is NOT in line with your job description and project role. You believe that you are not adding value."
-                        },
-                        {
-                            "value": "Black",
-                            "color": "Black",
-                            "title": "Cannot decide."
-                        }
-                    ]
-                },
-                "searchable": "true",
-                "visible": "false"
-            });
-
             return State;
         },
         fetchLatestBackground = function () {
