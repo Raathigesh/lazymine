@@ -110,7 +110,6 @@ SettingsManager.prototype = (function () {
             return deferred.promise();
         },
         fetchSettings = function () {
-            debugger;
             var configurationPath = localStorage.getItem(this.configKey),
                 storeSettings = localStorage.getItem(this.settingsKey),
                 data;
