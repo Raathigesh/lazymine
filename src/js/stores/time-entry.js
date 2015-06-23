@@ -119,10 +119,7 @@ TimeEntry.prototype = (function () {
             };
 
             if (this.customFields.length) {
-                entry.custom_fields = {
-                    id: this.customFields.id,
-                    value: this.customFields.value
-                };
+                entry.custom_fields = this.customFields;
             }
 
             return {
