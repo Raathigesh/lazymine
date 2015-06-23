@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.html",
     "window": {
+        "icon": "assets/icon_128.png",
         "title": "Lazymine",
         "frame": false,
         "toolbar": false,
