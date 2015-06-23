@@ -1,5 +1,6 @@
 {
-  "custom_fields" : [
+  "version": "1.0.0",
+  "value": [
     {
       "customized_type": "issue",
       "field_format": "list",
@@ -39,7 +40,8 @@
         ]
       },
       "searchable": "true",
-      "visible": "false"
+      "visible": "false",
+      "required": "true"
     }
   ]
 }

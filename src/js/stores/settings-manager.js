@@ -22,6 +22,8 @@ var SettingsManager = function () {
     this.timeEntryDay = moment();
     this.activeTaskCollection = [];
     this.customFields = null;
+    this.customFieldsVersion = null;
+    this.timeEntryCustomFieldData = [];
     this.available  = this.fetchSettings();
     this.forceLoad = false;
     this.backgroundFetchTimerInterval = 300000;
@@ -45,7 +47,7 @@ SettingsManager.prototype = (function () {
             var timeEntryCollectionJson = localStorage.getItem(this.taskCollectionKey);
             if (timeEntryCollectionJson) {
                 var data = JSON.parse(timeEntryCollectionJson);
-                if (data.version === this.AppVersion) {
+                if (data.version === this.customFieldsVersion) {
                     this.activeTaskCollection = data.value;
                     return true;
                 } else {
@@ -74,6 +76,8 @@ SettingsManager.prototype = (function () {
             this.activeTaskCollection = [];
             this.available  = false;
             this.forceLoad = false;
+            this.customFields = null;
+            this.timeEntryCustomFieldData = [];
         },
         setSettings = function (baseUrl, apiKey) {
             var deferred = $.Deferred(),
@@ -115,7 +119,10 @@ SettingsManager.prototype = (function () {
                 data;
 
             try {
-                this.customFields = JSON.parse(fs.readFileSync(configurationPath + "/CustomField.json")).custom_fields;
+                var fieldData = JSON.parse(fs.readFileSync(configurationPath + "/CustomField.json"));
+                this.customFieldsVersion = fieldData.version;
+                this.customFields = fieldData.value;
+                setTimeEntryCustomFieldData.call(this);
             } catch (error){
                 this.customFields = [];
             }
@@ -131,6 +138,15 @@ SettingsManager.prototype = (function () {
                 }
             }
             return false;
+        },
+        setTimeEntryCustomFieldData = function () {
+            this.customFields.map(function (field) {
+                this.timeEntryCustomFieldData.push({
+                    id: field.id,
+                    required: field.required,
+                    value: null
+                })
+            }.bind(this));
         };
     return {
         setSettings: setSettings,
@@ -141,4 +157,12 @@ SettingsManager.prototype = (function () {
     };
 }());
 
-module.exports = new SettingsManager();
+var instance = null;
+
+module.exports = (function () {
+    if( instance === null ) {
+        instance = new SettingsManager();
+    }
+
+    return instance;
+}(instance));

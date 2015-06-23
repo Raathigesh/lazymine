@@ -2,7 +2,8 @@
 var InvalidArgumentError = require("../error/invalid-argument-error"),
     easyGid = require("easy-guid"),
     validator = require('validator'),
-    _ = require("lodash");
+    _ = require("lodash"),
+    settings = require("./settings-manager");
 
 var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     "use strict";
@@ -32,7 +33,7 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     this.activityId = null;
     this.comments = null;
     this.updated = false;
-    this.customFields = []
+    this.customFields = settings.timeEntryCustomFieldData;
 };
 
 TimeEntry.prototype = (function () {
@@ -42,13 +43,9 @@ TimeEntry.prototype = (function () {
             var field = _.find(this.customFields, { 'id': id });
             if (field) {
                 field.value = value;
-            } else {
-                this.customFields.push({
-                    id: id,
-                    value: value
-                });
             }
 
+            this.updated = isUpdated.call(this);
             return this;
         },
         setSpentOn = function (spentOn) {
@@ -60,6 +57,17 @@ TimeEntry.prototype = (function () {
             return this;
         },
         isUpdated  = function () {
+            var index = 0,
+                length = this.customFields.length,
+                field;
+
+            for (index; length > index; index++) {
+                field = this.customFields[index];
+                if (field.required && (field.value === "" || field.value === null || field.value === "undefined")) {
+                    return false;
+                }
+            }
+
             return this.activityId !== null && this.hours !== null;
         },
         setHours = function (hours) {
@@ -111,7 +119,10 @@ TimeEntry.prototype = (function () {
             };
 
             if (this.customFields.length) {
-                entry.custom_fields = this.customFields;
+                entry.custom_fields = {
+                    id: this.customFields.id,
+                    value: this.customFields.value
+                };
             }
 
             return {
