@@ -34,16 +34,16 @@ var Header = React.createClass({
         "use strict";
         return (
             <header className="header navbar navbar-default">
-                <div className="row">
-                    <div className="col-xs-4 header-draggable-area">
+                <div className="row header-draggable-area">
+                    <div className="col-xs-4">
                         <a href="javascript:void(0)" onClick={this._openExternalUrl}>
                             <img className="logo-img" src="assets/top-logo.png" title="Lazymine" />
                         </a>
                     </div>
-                    <div className="col-xs-4 header-draggable-area">
+                    <div className="col-xs-4">
                         { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     </div>
-                    <div className="col-xs-4 header-draggable-area">
+                    <div className="col-xs-4">
                         <a className="close-btn pull-right" href="javascript:void(0)" onClick={this._close} title="Close">
                             <img src="assets/close.png" />
                         </a>
