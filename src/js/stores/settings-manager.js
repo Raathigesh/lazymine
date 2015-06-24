@@ -119,7 +119,7 @@ SettingsManager.prototype = (function () {
                 data;
 
             try {
-                var fieldData = JSON.parse(fs.readFileSync(configurationPath + "/CustomField.json"));
+                var fieldData = JSON.parse(fs.readFileSync(configurationPath));
                 this.customFieldsVersion = fieldData.version;
                 this.customFields = fieldData.value;
                 setTimeEntryCustomFieldData.call(this);
