@@ -76,10 +76,9 @@ SettingsManager.prototype = (function () {
             this.activeTaskCollection = [];
             this.available  = false;
             this.forceLoad = false;
-            this.customFields = null;
-            this.timeEntryCustomFieldData = [];
         },
         setSettings = function (baseUrl, apiKey) {
+            debugger;
             var deferred = $.Deferred(),
                 settings;
 
@@ -122,6 +121,7 @@ SettingsManager.prototype = (function () {
                 var fieldData = JSON.parse(fs.readFileSync(configurationPath));
                 this.customFieldsVersion = fieldData.version;
                 this.customFields = fieldData.value;
+                console.log(this.customFields);
                 setTimeEntryCustomFieldData.call(this);
             } catch (error){
                 this.customFields = [];

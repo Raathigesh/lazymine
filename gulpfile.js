@@ -26,6 +26,7 @@ var bases = {
 var paths = {
     main: ['src/js/main.js'], // since we need to browserify this file specifically
     scripts: ['js/shell/*.js', 'js/support/*.js'],
+    config: ['js/configuration/*.js'] ,
     libs: ['js/lib/*.*', 'css/lib/*.*', 'css/fonts/*.*', 'css/lib/fonts/*.*'],
     styles: ['css/*.*'],
     html: ['index.html'],
@@ -62,6 +63,14 @@ gulp.task('build-scripts', function () {
     "use strict";
     return gulp.src(paths.scripts, {cwd: bases.src})
         .pipe(concat('support.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(bases.concat + 'js/'));
+});
+
+gulp.task('build-config', function () {
+    "use strict";
+    return gulp.src(paths.config, {cwd: bases.src})
+        .pipe(concat('config.js'))
         .pipe(uglify())
         .pipe(gulp.dest(bases.concat + 'js/'));
 });
@@ -149,7 +158,7 @@ gulp.task('test', function (done) {
 gulp.task('default', function (callback) {
     "use strict";
     runSequence(['clean'],
-                ['dev-build-scripts', 'dev-build-css', 'copy-extras'],
+                ['dev-build-scripts', 'build-config', 'dev-build-css', 'copy-extras'],
                 ['browserify-With-Watch'],
                 ['watch'],
                 callback);
@@ -158,7 +167,7 @@ gulp.task('default', function (callback) {
 gulp.task('ci', function (callback) {
     "use strict";
     runSequence('clean',
-        ['browserify-Without-Watch', 'build-scripts', 'build-css', 'copy-extras'],
+        ['browserify-Without-Watch', 'build-scripts', 'build-config', 'build-css', 'copy-extras'],
         'webkit-build',
         'copy-custom-config',
         callback);
@@ -167,7 +176,7 @@ gulp.task('ci', function (callback) {
 gulp.task('build', function (callback) {
     "use strict";
     runSequence(['clean', 'test'],
-                ['browserify', 'build-scripts', 'build-css', 'copy-extras'],
+                ['browserify', 'build-scripts', 'build-config', 'build-css', 'copy-extras'],
                 'webkit-build',
                 'copy-custom-config',
                 callback);
