@@ -1,6 +1,6 @@
 {
   "name": "Lazymine",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Simple redmine portal for time entry",
   "repository": {
     "type": "git",

@@ -32,7 +32,7 @@ var paths = {
     images: ['assets/*.*'],
     extras: ['package.json'],
     chrome_extension: ['extension/manifest.json', 'extension/background.js'],
-    custom_configuration: ['CustomField.json']
+    custom_configuration: ['configuration.json']
 };
 
 var filesToMove = paths.libs.concat(paths.html)
