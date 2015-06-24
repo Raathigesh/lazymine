@@ -12,8 +12,9 @@ var gui = require('nw.gui'); // Load native UI library
             x : screen.availWidth / 2,
             y : 0
         },
-        confStr = localStorage.getItem(windowKey);
-
+        confStr = localStorage.getItem(windowKey),
+		startInTray = false;
+	
     if (confStr) {
         windowConf = JSON.parse(confStr);
     }
@@ -37,6 +38,16 @@ var gui = require('nw.gui'); // Load native UI library
     win.y = windowConf.y;
 
     localStorage.setItem(windowKey, JSON.stringify(windowConf));
+	
+	for (var i = 0; i < gui.App.argv.length; i++){
+		if (gui.App.argv[i] == '--tray'){
+			startInTray = true;
+		}
+	}
+	
+	if (!startInTray) {
+		win.show();
+	}
 
     win.on('close', function () {
         localStorage.setItem(windowKey, JSON.stringify({
