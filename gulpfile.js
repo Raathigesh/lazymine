@@ -167,10 +167,10 @@ gulp.task('default', function (callback) {
 gulp.task('ci', function (callback) {
     "use strict";
     runSequence('clean',
-        ['browserify-Without-Watch', 'build-scripts', 'build-config', 'build-css', 'copy-extras'],
-        'webkit-build',
-        'copy-custom-config',
-        callback);
+                ['browserify-Without-Watch', 'build-scripts', 'build-config', 'build-css', 'copy-extras'],
+                'webkit-build',
+                'copy-custom-config',
+                callback);
 });
 
 gulp.task('build', function (callback) {
@@ -224,7 +224,7 @@ gulp.task('browserify-Without-Watch', function () {
         debug: false, // Gives us sourcemapping
         cache: {},
         packageCache: {},
-        fullPaths: true // Requirement of watchify
+        fullPaths: false
     });
 
     return bundler.bundle() // Create the initial bundle when starting the task
