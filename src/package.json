@@ -12,7 +12,7 @@
         "show": false,
         "always-on-top": false,
         "transparent": true,
-        "min_width": 480,
+        "min_width": 490,
         "min_height": 640
     }
 }
