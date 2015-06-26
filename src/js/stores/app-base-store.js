@@ -11,7 +11,8 @@ var AppConstants = require('../constants/app-action-name'),
     StoreError = require('../constants/store-errors'),
     StoreMessage = require('../constants/store-message'),
     $ = require("jquery"),
-    dataManager = null;
+    dataManager = null,
+    Rx = require('rx');
 
 var getDataManager = function () {
     "use strict";
@@ -34,6 +35,17 @@ module.exports = merge(EventEmitter.prototype, (function () {
             settings: settings,
             error: null
         },
+        subject = new Rx.Subject(),
+        subscription = subject.debounce(500).subscribe(
+            function () {                
+                settings.setTaskCollection(manager.activeTaskCollection);                
+            }.bind(this),
+            function (err) {
+                console.log('Error: ' + err);
+            },
+            function () {
+                console.log('Completed');
+            }),
         showToast = function (error) {
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
@@ -182,7 +194,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskComments(entry.id, entry.comments);
-                    settings.setTaskCollection(manager.activeTaskCollection);
+                    subject.onNext();
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -234,6 +246,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
+                        settings.setTaskCollection(manager.getActiveTaskCollection());
                         showToast.call(this, StoreMessage.TimeUpdateSuccessful);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
