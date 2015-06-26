@@ -233,7 +233,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.removeActiveTask(entryId);
-                    settings.setTaskCollection(manager.getActiveTaskCollection());
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
@@ -246,7 +246,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
-                        settings.setTaskCollection(manager.getActiveTaskCollection());
+                        settings.setTaskCollection(manager.activeTaskCollection);
                         showToast.call(this, StoreMessage.TimeUpdateSuccessful);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
@@ -262,7 +262,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.clearActiveTaskCollection();
-                    State.activeItems = manager.activeTaskCollection;
+                    State.activeItems = manager.activeTaskCollection;                    
                     settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
