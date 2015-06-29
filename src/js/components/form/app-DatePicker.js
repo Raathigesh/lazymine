@@ -12,7 +12,7 @@ var DatePicker = React.createClass({
     },
     getValue: function () {
         "use strict";
-        return moment(this.state.selectedDate, 'ddd, DD MMM YYYY');
+        return moment(React.findDOMNode(this.refs.date).value, 'ddd, DD MMM YYYY');
     },
     componentWillReceiveProps: function () {
         "use strict";
