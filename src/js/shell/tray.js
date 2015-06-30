@@ -10,7 +10,7 @@ var gui = require('nw.gui');
 
     // Show tray
     tray = new gui.Tray({
-        icon: 'assets/icon_128.png'
+        icon: 'assets/icon_16.png'
     });
 
     tray.on('click', function () {
