@@ -51,7 +51,7 @@ var SearchBox = React.createClass({
             });
         }
 
-        if (this.refs.searchResult._getCurrentActiveResult() && show) {
+        if (show && this.refs.searchResult._getCurrentActiveResult()) {
             this.refs.searchResult._getCurrentActiveResult()._addActive();
         }
     },
