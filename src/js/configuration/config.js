@@ -8,7 +8,7 @@ var path = require('path'),
 
     switch (os.platform()) {
         case 'darwin':
-            configPath = '~/Library/Application Support/Lazymine';
+            configPath = process.env.HOME + "/Library/Application Support/Lazymine";
             break;
         case 'win32':
             configPath = path.dirname(process.execPath);
