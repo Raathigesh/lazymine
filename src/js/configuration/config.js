@@ -1,8 +1,23 @@
-var path = require('path');
+var path = require('path'),
+	os = require('os');
 
 (function () {
     "use strict";
     var configKey = "config_file_path",
-        nwPath = process.execPath;
-    localStorage.setItem(configKey, path.dirname(nwPath) + "/configuration.json");
+        configPath = '';
+
+    switch (os.platform()) {
+        case 'darwin':
+            configPath = '~/Library/Application Support/Lazymine';
+            break;
+        case 'win32':
+            configPath = process.execPath;
+            break;
+        case 'linux':
+        // LOL?
+        default:
+            configPath = process.execPath;
+            break;
+    }
+    localStorage.setItem(configKey, path.dirname(configPath) + "/configuration.json");
 }());
