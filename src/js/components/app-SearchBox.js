@@ -32,9 +32,7 @@ var SearchBox = React.createClass({
                 if (query.length > this.MinimumQueryLength) {
                     AppActions.search(query);
                     this._toggleResultsPanel(true);
-                    if (this.refs.searchResult._getCurrentActiveResult()) {
-                        this.refs.searchResult._getCurrentActiveResult()._addActive();
-                    }
+
                 } else {
                     //clear the search results on the removing the filter text
                     //so that it'll not be picked when search box focused
@@ -51,6 +49,10 @@ var SearchBox = React.createClass({
             this.setState({
                 "showResults": show
             });
+        }
+
+        if (this.refs.searchResult._getCurrentActiveResult() && show) {
+            this.refs.searchResult._getCurrentActiveResult()._addActive();
         }
     },
     _navigate: function (event) {
