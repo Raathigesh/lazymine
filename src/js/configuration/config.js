@@ -11,13 +11,13 @@ var path = require('path'),
             configPath = '~/Library/Application Support/Lazymine';
             break;
         case 'win32':
-            configPath = process.execPath;
+            configPath = path.dirname(process.execPath);
             break;
         case 'linux':
         // LOL?
         default:
-            configPath = process.execPath;
+            configPath = path.dirname(process.execPath);
             break;
     }
-    localStorage.setItem(configKey, path.dirname(configPath) + "/configuration.json");
+    localStorage.setItem(configKey, configPath + "/configuration.json");
 }());
