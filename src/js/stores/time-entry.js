@@ -33,7 +33,7 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     this.activityId = null;
     this.comments = null;
     this.updated = false;
-    this.customFields = settings.timeEntryCustomFieldData;
+    this.customFields = _.cloneDeep(settings.customFields);
 };
 
 TimeEntry.prototype = (function () {
