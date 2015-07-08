@@ -4,7 +4,8 @@ var React = require('react'),
     randomMC = require('random-material-color'),
     AppActions = require('../actions/app-actions'),
     TextField = require('../components/form/app-TextField'),
-    DropDown = require('../components/form/app-Dropdown');
+    DropDown = require('../components/form/app-Dropdown'),
+    CustomFields = require('./app-CustomFields');
 
 var Task = React.createClass({
     getInitialState: function () {
@@ -22,14 +23,19 @@ var Task = React.createClass({
     },
     _handleClick: function () {
         "use strict";
+        var state;
         if (this.state.open) {
-            this.setState({
+            state = {
                 open: false
-            });
+            };
         } else {
-            this.setState({
+            state = {
                 open: true
-            });
+            };
+        }
+
+        if (this.isMounted()) {
+            this.setState(state);
         }
     },
     _elementClick: function (event) {
@@ -96,10 +102,10 @@ var Task = React.createClass({
                     <div className="tile-action tile-action-show">
                         <ul className="nav nav-list pull-right">
                             <li title={"Open task #" + item.issueId + " in Redmine"}>
-                                <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch"></span></a>
+                                <a onClick={this._openExternalUrl} href="#"><span className="access-hide">IssueID</span><span className="icon icon-launch task-icon"></span></a>
                             </li>
                             <li title="Remove task">
-                                <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete"></span></a>
+                                <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete task-icon"></span></a>
                             </li>
                         </ul>
                     </div>
@@ -122,13 +128,14 @@ var Task = React.createClass({
                             </div>    
                         </div>
                         <div className="row">
-                             <div className="col-lg-6 col-sm-6 tracker-dropdown">
-                                <DropDown ref="activity" data={activities} initialValue={item.activityId} onChange={this._updateTaskActivityId}/>
+                             <div className="col-xs-6 tracker-dropdown">
+                                <DropDown ref="activity" data={activities} initialValue={item.activityId} label="Activity" onChange={this._updateTaskActivityId}/>
                              </div>
-                             <div className="col-lg-6 col-sm-6 hours-input">
+                             <div className="col-xs-6 hours-input">
                                 <TextField ref="spentHours" label = "Hours" value={item.hours} onChange={this._updateTaskHours} isNumeric={true}/>
                              </div>
                         </div>
+                        <CustomFields issue={item} fields={this.props.customFields}/>
                     </div>
                 </div>
             </div>

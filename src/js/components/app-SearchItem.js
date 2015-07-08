@@ -13,22 +13,28 @@ var SearchItem = React.createClass({
     },
     _removeActive: function () {
         "use strict";
-        this.setState({
-            "Classes": "tile result"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "tile result"
+            });
+        }
     },
     _addActive: function () {
         "use strict";
-        this.setState({
-            "Classes": "result active"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "result active"
+            });
+        }
     },
     _mouseOver: function () {
         "use strict";
         this.props.clearCurrent();
-        this.setState({
-            "Classes": "result active"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "result active"
+            });
+        }
     },
     _click: function () {
         "use strict";
@@ -38,9 +44,11 @@ var SearchItem = React.createClass({
     },
     _mouseOut: function () {
         "use strict";
-        this.setState({
-            "Classes": "tile result"
-        });
+        if (this.isMounted()) {
+            this.setState({
+                "Classes": "tile result"
+            });
+        }
     },
     render : function () {
         "use strict";
@@ -49,8 +57,7 @@ var SearchItem = React.createClass({
         return(<div className={this.state.Classes} id={"result-" + id} data-id={id} onMouseOver={this._mouseOver} onMouseOut={this._mouseOut} onClick={this._click}>
                   <p className="pull-right list-item-task-id" title="Task ID" dangerouslySetInnerHTML={{__html: id}}></p>
                   <p className="list-item-title" title={item.subject} dangerouslySetInnerHTML={{__html: item.formattedTitle}}></p>
-                  <span className="list-item-tracker" title="Tracker name" dangerouslySetInnerHTML={{__html: item.tracker.name + " - "}}></span>
-                  <span className="list-item-description" title={item.project.name} dangerouslySetInnerHTML={{__html: item.project.name}}></span>
+                  <span className="list-item-tracker" title="Tracker name" dangerouslySetInnerHTML={{__html: "<b>" + item.tracker.name + "</b> - <span class='tracker-name'>" + item.project.name + "</span>"}}></span>
                </div>);
     }
 });

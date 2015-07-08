@@ -3,24 +3,12 @@
 var React = require('react'),
     SearchBox = require('../components/app-SearchBox'),
     AppStore = require('../stores/app-base-store'),
-    InfoBar = require('../components/app-InfoBar');
+    InfoBar = require('../components/app-InfoBar'),
+    StateMixin = require('../mixins/app-StateMixin');
+
 
 var Header = React.createClass({
-    getInitialState: function () {
-        "use strict";
-        return AppStore.getState();
-    },
-
-    componentWillMount: function () {
-        "use strict";
-        AppStore.addChangeListener(this._change);
-    },
-
-    _change: function () {
-        "use strict";
-        var storeState = AppStore.getState();
-        this.setState(storeState);
-    },
+    mixins: [StateMixin],
 
     _minimize: function () {
         "use strict";
@@ -46,20 +34,20 @@ var Header = React.createClass({
         "use strict";
         return (
             <header className="header navbar navbar-default">
-                <div className="row">
-                    <div className="col-xs-4 header-draggable-area">
-                        <a href="#" onClick={this._openExternalUrl}>
+                <div className="row header-draggable-area">
+                    <div className="col-xs-4">
+                        <a href="javascript:void(0)" onClick={this._openExternalUrl}>
                             <img className="logo-img" src="assets/top-logo.png" title="Lazymine" />
                         </a>
                     </div>
-                    <div className="col-xs-4 header-draggable-area">
+                    <div className="col-xs-4">
                         { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
                     </div>
-                    <div className="col-xs-4 header-draggable-area">
-                        <a className="close-btn pull-right" href="#" onClick={this._close} title="Close">
+                    <div className="col-xs-4">
+                        <a className="close-btn pull-right" href="javascript:void(0)" onClick={this._close} title="Close">
                             <img src="assets/close.png" />
                         </a>
-                        <a className="minimize-btn pull-right" href="#" onClick={this._minimize} title="Minimize">
+                        <a className="minimize-btn pull-right" href="javascript:void(0)" onClick={this._minimize} title="Minimize">
                             <img src="assets/minimize.png" />
                         </a>
                     </div>

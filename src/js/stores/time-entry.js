@@ -1,7 +1,9 @@
 /*global require, module*/
 var InvalidArgumentError = require("../error/invalid-argument-error"),
     easyGid = require("easy-guid"),
-    validator = require('validator');
+    validator = require('validator'),
+    _ = require("lodash"),
+    settings = require("./settings-manager");
 
 var TimeEntry = function (issueId, issueName, projectName, taskUrl, isNew) {
     "use strict";
@@ -32,11 +34,21 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl, isNew) {
     this.activityId = null;
     this.comments = null;
     this.updated = false;
+    this.customFields = _.cloneDeep(settings.customFields);
 };
 
 TimeEntry.prototype = (function () {
     "use strict";
     var dateFormat = "YYYY-MM-DD",
+        setCustomField = function (id, value) {
+            var field = _.find(this.customFields, { 'id': id });
+            if (field) {
+                field.value = value;
+            }
+
+            this.updated = isUpdated.call(this);
+            return this;
+        },
         setSpentOn = function (spentOn) {
             if (!spentOn || !spentOn._isAMomentObject) {
                 throw new InvalidArgumentError("Parameter spentOn must be a moment object.");
@@ -47,11 +59,23 @@ TimeEntry.prototype = (function () {
             return this;
         },
         isUpdated  = function () {
+            var index = 0,
+                length = this.customFields.length,
+                field;
+
+            for (index; length > index; index++) {
+                field = this.customFields[index];
+                if (field.required && (field.value === "" || field.value === null || field.value === "undefined")) {
+                    return false;
+                }
+            }
+
             return this.activityId !== null && this.hours !== null;
         },
         setHours = function (hours) {
             if (!(validator.isInt(hours) || validator.isFloat(hours))) {
                 this.updated = false;
+                this.hours = null;
                 return this;
             }
 
@@ -69,6 +93,7 @@ TimeEntry.prototype = (function () {
         setActivityId = function (activityId) {
             if (!validator.isInt(activityId)) {
                 this.updated = false;
+                this.activityId = null;
                 return this;
             }
 
@@ -88,19 +113,29 @@ TimeEntry.prototype = (function () {
             this.activityId = null;
             this.comments = null;
             this.updated = false;
+            this.customFields.map(function (field) {
+                field.value = null;
+            });
         },
         buildPostEntry = function () {
+            var entry = {
+                issue_id: this.issueId,
+                spent_on: this.spentOn.format(dateFormat),
+                hours: this.hours,
+                activity_id: this.activityId,
+                comments: this.comments
+            };
+
+            if (this.customFields.length) {
+                entry.custom_fields = this.customFields;
+            }
+
             return {
-                time_entry: {
-                    issue_id: this.issueId,
-                    spent_on: this.spentOn.format(dateFormat),
-                    hours: this.hours,
-                    activity_id: this.activityId,
-                    comments: this.comments
-                }
+                time_entry: entry
             };
         };
     return {
+        setCustomField: setCustomField,
         setHours: setHours,
         setActivityId: setActivityId,
         setComments: setComments,

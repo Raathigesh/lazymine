@@ -4,6 +4,9 @@ var React = require('react'),
     easyGid = require("easy-guid");
 
 var DropDown = React.createClass({
+    propTypes: {
+         label: React.PropTypes.string,
+    },
     getValue: function () {
         "use strict";
         return React.findDOMNode(this.refs.selectBox).value;
@@ -21,9 +24,9 @@ var DropDown = React.createClass({
         }
 
         items =  this.props.data.map(function (item, i) {
-            opt = <option value={item.id}>{item.text}</option>;
+            opt = <option value={item.id} key={i}>{item.text}</option>;
             if(this.props.initialValue === item.id){
-                opt = <option value={item.id} selected="selected">{item.text}</option>;
+                opt = <option value={item.id} key={i} selected="selected">{item.text}</option>;
                 className = className + "  control-highlight";
             }
             return(
@@ -35,7 +38,7 @@ var DropDown = React.createClass({
            <div className={className}>
             <div className="row">
               <div className="col-lg-12 col-sm-12">
-                <label className="floating-label" htmlFor={identifier}>Activity</label>
+                <label className="floating-label" htmlFor={identifier}>{this.props.label}</label>
                 <select ref="selectBox" className="form-control" id={identifier} onChange={onChange}>
                   <option value=""></option>
                   {items}

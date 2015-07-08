@@ -21,7 +21,7 @@ var SearchResult = React.createClass({
     },
     _getPreviousResult: function () {
         "use strict";
-        if (this.ActiveItem > 0) {
+        if (this.ActiveItem > -1) {
             this.ActiveItem -= 1;
             return this.refs["searchItem" + this.ActiveItem];
         }
@@ -54,11 +54,11 @@ var SearchResult = React.createClass({
         var currentActiveResult = this._getCurrentActiveResult(),
             nextResult = this._getNextResult();
 
-        if (currentActiveResult) {
+        if (currentActiveResult && nextResult) {
             currentActiveResult._removeActive();
+            nextResult._addActive();
         }
-
-        if (nextResult) {
+        else if(nextResult) {
             nextResult._addActive();
         }
     },
@@ -89,7 +89,6 @@ var SearchResult = React.createClass({
         "use strict";
         this.props.toggleResultsPanel(show);
     },
-
     render: function () {
         "use strict";
         var rows,
@@ -100,7 +99,7 @@ var SearchResult = React.createClass({
         if (items) {
             rows = items.map(function (item, i) {
                 var searchItemRef = "searchItem" + i;
-                return(<SearchResultItem item={item} togglePanel={toggle} clearCurrent={clear} ref={searchItemRef}/>);
+                return(<SearchResultItem item={item} togglePanel={toggle} key={i} clearCurrent={clear} ref={searchItemRef}/>);
             });
         }
 

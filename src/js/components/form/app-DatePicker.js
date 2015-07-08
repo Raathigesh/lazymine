@@ -12,16 +12,33 @@ var DatePicker = React.createClass({
     },
     getValue: function () {
         "use strict";
-        return moment(this.state.selectedDate, 'ddd, DD MMM YYYY');
+        return moment(React.findDOMNode(this.refs.date).value, 'ddd, DD MMM YYYY');
     },
     componentWillReceiveProps: function () {
         "use strict";
         // Since the input does not fire a proper change event, we have to set the state before rendering.
         if (React.findDOMNode(this.refs.date)) {
-            this.setState({
-                selectedDate: React.findDOMNode(this.refs.date).value
-            });
+            if (this.isMounted()) {
+                this.setState({
+                    selectedDate: React.findDOMNode(this.refs.date).value
+                });
+            }
         }
+    },
+    componentDidMount: function () {
+        $('.datepicker-adv-default').each(function(index) {
+            var datepickerAdv = $(this).pickadate({container: 'body'}),
+                datepickerApi = datepickerAdv.pickadate('picker');
+
+            datepickerApi.on({
+                close: function() {
+                    $(document.activeElement).blur();
+                },
+                open: function() {
+                    datepickerApi.set('select', datepickerApi.get(), {format: 'ddd, dd mmm yyyy'});
+                }
+            });
+        });
     },
     render : function () {
         "use strict";

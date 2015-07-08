@@ -9,54 +9,27 @@ var React = require('react'),
     Loader = require('../components/app-Loader'),
     Toast = require('../components/app-Toast'),
     About = require('../components/app-About'),
-    KeyMaster = require('keymaster');
+    AuthMixin = require('../mixins/app-AuthMixin'),
+    StateMixin = require('../mixins/app-StateMixin');
 
 var Container = React.createClass({
+    mixins: [AuthMixin, StateMixin],
     contextTypes: {
         router: React.PropTypes.func
     },
-    getInitialState: function () {
-        "use strict";
-        return AppStore.getState();
-    },
     componentWillMount: function () {
         "use strict";
-        AppStore.addChangeListener(this._change);
         AppActions.fetchIssues();
-    },
-    componentDidMount: function () {
-        "use strict";
-        if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
-            this.context.router.transitionTo('login');
-        }
-
-        KeyMaster('ctrl+shift+s', this._updateTime);
-        KeyMaster('ctrl+shift+d', this._cancel);
-    },
-    componentWillUnmount: function() {
-        KeyMaster.unbind('ctrl+s', this._updateTime);
-        KeyMaster.unbind('ctrl+d', this._cancel);
-    },
-    _change: function () {        
-        "use strict";
-        var storeState = AppStore.getState();
-        this.setState(storeState);
-
-        if (this.state.settings.BaseURL === null || this.state.settings.BaseURL === "" || this.state.settings.APIKey === null || this.state.settings.APIKey === "") {
-            this.context.router.transitionTo('login');
-        }
     },
     _updateTime: function () {
         "use strict";
         var dateSelected = this.refs.header.getSelectedDate();
         AppActions.createTimeEntries(dateSelected);
     },
-
     _cancel: function () {
         "use strict";
         AppActions.clearTimeEntries();
     },
-
     render: function () {
         "use strict";
         return (
@@ -66,7 +39,7 @@ var Container = React.createClass({
                 <Toast error={this.state.error}/>
                 <div className="container">
                     <div className="container-inner">
-                        <TaskList items={this.state.activeItems} activities={this.state.activities}/>
+                        <TaskList items={this.state.activeItems} activities={this.state.activities} customFields={this.state.settings.customFields}/>
                     </div>
                 </div>
                 <About />

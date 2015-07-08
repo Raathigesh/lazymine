@@ -4,20 +4,16 @@ var React = require('react'),
     AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
     Header = require('../components/app-Header'),
+    WalkThrough = require('../components/app-WalkThrough'),
     Router = require('react-router'),
-    TextField = require('../components/form/app-TextField');
+    TextField = require('../components/form/app-TextField'),
+    AuthMixin = require('../mixins/app-AuthMixin'),
+    StateMixin = require('../mixins/app-StateMixin');
 
 var Settings = React.createClass({
+    mixins: [AuthMixin, StateMixin],
     contextTypes: {
         router: React.PropTypes.func
-    },
-    getInitialState: function () {
-        "use strict";
-        return AppStore.getState();
-    },
-    componentWillMount: function () {
-        "use strict";
-        AppStore.addChangeListener(this._change);
     },
     _login: function () {
         "use strict";
@@ -25,14 +21,6 @@ var Settings = React.createClass({
             apiKey = this.refs.apiKey.getValue();
 
         AppActions.saveSettings(url, apiKey);
-    },
-    _change: function () {
-        "use strict";
-        var storeState = AppStore.getState();
-        this.setState(storeState);
-        if (this.state.settings.BaseURL !== null && this.state.settings.BaseURL !== "" && this.state.settings.APIKey !== null && this.state.settings.APIKey !== "") {
-            this.context.router.transitionTo('home');
-        }
     },
     render : function () {
         "use strict";
@@ -57,6 +45,9 @@ var Settings = React.createClass({
 												<div className="col-md-10 col-md-push-1">
 													<a className="btn btn-block btn-lazy waves-button waves-effect waves-light" onClick={this._login}>Connect</a>
 												</div>
+                                                <div className="col-md-10 col-md-push-1 text-center">
+                                                    <WalkThrough />
+                                                </div>
 											</div>
 										</div>
 									</form>

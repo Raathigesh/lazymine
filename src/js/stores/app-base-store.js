@@ -8,11 +8,11 @@ var AppConstants = require('../constants/app-action-name'),
     DataManager = require('./data-manager'),
     ServiceAccessor = require('./service-accessor'),
     HttpHelper = require('./http-helper'),
-    prettify = require('prettify-error'),
     StoreError = require('../constants/store-errors'),
     StoreMessage = require('../constants/store-message'),
     $ = require("jquery"),
-    dataManager = null;
+    dataManager = null,
+    Rx = require('rx');
 
 var getDataManager = function () {
     "use strict";
@@ -35,6 +35,17 @@ module.exports = merge(EventEmitter.prototype, (function () {
             settings: settings,
             error: null
         },
+        subject = new Rx.Subject(),
+        subscription = subject.debounce(500).subscribe(
+            function () {                
+                settings.setTaskCollection(manager.activeTaskCollection);                
+            }.bind(this),
+            function (err) {
+                console.log('Error: ' + err);
+            },
+            function () {
+                console.log('Completed');
+            }),
         showToast = function (error) {
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
@@ -61,7 +72,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     }
                 } catch (error) {
                     showToast.call(this, StoreError.InternalServerError);
-                    console.error(prettify(error) || error);
+                    console.error(error);
                 }
             }.bind(this), settings.backgroundFetchTimerInterval);
         },
@@ -90,7 +101,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         fetchData = function () {
@@ -123,7 +134,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         filterTaskCollection = function (query) {
@@ -135,7 +146,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         clearSearch = function () {
@@ -144,7 +155,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 EventEmitter.prototype.emit(AppEvent.Change);
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         createActiveTask = function (issueId) {
@@ -156,13 +167,13 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.createActiveTask(issueId);
-                    settings.setTaskCollection(manager.getActiveTaskCollection());
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     State.activeItems = manager.activeTaskCollection;
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         updateActiveTaskActivityId = function (entry) {
@@ -170,11 +181,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskActivityId(entry.id, entry.activityId);
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         updateActiveTaskComments = function (entry) {
@@ -182,11 +194,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskComments(entry.id, entry.comments);
+                    subject.onNext();
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         updateActiveTaskHours = function (entry) {
@@ -194,11 +207,25 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.updateActiveTaskHours(entry.id, entry.hours);
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
+            }
+        },
+        updateActiveTaskCustomField = function (entry) {
+            try {
+                var manager = getDataManager();
+                if (manager !== null) {
+                    manager.updateActiveTaskCustomField(entry.id, entry.customFieldId, entry.customFieldValue);
+                    settings.setTaskCollection(manager.activeTaskCollection);
+                    EventEmitter.prototype.emit(AppEvent.Change);
+                }
+            } catch (error) {
+                showToast.call(this, StoreError.InternalServerError);
+                console.error(error);
             }
         },
         removeActiveTask = function (entryId) {
@@ -206,12 +233,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.removeActiveTask(entryId);
-                    settings.setTaskCollection(manager.getActiveTaskCollection());
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         postUpdatedActiveTaskCollection = function (spentOn) {
@@ -219,6 +246,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
+                        settings.setTaskCollection(manager.activeTaskCollection);
                         showToast.call(this, StoreMessage.TimeUpdateSuccessful);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
@@ -226,7 +254,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         clearActiveTaskCollection = function () {
@@ -234,13 +262,13 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.clearActiveTaskCollection();
-                    State.activeItems = manager.activeTaskCollection;
-                    settings.setTaskCollection(manager.getActiveTaskCollection());
+                    State.activeItems = manager.activeTaskCollection;                    
+                    settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         setSettings = function (data) {
@@ -252,7 +280,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }.bind(this));
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         resetState = function () {
@@ -268,17 +296,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
         },
         clearSettings = function () {
             try {
-                if (State.isLoading) {
-                    showToast.call(this, StoreError.DataFetchInProgress);
-                    return null;
-                }
-
                 settings.clearSettings();
                 resetState.call(this);
-                EventEmitter.prototype.emit(AppEvent.Change);
+                location.reload();
             } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
-                console.error(prettify(error) || error);
+                console.error(error);
             }
         },
         addChangeListener = function (callback) {
@@ -314,6 +337,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
             case AppConstants.UpdateTaskHours:
                 updateActiveTaskHours.call(this, action.entry);
                 break;
+            case AppConstants.UpdateTaskCustomField:
+                updateActiveTaskCustomField.call(this, action.entry);
+                break;
             case AppConstants.CreateTimeEntries:
                 postUpdatedActiveTaskCollection.call(this, action.spentOn);
                 break;
@@ -331,6 +357,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 break;
             case AppConstants.Logout:
                 clearSettings.call(this);
+                break;
+            case AppConstants.UpdateTaskCustomField:
+                updateActiveTaskCustomField.call(this, action.entry);
                 break;
             }
         });

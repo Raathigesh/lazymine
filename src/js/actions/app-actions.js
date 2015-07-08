@@ -44,6 +44,16 @@ var AppActions = (function () {
                 }
             });
         },
+        updateTaskCustomField = function (id, customFieldId, customFieldValue) {
+            AppDispatcher.handleViewAction({
+                actionType: AppConstants.UpdateTaskCustomField,
+                entry: {
+                    id: id,
+                    customFieldId: customFieldId,
+                    customFieldValue: customFieldValue
+                }
+            });
+        },
         updateTaskComments = function (id, comment) {
             AppDispatcher.handleViewAction({
                 actionType: AppConstants.UpdateTaskComments,
@@ -103,6 +113,7 @@ var AppActions = (function () {
         addIssue: addIssue,
         updateTaskActivityId: updateTaskActivityId,
         updateTaskHours: updateTaskHours,
+        updateTaskCustomField: updateTaskCustomField,
         updateTaskComments: updateTaskComments,
         createTimeEntries: createTimeEntries,
         clearTimeEntries: clearTimeEntries,

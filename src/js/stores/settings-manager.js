@@ -1,4 +1,4 @@
-/*global require, module, localStorage*/
+/*global require, module, localStorage, window*/
 var Validator = require('validator'),
     InvalidArgumentError = require('../error/invalid-argument-error'),
     HttpHelper = require('./http-helper'),
@@ -7,20 +7,26 @@ var Validator = require('validator'),
     StoreError = require('../constants/store-errors'),
     $ = require('jquery'),
     _ = require('lodash'),
-    moment = require('moment');
+    moment = require('moment'),
+    fs = global.require('fs');
 
 var SettingsManager = function () {
     "use strict";
+    this.AppVersion = "1.0.0";
     this.settingsKey = "login_credentials";
     this.taskCollectionKey = "task_collection";
+    this.configKey = "config_file_path";
 
     this.BaseURL = "";
     this.APIKey = "";
     this.timeEntryDay = moment();
     this.activeTaskCollection = [];
+    this.customFields = null;
+    this.customFieldsVersion = null;
+    this.timeEntryCustomFieldData = [];
     this.available  = this.fetchSettings();
     this.forceLoad = false;
-    this.backgroundFetchTimerInterval = 900000;
+    this.backgroundFetchTimerInterval = 300000;
     this.retryInterval = 10000;
 };
 
@@ -31,14 +37,22 @@ SettingsManager.prototype = (function () {
                 throw new InvalidArgumentError("Parameter timeEntryCollection must be an array.");
             }
 
-            localStorage.setItem(this.taskCollectionKey, JSON.stringify(timeEntryCollection));
+            localStorage.setItem(this.taskCollectionKey, JSON.stringify({
+                version: this.AppVersion,
+                value: timeEntryCollection
+            }));
             this.activeTaskCollection = timeEntryCollection;
         },
         fetchTaskCollection = function () {
             var timeEntryCollectionJson = localStorage.getItem(this.taskCollectionKey);
             if (timeEntryCollectionJson) {
-                this.activeTaskCollection = JSON.parse(timeEntryCollectionJson);
-                return true;
+                var data = JSON.parse(timeEntryCollectionJson);
+                if (data.version === this.customFieldsVersion) {
+                    this.activeTaskCollection = data.value;
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
             return false;
@@ -64,6 +78,7 @@ SettingsManager.prototype = (function () {
             this.forceLoad = false;
         },
         setSettings = function (baseUrl, apiKey) {
+            debugger;
             var deferred = $.Deferred(),
                 settings;
 
@@ -83,7 +98,10 @@ SettingsManager.prototype = (function () {
             };
 
             $.when(validateSettings.call(this, settings)).done(function () {
-                localStorage.setItem(this.settingsKey, JSON.stringify(settings));
+                localStorage.setItem(this.settingsKey, JSON.stringify({
+                    version: this.AppVersion,
+                    value: settings
+                }));
                 this.BaseURL = baseUrl;
                 this.APIKey = apiKey;
                 this.available = true;
@@ -95,15 +113,40 @@ SettingsManager.prototype = (function () {
             return deferred.promise();
         },
         fetchSettings = function () {
-            var storeSettings = localStorage.getItem(this.settingsKey),
-                settings;
+            var configurationPath = localStorage.getItem(this.configKey),
+                storeSettings = localStorage.getItem(this.settingsKey),
+                data;
+
+            try {
+                var fieldData = JSON.parse(fs.readFileSync(configurationPath));
+                this.customFieldsVersion = fieldData.version;
+                this.customFields = fieldData.value;
+                console.log(this.customFields);
+                setTimeEntryCustomFieldData.call(this);
+            } catch (error){
+                this.customFields = [];
+            }
+
             if (storeSettings) {
-                settings = JSON.parse(storeSettings);
-                this.BaseURL = settings.BaseURL;
-                this.APIKey = settings.APIKey;
-                return true;
+                data = JSON.parse(storeSettings);
+                if (data.version === this.AppVersion) {
+                    this.BaseURL = data.value.BaseURL;
+                    this.APIKey = data.value.APIKey;
+                    return true;
+                } else {
+                    return false;
+                }
             }
             return false;
+        },
+        setTimeEntryCustomFieldData = function () {
+            this.customFields.map(function (field) {
+                this.timeEntryCustomFieldData.push({
+                    id: field.id,
+                    required: field.required,
+                    value: null
+                })
+            }.bind(this));
         };
     return {
         setSettings: setSettings,
@@ -114,4 +157,12 @@ SettingsManager.prototype = (function () {
     };
 }());
 
-module.exports = new SettingsManager();
+var instance = null;
+
+module.exports = (function () {
+    if( instance === null ) {
+        instance = new SettingsManager();
+    }
+
+    return instance;
+}(instance));

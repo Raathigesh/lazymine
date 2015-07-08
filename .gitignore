@@ -8,3 +8,4 @@ dist/js/main.js
 /build/
 /cache/
 /.idea/
+.DS_Store

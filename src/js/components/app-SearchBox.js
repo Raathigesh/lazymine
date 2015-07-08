@@ -32,9 +32,7 @@ var SearchBox = React.createClass({
                 if (query.length > this.MinimumQueryLength) {
                     AppActions.search(query);
                     this._toggleResultsPanel(true);
-                    if (this.refs.searchResult._getCurrentActiveResult()) {
-                        this.refs.searchResult._getCurrentActiveResult()._addActive();
-                    }
+
                 } else {
                     //clear the search results on the removing the filter text
                     //so that it'll not be picked when search box focused
@@ -47,17 +45,21 @@ var SearchBox = React.createClass({
     },
     _toggleResultsPanel: function (show) {
         "use strict";
-        this.setState({
-            "showResults": show
-        });
-    },
+        if (this.isMounted()) {
+            this.setState({
+                "showResults": show
+            });
+        }
 
+        if (show && this.refs.searchResult._getCurrentActiveResult()) {
+            this.refs.searchResult._getCurrentActiveResult()._addActive();
+        }
+    },
     _navigate: function (event) {
         "use strict";
         this._showResults();
         this.refs.searchResult._navigate(event);
     },
-
     _showResults: function () {
         "use strict";
         this._toggleResultsPanel(true);
@@ -75,7 +77,7 @@ var SearchBox = React.createClass({
             <div className="search-row">
                 <div className="col-md-12 search-box">
                     <input id="search" ref="searchBox" type="text" className="form-control search-control" 
-                        onChange={this.filter} onKeyUp={this._navigate} onFocus={this._showResults} onClick={this._showResults}
+                        onChange={this.filter} onKeyDown={this._navigate} onFocus={this._showResults} onClick={this._showResults}
                         onBlur={this._hideResults} placeholder="Type name or use tags #p #id #t #a ..."/>
                     <Menu />
                     

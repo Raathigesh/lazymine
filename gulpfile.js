@@ -18,18 +18,22 @@ var bases = {
     src: 'src/',
     dist: 'dist/',
     concat: 'dist/concat/',
-    webkit: 'dist/build/'
+    webkit: 'dist/build/',
+    win64_build: 'dist/build/Lazymine/win64',
+    win32_build: 'dist/build/Lazymine/win32'
 };
 
 var paths = {
     main: ['src/js/main.js'], // since we need to browserify this file specifically
     scripts: ['js/shell/*.js', 'js/support/*.js'],
+    config: ['js/configuration/*.js'] ,
     libs: ['js/lib/*.*', 'css/lib/*.*', 'css/fonts/*.*', 'css/lib/fonts/*.*'],
     styles: ['css/*.*'],
     html: ['index.html'],
     images: ['assets/*.*'],
     extras: ['package.json'],
-    chrome_extension: ['extension/manifest.json', 'extension/background.js']
+    chrome_extension: ['extension/manifest.json', 'extension/background.js'],
+    custom_configuration: ['configuration.json']
 };
 
 var filesToMove = paths.libs.concat(paths.html)
@@ -48,7 +52,7 @@ gulp.task('browserify', function () {
     return gulp.src(paths.main, {cwd: bases.src})
         .pipe(browserify({
             transform: 'reactify',
-            debug : true
+            debug : false
         }))
         .pipe(concat('main.js'))
         .pipe(uglify())
@@ -59,6 +63,14 @@ gulp.task('build-scripts', function () {
     "use strict";
     return gulp.src(paths.scripts, {cwd: bases.src})
         .pipe(concat('support.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(bases.concat + 'js/'));
+});
+
+gulp.task('build-config', function () {
+    "use strict";
+    return gulp.src(paths.config, {cwd: bases.src})
+        .pipe(concat('config.js'))
         .pipe(uglify())
         .pipe(gulp.dest(bases.concat + 'js/'));
 });
@@ -76,7 +88,7 @@ gulp.task('dev-browserify', function () {
     return gulp.src(paths.main, {cwd: bases.src})
         .pipe(browserify({
             transform: 'reactify',
-            debug : true
+            debug : false
         }))
         .pipe(concat('main.js'))
         .pipe(gulp.dest(bases.concat + 'js/'));
@@ -100,6 +112,13 @@ gulp.task('copy-extras', function () {
     "use strict";
     return gulp.src(filesToMove, { base: bases.src, cwd: bases.src })
         .pipe(gulp.dest(bases.concat));
+});
+
+gulp.task('copy-custom-config', function () {
+    "use strict";
+    return gulp.src(paths.custom_configuration, { base: bases.src, cwd: bases.src })
+        .pipe(gulp.dest(bases.win32_build))
+        .pipe(gulp.dest(bases.win64_build));
 });
 
 gulp.task('webkit-build', function () {
@@ -139,7 +158,7 @@ gulp.task('test', function (done) {
 gulp.task('default', function (callback) {
     "use strict";
     runSequence(['clean'],
-                ['dev-build-scripts', 'dev-build-css', 'copy-extras'],
+                ['dev-build-scripts', 'build-config', 'dev-build-css', 'copy-extras'],
                 ['browserify-With-Watch'],
                 ['watch'],
                 callback);
@@ -148,16 +167,18 @@ gulp.task('default', function (callback) {
 gulp.task('ci', function (callback) {
     "use strict";
     runSequence('clean',
-        ['browserify-Without-Watch', 'build-scripts', 'build-css', 'copy-extras'],
-        'webkit-build',
-        callback);
+                ['browserify-Without-Watch', 'build-scripts', 'build-config', 'build-css', 'copy-extras'],
+                'webkit-build',
+                'copy-custom-config',
+                callback);
 });
 
 gulp.task('build', function (callback) {
     "use strict";
     runSequence(['clean', 'test'],
-                ['browserify', 'build-scripts', 'build-css', 'copy-extras'],
+                ['browserify', 'build-scripts', 'build-config', 'build-css', 'copy-extras'],
                 'webkit-build',
+                'copy-custom-config',
                 callback);
 });
 
@@ -176,7 +197,7 @@ gulp.task('browserify-With-Watch', function () {
     var bundler = browserify({
             entries: [paths.main], // Only need initial file, browserify finds the deps
             transform: [reactify], // We want to convert JSX to normal javascript
-            debug: true, // Gives us sourcemapping
+            debug: false, // Gives us sourcemapping
             cache: {},
             packageCache: {},
             fullPaths: true // Requirement of watchify
@@ -200,10 +221,10 @@ gulp.task('browserify-Without-Watch', function () {
     var bundler = browserify({
         entries: [paths.main], // Only need initial file, browserify finds the deps
         transform: [reactify], // We want to convert JSX to normal javascript
-        debug: true, // Gives us sourcemapping
+        debug: false, // Gives us sourcemapping
         cache: {},
         packageCache: {},
-        fullPaths: true // Requirement of watchify
+        fullPaths: false
     });
 
     return bundler.bundle() // Create the initial bundle when starting the task

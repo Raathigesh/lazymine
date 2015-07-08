@@ -4,8 +4,10 @@ var React = require('react'),
     AppStore = require('../stores/app-base-store'),
     Container = require('../components/app-Container'),
     Login = require('../components/app-Login'),
+    AppRoutes = require('../constants/app-routes'),
     Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
+    NotFoundRoute = Router.NotFoundRoute,
     Route = Router.Route,
     RouteHandler = Router.RouteHandler;
 
@@ -17,14 +19,12 @@ var App = React.createClass({
                 </div>);
     }
 });
-var getDefaultRoute = function () {
-    return AppStore.getState().settings.available ? Container : Login;
-};
+
 var routes = (
-  <Route name="app" path="/" handler={App}>
-    <Route name="home" handler={Container}/>
-    <Route name="login" handler={Login}/>
-    <DefaultRoute handler={getDefaultRoute()}/>
+  <Route name={AppRoutes.Home} path="/" handler={App}>
+    <Route name={AppRoutes.Login} handler={Login} />
+    <DefaultRoute handler={Container} />
+    <NotFoundRoute handler={Container} />
   </Route>
 );
 

@@ -1,9 +1,10 @@
 {
     "name": "Lazymine",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "",
     "main": "index.html",
     "window": {
+        "icon": "assets/icon_128.png",
         "title": "Lazymine",
         "frame": false,
         "toolbar": false,
@@ -11,7 +12,7 @@
         "show": false,
         "always-on-top": false,
         "transparent": true,
-        "min_width": 480,
-        "min_height": 600
+        "min_width": 490,
+        "min_height": 640
     }
 }

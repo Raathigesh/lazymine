@@ -7,6 +7,7 @@ module.exports = {
     UpdateTaskActivityId: "UpdateTaskActivityId",
     UpdateTaskComments: "UpdateTaskComments",
     UpdateTaskHours: "UpdateTaskHours",
+    UpdateTaskCustomField: "UpdateTaskCustomField",
     CreateTimeEntries: "CreateTimeEntries",
     ClearTimeEntries: "ClearTimeEntries",
     SaveSettings: "SaveSettings",
