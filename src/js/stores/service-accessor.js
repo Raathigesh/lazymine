@@ -57,9 +57,17 @@ ServiceAccessor.prototype = (function () {
                     }
 
                     $.when.apply($, promises).done(function () {
-                        for (index = 0; index < arguments.length; index = index + 1) {
-                            taskCollection = taskCollection.concat(arguments[index][0].issues);
+                        if(promises.length === 1)
+                        {
+                            taskCollection = taskCollection.concat(arguments[0].issues);
                         }
+                        else 
+                        {
+                            for (index = 0; index < arguments.length; index = index + 1) {
+                                taskCollection = taskCollection.concat(arguments[index][0].issues);
+                            }
+                        }
+                        
 
                         deferred.resolve(taskCollection);
                     }.bind(this)).fail(function () {
