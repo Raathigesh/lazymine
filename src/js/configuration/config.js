@@ -1,9 +1,10 @@
 var path = require('path'),
-	os = require('os');
+	os = require('os'),
+    fs = global.require('fs');
 
 (function () {
     "use strict";
-    var configKey = "config_file_path",
+    var configKey = "configuration",
         configPath = '';
 
     switch (os.platform()) {
@@ -19,5 +20,7 @@ var path = require('path'),
             configPath = path.dirname(process.execPath);
             break;
     }
-    localStorage.setItem(configKey, configPath + "/configuration.json");
+
+    var config = fs.readFileSync(configPath + "/configuration.json");
+    localStorage.setItem(configKey, config);
 }());

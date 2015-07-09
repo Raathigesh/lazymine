@@ -7,15 +7,14 @@ var Validator = require('validator'),
     StoreError = require('../constants/store-errors'),
     $ = require('jquery'),
     _ = require('lodash'),
-    moment = require('moment'),
-    fs = global.require('fs');
+    moment = require('moment');
 
 var SettingsManager = function () {
     "use strict";
     this.AppVersion = "1.0.0";
     this.settingsKey = "login_credentials";
     this.taskCollectionKey = "task_collection";
-    this.configKey = "config_file_path";
+    this.configKey = "configuration";
 
     this.BaseURL = "";
     this.APIKey = "";
@@ -78,7 +77,6 @@ SettingsManager.prototype = (function () {
             this.forceLoad = false;
         },
         setSettings = function (baseUrl, apiKey) {
-            debugger;
             var deferred = $.Deferred(),
                 settings;
 
@@ -113,14 +111,13 @@ SettingsManager.prototype = (function () {
             return deferred.promise();
         },
         fetchSettings = function () {
-            var configurationPath = localStorage.getItem(this.configKey),
+            var config = JSON.parse(localStorage.getItem(this.configKey)),
                 storeSettings = localStorage.getItem(this.settingsKey),
                 data;
 
             try {
-                var fieldData = JSON.parse(fs.readFileSync(configurationPath));
-                this.customFieldsVersion = fieldData.version;
-                this.customFields = fieldData.value;
+                this.customFieldsVersion = config.version;
+                this.customFields = config.value;
                 console.log(this.customFields);
                 setTimeEntryCustomFieldData.call(this);
             } catch (error){
