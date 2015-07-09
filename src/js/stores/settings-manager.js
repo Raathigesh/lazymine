@@ -93,7 +93,7 @@ SettingsManager.prototype = (function () {
             }
 
             settings = {
-                BaseURL: _.endsWith(baseUrl, '/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl,
+                BaseURL: _.endsWith(_.trim(baseUrl), '/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl,
                 APIKey: apiKey
             };
 
@@ -102,7 +102,7 @@ SettingsManager.prototype = (function () {
                     version: this.AppVersion,
                     value: settings
                 }));
-                this.BaseURL = baseUrl;
+                this.BaseURL = settings.BaseURL;
                 this.APIKey = apiKey;
                 this.available = true;
                 this.forceLoad = true;

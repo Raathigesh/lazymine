@@ -57,7 +57,6 @@ TimeEntry.prototype = (function () {
             return this;
         },
         isUpdated  = function () {
-            debugger;
             var index = 0,
                 length = this.customFields.length,
                 field;
