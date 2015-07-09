@@ -33,7 +33,7 @@ var TimeEntry = function (issueId, issueName, projectName, taskUrl) {
     this.activityId = null;
     this.comments = null;
     this.updated = false;
-    this.customFields = _.cloneDeep(settings.customFields);
+    this.customFields = _.cloneDeep(settings.timeEntryCustomFieldData);
 };
 
 TimeEntry.prototype = (function () {
@@ -57,13 +57,14 @@ TimeEntry.prototype = (function () {
             return this;
         },
         isUpdated  = function () {
+            debugger;
             var index = 0,
                 length = this.customFields.length,
                 field;
 
             for (index; length > index; index++) {
                 field = this.customFields[index];
-                if (field.required && (field.value === "" || field.value === null || field.value === "undefined")) {
+                if (field.required && (field.value === "" || field.value === null || typeof field.value === "undefined")) {
                     return false;
                 }
             }
