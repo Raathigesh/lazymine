@@ -11,7 +11,7 @@
         "show_in_taskbar": true,
         "show": false,
         "always-on-top": false,
-        "transparent": true,
+        "transparent": false,
         "min_width": 490,
         "min_height": 640
     }
