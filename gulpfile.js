@@ -31,7 +31,7 @@ var paths = {
     styles: ['css/*.*'],
     html: ['index.html'],
     images: ['assets/*.*'],
-    extras: ['package.json'],
+    extras: ['package.json', 'configuration.json'],
     chrome_extension: ['extension/manifest.json', 'extension/background.js'],
     custom_configuration: ['configuration.json']
 };
@@ -126,7 +126,7 @@ gulp.task('webkit-build', function () {
     var nw = new NwBuilder({
         version: '0.12.0',
         files: [ bases.dist + '**'],
-        platforms: ['osx','win'],
+        platforms: ['osx'],
         buildDir: bases.webkit,
         winIco: 'lazymine.ico',
         macIcns: 'lazymine.icns'
