@@ -126,7 +126,7 @@ gulp.task('webkit-build', function () {
     var nw = new NwBuilder({
         version: '0.12.0',
         files: [ bases.dist + '**'],
-        platforms: ['osx'],
+        platforms: ['win'],
         buildDir: bases.webkit,
         winIco: 'lazymine.ico',
         macIcns: 'lazymine.icns'
