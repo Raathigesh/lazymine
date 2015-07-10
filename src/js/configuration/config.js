@@ -1,10 +1,12 @@
 var path = require('path'),
-	os = require('os');
+    os = require('os'),
+    fs = global.require('fs');
 
 (function () {
     "use strict";
-    var configKey = "config_file_path",
-        configPath = '';
+    var configKey = "configuration",
+        configPath = '',
+        config = '';
 
     switch (os.platform()) {
         case 'darwin':
@@ -14,10 +16,17 @@ var path = require('path'),
             configPath = path.dirname(process.execPath);
             break;
         case 'linux':
-        // LOL?
+            // LOL?
         default:
             configPath = path.dirname(process.execPath);
             break;
     }
-    localStorage.setItem(configKey, configPath + "/configuration.json");
+
+    try {
+        config = fs.readFileSync(configPath + "/configuration.json");
+    } catch (e) {
+        // If this fails, it's probably lasitha.
+        config = fs.readFileSync(process.cwd() + "/configuration.json");
+    }
+    localStorage.setItem(configKey, config);
 }());

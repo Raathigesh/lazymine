@@ -47,5 +47,8 @@
     "test": "node_modules/karma/bin/karma start"
   },
   "author": "Lazymine Team",
-  "license": "MIT"
+  "license": "MIT",
+  "optionalDependencies": {
+    "appdmg": "^0.3.2"
+  }
 }

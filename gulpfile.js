@@ -26,12 +26,12 @@ var bases = {
 var paths = {
     main: ['src/js/main.js'], // since we need to browserify this file specifically
     scripts: ['js/shell/*.js', 'js/support/*.js'],
-    config: ['js/configuration/*.js'] ,
+    config: ['js/configuration/*.js'],
     libs: ['js/lib/*.*', 'css/lib/*.*', 'css/fonts/*.*', 'css/lib/fonts/*.*'],
     styles: ['css/*.*'],
     html: ['index.html'],
     images: ['assets/*.*'],
-    extras: ['package.json'],
+    extras: ['package.json', 'configuration.json'],
     chrome_extension: ['extension/manifest.json', 'extension/background.js'],
     custom_configuration: ['configuration.json']
 };
@@ -126,9 +126,10 @@ gulp.task('webkit-build', function () {
     var nw = new NwBuilder({
         version: '0.12.0',
         files: [ bases.dist + '**'],
-        platforms: ['win'],
+        platforms: ['osx'],
         buildDir: bases.webkit,
-        winIco: 'lazymine.ico'
+        winIco: 'lazymine.ico',
+        macIcns: 'lazymine.icns'
     });
 
     nw.on('log', function (msg) {
