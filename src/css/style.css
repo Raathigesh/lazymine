@@ -161,11 +161,11 @@ ul, li {
 }
 
 .list-item-tracker b {
-    background-color: #DFFFBF;
+    color: #607D8B;
 }
 
-.tracker-name{
-  background-color: #FFCC99;
+.tracker-name {
+    color: #3F51B5;
 }
 
 .list-item-task-id {
