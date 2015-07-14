@@ -421,3 +421,7 @@ ul, li {
         opacity: 0;
     }
 }
+
+.picker__holder{
+    overflow: hidden;
+}
