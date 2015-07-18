@@ -7,14 +7,14 @@ var gui = require('nw.gui'); // Load native UI library
     var win = gui.Window.get(), // Get the current window
         windowKey = "window",
         windowConf = {
-            width : screen.availWidth / 2,
-            height : screen.availHeight,
-            x : screen.availWidth / 2,
-            y : 0
+            width: screen.availWidth / 2,
+            height: screen.availHeight,
+            x: screen.availWidth / 2,
+            y: 0
         },
         confStr = localStorage.getItem(windowKey),
-		startInTray = false;
-	
+        startInTray = false;        
+
     if (confStr) {
         windowConf = JSON.parse(confStr);
     }
@@ -25,10 +25,10 @@ var gui = require('nw.gui'); // Load native UI library
         windowConf.y > screen.availHeight) {
 
         windowConf = {
-            width : screen.availWidth / 2,
-            height : screen.availHeight,
-            x : screen.availWidth / 2,
-            y : 0
+            width: screen.availWidth / 2,
+            height: screen.availHeight,
+            x: screen.availWidth / 2,
+            y: 0
         };
     }
 
@@ -38,23 +38,33 @@ var gui = require('nw.gui'); // Load native UI library
     win.y = windowConf.y;
 
     localStorage.setItem(windowKey, JSON.stringify(windowConf));
-	
-	for (var i = 0; i < gui.App.argv.length; i++){
-		if (gui.App.argv[i] == '--tray'){
-			startInTray = true;
-		}
-	}
-	
-	if (!startInTray) {
-		win.show();
-	}
+
+    for (var i = 0; i < gui.App.argv.length; i++) {
+        if (gui.App.argv[i] == '--tray') {
+            startInTray = true;
+        }
+    }
+
+    if (!startInTray) {
+        win.show();
+    }
+
+    var nativeMenuBar = new gui.Menu({
+        type: "menubar"
+    });
+    try {
+        nativeMenuBar.createMacBuiltin("Lazymine");
+        win.menu = nativeMenuBar;
+    } catch (ex) {
+        console.log(ex.message);
+    }
 
     win.on('close', function () {
         localStorage.setItem(windowKey, JSON.stringify({
-            width : win.width,
-            height : win.height,
-            x : win.x,
-            y : win.y
+            width: win.width,
+            height: win.height,
+            x: win.x,
+            y: win.y
         }));
 
         this.hide();
@@ -67,10 +77,10 @@ var minimizeWindow = function () {
         windowKey = "window";
 
     localStorage.setItem(windowKey, JSON.stringify({
-        width : win.width,
-        height : win.height,
-        x : win.x,
-        y : win.y
+        width: win.width,
+        height: win.height,
+        x: win.x,
+        y: win.y
     }));
 
     win.minimize();
@@ -82,10 +92,10 @@ var closeWindow = function () {
         windowKey = "window";
 
     localStorage.setItem(windowKey, JSON.stringify({
-        width : win.width,
-        height : win.height,
-        x : win.x,
-        y : win.y
+        width: win.width,
+        height: win.height,
+        x: win.x,
+        y: win.y
     }));
 
     win.hide();
