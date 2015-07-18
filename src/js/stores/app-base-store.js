@@ -32,6 +32,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             activeItems: [], // active tasks selected by the user.
             activities: [], // activities available to enter time against. Fetched from server.
             isLoading: true,
+            timeEntryCollection: null,
             settings: settings,
             error: null
         },
@@ -304,6 +305,35 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 console.error(error);
             }
         },
+        getTimeEntries = function (spentOn){
+            try {
+                var manager = getDataManager();
+                if (State.isLoading) {
+                    showToast.call(this, StoreError.DataFetchInProgress);
+                    return null;
+                }
+
+                if (manager !== null) {
+                    State.isLoading = true;
+                    State.filteredResult = [];
+                    clearError.call(this);
+                    $.when(manager.serviceAccessor.getTimeEntries(spentOn)).done(function (data) {
+                        State.timeEntryCollection = data;
+                        State.isLoading = false;
+                        EventEmitter.prototype.emit(AppEvent.Change);
+                    }.bind(this)).fail(function (error) {
+                        showToast.call(this, error);
+                        State.isLoading = false;
+                        setTimeout(function () {
+                            getTimeEntries.call(this);
+                        }.bind(this), settings.retryInterval);
+                    }.bind(this));
+                }
+            } catch (error) {
+                showToast.call(this, StoreError.InternalServerError);
+                console.error(error);
+            }
+        },
         addChangeListener = function (callback) {
             EventEmitter.prototype.on(AppEvent.Change, callback);
         },
@@ -360,6 +390,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 break;
             case AppConstants.UpdateTaskCustomField:
                 updateActiveTaskCustomField.call(this, action.entry);
+                break;
+            case AppConstants.GetTimeEntries:
+                getTimeEntries.call(this, action.spentOn);
                 break;
             }
         });

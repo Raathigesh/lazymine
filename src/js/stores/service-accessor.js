@@ -166,7 +166,7 @@ ServiceAccessor.prototype = (function () {
         },
         getTimeEntries = function (spentOn) {
             var deferred = $.Deferred(),
-                updatedTimeEntriesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).buildUpdatedTimeEntriesUrl(spentOn);
+                updatedTimeEntriesUrl = UrlBuilder.createInstance(this.serviceBaseUrl).withSpentOn(spentOn).buildUpdatedTimeEntriesUrl();
             $.when(this.httpHelper.getRequest(updatedTimeEntriesUrl)).done(function (data) {
                 deferred.resolve(data);
             }.bind(this)).fail(function () {

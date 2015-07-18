@@ -14,5 +14,6 @@ module.exports = {
     RemoveTimeEntry: "RemoveTimeEntry",
     RefreshIssues: "RefreshIssues",
     StoreError: "StoreError",
-    Logout: "Logout"
+    Logout: "Logout",
+    GetTimeEntries: "GetTimeEntries"
 };
