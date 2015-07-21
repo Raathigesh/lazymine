@@ -26,7 +26,7 @@ var DatePicker = React.createClass({
         }
     },
     componentDidMount: function () {
-        $('.datepicker-adv-default').each(function(index) {
+        $('.datepicker-adv').each(function(index) {
             var datepickerAdv = $(this).pickadate({container: 'body'}),
                 datepickerApi = datepickerAdv.pickadate('picker');
 
