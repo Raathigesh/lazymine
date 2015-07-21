@@ -3,7 +3,6 @@
 var React = require('react'),
     AppActions = require('../actions/app-actions'),
     SearchResult = require('../components/app-SearchResult'),
-    Menu = require('../components/app-Menu'),
     EventHandler = require('../util/eventHandler');
 
 var SearchBox = React.createClass({
@@ -79,8 +78,6 @@ var SearchBox = React.createClass({
                     <input id="search" ref="searchBox" type="text" className="form-control search-control" 
                         onChange={this.filter} onKeyDown={this._navigate} onFocus={this._showResults} onClick={this._showResults}
                         onBlur={this._hideResults} placeholder="Type name or use tags #p #id #t #a ..."/>
-                    <Menu />
-                    
                     {
                         this.state.showResults ? <SearchResult ref="searchResult" results={this.props.items} toggleResultsPanel={this._toggleResultsPanel}/>
                                                : null

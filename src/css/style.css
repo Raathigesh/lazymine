@@ -99,14 +99,12 @@ ul, li {
     margin: auto;
     height: 24px;
     width: 140px;
-    text-align: center;
-    border-bottom-style: 1px solid #fff;
-    -webkit-app-region: no-drag;
+    border-bottom-style: 1px solid #000;
 }
 
 .date-picker-container #datepicker-adv-1 {
-    color: #fff !important;
-    border-color: #fff;
+    color: #000 !important;
+    border-color: #000;
     cursor: pointer !important;
 }
 
@@ -116,7 +114,7 @@ ul, li {
 }
 
 .container-inner {
-    margin-top: 100px;
+    margin-top: 35px;
 }
 
 
@@ -195,6 +193,10 @@ ul, li {
 
 .tile-action {
     border: none;
+}
+
+.nav {
+    margin :0;
 }
 
 .nav.pull-right .dropdown-menu {
