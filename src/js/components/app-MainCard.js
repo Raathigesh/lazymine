@@ -18,7 +18,7 @@ var MainCard = React.createClass({
                         </div>
                     </div>
                     <SearchBox items={this.state.filteredResult}/>
-                    <div className="card-inner">
+                    <div>
                         <TaskList items={this.state.activeItems} activities={this.state.activities} customFields={this.state.settings.customFields}/>
                     </div>
                 </div>
