@@ -75,6 +75,7 @@ var SearchBox = React.createClass({
         return (
             <div className="search-row">
                 <div className="col-md-12 search-box">
+                    <i className="fa fa-search"></i>
                     <input id="search" ref="searchBox" type="text" className="form-control search-control" 
                         onChange={this.filter} onKeyDown={this._navigate} onFocus={this._showResults} onClick={this._showResults}
                         onBlur={this._hideResults} placeholder="Type name or use tags #p #id #t #a ..."/>
