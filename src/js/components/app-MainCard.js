@@ -12,7 +12,7 @@ var MainCard = React.createClass({
                 <div className="card-main">
                     <div className="card-header">
                         <div className="card-inner-side pull-left">
-                            <div className="card-inner">
+                            <div className="card-header">
                                 <span>Pick Your Tasks</span>
                             </div>
                         </div>

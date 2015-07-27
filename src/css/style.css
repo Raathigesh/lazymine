@@ -56,14 +56,13 @@ ul, li {
     padding-left: 35px;
     background-color: #f5f5f5;
     color: #212121;
-    -webkit-transition: all 1s;
+    -webkit-transition: all .5s;
     /* Safari */
-    transition: all 1s;
+    transition: all .5s;
 }
 
 #search:focus {
     background-color: #FFF;
-    color: #fff;
 }
 
 .search-box i {
@@ -113,9 +112,8 @@ ul, li {
 }
 
 .datePicker input {
-    margin: auto;
     height: 24px;
-    width: 140px;
+    width: 120px;
     border-bottom-style: 1px solid #000;
 }
 
@@ -123,6 +121,20 @@ ul, li {
     color: #000 !important;
     border-color: #000;
     cursor: pointer !important;
+}
+
+.date-picker-help {
+    font-size: 16px;
+    padding-right: 5px;
+    padding-top: 3px;
+}
+
+.date-picker-container {
+    padding-left: 0;
+}
+
+.row.datePicker {
+    padding-top: 15px;
 }
 
 .picker__button--clear {
@@ -216,7 +228,7 @@ ul, li {
     margin: 0;
 }
 
-.nav.pull-right .dropdown-menu {
+.nav .dropdown-menu {
     right: 17px;
     left: -93px;
     top: 20px;
@@ -443,4 +455,9 @@ ul, li {
 
 .picker__holder {
     overflow: hidden;
+}
+
+.search-menu{
+    margin-top: -13px;
+    padding-right: 20px;
 }
