@@ -41,12 +41,12 @@ var TaskList = React.createClass({
             rows = items.map(function (item, i) {
                 return(<Task item={item} key={i} activities={activities} customFields={customFields}/>);
             });
-        } else {
+        } /* else {
             rows = (<Help />);
-        }
+        }*/
 
         return (
-            <div className="tile-wrap" style={this.state.componentHeight}>
+            <div className="tile-wrap">
                 {rows}
             </div>
         );

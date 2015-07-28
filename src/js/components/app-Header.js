@@ -1,15 +1,12 @@
 /*global require, module, openExternalUrl, closeWindow, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react'),
-    SearchBox = require('../components/app-SearchBox'),
     AppStore = require('../stores/app-base-store'),
     InfoBar = require('../components/app-InfoBar'),
     StateMixin = require('../mixins/app-StateMixin');
 
 
 var Header = React.createClass({
-    mixins: [StateMixin],
-
     _minimize: function () {
         "use strict";
         minimizeWindow();
@@ -18,11 +15,6 @@ var Header = React.createClass({
     _close: function () {
         "use strict";
         closeWindow();
-    },
-
-    getSelectedDate: function () {
-        "use strict";
-        return this.refs.infoBar.getSelectedDate();
     },
     _openExternalUrl: function (event) {
         "use strict";
@@ -40,10 +32,7 @@ var Header = React.createClass({
                             <img className="logo-img" src="assets/top-logo.png" title="Lazymine" />
                         </a>
                     </div>
-                    <div className="col-xs-4">
-                        { this.props.search == "show" ? <InfoBar ref="infoBar"/> : null }
-                    </div>
-                    <div className="col-xs-4">
+                    <div className="col-xs-8">
                         <a className="close-btn pull-right" href="javascript:void(0)" onClick={this._close} title="Close">
                             <img src="assets/close.png" />
                         </a>
@@ -52,7 +41,6 @@ var Header = React.createClass({
                         </a>
                     </div>
                 </div>
-                { this.props.search == "show" ? <SearchBox items={this.state.filteredResult}/> : null }
             </header>
         );
     }
