@@ -46,7 +46,7 @@ var TaskList = React.createClass({
         }*/
 
         return (
-            <div className="tile-wrap">
+            <div>
                 {rows}
             </div>
         );

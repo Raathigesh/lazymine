@@ -68,6 +68,7 @@ body {
 .search-box {
     height: 48px;
     overflow: visible;
+    z-index: 1;
 }
 
 .datepicker .search-menu {
@@ -252,7 +253,7 @@ body {
         height: 100%;
         position: absolute;
         color: white;
-        z-index: 1;
+        z-index: 2;
     }
 
     .overlay img{

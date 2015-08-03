@@ -15,12 +15,13 @@ var InfoBar = React.createClass({
         return (
             <div className="">
                 <div className="row datePicker">
-                    <div className="col-md-7 col-xs-8 text-right date-picker-help">
+                    <div className="col-md-11 col-xs-11 date-picker-help">
                         You are viewing time information for: 
-                    </div>
-                    <div className="col-md-4 col-xs-4 date-picker-container">
                         <DatePicker ref="datePicker" />
                     </div>
+                     <div className="col-md-1 col-xs-1 menu-container">
+                        <Menu />
+                     </div>
                 </div>
             </div>
         );
