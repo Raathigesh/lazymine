@@ -1,10 +1,13 @@
 /*global require, module*/
 var AppConstants = require('../constants/app-action-name'),
-    AppDispatcher = require('../dispatchers/app-dispatcher');
+    AppDispatcher = require('../dispatchers/app-dispatcher'),
+    GoogleAnalytics = require('../util/googleAnalytics'),
+    GoogleAnalyticsObj = new GoogleAnalytics();
 
 var AppActions = (function () {
     "use strict";
     var fetchIssues = function () {
+            GoogleAnalyticsObj.trackPageView('/index.html');
             AppDispatcher.handleViewAction({
                 actionType: AppConstants.FetchIssues
             });
@@ -90,6 +93,7 @@ var AppActions = (function () {
             });
         },
         refreshIssues = function () {
+            GoogleAnalyticsObj.trackPageView('/index.html');
             AppDispatcher.handleViewAction({
                 actionType: AppConstants.RefreshIssues
             });
