@@ -1,6 +1,6 @@
 var GoogleAnalytics = function(){
     "user strict";
-    ga_storage._setAccount('UA-65441617-1');
+    ga_storage._setAccount('UA-65910418-1');
     ga_storage._setDomain('none');
 };
 
