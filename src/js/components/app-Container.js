@@ -4,7 +4,6 @@ var React = require('react'),
     AppStore = require('../stores/app-base-store'),
     AppActions = require('../actions/app-actions'),
     Header = require('../components/app-Header'),
-    Footer = require('../components/app-Footer'),
     Loader = require('../components/app-Loader'),
     Toast = require('../components/app-Toast'),
     About = require('../components/app-About'),
@@ -22,15 +21,6 @@ var Container = React.createClass({
         "use strict";
         AppActions.fetchIssues();
     },
-    _updateTime: function () {
-        "use strict";
-        var dateSelected = this.refs.infoBar.getSelectedDate();
-        AppActions.createTimeEntries(dateSelected);
-    },
-    _cancel: function () {
-        "use strict";
-        AppActions.clearTimeEntries();
-    },
     render: function () {
         "use strict";
         return (
@@ -45,11 +35,6 @@ var Container = React.createClass({
                     </div>
                 </div>
                 <About />
-                <Footer
-                    primaryText="UPDATE"
-                    primaryClick={this._updateTime}
-                    secondaryText="CLEAR"
-                    secondaryClick={this._cancel}/>
             </div>
         );
     }

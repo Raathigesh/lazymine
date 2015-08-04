@@ -211,8 +211,8 @@ ul, li {
 }
 
 .search-row {
-    margin-right: -14px;
-    margin-left: -14px;
+    margin-right: -40px;
+    margin-left: -40px;
 }
 
 .bottom-button-group {
@@ -473,4 +473,19 @@ ul, li {
 
 .menu-container{
     padding-left: 0;
+}
+
+/* custom styles for card */
+.card-inner {
+    margin: 24px 16px;
+    position: relative;
+}
+
+.card-heading{
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.card-heading, .card-img-heading{
+    line-height: 0;
 }
