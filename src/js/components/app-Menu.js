@@ -15,7 +15,7 @@ var Menu = React.createClass({
     render: function () {
         "use strict";
         return (
-            <ul className="nav nav-list search-menu" title="More options">
+            <ul className="nav nav-list search-menu pull-right" title="More options">
                 <li className="dropdown">
                     <a className="" data-toggle="dropdown" aria-expanded="false">
                         <span className="access-hide">Card Dropdown</span>
