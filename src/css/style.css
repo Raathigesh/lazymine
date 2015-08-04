@@ -113,7 +113,7 @@ ul, li {
 
 .datePicker input {
     height: 24px;
-    width: 120px;
+    width: 130px;
     border-bottom-style: 1px solid #000;
 }
 
@@ -458,6 +458,17 @@ ul, li {
 }
 
 .search-menu{
-    margin-top: -13px;
-    padding-right: 20px;
+    margin-top: -10px;
+}
+
+.date-picker-container input, .date-picker-container{
+    display: inline;
+}
+
+.date-picker-help span{
+    padding-right: 5px;
+}
+
+.menu-container{
+    padding-left: 0;
 }
