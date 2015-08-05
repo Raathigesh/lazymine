@@ -12,7 +12,9 @@ var AppConstants = require('../constants/app-action-name'),
     StoreMessage = require('../constants/store-message'),
     $ = require("jquery"),
     dataManager = null,
-    Rx = require('rx');
+    Rx = require('rx'),
+    GoogleAnalytics = require('../util/googleAnalytics'),
+    GoogleAnalyticsObj = new GoogleAnalytics();
 
 var getDataManager = function () {
     "use strict";
@@ -64,6 +66,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     var manager = getDataManager();
                     if (manager !== null) {
                         if (!State.isLoading) {
+                            GoogleAnalyticsObj.trackPageView('/index.html');
                             $.when(manager.fetchLatest()).fail(function (error) {
                                 showToast.call(this, error);
                             }.bind(this));
