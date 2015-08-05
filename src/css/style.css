@@ -142,10 +142,6 @@ ul, li {
     display: none;
 }
 
-.container-inner {
-    margin-top: 35px;
-}
-
 
 /* ---------- awads styles -------------*/
 
@@ -232,10 +228,6 @@ ul, li {
     top: 20px;
 }
 
-.dropdown-menu.dropdown-menu-right, .dropdown.pull-right .dropdown-menu, .nav.pull-right .dropdown-menu{
-    right: 15px;
-}
-
 .modal-dialog-about {
     margin-right: auto;
     margin-left: auto;
@@ -258,35 +250,37 @@ ul, li {
 }
 
 .cloudy {
-    animation: cloudy 5s ease-in-out infinite;
+    -webkit-animation: cloudy 5s ease-in-out infinite;
     background: #FFF;
     border-radius: 50%;
     height: 80px;
     margin-top: 10px;
 }
 
-.cloudy:after {
-    animation: cloudy_shadow 5s ease-in-out infinite;
-    background: #999;
-    border-radius: 50%;
-    content: '';
-    height: 15px;
-    width: 120px;
-    opacity: .2;
-    transform: scale(.7);
-}
+        .cloudy:after {
+            -webkit-animation: cloudy_shadow 5s ease-in-out infinite;
+            animation: cloudy_shadow 5s ease-in-out infinite;
+            background: #000000;
+            border-radius: 50%;
+            content: '';
+            height: 15px;
+            width: 120px;
+            opacity: 0.2;
+            position: absolute;
+            left: 5px;
+            bottom: -20px;
+            -webkit-transform: scale(.7);
+            transform: scale(.7);
+        }
 
-@keyframes cloudy {
+@-webkit-keyframes cloudy {
     50% {
-        transform: translateY(-20px);
+        -webkit-transform: translateY(-20px);
     }
 }
 
-@keyframes cloudy_shadow {
-    50% {
-        transform: translateY(20px) scale(1);
-        opacity: .05;
-    }
+@-webkit-keyframes cloudy_shadow {
+    50% {  -webkit-transform: translateY(20px) scale(1); transform: translateY(20px) scale(1); opacity:.05; }
 }
 
 .help-text {
@@ -301,7 +295,6 @@ ul, li {
     display: block;
     position: relative;
 }
-
 
 /* ---------- awads styles end -------------*/
 
@@ -459,33 +452,56 @@ ul, li {
     overflow: hidden;
 }
 
-.search-menu{
+.search-menu {
     margin-top: -10px;
 }
 
-.date-picker-container input, .date-picker-container{
+.date-picker-container input, .date-picker-container {
     display: inline;
 }
 
-.date-picker-help span{
+.date-picker-help span {
     padding-right: 5px;
 }
 
-.menu-container{
+.menu-container {
     padding-left: 0;
 }
 
+
 /* custom styles for card */
+
 .card-inner {
     margin: 24px 16px;
     position: relative;
 }
 
-.card-heading{
+.card-heading {
     margin-bottom: 20px;
     margin-top: 10px;
 }
 
-.card-heading, .card-img-heading{
+.card-heading, .card-img-heading {
     line-height: 0;
+    font-size: 18px;
+}
+
+/*fix scrolling */
+.overlay.hide .overlay_black {
+    display: none;
+}
+
+.container {
+    margin-top: 35px;
+    overflow-x: auto;
+}
+
+.container-inner {
+    margin-top: 0;
+}
+
+/* increase menu size */
+a.menu-icon{
+    font-size: 22px;
+    padding-right: 0;
 }

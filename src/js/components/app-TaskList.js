@@ -7,29 +7,11 @@ var React = require('react'),
 var TaskList = React.createClass({
     getInitialState: function () {
         "use strict";
-        var height = {
-            'height': document.documentElement.clientHeight - 160
-        };
-
         return {
-            "items": null,
-            "componentHeight": height
+            "items": null
         };
     },
-    handleResize: function () {
-        "use strict";
-        var height = {
-            'height': document.documentElement.clientHeight - 160
-        };
 
-        if (this.isMounted()) {
-            this.setState({componentHeight: height});
-        }
-    },
-    componentDidMount: function () {
-        "use strict";
-        window.addEventListener('resize', this.handleResize);
-    },
     render : function () {
         "use strict";
         var rows,
