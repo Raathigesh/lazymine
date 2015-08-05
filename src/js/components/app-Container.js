@@ -17,9 +17,33 @@ var Container = React.createClass({
     contextTypes: {
         router: React.PropTypes.func
     },
+    getInitialState: function () {
+        "use strict";
+        var height = {
+            'height': document.documentElement.clientHeight - 40
+        };
+
+        return {
+            "componentHeight": height
+        };
+    },
     componentWillMount: function () {
         "use strict";
         AppActions.fetchIssues();
+    },
+    handleResize: function () {
+        "use strict";
+        var height = {
+            'height': document.documentElement.clientHeight - 40
+        };
+
+        if (this.isMounted()) {
+            this.setState({componentHeight: height});
+        }
+    },
+    componentDidMount: function () {
+        "use strict";
+        window.addEventListener('resize', this.handleResize);
     },
     render: function () {
         "use strict";
@@ -28,7 +52,7 @@ var Container = React.createClass({
                 <Header ref="header" />
                 <Loader isLoading={this.state.isLoading}/>
                 <Toast error={this.state.error}/>
-                <div className="container">
+                <div className="container" style={{height: this.state.componentHeight.height + 'px'}}>
                     <div className="container-inner">
                         <InfoBar ref="infoBar"/>
                         <MainCard />

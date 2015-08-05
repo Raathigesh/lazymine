@@ -17,9 +17,9 @@ var Menu = React.createClass({
         return (
             <ul className="nav nav-list search-menu pull-right" title="More options">
                 <li className="dropdown">
-                    <a className="" data-toggle="dropdown" aria-expanded="false">
+                    <a className="menu-icon" data-toggle="dropdown" aria-expanded="false">
                         <span className="access-hide">Card Dropdown</span>
-                        <span className="icon icon-more-vert"></span>
+                        <span className="icon icon-menu"></span>
                     </a>
                     <ul className="dropdown-menu">
                         <li title="Refresh tasks">
