@@ -7,15 +7,7 @@ var React = require('react'),
 
 var MainCard = React.createClass({
     mixins: [StateMixin],
-        _updateTime: function () {
-        "use strict";
-        var dateSelected = this.refs.infoBar.getSelectedDate();
-        AppActions.createTimeEntries(dateSelected);
-    },
-    _cancel: function () {
-        "use strict";
-        AppActions.clearTimeEntries();
-    },
+
     render: function () {
         "use strict";
         return (
@@ -31,9 +23,9 @@ var MainCard = React.createClass({
                     <div className="card-action">         
                         <Footer
                         primaryText="UPDATE"
-                        primaryClick={this._updateTime}
+                        primaryClick={this.props.onUpdateTime}
                         secondaryText="CLEAR"
-                        secondaryClick={this._cancel}/>
+                        secondaryClick={this.props.onClearEntries}/>
                     </div>
                 </div>
             </div>

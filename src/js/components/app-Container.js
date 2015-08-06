@@ -45,6 +45,15 @@ var Container = React.createClass({
         "use strict";
         window.addEventListener('resize', this.handleResize);
     },
+    _updateTime: function () {
+        "use strict";
+        var dateSelected = this.refs.infoBar.getSelectedDate();
+        AppActions.createTimeEntries(dateSelected);
+    },
+    _cancel: function () {
+        "use strict";
+        AppActions.clearTimeEntries();
+    },
     render: function () {
         "use strict";
         return (
@@ -55,7 +64,7 @@ var Container = React.createClass({
                 <div className="container" style={{height: this.state.componentHeight.height + 'px'}}>
                     <div className="container-inner">
                         <InfoBar ref="infoBar"/>
-                        <MainCard />
+                        <MainCard onUpdateTime={this._updateTime} onClearEntries={this._cancel} />
                     </div>
                 </div>
                 <About />
