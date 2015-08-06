@@ -9,6 +9,7 @@ var React = require('react'),
     About = require('../components/app-About'),
     InfoBar = require('../components/app-InfoBar'),
     MainCard = require('../components/app-MainCard'),
+    WeekTimeCard = require('../components/app-WeekTimeCard'),
     AuthMixin = require('../mixins/app-AuthMixin'),
     StateMixin = require('../mixins/app-StateMixin');
 
@@ -65,6 +66,7 @@ var Container = React.createClass({
                     <div className="container-inner">
                         <InfoBar ref="infoBar"/>
                         <MainCard onUpdateTime={this._updateTime} onClearEntries={this._cancel} />
+                        <WeekTimeCard />
                     </div>
                 </div>
                 <About />
