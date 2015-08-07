@@ -13,8 +13,8 @@ var WeekTimeCard = React.createClass({
                         <div className="card-inner">
                             <p className="card-heading">Weekly Summary</p>
                             <a className="pull-right collapsed week-time-expand" data-toggle="collapse" href="#collapsible-region">
-                                <span className="icon icon-expand-more collapsed-hide"></span>
-                                <span className="icon icon-expand-less collapsed-show"></span>
+                                <span className="icon icon-expand-more collapsed-show"></span>
+                                <span className="icon icon-expand-less collapsed-hide"></span>
                             </a>
                         </div>
                     </div>
