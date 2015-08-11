@@ -481,7 +481,7 @@ ul, li {
 /* custom styles for card */
 
 .card-inner {
-    margin: 24px 16px;
+    margin: 15px 15px;
     position: relative;
 }
 
@@ -522,12 +522,17 @@ a.menu-icon {
 
 /*custom colored card */
 
+.card .card-heading {
+    margin-left: -16px;
+}
+
 .card-blue .card-header {
     background-color: #0288D1;
 }
 
 .card-blue .card-heading {
     color: #fff;
+    margin-left: 0;
 }
 
 .card-blue .card-img {
