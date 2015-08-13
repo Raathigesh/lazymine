@@ -60,6 +60,21 @@ var Task = React.createClass({
         minimizeWindow();
         event.nativeEvent.stopImmediatePropagation();
     },
+    _getIconText: function(){
+        var iconText = '';
+        // try to match a project code from a name like, "[RDM Corporation] Simply Deposit Enterprise [RDMWC]"
+        var regex = /\[[^\]]*]/g;
+        var projectName = this.props.item.projectName;
+        var codeMatches = projectName.match(regex);
+        if(codeMatches.length === 2){
+            iconText = codeMatches[1];
+            iconText = iconText.substring(1,3);
+        }
+        else{
+            iconText = projectName.replace(/\W/g, '').charAt(0);
+        }
+        return iconText;
+    },
     render : function () {
         "use strict";
         var activities = this.props.activities,
@@ -76,7 +91,7 @@ var Task = React.createClass({
         }
 
         // Just get the first proper letter of the project
-        iconText = this.props.item.projectName.replace(/\W/g, '').charAt(0);
+        iconText = this._getIconText();
         dataTarget = "tile-collapse-" + item.id;
 
         //debugger;
