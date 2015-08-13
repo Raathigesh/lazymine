@@ -13,7 +13,7 @@ var gui = require('nw.gui'); // Load native UI library
             y: 0
         },
         confStr = localStorage.getItem(windowKey),
-        startInTray = false;        
+        startInTray = false;
 
     if (confStr) {
         windowConf = JSON.parse(confStr);
@@ -69,6 +69,23 @@ var gui = require('nw.gui'); // Load native UI library
 
         this.hide();
     });
+
+    var resetWindow = function (screen) {
+        if (win.width > screen.availWidth ||
+            win.height > screen.availHeight ||
+            win.x > screen.availWidth ||
+            win.y > screen.availHeight) {
+
+            win.width = screen.availWidth / 2;
+            win.height = screen.availHeight;
+            win.x = screen.availWidth / 2;
+            win.y = 0;
+        }
+    };
+
+    gui.Screen.on('displayBoundsChanged', resetWindow);
+
+    gui.Screen.on('onDisplayRemoved', resetWindow);
 }());
 
 var minimizeWindow = function () {
