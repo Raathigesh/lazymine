@@ -31,13 +31,11 @@ var WeekTimeCard = React.createClass({
         return (
             <div className="card card-blue">
                 <div className="card-main">
-                    <div className="card-header">
+                    <div className="card-header weekly-summary-header collapsed week-time-expand" data-toggle="collapse" href="#collapsible-region">
                         <div className="card-inner">
                             <p className="card-heading">Weekly Summary</p>
-                            <a className="pull-right collapsed week-time-expand" data-toggle="collapse" href="#collapsible-region">
-                                <span className="icon icon-expand-more collapsed-show"></span>
-                                <span className="icon icon-expand-less collapsed-hide"></span>
-                            </a>
+                                <span className="pull-right icon icon-expand-more collapsed-show"></span>
+                                <span className="pull-right icon icon-expand-less collapsed-hide"></span>
                         </div>
                     </div>
                     <div className="card-img">
