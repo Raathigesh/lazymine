@@ -320,7 +320,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     State.isLoading = true;
                     State.filteredResult = [];
                     clearError.call(this);
-                    $.when(manager.serviceAccessor.getTimeEntries(spentOn)).done(function (data) {
+                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {
                         State.timeEntryCollection = data;
                         State.isLoading = false;
                         EventEmitter.prototype.emit(AppEvent.Change);

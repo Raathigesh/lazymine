@@ -481,7 +481,7 @@ ul, li {
 /* custom styles for card */
 
 .card-inner {
-    margin: 24px 16px;
+    margin: 15px 15px;
     position: relative;
 }
 
@@ -522,12 +522,17 @@ a.menu-icon {
 
 /*custom colored card */
 
+.card .card-heading {
+    margin-left: -16px;
+}
+
 .card-blue .card-header {
     background-color: #0288D1;
 }
 
 .card-blue .card-heading {
     color: #fff;
+    margin-left: 0;
 }
 
 .card-blue .card-img {
@@ -550,8 +555,26 @@ a.menu-icon {
     font-size: 14px;
 }
 
+.week-time-expand {
+    font-size: 25px;
+    color: #fff;
+    margin-top: -20px;
+}
+
+a.week-time-expand:focus, a.week-time-expand:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
 .daily-time-total {
     font-size: 16px;
     color: #039BE5;
     padding-bottom: 15px;
+}
+
+
+/* menu items font color*/
+
+.datePicker .search-menu a {
+    color: #444;
 }

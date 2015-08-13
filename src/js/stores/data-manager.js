@@ -316,6 +316,35 @@ DataManager.prototype = (function () {
                 timeEntry.customFields = entry.customFields;
                 this.activeTaskCollection.push(timeEntry);
             }.bind(this));
+        },
+        getTimeEntryRange = function(spentOn, noOfDays) {
+
+            var deferred = $.Deferred(),
+                promises = [];
+            for (var i = noOfDays - 1; i >= 0; i--) {
+                var day  = spentOn.clone().day(-i);
+                promises.push(this.serviceAccessor.getTimeEntries(day));
+            }
+
+            $.when.apply($, promises).done(function () {
+                var data = [],
+                    count = 0;
+
+                for (var i = noOfDays - 1; i >= 0; i--) {
+                    var day  = spentOn.clone().day(-i);
+                    data.push({
+                        day: day,
+                        data: arguments[count].time_entries
+                    });
+
+                    count++;
+                }
+                deferred.resolve(data);
+            }.bind(this)).fail(function () {
+                deferred.reject();
+            }.bind(this));
+
+            return deferred.promise();
         };
     return {
         fetchData: fetchData,
@@ -331,7 +360,8 @@ DataManager.prototype = (function () {
         clearActiveTaskCollection: clearActiveTaskCollection,
         getPostedTaskCollection: getPostedTaskCollection,
         getActiveTaskCollection: getActiveTaskCollection,
-        createActiveTaskCollection: createActiveTaskCollection
+        createActiveTaskCollection: createActiveTaskCollection,
+        getTimeEntryRange: getTimeEntryRange
     };
 }());
 

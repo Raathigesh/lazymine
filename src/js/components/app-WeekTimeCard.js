@@ -12,12 +12,16 @@ var WeekTimeCard = React.createClass({
                     <div className="card-header">
                         <div className="card-inner">
                             <p className="card-heading">Weekly Summary</p>
+                            <a className="pull-right collapsed week-time-expand" data-toggle="collapse" href="#collapsible-region">
+                                <span className="icon icon-expand-more collapsed-show"></span>
+                                <span className="icon icon-expand-less collapsed-hide"></span>
+                            </a>
                         </div>
                     </div>
                     <div className="card-img">
                         <span className="card-key-value">38</span> <span className="card-sub-heading">Hours entered for the week August 2 - August 8</span>
                     </div>
-                    <div className="card-inner">
+                    <div className="card-inner collapsible-region collapse" id="collapsible-region" aria-expanded="false" style={{height: 0 + 'px'}}>
                         <div className="daily-time-total">
                             <span className="text-left">
                                 Sunday August 2
