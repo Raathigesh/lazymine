@@ -109,6 +109,12 @@ var AppActions = (function () {
                 //actionType: AppConstants.Logout
                 actionType: AppConstants.Logout
             });
+        },
+        getTimeEntriesForWeek = function (date) {
+            AppDispatcher.handleViewAction({
+                actionType: AppConstants.GetTimeEntries,
+                spentOn: date
+            });
         };
     return {
         fetchIssues: fetchIssues,
@@ -125,7 +131,8 @@ var AppActions = (function () {
         removeTimeEntry: removeTimeEntry,
         refreshIssues: refreshIssues,
         storeError: storeError,
-        logout: logout
+        logout: logout,
+        getTimeEntriesForWeek: getTimeEntriesForWeek
     };
 }());
 

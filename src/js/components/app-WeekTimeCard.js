@@ -1,10 +1,32 @@
 var React = require('react'),
+WeeklyViewDayHeader = require('../components/app-WeeklyViewDayHeader'),
+WeeklyViewDay = require('../components/app-WeeklyViewDay'),
 StateMixin = require('../mixins/app-StateMixin');
 
 var WeekTimeCard = React.createClass({
     mixins: [StateMixin],
     
     render: function () {
+
+        var weeklyVewContent =  null;
+        var totalHoursForWeek = 0;
+
+        if(this.props.data !== null) {            
+
+             weeklyVewContent = this.props.data.map(function(item, i) {
+                
+                var totalHoursForDay = 0;
+
+                var tasksForDayContent = item.data.map(function(timeEntry, a) {
+                    totalHoursForDay = totalHoursForDay + timeEntry.hours;
+                    return <WeeklyViewDay iconText="R" hours={timeEntry.hours} taskName={timeEntry.id} />                       
+                }.bind(this));
+
+                totalHoursForWeek = totalHoursForWeek + totalHoursForDay;
+                return <div><WeeklyViewDayHeader day={item.day.format("MMM Do YY")} totalHours={totalHoursForDay} /> {tasksForDayContent} </div>
+            }.bind(this));
+        }       
+
         "use strict";
         return (
             <div className="card card-blue">
@@ -19,34 +41,10 @@ var WeekTimeCard = React.createClass({
                         </div>
                     </div>
                     <div className="card-img">
-                        <span className="card-key-value">38</span> <span className="card-sub-heading">Hours entered for the week August 2 - August 8</span>
+                        <span className="card-key-value">{totalHoursForWeek}</span> <span className="card-sub-heading">Hours entered for the week August 2 - August 8</span>
                     </div>
                     <div className="card-inner collapsible-region collapse" id="collapsible-region" aria-expanded="false" style={{height: 0 + 'px'}}>
-                        <div className="daily-time-total">
-                            <span className="text-left">
-                                Sunday August 2
-                            </span>
-                            <span className="pull-right">
-                                7.5h
-                            </span>
-                        </div>
-                        <div className="tile tile-collapse">
-                            <div className="card-action">
-                                <div className="pull-left tile-side">
-                                    <div className="avatar avatar-sm avatar-multi">
-                                        <span className="">R</span> 
-                                    </div>
-                                </div>
-                                <div className="tile-action tile-action-show">
-                                    1.5h
-                                </div>
-                                <div class="tile-inner">
-    <div class="text-overflow">
-        OAC-254 OAC Tiger Beta Release : Submit and c
-    </div>
-</div>
-                            </div>
-                        </div>
+                       {weeklyVewContent}
                     </div>
                 </div>
             </div>
