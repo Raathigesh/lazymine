@@ -317,12 +317,12 @@ DataManager.prototype = (function () {
                 this.activeTaskCollection.push(timeEntry);
             }.bind(this));
         },
-        getTimeEntryRange = function(spentOn, noOfDays) {
-
+        getTimeEntryRange = function(spentOn, noOfDays) {            
+            var firstDay = spentOn.weekday(0);
             var deferred = $.Deferred(),
                 promises = [];
-            for (var i = noOfDays - 1; i >= 0; i--) {
-                var day  = spentOn.clone().day(-i);
+            for (var i = 0; i < noOfDays; i++) {
+                var day  = firstDay.clone().day(i);
                 promises.push(this.serviceAccessor.getTimeEntries(day));
             }
 
@@ -330,8 +330,8 @@ DataManager.prototype = (function () {
                 var data = [],
                     count = 0;
 
-                for (var i = noOfDays - 1; i >= 0; i--) {
-                    var day  = spentOn.clone().day(-i);
+                for (var i = 0; i < noOfDays; i++) {
+                    var day  = firstDay.clone().day(i);   
                     data.push({
                         day: day,
                         data: arguments[count].time_entries
