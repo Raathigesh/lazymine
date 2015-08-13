@@ -60,17 +60,18 @@ var Task = React.createClass({
         minimizeWindow();
         event.nativeEvent.stopImmediatePropagation();
     },
+    //TODO: Need to bring this from the configuration.json so that, customizations are not included in the generic code.
     _getIconText: function(){
         var iconText = '';
         // try to match a project code from a name like, "[RDM Corporation] Simply Deposit Enterprise [RDMWC]"
         var regex = /\[[^\]]*]/g;
         var projectName = this.props.item.projectName;
         var codeMatches = projectName.match(regex);
-        if(codeMatches.length === 2){
-            iconText = codeMatches[1];
+        if(codeMatches.length > 0){
+            iconText = codeMatches.length == 2? codeMatches[1]:codeMatches[0];
             iconText = iconText.substring(1,3);
         }
-        else{
+        else{// if no projects codes matching switch to a default mode of using the first word character.
             iconText = projectName.replace(/\W/g, '').charAt(0);
         }
         return iconText;
