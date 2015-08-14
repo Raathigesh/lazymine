@@ -30,7 +30,7 @@ var Container = React.createClass({
     },
     componentWillMount: function () {
         "use strict";
-        AppActions.fetchIssues();
+        AppActions.fetchIssues();    
     },
     handleResize: function () {
         "use strict";
@@ -45,6 +45,9 @@ var Container = React.createClass({
     componentDidMount: function () {
         "use strict";
         window.addEventListener('resize', this.handleResize);
+            
+        var dateSelected = this.refs.infoBar.getSelectedDate();
+        AppActions.getTimeEntriesForWeek(dateSelected);
     },
     _updateTime: function () {
         "use strict";
@@ -66,7 +69,7 @@ var Container = React.createClass({
                     <div className="container-inner">
                         <InfoBar ref="infoBar"/>
                         <MainCard onUpdateTime={this._updateTime} onClearEntries={this._cancel} />
-                        <WeekTimeCard />
+                        <WeekTimeCard data={this.state.timeEntryCollection}/>
                     </div>
                 </div>
                 <About />

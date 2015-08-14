@@ -16,7 +16,7 @@ var InfoBar = React.createClass({
             <div className="">
                 <div className="row datePicker">
                     <div className="col-md-11 col-xs-11 date-picker-help">
-                        You are viewing time information for: 
+                        Pick a date here: 
                         <DatePicker ref="datePicker" />
                     </div>
                      <div className="col-md-1 col-xs-1 menu-container">

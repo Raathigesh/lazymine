@@ -303,7 +303,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 settings.clearSettings();
                 resetState.call(this);
                 location.reload();
-            } catch (error) {
+            } catch (error) { 
                 showToast.call(this, StoreError.InternalServerError);
                 console.error(error);
             }
@@ -311,16 +311,16 @@ module.exports = merge(EventEmitter.prototype, (function () {
         getTimeEntries = function (spentOn){
             try {
                 var manager = getDataManager();
-                if (State.isLoading) {
+               /* if (State.isLoading) {
                     showToast.call(this, StoreError.DataFetchInProgress);
                     return null;
-                }
-
+                }  */
+ 
                 if (manager !== null) {
                     State.isLoading = true;
                     State.filteredResult = [];
                     clearError.call(this);
-                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {
+                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {                        
                         State.timeEntryCollection = data;
                         State.isLoading = false;
                         EventEmitter.prototype.emit(AppEvent.Change);
@@ -394,7 +394,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             case AppConstants.UpdateTaskCustomField:
                 updateActiveTaskCustomField.call(this, action.entry);
                 break;
-            case AppConstants.GetTimeEntries:
+            case AppConstants.GetTimeEntries:            
                 getTimeEntries.call(this, action.spentOn);
                 break;
             }

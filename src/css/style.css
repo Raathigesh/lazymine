@@ -555,23 +555,21 @@ a.menu-icon {
     font-size: 14px;
 }
 
-.week-time-expand {
-    font-size: 25px;
-    color: #fff;
-    margin-top: -20px;
-}
-
-a.week-time-expand:focus, a.week-time-expand:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
 .daily-time-total {
     font-size: 16px;
     color: #039BE5;
     padding-bottom: 15px;
 }
 
+.weekly-summary-header{
+    cursor: pointer;
+}
+
+.weekly-summary-header .icon {
+    color: #fff;
+    font-size: 18px;
+    margin-top: -10px;
+}
 
 /* menu items font color*/
 
