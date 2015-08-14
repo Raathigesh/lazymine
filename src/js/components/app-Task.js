@@ -60,21 +60,20 @@ var Task = React.createClass({
         minimizeWindow();
         event.nativeEvent.stopImmediatePropagation();
     },
-    //TODO: Need to bring this from the configuration.json so that, customizations are not included in the generic code.
     _getIconText: function(){
+        // get the first word character of, first two words"
         var iconText = '';
-        // try to match a project code from a name like, "[RDM Corporation] Simply Deposit Enterprise [RDMWC]"
-        var regex = /\[[^\]]*]/g;
-        var projectName = this.props.item.projectName;
-        var codeMatches = projectName.match(regex);
-        if(codeMatches.length > 0){
-            iconText = codeMatches.length == 2? codeMatches[1]:codeMatches[0];
-            iconText = iconText.substring(1,3);
+        var words = this.props.item.projectName.split(" ");
+        if(words.length >=2){
+            var firstChar = words[0].replace(/\W/g, '').charAt(0);
+            var secondChar = words[1].replace(/\W/g, '').charAt(0);
+            iconText = firstChar + secondChar
         }
-        else{// if no projects codes matching switch to a default mode of using the first word character.
-            iconText = projectName.replace(/\W/g, '').charAt(0);
+        else if(words.length == 1){
+            iconText = words[0].replace(/\W/g, '');
+            iconText = iconText.length>2?iconText.substring(0,2):iconText;
         }
-        return iconText;
+        return iconText.toUpperCase();
     },
     render : function () {
         "use strict";
