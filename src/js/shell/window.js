@@ -15,6 +15,9 @@ var gui = require('nw.gui'); // Load native UI library
         confStr = localStorage.getItem(windowKey),
         startInTray = false;
 
+    // Initialize the Screen object
+    gui.Screen.Init();
+
     if (confStr) {
         windowConf = JSON.parse(confStr);
     }
@@ -85,7 +88,7 @@ var gui = require('nw.gui'); // Load native UI library
 
     gui.Screen.on('displayBoundsChanged', resetWindow);
 
-    gui.Screen.on('onDisplayRemoved', resetWindow);
+    gui.Screen.on('displayRemoved', resetWindow);
 }());
 
 var minimizeWindow = function () {
