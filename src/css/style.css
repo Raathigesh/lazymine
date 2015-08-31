@@ -543,7 +543,7 @@ a.menu-icon {
     padding: 40px 0 0 10px;
 }
 
-.card-blue .card-header .card-inner, .card-blue .card-inner-side, .card-blue .tile-side {
+.card-blue .card-header .card-inner{
     padding: 0 0 0 0;
 }
 
@@ -559,6 +559,7 @@ a.menu-icon {
     font-size: 16px;
     color: #039BE5;
     padding-bottom: 15px;
+    padding-top: 15px;
 }
 
 .weekly-summary-header{
