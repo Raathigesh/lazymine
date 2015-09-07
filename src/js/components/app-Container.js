@@ -60,6 +60,11 @@ var Container = React.createClass({
     },
     render: function () {
         "use strict";
+        var weekTimeCard = null;
+        if(!this.state.isLoading){
+            weekTimeCard = <WeekTimeCard data={this.state.timeEntryCollection}/>
+        }
+
         return (
             <div>
                 <Header ref="header" />
@@ -69,7 +74,7 @@ var Container = React.createClass({
                     <div className="container-inner">
                         <InfoBar ref="infoBar"/>
                         <MainCard onUpdateTime={this._updateTime} onClearEntries={this._cancel} />
-                        <WeekTimeCard data={this.state.timeEntryCollection}/>
+                        {weekTimeCard}
                     </div>
                 </div>
                 <About />
