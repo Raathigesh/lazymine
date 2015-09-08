@@ -21,7 +21,12 @@ var WeeklyViewDay = React.createClass({
             </div>
         </div>
         <div className="tile-inner" title={this.props.taskName}>
-            <div className="text-overflow">{this.props.taskName}</div>
+            <div className="text-overflow">
+            {this.props.taskName}
+            <span className="nav nav-list pull-right">
+                {this.props.hours}
+            </span>
+            </div>
         </div>
     </div>
 </div>
