@@ -10,8 +10,14 @@ var MainCard = React.createClass({
 
     render: function () {
         "use strict";
+
+    var divStyle = {
+        'position': 'relative',
+        zIndex: 2
+    };
+
         return (
-            <div className="card">
+            <div className="card" style={divStyle}>
                 <div className="card-main">
                     <div className="card-inner">
                         <p className="card-heading">Time Entries</p>
