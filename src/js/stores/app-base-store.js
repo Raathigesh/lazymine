@@ -254,6 +254,8 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     $.when(manager.postUpdatedActiveTaskCollection(spentOn)).done(function () {
                         settings.setTaskCollection(manager.activeTaskCollection);
                         showToast.call(this, StoreMessage.TimeUpdateSuccessful);
+                        //call update weekly summary view
+                        getTimeEntries.call(this, spentOn);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
                     }.bind(this));
