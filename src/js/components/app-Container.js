@@ -68,7 +68,7 @@ var Container = React.createClass({
         return (
             <div>
                 <Header ref="header" />
-                <Loader isLoading={this.state.isLoading}/>
+                <Loader isLoading={this.state.loadingStatus.isLoading()}/>
                 <Toast error={this.state.error}/>
                 <div className="container" style={{height: this.state.componentHeight.height + 'px'}}>
                     <div className="container-inner">

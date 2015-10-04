@@ -14,7 +14,8 @@ var AppConstants = require('../constants/app-action-name'),
     dataManager = null,
     Rx = require('rx'),
     GoogleAnalytics = require('../util/googleAnalytics'),
-    GoogleAnalyticsObj = new GoogleAnalytics();
+    GoogleAnalyticsObj = new GoogleAnalytics(),
+    LoadingStatus = require('./loading-status');
 
 var getDataManager = function () {
     "use strict";
@@ -33,7 +34,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
             filteredResult: [], // filtered search results.
             activeItems: [], // active tasks selected by the user.
             activities: [], // activities available to enter time against. Fetched from server.
-            isLoading: true,
+            loadingStatus: new LoadingStatus(),
             timeEntryCollection: null,
             settings: settings,
             error: null
@@ -65,7 +66,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 try {
                     var manager = getDataManager();
                     if (manager !== null) {
-                        if (!State.isLoading) {
+                        if (!State.loadingStatus.isLoading()) {
                             GoogleAnalyticsObj.trackPageView('/index.html');
                             $.when(manager.fetchLatest()).fail(function (error) {
                                 showToast.call(this, error);
@@ -83,21 +84,20 @@ module.exports = merge(EventEmitter.prototype, (function () {
         fetchLatest = function () {
             try {
                 var manager = getDataManager();
-                if (State.isLoading) {
+                if (State.loadingStatus.isLoading()) {
                     showToast.call(this, StoreError.DataFetchInProgress);
                     return null;
                 }
-
                 if (manager !== null) {
-                    State.isLoading = true;
+                    State.loadingStatus.setLoading("fetchLatest");
                     State.filteredResult = [];
                     clearError.call(this);
                     $.when(manager.fetchData()).done(function () {
-                        State.isLoading = false;
+                        State.loadingStatus.setLoaded("fetchLatest");
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
-                        State.isLoading = false;
+                        State.loadingStatus.setLoaded("fetchLatest");
                         setTimeout(function () {
                             fetchLatest.call(this);
                         }.bind(this), settings.retryInterval);
@@ -113,8 +113,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     clearError.call(this);
+                    State.loadingStatus.setLoading("fetchData");
                     $.when(manager.fetchData()).done(function () {
-                        State.isLoading = false;
+                        State.loadingStatus.setLoaded("fetchData");
                         State.filteredResult = [];
                         manager.activityCollection.map(function (item) {
                             State.activities.push({
@@ -131,6 +132,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
+                        State.loadingStatus.setLoaded("fetchData");
                         setTimeout(function () {
                             fetchData.call(this);
                         }.bind(this), settings.retryInterval);
@@ -144,7 +146,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
         filterTaskCollection = function (query) {
             try {
                 var manager = getDataManager();
-                if (!State.isLoading && manager !== null) {
+                if (!State.loadingStatus.isLoading() && manager !== null) {
                     State.filteredResult = manager.filterTaskCollection(query);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -293,7 +295,6 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 filteredResult: [],
                 activeItems: [],
                 activities: [],
-                isLoading: true,
                 settings: settings,
                 error: null
             };
@@ -303,7 +304,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 settings.clearSettings();
                 resetState.call(this);
                 location.reload();
-            } catch (error) { 
+            } catch (error) {
                 showToast.call(this, StoreError.InternalServerError);
                 console.error(error);
             }
@@ -317,16 +318,16 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 }  */
  
                 if (manager !== null) {
-                    State.isLoading = true;
+                    State.loadingStatus.setLoading("getTimeEntries");
                     State.filteredResult = [];
                     clearError.call(this);
                     $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {                        
                         State.timeEntryCollection = data;
-                        State.isLoading = false;
+                        State.loadingStatus.setLoaded("getTimeEntries");
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
                         showToast.call(this, error);
-                        State.isLoading = false;
+                        State.loadingStatus.setLoaded("getTimeEntries");
                         setTimeout(function () {
                             getTimeEntries.call(this);
                         }.bind(this), settings.retryInterval);
