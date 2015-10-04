@@ -20,7 +20,7 @@ var InfoBar = React.createClass({
                         <DatePicker ref="datePicker" />
                     </div>
                      <div className="col-md-1 col-xs-1 menu-container">
-                        <Menu />
+                        <Menu infoBar={this}/>
                      </div>
                 </div>
             </div>

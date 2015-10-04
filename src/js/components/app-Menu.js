@@ -7,6 +7,8 @@ var Menu = React.createClass({
     _refreshTasks: function () {
         "use strict";
         AppActions.refreshIssues();
+        var dateSelected = this.props.infoBar.getSelectedDate();
+        AppActions.getTimeEntriesForWeek(dateSelected);
     },
     _logout: function () {
         "use strict";
