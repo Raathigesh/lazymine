@@ -55,7 +55,7 @@ gulp.task('browserify', function () {
             debug : false
         }))
         .pipe(concat('main.js'))
-        .pipe(uglify())
+       // .pipe(uglify())
         .pipe(gulp.dest(bases.concat + 'js/'));
 });
 
@@ -63,7 +63,7 @@ gulp.task('build-scripts', function () {
     "use strict";
     return gulp.src(paths.scripts, {cwd: bases.src})
         .pipe(concat('support.js'))
-        .pipe(uglify())
+       // .pipe(uglify())
         .pipe(gulp.dest(bases.concat + 'js/'));
 });
 

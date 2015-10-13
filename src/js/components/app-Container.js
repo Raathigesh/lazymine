@@ -2,6 +2,7 @@
 /** @jsx React.DOM */
 var React = require('react'),
     AppStore = require('../stores/app-base-store'),
+	  Updater = require('../updater/app-Updater'),
     AppActions = require('../actions/app-actions'),
     Header = require('../components/app-Header'),
     Loader = require('../components/app-Loader'),
@@ -30,7 +31,16 @@ var Container = React.createClass({
     },
     componentWillMount: function () {
         "use strict";
-        AppActions.fetchIssues();    
+				// Start the Updater
+		console.log("Calling updater");
+		Updater.startUpdater(function(){
+
+		});
+
+		//Updater
+		setTimeout(function(){
+			AppStore.showUpdateNotifier();
+		},100);
     },
     handleResize: function () {
         "use strict";
@@ -68,7 +78,8 @@ var Container = React.createClass({
             <div>
                 <Header ref="header" />
                 <Loader isLoading={this.state.loadingStatus.isLoading()}/>
-                <Toast error={this.state.error}/>
+                <Toast type='dismiss' message={(this.state.error)? this.state.error.message:''} display={this.state.error} />
+				        <Toast type='applyDismiss' message='Updates are Available, Do you want to install?' applyBtnTitle='Install' applyClick={} display={this.state.isUpdateAvailable} />
                 <div className="container" style={{height: this.state.componentHeight.height + 'px'}}>
                     <div className="container-inner">
                         <InfoBar ref="infoBar"/>

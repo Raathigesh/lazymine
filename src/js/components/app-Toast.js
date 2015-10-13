@@ -33,18 +33,21 @@ var Toast = React.createClass({
         var output = null,
             identifier = easyGid.new();
 
-        if (this.state.display && this.props.error) {
+        if (this.state.display && this.props.display) {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(this._closeToast, 3000);
             output = <div className="lazy-toast lazy-toast-show">
                 <div className="tooltip bottom in lazy-tooltip" id={identifier}>
-                    <div className="lazy-toast-inner tooltip-inner">
+					<div className="lazy-toast-inner tooltip-inner">
                         <a href="javascript:void(0)" className="pull-right" onClick={this._closeToast}> Dismiss</a>
-                        <div className="lazy-toast-text">{ this.props.error.message }</div>
+						{
+							(this.props.type == 'applyDismiss')? <a href="javascript:void(0)" className="pull-right" onClick={this.state.applyClick}> {this.props.applyBtnTitle}</a> : null
+						}
+                        <div className="lazy-toast-text">{ this.props.message }</div>
                     </div>
                 </div>
             </div>
-        }
+       }
 
         return (
             output

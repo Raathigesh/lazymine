@@ -2,6 +2,12 @@
   "name": "Lazymine",
   "version": "1.0.0",
   "description": "Simple redmine portal for time entry",
+  "manifestUrl": "http://localhost:8080/nwUpdate/releases/package.json",
+    "packages": {
+        "win": {
+            "url": "http://localhost:8080/nwUpdate/releases/updapp/win/updapp.zip"
+        }
+    },
   "repository": {
     "type": "git",
     "url": "git://github.com/Raathigesh/Lazymine.git"
@@ -38,10 +44,15 @@
     "karma-chrome-launcher": "~0.1",
     "karma-jasmine": "~0.3.5",
     "nw-builder": "^2.0.2",
+    "node-webkit-updater": "^0.3.0",
     "reactify": "^1.1.1",
     "run-sequence": "^1.1.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.1"
+    "watchify": "^3.2.1",
+	"ncp": "^0.5.1",
+    "request": "^2.36.0",
+    "del": "~0.1.2",
+    "semver": "^3.0.1"
   },
   "scripts": {
     "test": "node_modules/karma/bin/karma start"

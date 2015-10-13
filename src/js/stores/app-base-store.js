@@ -37,7 +37,8 @@ module.exports = merge(EventEmitter.prototype, (function () {
             loadingStatus: new LoadingStatus(),
             timeEntryCollection: null,
             settings: settings,
-            error: null
+            error: null,
+			isUpdateAvailable: false
         },
         subject = new Rx.Subject(),
         subscription = subject.debounce(500).subscribe(
@@ -54,6 +55,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
             State.error = error;
             EventEmitter.prototype.emit(AppEvent.Change);
         },
+		
+		showUpdateNotifier = function (){
+			State.isUpdateAvailable = true;
+			EventEmitter.prototype.emit(AppEvent.Change);
+		},
+		
         clearError = function () {
             State.error = null;
             EventEmitter.prototype.emit(AppEvent.Change);
@@ -406,6 +413,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
     return {
         getState: getState,
         addChangeListener: addChangeListener,
+		showUpdateNotifier: showUpdateNotifier,
         removeChangeListeners: removeChangeListeners,
         dispatcherIndex: dispatcherIndex
     };

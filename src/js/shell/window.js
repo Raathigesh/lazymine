@@ -125,3 +125,25 @@ var openExternalUrl = function (url) {
     "use strict";
     gui.Shell.openExternal(url);
 };
+
+
+var quitWindow = function () {
+	"use strict";
+	 gui.App.quit();
+};
+
+
+var getUpdateArguments = function(){
+	"use strict";
+	 if(gui.App.argv.length)
+	 {
+		copyPath = gui.App.argv[0];
+		execPath = gui.App.argv[1];
+		return 	{ 	
+					'copyPath'	: copyPath,
+					'execPath'	: execPath	
+				};
+	}
+};
+
+

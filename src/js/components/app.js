@@ -5,7 +5,7 @@ var React = require('react'),
     Container = require('../components/app-Container'),
     Login = require('../components/app-Login'),
     AppRoutes = require('../constants/app-routes'),
-    Router = require('react-router'),
+	Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
     NotFoundRoute = Router.NotFoundRoute,
     Route = Router.Route,
@@ -17,7 +17,11 @@ var App = React.createClass({
         return (<div>
                 	<RouteHandler/>
                 </div>);
-    }
+    },
+	componentWillMount: function () {
+		"use strict";
+		
+	}
 });
 
 var routes = (
