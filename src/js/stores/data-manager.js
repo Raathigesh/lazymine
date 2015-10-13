@@ -56,6 +56,9 @@ DataManager.prototype = (function () {
     var getTaskUrl = function (id) {
             return this.serviceAccessor.serviceBaseUrl.concat("/issues/", id);
         },
+        getTimeEntryUrl = function (timeEntryId) {
+            return this.serviceAccessor.serviceBaseUrl.concat('/time_entries/' + timeEntryId +'/edit');
+        },
         fetchData = function () {
             var promises = [],
                 deferred = $.Deferred();
@@ -317,6 +320,21 @@ DataManager.prototype = (function () {
                 this.activeTaskCollection.push(timeEntry);
             }.bind(this));
         },
+        populateNames = function (timeEntryCollection) {
+            $.each(timeEntryCollection, function (index, timeEntry) {
+                var taskEntry = _.find(this.taskCollection, { "id" :  timeEntry.issue.id });
+                if(taskEntry) {
+                    timeEntry.subject = taskEntry.subject;
+                    timeEntry.project = taskEntry.project.name;
+                    timeEntry.timeEntryUrl = getTimeEntryUrl.call(this, timeEntry.id);
+                } else { // TODO: get task detail by sending a request.
+                    timeEntry.subject = timeEntry.issue.id;
+                    timeEntry.timeEntryUrl = getTimeEntryUrl.call(this, timeEntry.id);
+                }
+            }.bind(this));
+
+            return timeEntryCollection;
+        },
         getTimeEntryRange = function(spentOn, noOfDays) {            
             var firstDay = spentOn.weekday(0);
             var deferred = $.Deferred(),
@@ -334,7 +352,7 @@ DataManager.prototype = (function () {
                     var day  = firstDay.clone().day(i);   
                     data.push({
                         day: day,
-                        data: arguments[count].time_entries
+                        data: populateNames.call(this, arguments[count].time_entries)
                     });
 
                     count++;

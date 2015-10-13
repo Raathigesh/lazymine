@@ -15,7 +15,8 @@ var AppConstants = require('../constants/app-action-name'),
     Rx = require('rx'),
     GoogleAnalytics = require('../util/googleAnalytics'),
     GoogleAnalyticsObj = new GoogleAnalytics(),
-    LoadingStatus = require('./loading-status');
+    LoadingStatus = require('./loading-status'),
+    moment = require('moment');
 
 var getDataManager = function () {
     "use strict";
@@ -128,6 +129,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                             manager.createActiveTaskCollection(settings.activeTaskCollection);
                             State.activeItems = manager.activeTaskCollection;
                         }
+                        getTimeEntries.call(this, moment());
                         fetchLatestBackground.call(this);
                         EventEmitter.prototype.emit(AppEvent.Change);
                     }.bind(this)).fail(function (error) {
@@ -323,7 +325,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     State.loadingStatus.setLoading("getTimeEntries");
                     State.filteredResult = [];
                     clearError.call(this);
-                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {                        
+                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {
                         State.timeEntryCollection = data;
                         State.loadingStatus.setLoaded("getTimeEntries");
                         EventEmitter.prototype.emit(AppEvent.Change);

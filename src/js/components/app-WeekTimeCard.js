@@ -5,7 +5,21 @@ StateMixin = require('../mixins/app-StateMixin');
 
 var WeekTimeCard = React.createClass({
     mixins: [StateMixin],
-
+    _getIconText: function(projectName){
+        // get the first word character of, first two words"
+        var iconText = '';
+        var words = projectName.split(" ");
+        if(words.length >=2){
+            var firstChar = words[0].replace(/\W/g, '').charAt(0);
+            var secondChar = words[1].replace(/\W/g, '').charAt(0);
+            iconText = firstChar + secondChar
+        }
+        else if(words.length == 1){
+            iconText = words[0].replace(/\W/g, '');
+            iconText = iconText.length>2?iconText.substring(0,2):iconText;
+        }
+        return iconText.toUpperCase();
+    },
     render: function () {
 
         var weeklyVewContent = null,
@@ -21,7 +35,7 @@ var WeekTimeCard = React.createClass({
                 var totalHoursForDay = 0,
                     tasksForDayContent = item.data.map(function (timeEntry, a) {
                         totalHoursForDay = totalHoursForDay + timeEntry.hours;
-                        return <WeeklyViewDay iconText="R" hours={timeEntry.hours} taskName={timeEntry.id}/>
+                        return <WeeklyViewDay timeEntryUrl={timeEntry.timeEntryUrl} iconText={this._getIconText(timeEntry.project)} projectName={timeEntry.project} hours={timeEntry.hours} taskName={timeEntry.subject}/>
                     }.bind(this));
 
                 totalHoursForWeek = totalHoursForWeek + totalHoursForDay;

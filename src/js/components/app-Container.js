@@ -45,8 +45,6 @@ var Container = React.createClass({
     componentDidMount: function () {
         "use strict";
         window.addEventListener('resize', this.handleResize);
-        var dateSelected = this.refs.infoBar.getSelectedDate();
-        AppActions.getTimeEntriesForWeek(dateSelected);
     },
     _updateTime: function () {
         "use strict";
