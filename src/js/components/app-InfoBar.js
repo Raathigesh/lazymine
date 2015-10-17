@@ -13,16 +13,17 @@ var InfoBar = React.createClass({
     render: function () {
         "use strict";
         return (
-            <div className="">
+            <div>
                 <div className="row datePicker">
                     <div className="col-md-11 col-xs-11 date-picker-help">
-                        Pick a date here: 
+                        Pick a date here:
                         <DatePicker ref="datePicker" />
                     </div>
                      <div className="col-md-1 col-xs-1 menu-container">
                         <Menu infoBar={this}/>
                      </div>
                 </div>
+
             </div>
         );
     }

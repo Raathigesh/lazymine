@@ -10,6 +10,7 @@ var React = require('react'),
     InfoBar = require('../components/app-InfoBar'),
     MainCard = require('../components/app-MainCard'),
     WeekTimeCard = require('../components/app-WeekTimeCard'),
+    UpdateNotifier = require('../components/app-UpdaterNotifier'),
     AuthMixin = require('../mixins/app-AuthMixin'),
     StateMixin = require('../mixins/app-StateMixin');
 
@@ -30,7 +31,7 @@ var Container = React.createClass({
     },
     componentWillMount: function () {
         "use strict";
-        AppActions.fetchIssues();    
+        AppActions.fetchIssues();
     },
     handleResize: function () {
         "use strict";
@@ -66,11 +67,13 @@ var Container = React.createClass({
 
         return (
             <div>
+                <p>UPDATED VERSION</p>
                 <Header ref="header" />
                 <Loader isLoading={this.state.loadingStatus.isLoading()}/>
                 <Toast error={this.state.error}/>
                 <div className="container" style={{height: this.state.componentHeight.height + 'px'}}>
                     <div className="container-inner">
+                        <UpdateNotifier version={this.state.updateVersion} installed={this.state.updateInstalled}/>
                         <InfoBar ref="infoBar"/>
                         <MainCard onUpdateTime={this._updateTime} onClearEntries={this._cancel} />
                         {weekTimeCard}

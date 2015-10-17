@@ -115,6 +115,17 @@ var AppActions = (function () {
                 actionType: AppConstants.GetTimeEntries,
                 spentOn: date
             });
+        },
+        updateAvilable = function(version) {
+          AppDispatcher.handleViewAction({
+              actionType: AppConstants.UpdateAvilable,
+              version: version
+          });
+        },
+        updateInstalled = function() {
+          AppDispatcher.handleViewAction({
+              actionType: AppConstants.UpdateInstalled
+          });
         };
     return {
         fetchIssues: fetchIssues,
@@ -132,7 +143,9 @@ var AppActions = (function () {
         refreshIssues: refreshIssues,
         storeError: storeError,
         logout: logout,
-        getTimeEntriesForWeek: getTimeEntriesForWeek
+        getTimeEntriesForWeek: getTimeEntriesForWeek,
+        updateAvilable: updateAvilable,
+        updateInstalled: updateInstalled
     };
 }());
 

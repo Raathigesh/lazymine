@@ -15,5 +15,7 @@ module.exports = {
     RefreshIssues: "RefreshIssues",
     StoreError: "StoreError",
     Logout: "Logout",
-    GetTimeEntries: "GetTimeEntries"
+    GetTimeEntries: "GetTimeEntries",
+    UpdateAvilable: "UpdateAvailable",
+    UpdateInstalled: "UpdateInstalled"
 };

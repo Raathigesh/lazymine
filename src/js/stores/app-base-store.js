@@ -37,12 +37,14 @@ module.exports = merge(EventEmitter.prototype, (function () {
             loadingStatus: new LoadingStatus(),
             timeEntryCollection: null,
             settings: settings,
-            error: null
+            error: null,
+            updateVersion: null,
+            updateInstalled: false
         },
         subject = new Rx.Subject(),
         subscription = subject.debounce(500).subscribe(
-            function () {                
-                settings.setTaskCollection(manager.activeTaskCollection);                
+            function () {
+                settings.setTaskCollection(manager.activeTaskCollection);
             }.bind(this),
             function (err) {
                 console.log('Error: ' + err);
@@ -270,7 +272,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 var manager = getDataManager();
                 if (manager !== null) {
                     manager.clearActiveTaskCollection();
-                    State.activeItems = manager.activeTaskCollection;                    
+                    State.activeItems = manager.activeTaskCollection;
                     settings.setTaskCollection(manager.activeTaskCollection);
                     EventEmitter.prototype.emit(AppEvent.Change);
                 }
@@ -318,12 +320,12 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     showToast.call(this, StoreError.DataFetchInProgress);
                     return null;
                 }  */
- 
+
                 if (manager !== null) {
                     State.loadingStatus.setLoading("getTimeEntries");
                     State.filteredResult = [];
                     clearError.call(this);
-                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {                        
+                    $.when(manager.getTimeEntryRange(spentOn, 7)).done(function (data) {
                         State.timeEntryCollection = data;
                         State.loadingStatus.setLoaded("getTimeEntries");
                         EventEmitter.prototype.emit(AppEvent.Change);
@@ -339,6 +341,15 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 showToast.call(this, StoreError.InternalServerError);
                 console.error(error);
             }
+        },
+        updateAvilable = function(version) {
+            State.updateVersion = version;
+            EventEmitter.prototype.emit(AppEvent.Change);
+        },
+        updateInstalled = function() {
+          State.updateVersion = null;
+          State.updateInstalled = true;
+          EventEmitter.prototype.emit(AppEvent.Change);
         },
         addChangeListener = function (callback) {
             EventEmitter.prototype.on(AppEvent.Change, callback);
@@ -397,8 +408,14 @@ module.exports = merge(EventEmitter.prototype, (function () {
             case AppConstants.UpdateTaskCustomField:
                 updateActiveTaskCustomField.call(this, action.entry);
                 break;
-            case AppConstants.GetTimeEntries:            
+            case AppConstants.GetTimeEntries:
                 getTimeEntries.call(this, action.spentOn);
+                break;
+            case AppConstants.UpdateAvilable:
+                updateAvilable.call(this, action.version);
+                break;
+            case AppConstants.UpdateInstalled:
+                updateInstalled.call(this);
                 break;
             }
         });

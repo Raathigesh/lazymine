@@ -1,0 +1,13 @@
+{
+	"windows": {
+		"version": "0.3.2",
+        "updateUrl": "https://github.com/TorrenTV/Installers/raw/master/TorrenTV.nw",
+        "checksum": "0bcf4648bda6cab42bef1d895c28677ffb295e67",
+        "signature": "Ekkt2JNGiVtc5fBm4szCmr95iqMlM3yOVnIm6cYgcM+LgMowhi0673CgRwDb+F0xtA9Vy5v1ra/yypVxcCM60DZQnK5uyPT1PAuF2iagh+WvgQbCSeSXfXho9gWtQBFeaYEmJ9NCmW37oZskv/CDgQrsua0yi/dHXSCwr3rUw0wBY5f+1BBGLNyuRbi1W2cN8d3dW2xM/iloSH9MPBecbwQ0vfd9R7mwAbHEQxByrmH4mJGcnBX4ui1ILHMSMpimJ/waqrcnGBsDZNqW4+/3lN4CFcZjejlveYyY7QYg29CMIHcnNyvX88zlnVy7RSXjh4DuuKE74jeBDHjxf5wcyg==",
+		"title": "0.3.2 Beta Release",
+		"description": "Attention, please read changelog.",
+		"changeLog": ["For more information please visit ","Official website: http://torrentv.github.io","Official site: http://torrentv.github.io"],
+		"gitTag": "v2.0",
+		"gitCommit": "1c777a09bd"
+	}
+}
