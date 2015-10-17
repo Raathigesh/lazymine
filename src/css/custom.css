@@ -253,7 +253,7 @@ body {
         height: 100%;
         position: absolute;
         color: white;
-        z-index: 2;
+        z-index: 4;
     }
 
     .overlay img{
@@ -261,7 +261,7 @@ body {
         left: 50%;
         top: 50%;
         margin: -100px 0 0 -75px;
-        z-index: 1;
+        z-index: 4;
     }
 
     .overlay h4{
@@ -269,7 +269,7 @@ body {
         left: 50%;
         top: 50%;
         margin: -15px 0 0 -75px;
-        z-index: 1;
+        z-index: 4;
     }
 
     .overlay_black{
