@@ -2,7 +2,7 @@
 var gui = require('nw.gui');
 var currentVersion = gui.App.manifest.version;
 
-var updater = require('nw-updater')({'channel':'beta', 'currentVersion': currentVersion, 'endpoint':'http://torrentv.github.io/update.json', 'pubkey': '-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAvrj8poA6o0tda3+4FTppeeNuhCrWE4/CxoSNpXdUKjLB/4g1csvs42WPh8ve\nwCMWqSIu6OC4qmX0OB41egVyRZIbqG9H+FVqduVwmT7dHGbKcpEmEqtV8odKAreFjebdK2Jx\nmJl57OWiFOPoeXLUcUxzeeZjwVqGqHrsSWGAYzYP1WizdaLU1VkMWGIaJQ6ay0MjWq+w/y0f\nICaqATZk3+KgUjZ18jFnzo98GyLStzygIcSDqyuNLRB7jBWl0iwBCl5lFK9RW0JOVev6XWVc\nyyOnSIRNG0QTT5MWqxiHQWJZPdZ6ssGQPGYsUC8U7HM8yIk9VQtwWadEfGEtGkOlnQIDAQAB\n-----END RSA PUBLIC KEY-----'});
+var updater = require('nw-updater')({'channel':'beta', 'currentVersion': currentVersion, 'endpoint':'https://raw.githubusercontent.com/Raathigesh/Lazymine/master/update.json'});
 
 var newUpdateAvailabilityCallback;
 var newUpdateInstalledCallback;
@@ -51,7 +51,7 @@ var newUpdateInstalledCallback;
 
     menu.append(new gui.MenuItem({
         label: "Exit",
-        click: function () {            
+        click: function () {
             gui.App.quit();
         }
     }));
