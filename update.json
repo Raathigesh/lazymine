@@ -2,8 +2,8 @@
 	"windows": {
 		"version": "2.0.1",
         "updateUrl": "https://github.com/Raathigesh/Lazymine/raw/master/release/package.nw",
-        "checksum": "a306cbec38ad21ce8326386abb83cbf8fbfec22b",
-        "signature": "HlWgpH4BpNrjxwPcZjqa/kgZtnWGOwYomLnYpF70HgVNh8PBEVMx5e7O4PyN8T77pzhIPKVgLh1cvQNyguUe70Z93/HKSiulYYEXXwGbCwnnZrT/2m6M/IcgQ2NokwEl9VY06xY486bw3MsqwYK5X8JDfhJsdM9+I7HqG10XztlWf82dTBXWxT2uwSANcpiezkAuMSKxeoaHxNqAxSG1LYBwuaK5aUiSgEWCF+9RkR9V1pQw0AY7CRbzKWkRxaKDoZIqM4tAAtDWm1sWR4TVHrH3PLMGPN431j4SI71d84tbWJp93HfW9SuR0s3bvhSLsBvsMIiAeyHuuXLTs1Ne2g==",
+        "checksum": "543dc9e795f756586bac26a21e0af43078e69075",
+        "signature": "nf1K2oJiimcQtsadE4vgxPAiOYSkZ4CMyHlDK4oHMV/OAAxMszJNyloCaNMQKTREyoj1VCHfRVSMZJ4BlvCY6W1iGtybaORJNlhkC8fBG+EEDEApBmaeOMwP0eoXf1vJQaWu++SvaEBJgwegci8j5XFFOcHtiYZ79QM4Xht0r+IR0ShlKc5YHo419B7nFS1Un+TAzcv59d826yGyvI2Svk03S3GiNH9ef2/MGkgINxc4gfOkTxB5yRhMqXVsjmH3XAAQHs4okCeh63FW3ejVenNcFuIIIRpwDVBMY5Lrnog4cxEv0707m6foAUcQl8faIvNgZuSL878YUBOf/bSsQA==",
 		"title": "2.0.1 Release",
 		"description": "Attention, please read changelog.",
 		"changeLog": ["Good Things comming!"],
