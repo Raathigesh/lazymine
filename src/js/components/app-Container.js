@@ -62,16 +62,15 @@ var Container = React.createClass({
         if(!this.state.isLoading){
             weekTimeCard = <WeekTimeCard data={this.state.timeEntryCollection}/>
         }
-
+//this.state.updateVersion
         return (
             <div>
-                <p>UPDATED VERSION</p>
                 <Header ref="header" />
                 <Loader isLoading={this.state.loadingStatus.isLoading()}/>
                 <Toast error={this.state.error}/>
                 <div className="container" style={{height: this.state.componentHeight.height + 'px'}}>
+                  <UpdateNotifier version="1.2.2" installed={this.state.updateInstalled}/>
                     <div className="container-inner">
-                        <UpdateNotifier version={this.state.updateVersion} installed={this.state.updateInstalled}/>
                         <InfoBar ref="infoBar"/>
                         <MainCard onUpdateTime={this._updateTime} onClearEntries={this._cancel} />
                         {weekTimeCard}
