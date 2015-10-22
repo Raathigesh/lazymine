@@ -26,7 +26,7 @@ var About = React.createClass({
                                     <div className="row clearfix">
                                         <div className="col-md-12 column text-center">
                                             <h2>Lazymine</h2>
-                                            <p className="version">V 0.0.1 - Dragon - Li</p>
+                                            <p className="version">v 2.0.1 - Ragamuffin</p>
                                         </div>
                                     </div>
                                     <div className="row clearfix">

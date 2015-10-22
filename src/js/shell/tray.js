@@ -1,8 +1,12 @@
 /*global require*/
 var gui = require('nw.gui');
 var currentVersion = gui.App.manifest.version;
+var updaterEnabled = false;
 
-var updater = require('nw-updater')({'channel':'beta', 'currentVersion': currentVersion, 'endpoint':'https://raw.githubusercontent.com/Raathigesh/Lazymine/master/update.json'});
+if(updaterEnabled)
+{
+    var updater = require('nw-updater')({'channel':'beta', 'currentVersion': currentVersion, 'endpoint':'https://raw.githubusercontent.com/Raathigesh/Lazymine/master/update.json'});
+}
 
 var newUpdateAvailabilityCallback;
 var newUpdateInstalledCallback;
@@ -35,17 +39,20 @@ var newUpdateInstalledCallback;
    menu.append(new gui.MenuItem({
         label: "Update",
         click: function () {
-          updater.update();
+          //updater.update();
         }
     }));
 
-    updater.on("download", function(version) {
-        newUpdateAvailabilityCallback(version);
-    });
+    if(updaterEnabled){
+        updater.on("download", function(version) {
+            newUpdateAvailabilityCallback(version);
+        });
 
-    updater.on("installed", function() {
-        newUpdateInstalledCallback();
-    });
+        updater.on("installed", function() {
+            newUpdateInstalledCallback();
+        });
+    }
+
 
     menu.append(new gui.MenuItem({ type: 'separator' }));
 
@@ -62,9 +69,13 @@ var newUpdateInstalledCallback;
 var checkForUpdate = function (callback, installedCallback) {
     newUpdateAvailabilityCallback =  callback;
     newUpdateInstalledCallback = installedCallback;
-    updater.check();
+    if(updaterEnabled){
+        updater.check();
+    }
 }
 
 var installUpdate = function () {
-    updater.update();
+    if(updaterEnabled){
+        updater.update();
+    }
 }
