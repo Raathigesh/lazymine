@@ -312,3 +312,17 @@ body {
     padding-top: 10px;
     font-size: 14px;
 }
+
+/* NOtification Bar */
+.UpdaterNotifier {
+  background-color: gray;
+  padding: 2px;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.UpdaterNotifier a {
+  color: gold;
+}

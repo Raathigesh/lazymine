@@ -1,12 +1,12 @@
 {
 	"windows": {
-		"version": "2.0.0",
+		"version": "2.0.1",
         "updateUrl": "https://github.com/Raathigesh/Lazymine/raw/master/release/package.nw",
-        "checksum": "0bcf4648bda6cab42bef1d895c28677ffb295e67",
-        "signature": "MvmdheUsBWjWXhCTNW77h8uS/phLA8bX8eaWDAY1QbUl+5ZRzyfyOgZKW/sLHVf2PTSRQzJp/QK9K18CRz/ijCbYvQHBlWviKXPNBbbZVn8DriUeAwrCKycvL8xSRmeIwCpolGjYkRHkopLS2ojBNpPX8F25n0XBJNNSp0oAztiOJNtE8c+WCU9LCzXY8Jkm4MekV08cJlnEHcLALAe+/3JGGjFWUKKIQgwEB1OkrKRZwzLoe/bV5DgZKRh8PBVK64YPoWQdvEVKzdrHpgw7l6I6FWDyxLcIjmXLbu0Dh4WQFytX7xuBP3jB9RHVouD68KyGnx/COqm4lkCIzWiTOg==",
-		"title": "0.3.2 Beta Release",
+        "checksum": "a306cbec38ad21ce8326386abb83cbf8fbfec22b",
+        "signature": "HlWgpH4BpNrjxwPcZjqa/kgZtnWGOwYomLnYpF70HgVNh8PBEVMx5e7O4PyN8T77pzhIPKVgLh1cvQNyguUe70Z93/HKSiulYYEXXwGbCwnnZrT/2m6M/IcgQ2NokwEl9VY06xY486bw3MsqwYK5X8JDfhJsdM9+I7HqG10XztlWf82dTBXWxT2uwSANcpiezkAuMSKxeoaHxNqAxSG1LYBwuaK5aUiSgEWCF+9RkR9V1pQw0AY7CRbzKWkRxaKDoZIqM4tAAtDWm1sWR4TVHrH3PLMGPN431j4SI71d84tbWJp93HfW9SuR0s3bvhSLsBvsMIiAeyHuuXLTs1Ne2g==",
+		"title": "2.0.1 Release",
 		"description": "Attention, please read changelog.",
-		"changeLog": ["For more information please visit ","Official website: http://torrentv.github.io","Official site: http://torrentv.github.io"],
+		"changeLog": ["Good Things comming!"],
 		"gitTag": "v2.0",
 		"gitCommit": "1c777a09bd"
 	}
