@@ -14,7 +14,7 @@ var WeeklyViewDay = React.createClass({
         "use strict";
 
         var iconStyle = {
-            backgroundColor: randomMC.getColor({ text: this.props.taskName })
+            backgroundColor: randomMC.getColor({ text: this.props.projectName })
         };
 
         return (
