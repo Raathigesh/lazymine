@@ -19,7 +19,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={userappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 LicenseFile=..\..\LICENSE
 OutputBaseFilename=Lazymine
@@ -36,15 +36,15 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "..\..\lazymine.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\node_modules\nw\nwjs\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\lazymine.ico"; DestDir: "{userappdata}"; Flags: ignoreversion
+Source: "..\..\node_modules\nw\nwjs\*"; DestDir: "{userappdata}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\lazymine.ico"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{app}\lazymine.ico"
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
-Name: "{commonstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"; IconFilename: "{userappdata}\lazymine.ico"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{userappdata}\lazymine.ico"
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"; Tasks: quicklaunchicon
+Name: "{commonstartup}\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{userappdata}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
