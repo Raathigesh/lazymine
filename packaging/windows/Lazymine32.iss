@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Lazymine"
-#define MyAppVersion "v 2.0.1"
+#define MyAppVersion "v 2.0.0"
 #define MyAppPublisher "Lazymine.github.io"
 #define MyAppURL "http://lazymine.github.io/"
 #define MyAppExeName "nw.exe"
