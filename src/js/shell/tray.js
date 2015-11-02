@@ -1,7 +1,7 @@
 /*global require*/
 var gui = require('nw.gui');
 var currentVersion = gui.App.manifest.version;
-var updaterEnabled = false;
+var updaterEnabled = true;
 
 if(updaterEnabled)
 {
@@ -34,12 +34,10 @@ var newUpdateInstalledCallback;
         }
     }));
 
-    win.showDevTools();
-
    menu.append(new gui.MenuItem({
-        label: "Update",
+        label: "Show Dev Console",
         click: function () {
-          //updater.update();
+          win.showDevTools();
         }
     }));
 

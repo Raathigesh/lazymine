@@ -1,14 +1,14 @@
 {
     "name": "Lazymine",
-    "version": "0.0.1",
+    "version": "2.0.0",
     "description": "",
     "main": "index.html",
     "chromium-args": "--remember-cert-error-decisions --ignore-certificate-errors --ignore-urlfetcher-cert-requests",
     "window": {
         "icon": "assets/icon_128.png",
         "title": "Lazymine",
-        "frame": true,
-        "toolbar": true,
+        "frame": false,
+        "toolbar": false,
         "show_in_taskbar": true,
         "show": false,
         "always-on-top": false,
