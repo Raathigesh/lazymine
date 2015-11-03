@@ -1,6 +1,6 @@
 {
     "name": "Lazymine",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "",
     "main": "index.html",
     "chromium-args": "--remember-cert-error-decisions --ignore-certificate-errors --ignore-urlfetcher-cert-requests",
