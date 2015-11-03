@@ -329,6 +329,7 @@ DataManager.prototype = (function () {
                     timeEntry.timeEntryUrl = getTimeEntryUrl.call(this, timeEntry.id);
                 } else { // TODO: get task detail by sending a request.
                     timeEntry.subject = timeEntry.issue.id;
+                    timeEntry.project = '';
                     timeEntry.timeEntryUrl = getTimeEntryUrl.call(this, timeEntry.id);
                 }
             }.bind(this));
