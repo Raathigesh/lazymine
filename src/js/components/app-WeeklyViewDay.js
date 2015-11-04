@@ -12,17 +12,17 @@ var WeeklyViewDay = React.createClass({
     },
     render: function () {
         "use strict";
-
+        var project = this.props.projectName || '-';
         var iconStyle = {
-            backgroundColor: randomMC.getColor({ text: this.props.projectName })
+            backgroundColor: randomMC.getColor({ text: project })
         };
 
         return (
  <div className="tile tile-collapse">
     <div className="tile-toggle">
         <div className="pull-left tile-side">
-            <div className="avatar avatar-sm avatar-multi" title={this.props.taskName} style={iconStyle}>
-                <span title={this.props.projectName} >{this.props.iconText}</span>
+            <div className="avatar avatar-sm avatar-multi" title={this.props.projectName} style={iconStyle}>
+                <span>{this.props.iconText}</span>
             </div>
         </div>
         <div className="tile-action tile-action-show">
