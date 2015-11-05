@@ -16,7 +16,7 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
+AppPublisherURL={#MyAppURL} 
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={userappdata}\{#MyAppName}
@@ -36,15 +36,15 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "..\..\lazymine.ico"; DestDir: "{userappdata}"; Flags: ignoreversion
-Source: "..\..\node_modules\nw\nwjs\*"; DestDir: "{userappdata}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\lazymine.ico"; DestDir: "{userappdata}\Lazymine"; Flags: ignoreversion
+Source: "..\..\node_modules\nw\nwjs\*"; DestDir: "{userappdata}\Lazymine"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"; IconFilename: "{userappdata}\lazymine.ico"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{userappdata}\lazymine.ico"
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"; Tasks: quicklaunchicon
-Name: "{commonstartup}\{#MyAppName}"; Filename: "{userappdata}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; IconFilename: "{userappdata}\Lazymine\lazymine.ico"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{userappdata}\Lazymine\lazymine.ico"
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Tasks: quicklaunchicon
+Name: "{commonstartup}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"
 
 [Run]
-Filename: "{userappdata}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
