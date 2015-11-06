@@ -56,6 +56,7 @@ var newUpdateInstalledCallback;
 
     menu.append(new gui.MenuItem({
         label: "Exit",
+
         click: function () {
             gui.App.quit();
         }

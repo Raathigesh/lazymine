@@ -26,6 +26,7 @@
   "devDependencies": {
     "browser-sync": "^2.6.5",
     "browserify": "^10.2.0",
+    "decompress": "^3.0.0",
     "es6-promise": "^2.0.1",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
@@ -38,6 +39,7 @@
     "karma-chrome-launcher": "~0.1",
     "karma-jasmine": "~0.3.5",
     "nw-builder": "^2.0.2",
+    "nw-updater": "0.0.12",
     "reactify": "^1.1.1",
     "run-sequence": "^1.1.0",
     "vinyl-source-stream": "^1.1.0",

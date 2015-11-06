@@ -70,7 +70,7 @@ var gui = require('nw.gui'); // Load native UI library
             y: win.y
         }));
 
-        this.hide();
+        win.close(true);
     });
 
     var resetWindow = function (screen) {
@@ -118,7 +118,7 @@ var closeWindow = function () {
         y: win.y
     }));
 
-    win.hide();
+    win.minimize();
 };
 
 var openExternalUrl = function (url) {
