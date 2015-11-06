@@ -43,8 +43,8 @@ Source: "..\..\node_modules\nw\nwjs\*"; DestDir: "{userappdata}\Lazymine"; Flags
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; IconFilename: "{userappdata}\Lazymine\lazymine.ico"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{userappdata}\Lazymine\lazymine.ico"
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Tasks: quicklaunchicon
-Name: "{commonstartup}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Tasks: quicklaunchicon; IconFilename: "{userappdata}\Lazymine\lazymine.ico"
+Name: "{commonstartup}\{#MyAppName}"; Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; IconFilename: "{userappdata}\Lazymine\lazymine.ico"
 
 [Run]
 Filename: "{userappdata}\Lazymine\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
