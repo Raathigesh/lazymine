@@ -364,6 +364,9 @@ DataManager.prototype = (function () {
             }.bind(this));
 
             return deferred.promise();
+        },
+        deleteTimeEntry = function (timeEntry) {
+            return this.serviceAccessor.deleteTimeEntry(timeEntry);
         };
     return {
         fetchData: fetchData,
@@ -380,7 +383,8 @@ DataManager.prototype = (function () {
         getPostedTaskCollection: getPostedTaskCollection,
         getActiveTaskCollection: getActiveTaskCollection,
         createActiveTaskCollection: createActiveTaskCollection,
-        getTimeEntryRange: getTimeEntryRange
+        getTimeEntryRange: getTimeEntryRange,
+        deleteTimeEntry: deleteTimeEntry
     };
 }());
 

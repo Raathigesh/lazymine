@@ -52,10 +52,28 @@ HttpHelper.prototype = (function () {
                     "X-Redmine-API-Key": this.apiKey
                 }
             });
+        },
+        deleteRequest = function (url) {
+            if (!validator.isURL(url)) {
+                throw new InvalidArgumentError("Parameter url must be a URL.");
+            }
+
+            return $.ajax({
+                type: "DELETE",
+                url: url,
+                contentType : "application/json",
+                crossDomain: true,
+                dataType: 'json',
+                async: true,
+                headers: {
+                    "X-Redmine-API-Key": this.apiKey
+                }
+            });
         };
     return {
         getRequest: getRequest,
-        postRequest: postRequest
+        postRequest: postRequest,
+        deleteRequest: deleteRequest
     };
 }());
 

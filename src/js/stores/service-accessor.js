@@ -173,13 +173,24 @@ ServiceAccessor.prototype = (function () {
                 deferred.reject();
             }.bind(this));
             return deferred.promise();
+        },
+        deleteTimeEntry = function (timeEntryId) {
+            var deferred = $.Deferred(),
+                deleteTimeEntryUrl = UrlBuilder.createInstance(this.serviceBaseUrl).withTimeEntryId(timeEntryId).buildTimeEntryDeleteUrl();
+            $.when(this.httpHelper.deleteRequest(deleteTimeEntryUrl)).done(function (data) {
+                deferred.resolve(data);
+            }.bind(this)).fail(function () {
+                deferred.reject();
+            }.bind(this));
+            return deferred.promise();
         };
     return {
         getTaskCollection: getTaskCollection,
         getTaskCollectionWithStatus: getTaskCollectionWithStatus,
         createTimeEntries: createTimeEntries,
         getTimeEntryActivities: getTimeEntryActivities,
-        getTimeEntries: getTimeEntries
+        getTimeEntries: getTimeEntries,
+        deleteTimeEntry: deleteTimeEntry
     };
 }());
 

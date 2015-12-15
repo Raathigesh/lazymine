@@ -27,6 +27,7 @@ var UrlBuilder = function (serviceBaseUrl) {
     this.createdOn = null;
     this.updatedOn = null;
     this.spentOn = null;
+    this.timeEntryId = null;
 };
 
 UrlBuilder.prototype = (function () {
@@ -99,6 +100,14 @@ UrlBuilder.prototype = (function () {
             this.spentOn = spentOn;
             return this;
         },
+        withTimeEntryId = function (timeEntryId) {
+            if (!_.isNumber(timeEntryId)) {
+                throw new InvalidArgumentError("Parameter timeEntryId must be a number.");
+            }
+
+            this.timeEntryId = timeEntryId;
+            return this;
+        },
         buildIssuesUrl = function () {
             var createdOn = getCreatedOnUrlSegment.call(this),
                 updatedOn = getUpdatedOnUrlSegment.call(this);
@@ -120,6 +129,9 @@ UrlBuilder.prototype = (function () {
         buildCurrentUserUrl = function () {
             return this.serviceBaseUrl.concat(UrlBase.CurrentUser);
         },
+        buildTimeEntryDeleteUrl = function () {
+            return this.serviceBaseUrl.concat('/time_entries/' + this.timeEntryId + '.json');
+        },
         resetDefault = function () {
             this.statusId = ItemStatus.New;
             this.currentPageSize = 100;
@@ -140,12 +152,14 @@ UrlBuilder.prototype = (function () {
         withCreatedOn: withCreatedOn,
         withUpdatedOn: withUpdatedOn,
         withSpentOn: withSpentOn,
+        withTimeEntryId: withTimeEntryId,
         resetDefault: resetDefault,
         buildIssuesUrl : buildIssuesUrl,
         buildTimeEntryUrl: buildTimeEntryUrl,
         buildUpdatedTimeEntriesUrl: buildUpdatedTimeEntriesUrl,
         buildTimeEntryActivitiesUrl: buildTimeEntryActivitiesUrl,
-        buildCurrentUserUrl: buildCurrentUserUrl
+        buildCurrentUserUrl: buildCurrentUserUrl,
+        buildTimeEntryDeleteUrl: buildTimeEntryDeleteUrl
     };
 }());
 

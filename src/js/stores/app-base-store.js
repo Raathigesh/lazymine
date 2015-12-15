@@ -16,7 +16,8 @@ var AppConstants = require('../constants/app-action-name'),
     GoogleAnalytics = require('../util/googleAnalytics'),
     GoogleAnalyticsObj = new GoogleAnalytics(),
     LoadingStatus = require('./loading-status'),
-    moment = require('moment');
+    moment = require('moment'),
+    _ = require('_');
 
 var getDataManager = function () {
     "use strict";
@@ -343,6 +344,17 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 showToast.call(this, StoreError.InternalServerError);
                 console.error(error);
             }
+        },
+        deleteTimeEntry = function (timeEntryId) {
+            $.when(manager.deleteTimeEntry(timeEntryId)).done(function () {
+               // do when deleted
+                _.remove(State.timeEntryCollection, function(timeEntry) {
+                    return timeEntry.id === timeEntryId;
+                });
+                EventEmitter.prototype.emit(AppEvent.Change);
+            }.bind(this)).fail(function (error) {
+                showToast.call(this, error);
+            }.bind(this));
         },
         updateAvilable = function(version) {
             State.updateVersion = version;
