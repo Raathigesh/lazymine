@@ -117,8 +117,9 @@ ul, li {
 
 .datePicker input {
     height: 24px;
-    width: 130px;
+    width: 160px;
     border-bottom-style: 1px solid #000;
+    text-align: center;
 }
 
 .date-picker-container #datepicker-adv-1 {
