@@ -17,7 +17,7 @@ var AppConstants = require('../constants/app-action-name'),
     GoogleAnalyticsObj = new GoogleAnalytics(),
     LoadingStatus = require('./loading-status'),
     moment = require('moment'),
-    _ = require('_');
+    _ = require('lodash');
 
 var getDataManager = function () {
     "use strict";
@@ -323,7 +323,6 @@ module.exports = merge(EventEmitter.prototype, (function () {
                     showToast.call(this, StoreError.DataFetchInProgress);
                     return null;
                 }  */
-
                 if (manager !== null) {
                     State.loadingStatus.setLoading("getTimeEntries");
                     State.filteredResult = [];
@@ -346,15 +345,21 @@ module.exports = merge(EventEmitter.prototype, (function () {
             }
         },
         deleteTimeEntry = function (timeEntryId) {
-            $.when(manager.deleteTimeEntry(timeEntryId)).done(function () {
-               // do when deleted
-                _.remove(State.timeEntryCollection, function(timeEntry) {
-                    return timeEntry.id === timeEntryId;
-                });
-                EventEmitter.prototype.emit(AppEvent.Change);
-            }.bind(this)).fail(function (error) {
-                showToast.call(this, error);
-            }.bind(this));
+          try {
+              var manager = getDataManager();
+              $.when(manager.deleteTimeEntry(timeEntryId)).done(function () {
+                 // do when deleted
+                  _.remove(State.timeEntryCollection, function(timeEntry) {
+                      return timeEntry.id === timeEntryId;
+                  });
+                  EventEmitter.prototype.emit(AppEvent.Change);
+              }.bind(this)).fail(function (error) {
+                  showToast.call(this, error);
+              }.bind(this));
+          } catch (error) {
+              showToast.call(this, StoreError.InternalServerError);
+              console.error(error);
+          }
         },
         updateAvilable = function(version) {
             State.updateVersion = version;
@@ -424,6 +429,9 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 break;
             case AppConstants.GetTimeEntries:
                 getTimeEntries.call(this, action.spentOn);
+                break;
+            case AppConstants.DeleteTimeEntry:
+                delteTimeEntry.call(this, action.timeEntryId);
                 break;
             case AppConstants.UpdateAvilable:
                 updateAvilable.call(this, action.version);

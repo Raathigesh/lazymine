@@ -116,6 +116,12 @@ var AppActions = (function () {
                 spentOn: date
             });
         },
+        deleteTimeEntry = function (timeEntryId) {
+            AppDispatcher.handleViewAction({
+                actionType: AppConstants.DeleteTimeEntry,
+                timeEntryId: timeEntryId
+            });
+        },
         updateAvilable = function(version) {
           AppDispatcher.handleViewAction({
               actionType: AppConstants.UpdateAvilable,
@@ -144,6 +150,7 @@ var AppActions = (function () {
         storeError: storeError,
         logout: logout,
         getTimeEntriesForWeek: getTimeEntriesForWeek,
+        deleteTimeEntry: deleteTimeEntry,
         updateAvilable: updateAvilable,
         updateInstalled: updateInstalled
     };

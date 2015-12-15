@@ -35,7 +35,7 @@ var WeekTimeCard = React.createClass({
                 var totalHoursForDay = 0,
                     tasksForDayContent = item.data.map(function (timeEntry, a) {
                         totalHoursForDay = totalHoursForDay + timeEntry.hours;
-                        return <WeeklyViewDay timeEntryUrl={timeEntry.timeEntryUrl} iconText={this._getIconText(timeEntry.project)} projectName={timeEntry.project} hours={timeEntry.hours} taskName={timeEntry.subject}/>
+                        return <WeeklyViewDay entryId={timeEntry.id} timeEntryUrl={timeEntry.timeEntryUrl} iconText={this._getIconText(timeEntry.project)} projectName={timeEntry.project} hours={timeEntry.hours} taskName={timeEntry.subject}/>
                     }.bind(this));
 
                 totalHoursForWeek = totalHoursForWeek + totalHoursForDay;

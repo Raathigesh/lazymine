@@ -1,13 +1,19 @@
 /*global require, module, openExternalUrl, minimizeWindow*/
 /** @jsx React.DOM */
 var React = require('react'),
-randomMC = require('random-material-color');
+  AppActions = require('../actions/app-actions'),
+  randomMC = require('random-material-color');
 
 var WeeklyViewDay = React.createClass({
     _openExternalUrl: function (event) {
         "use strict";
         openExternalUrl(this.props.timeEntryUrl);
         minimizeWindow();
+        event.nativeEvent.stopImmediatePropagation();
+    },
+    _remove: function (event) {
+        "use strict";
+        AppActions.deleteTimeEntry(this.props.entryId);
         event.nativeEvent.stopImmediatePropagation();
     },
     render: function () {
@@ -29,6 +35,9 @@ var WeeklyViewDay = React.createClass({
             <ul className="nav nav-list pull-right">
                 <li title={"Open time entry in Redmine"}>
                     <a onClick={this._openExternalUrl} href="#"><span className="icon icon-launch task-icon"></span></a>
+                </li>
+                <li title="Remove task">
+                    <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete task-icon"></span></a>
                 </li>
             </ul>
         </div>
