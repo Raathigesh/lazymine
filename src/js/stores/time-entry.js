@@ -106,7 +106,6 @@ TimeEntry.prototype = (function () {
             this.spentOn = null;
             this.hours = null;
             this.activityId = null;
-            this.comments = null;
             this.updated = false;
             this.customFields.map(function (field) {
                 field.value = null;
