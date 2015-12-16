@@ -36,7 +36,7 @@ var WeeklyViewDay = React.createClass({
                 <li title={"Open time entry in Redmine"}>
                     <a onClick={this._openExternalUrl} href="#"><span className="icon icon-launch task-icon"></span></a>
                 </li>
-                <li title="Remove task">
+                <li title="Remove time entry">
                     <a href="javascript:void(0);" onClick={this._remove}><span className="access-hide">Delete</span><span className="icon icon-delete task-icon"></span></a>
                 </li>
             </ul>
