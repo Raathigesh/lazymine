@@ -349,12 +349,15 @@ module.exports = merge(EventEmitter.prototype, (function () {
               var manager = getDataManager();
               $.when(manager.deleteTimeEntry(timeEntryId)).done(function () {
                  // do when deleted
-                  _.remove(State.timeEntryCollection, function(timeEntry) {
-                      return timeEntry.id === timeEntryId;
+                  _.map(State.timeEntryCollection, function (entryDay) {
+                      _.remove(entryDay.data, function(timeEntry) {
+                          return timeEntry.id === timeEntryId;
+                      });
                   });
+
                   EventEmitter.prototype.emit(AppEvent.Change);
               }.bind(this)).fail(function (error) {
-                  showToast.call(this, error);
+                  showToast.call(this, StoreError.InternalServerError);
               }.bind(this));
           } catch (error) {
               showToast.call(this, StoreError.InternalServerError);
@@ -431,7 +434,7 @@ module.exports = merge(EventEmitter.prototype, (function () {
                 getTimeEntries.call(this, action.spentOn);
                 break;
             case AppConstants.DeleteTimeEntry:
-                delteTimeEntry.call(this, action.timeEntryId);
+                deleteTimeEntry.call(this, action.timeEntryId);
                 break;
             case AppConstants.UpdateAvilable:
                 updateAvilable.call(this, action.version);

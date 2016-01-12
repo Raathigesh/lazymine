@@ -61,9 +61,8 @@ HttpHelper.prototype = (function () {
             return $.ajax({
                 type: "DELETE",
                 url: url,
-                contentType : "application/json",
                 crossDomain: true,
-                dataType: 'json',
+                dataType: 'text',
                 async: true,
                 headers: {
                     "X-Redmine-API-Key": this.apiKey
